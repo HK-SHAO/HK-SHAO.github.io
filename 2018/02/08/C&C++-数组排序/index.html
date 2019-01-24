@@ -96,20 +96,20 @@
 
 
 
-  <meta name="description" content="前言笔者在逛GitHub的时候，偶遇一开源项目，其程序可演示多种数组排序算法，于是便对排序算法有一些感兴趣。GitHub地址：https://github.com/bingmann/sound-of-sorting演示视频：https://www.bilibili.com/video/av685670/ 为什么要将进行排序？软件中对用户操作习惯的统计，网站中对各种用户数据的排行，这些数据往往是接近">
+  <meta name="description" content="前言笔者在逛GitHub的时候，偶遇一开源项目，其程序可演示多种数组排序算法，于是便对排序算法有一些感兴趣。">
 <meta name="keywords" content="Hk-Shao&#39;s Blog">
 <meta property="og:type" content="article">
 <meta property="og:title" content="C&amp;C++-数组排序">
 <meta property="og:url" content="http://yoursite.com/2018/02/08/C&C++-数组排序/index.html">
 <meta property="og:site_name" content="HK-SHAO">
-<meta property="og:description" content="前言笔者在逛GitHub的时候，偶遇一开源项目，其程序可演示多种数组排序算法，于是便对排序算法有一些感兴趣。GitHub地址：https://github.com/bingmann/sound-of-sorting演示视频：https://www.bilibili.com/video/av685670/ 为什么要将进行排序？软件中对用户操作习惯的统计，网站中对各种用户数据的排行，这些数据往往是接近">
+<meta property="og:description" content="前言笔者在逛GitHub的时候，偶遇一开源项目，其程序可演示多种数组排序算法，于是便对排序算法有一些感兴趣。">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15006683-754ac70199e98b91.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15006683-7bf9e29f6a589007.gif?imageMogr2/auto-orient/strip">
-<meta property="og:updated_time" content="2019-01-24T10:49:39.096Z">
+<meta property="og:updated_time" content="2019-01-24T12:05:49.409Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="C&amp;C++-数组排序">
-<meta name="twitter:description" content="前言笔者在逛GitHub的时候，偶遇一开源项目，其程序可演示多种数组排序算法，于是便对排序算法有一些感兴趣。GitHub地址：https://github.com/bingmann/sound-of-sorting演示视频：https://www.bilibili.com/video/av685670/ 为什么要将进行排序？软件中对用户操作习惯的统计，网站中对各种用户数据的排行，这些数据往往是接近">
+<meta name="twitter:description" content="前言笔者在逛GitHub的时候，偶遇一开源项目，其程序可演示多种数组排序算法，于是便对排序算法有一些感兴趣。">
 <meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/15006683-754ac70199e98b91.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 
 
@@ -356,7 +356,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-01-24 18:49:39" itemprop="dateModified" datetime="2019-01-24T18:49:39+08:00">2019-01-24</time>
+                <time title="修改时间：2019-01-24 20:05:49" itemprop="dateModified" datetime="2019-01-24T20:05:49+08:00">2019-01-24</time>
               
             
           </span>
@@ -389,7 +389,7 @@
       
 
       
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>笔者在逛GitHub的时候，偶遇一开源项目，其程序可演示多种数组排序算法，于是便对排序算法有一些感兴趣。<br>GitHub地址：<a href="https://github.com/bingmann/sound-of-sorting" target="_blank" rel="noopener">https://github.com/bingmann/sound-of-sorting</a><br>演示视频：<a href="https://www.bilibili.com/video/av685670/" target="_blank" rel="noopener">https://www.bilibili.com/video/av685670/</a><br><img src="https://upload-images.jianshu.io/upload_images/15006683-754ac70199e98b91.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>笔者在逛GitHub的时候，偶遇一开源项目，其程序可演示多种数组排序算法，于是便对排序算法有一些感兴趣。<br><a id="more"></a><br>GitHub地址：<a href="https://github.com/bingmann/sound-of-sorting" target="_blank" rel="noopener">https://github.com/bingmann/sound-of-sorting</a><br>演示视频：<a href="https://www.bilibili.com/video/av685670/" target="_blank" rel="noopener">https://www.bilibili.com/video/av685670/</a><br><img src="https://upload-images.jianshu.io/upload_images/15006683-754ac70199e98b91.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
 <h2 id="为什么要将进行排序？"><a href="#为什么要将进行排序？" class="headerlink" title="为什么要将进行排序？"></a>为什么要将进行排序？</h2><p>软件中对用户操作习惯的统计，网站中对各种用户数据的排行，这些数据往往是接近随机的，为了方便利用这些数据，所以我们需要将这些数据进行排序。</p>
 <h2 id="如何将数据进行排序？"><a href="#如何将数据进行排序？" class="headerlink" title="如何将数据进行排序？"></a>如何将数据进行排序？</h2><p>将数组排序的方法有非常多，但大部分是大同小异，但经典的排序算法有9种，它们各有利弊，根据数组大小和数组中数据的某些性质选择适当的排序算法。至于这些排序算法的代码网上已经详尽，笔者就不在这里累赘了。</p>
 <h2 id="一个简单的排序算法"><a href="#一个简单的排序算法" class="headerlink" title="一个简单的排序算法"></a>一个简单的排序算法</h2><p>笔者这两天因使用了Visual Studio而接触了一点点C++，于是便使用C++根据自己的思路简单的实现了一个排序算法，此算法类似鸡尾酒排序算法，但却不是，有可能时笔者独创的算法吧。</p>
