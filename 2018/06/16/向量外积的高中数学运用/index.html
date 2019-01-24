@@ -106,7 +106,7 @@
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15006683-b7aafc478f85d9d1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15006683-bccfdcde8bae7164.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2019-01-24T13:40:16.324Z">
+<meta property="og:updated_time" content="2019-01-24T15:18:28.712Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="向量外积的高中数学运用">
 <meta name="twitter:description" content="向量积，数学中又称外积、叉积，物理中称矢积、叉乘，是一种在向量空间中向量的二元运算。与点积不同，它的运算结果是一个向量而不是一个标量。并且两个向量的叉积与这两个向量和垂直。其应用十分广泛，通常应用于物理学光学和计算机图形学中。如图，这是 $(2, 4) × (3, 0) = -12$ ，我们得到了一个实数 $-12$ ，而其绝对值为平行四边形面积。">
@@ -390,7 +390,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-01-24 21:40:16" itemprop="dateModified" datetime="2019-01-24T21:40:16+08:00">2019-01-24</time>
+                <time title="修改时间：2019-01-24 23:18:28" itemprop="dateModified" datetime="2019-01-24T23:18:28+08:00">2019-01-24</time>
               
             
           </span>
@@ -424,24 +424,28 @@
 
       
         <p>向量积，数学中又称外积、叉积，物理中称矢积、叉乘，是一种在向量空间中向量的二元运算。与点积不同，它的运算结果是一个向量而不是一个标量。并且两个向量的叉积与这两个向量和垂直。其应用十分广泛，通常应用于物理学光学和计算机图形学中。<br>如图，这是 $(2, 4) × (3, 0) = -12$ ，我们得到了一个实数 $-12$ ，而其绝对值为平行四边形面积。<br><img src="https://upload-images.jianshu.io/upload_images/15006683-b7aafc478f85d9d1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br><a id="more"></a><br>如图，这是 $(1, 0, 0) × (2, 4, 0) = (0, 0, 4)$ ，我们得到了一个垂直与已知两向量的法向量，且其模长为平行四边形面积。<br><img src="https://upload-images.jianshu.io/upload_images/15006683-bccfdcde8bae7164.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="">  </p>
-<h2 id="公式"><a href="#公式" class="headerlink" title="公式"></a>公式</h2><p>$a,b$ 均为向量，$θ$ 为 $a,b$ 的夹角   </p>
-<p>1，$\qquad a \times b=|a| \times |b|sinθ$  </p>
-<p>2，$\qquad a \times b=(l,m,n) \times (o,p,q)=(mq-np,no-lq,lp-mo)$  </p>
-<p>3，$\qquad a \times b=-b \times a$  </p>
-<p>4，$\qquad S = |a \times b|/2$</p>
-<h2 id="运用1，已知三点坐标，求三角形面积"><a href="#运用1，已知三点坐标，求三角形面积" class="headerlink" title="运用1，已知三点坐标，求三角形面积"></a>运用1，已知三点坐标，求三角形面积</h2><p>以任意一个点坐标为基准，做差得到两个向量，这两个向量可围成向量三角形<br>例如点 $a (a, b, c)$ ，点 $b (d, e, f)$ ，点 $c (g, h, i)$<br>得到向量 $\bf{p} = (d - a, e - b, f - c)$ 和 $\bf{q} = (g - a, h - b, i - c)$<br>使用公式2，然后取绝对值，得到三角形面积 $S = | \bf{p} \times \bf{q} | / 2$  </p>
-<p>空间向量外积可以很容易的推广到平面向量<br>令 </p>
+<h2 id="运算定理"><a href="#运算定理" class="headerlink" title="运算定理"></a>运算定理</h2><p>$\vec{a},b$ 均为向量，$θ$ 为 $\vec{a},b$ 的夹角   </p>
+<p>1，$\qquad\vec{a}\times \vec{b}=|\vec{a}| \times |\vec{b}|sinθ$  </p>
+<p>2，$\qquad\vec{a}\times \vec{b}=(l,m,n) \times (o,p,q)=(mq-np,no-lq,lp-mo)$  </p>
+<p>3，$\qquad\vec{a}\times \vec{b}=-(\vec{b} \times a)$  </p>
+<h2 id="运用1，已知三点坐标，求三角形面积"><a href="#运用1，已知三点坐标，求三角形面积" class="headerlink" title="运用1，已知三点坐标，求三角形面积"></a>运用1，已知三点坐标，求三角形面积</h2><p>以任意一个点坐标为基准，做差得到两个向量，这两个向量可围成向量三角形<br>例如点 $A (a, b, c)$ ，点 $B (d, e, f)$ ，点 $C (g, h, i)$<br>得到向量 $\vec{p} = (d - a, e - b, f - c)$ 和 $\vec{q} = (g - a, h - b, i - c)$<br>使用公式2，然后取绝对值，得到三角形面积 $S = | \vec{p} \times \vec{q} | / 2$  </p>
+<p>空间向量外积求三角形面积可以很容易的推广到平面  </p>
+<p>令 </p>
 <script type="math/tex; mode=display">
 \ n = 0，q = 0</script><p>则有 </p>
 <script type="math/tex; mode=display">
-a × b = (l, m, 0) × (o, p, 0) = (0, 0, lp - mo)</script><p>故 </p>
+\vec{a} ×\vec{b}= (l, m, 0) × (o, p, 0) = (0, 0, lp - mo)</script><p>故 </p>
 <script type="math/tex; mode=display">
-S =  | a × b | / 2 = | lp - mo | / 2</script><p><em>三角形是最简单的几何图形，而在计算机领域求多边形面积是非常重要的，而用向量外积算出的有向面积，是解决求多边形面积的重要方法，它适用于凸多边形和凹多边形，非常灵活，简洁优美。</em>  </p>
-<h2 id="运用2，已知平面，求平面的法向量"><a href="#运用2，已知平面，求平面的法向量" class="headerlink" title="运用2，已知平面，求平面的法向量"></a>运用2，已知平面，求平面的法向量</h2><p>找到平面内不共线的两向量 $a,b$ ，这两个向量决定了这个平面<br>使用公式2，得到向量 $c$ ，按照向量外积的定义，$c$ 垂直于 $a,b$<br>故所求向量 $c$ 即平面的法向量  </p>
+S =  |\vec{a}×\vec{b}| / 2 = | lp - mo | / 2</script><p><em>三角形是最简单的几何图形，而在计算机领域求多边形面积是非常重要的，而用向量外积算出的有向面积，是解决求多边形面积的重要方法，它适用于凸多边形和凹多边形，非常灵活，简洁优美。</em>  </p>
+<h2 id="运用2，已知平面，求平面的法向量"><a href="#运用2，已知平面，求平面的法向量" class="headerlink" title="运用2，已知平面，求平面的法向量"></a>运用2，已知平面，求平面的法向量</h2><p>找到平面内不共线的两向量 $\vec a,\vec b$ ，这两个向量决定了这个平面<br>使用公式2，得到向量 $\vec c$ ，按照向量外积的定义，$\vec c$ 垂直于 $\vec a,\vec b$<br>故所求向量 $\vec c$ 即平面的法向量  </p>
 <p><em>向量外积得到的法向量，有很多用途，尤其是物理上的，例如3D图像渲染在CG和游戏领域非常重要，而好的视觉效果多半取决于环境光的仿真，光的传播有一个最基本的定理，那就是光线与平面的法线所成的反射角等于入射角，而与利用向量外积求平面法线，是最简洁优美的。</em></p>
-<h2 id="运用3，高中数学外挂"><a href="#运用3，高中数学外挂" class="headerlink" title="运用3，高中数学外挂"></a>运用3，高中数学外挂</h2><p>用它来做高中数学题简直就是开挂。</p>
-<p>例如，已知三点坐标，求三角形面积这个问题。按照高中数学的套路，无非就是两点间距离公式算三边长，然后要么用海伦公式算面积，要么用余弦定理求出余弦值，换成正弦值，再求面积，这两种方法海伦公式稍微简便一点，但无非都难算了一些。而使用向量外积则简洁优美，我直接算 $| a × b | / 2$的值就是面积了。</p>
-<p>再例如，已知平面，求平面的法向量这个问题。按照我们数学老师的套路，无非找出平面内两个不共线向量 $a,b$ ，然后设平面的法向量 $c = (x, y, z)$ 然后根据向量垂直 $c \cdot a = 0$ 和 $c \cdot b = 0$ 联立解得 $x,y,z$ 为含参的式子(因为一个平面的法向量有无数个)，最后取一个容易计算的法向量。而使用向量外积，那就更简单了，$a × b$ 就搞定。</p>
+<h2 id="运用3，求三棱锥体积"><a href="#运用3，求三棱锥体积" class="headerlink" title="运用3，求三棱锥体积"></a>运用3，求三棱锥体积</h2><p>由三个不共面向量 $\vec{a},\vec{b},\vec{c}$ 所决定的平行六面体的体积为  </p>
+<script type="math/tex; mode=display">
+V=|\vec{a} \cdot ({\vec{b} \times} \vec{c})|=|\vec{b} \cdot ({\vec{a} \times} \vec{c})|=|\vec{c} \cdot ({\vec{a} \times} \vec{b})|</script><p>故由三个不共面向量所决定的三棱锥的体积为 $V/6$</p>
+<h2 id="运用4，高中数学外挂"><a href="#运用4，高中数学外挂" class="headerlink" title="运用4，高中数学外挂"></a>运用4，高中数学外挂</h2><p>用它来做高中数学题简直就是开挂。</p>
+<p>已知三点坐标，求三角形面积这个问题。按照高中数学的套路，无非就是两点间距离公式算三边长，然后要么用海伦公式算面积，要么用余弦定理求出余弦值，换成正弦值，再求面积，这两种方法海伦公式稍微简便一点，但无非都难算了一些。而使用向量外积则简洁优美，我直接算 $|\vec{a}×\vec{b}| / 2$ 的值就是面积了。</p>
+<p>已知平面，求平面的法向量这个问题。按照高中数学的套路，无非找出平面内两个不共线向量 $a,b$ ，然后设平面的法向量 $\vec{c} = (x, y, z)$ 然后根据向量垂直 $\vec{c} \cdot\vec{a}= 0$ 和 $\vec{c} \cdot\vec{b}= 0$ 联立解得 $x,y,z$ 为含参的式子(因为一个平面的法向量有无数个)，最后取一个容易计算的法向量。而使用向量外积，那就更简单了，$\vec{a} × b$ 就搞定。</p>
+<p>已知三棱锥的各个点坐标，求它的体积这个问题。按照高中数学的套路，无非就是用余弦定理和正弦定理暴算一个面的面积，再用向量的余弦定理暴算点到面的距离，然后求出体积。如果使用上述的公式，一步就能算出体积，非常方便。</p>
 
       
     </div>
@@ -667,7 +671,7 @@ S =  | a × b | / 2 = | lp - mo | / 2</script><p><em>三角形是最简单的几
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#公式"><span class="nav-number">1.</span> <span class="nav-text">公式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#运用1，已知三点坐标，求三角形面积"><span class="nav-number">2.</span> <span class="nav-text">运用1，已知三点坐标，求三角形面积</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#运用2，已知平面，求平面的法向量"><span class="nav-number">3.</span> <span class="nav-text">运用2，已知平面，求平面的法向量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#运用3，高中数学外挂"><span class="nav-number">4.</span> <span class="nav-text">运用3，高中数学外挂</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#运算定理"><span class="nav-number">1.</span> <span class="nav-text">运算定理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#运用1，已知三点坐标，求三角形面积"><span class="nav-number">2.</span> <span class="nav-text">运用1，已知三点坐标，求三角形面积</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#运用2，已知平面，求平面的法向量"><span class="nav-number">3.</span> <span class="nav-text">运用2，已知平面，求平面的法向量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#运用3，求三棱锥体积"><span class="nav-number">4.</span> <span class="nav-text">运用3，求三棱锥体积</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#运用4，高中数学外挂"><span class="nav-number">5.</span> <span class="nav-text">运用4，高中数学外挂</span></a></li></ol></div>
             
 
           </div>
