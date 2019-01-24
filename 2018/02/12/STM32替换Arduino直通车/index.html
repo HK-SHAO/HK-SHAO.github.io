@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=6.7.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.7.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.7.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.7.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="前言（废话较多，可直接滚动到教程）众所周知，用Arduino进行开发简单快捷，一个项目能很快的做好，而Arduino相比STM32，贵且性价比也很低，Arduino Uno可用的针脚也少得可怜，怎么办？？换做STM32吧！STM32高性能，STM32的最小系统版价格很低，对我这种穷学生来说是福利啊！于是我兴致勃勃的淘了STM32的最小系统版准备入坑STM32。">
+<meta name="keywords" content="硬件开发">
+<meta property="og:type" content="article">
+<meta property="og:title" content="STM32替换Arduino直通车">
+<meta property="og:url" content="http://yoursite.com/2018/02/12/STM32替换Arduino直通车/index.html">
+<meta property="og:site_name" content="HK-SHAO">
+<meta property="og:description" content="前言（废话较多，可直接滚动到教程）众所周知，用Arduino进行开发简单快捷，一个项目能很快的做好，而Arduino相比STM32，贵且性价比也很低，Arduino Uno可用的针脚也少得可怜，怎么办？？换做STM32吧！STM32高性能，STM32的最小系统版价格很低，对我这种穷学生来说是福利啊！于是我兴致勃勃的淘了STM32的最小系统版准备入坑STM32。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15006683-08ef48344e09a736.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15006683-90af07d226e0d095.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15006683-eebc180cac4d8066.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15006683-8df6d84537ed41c9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15006683-59c9b5ed5b7acc27.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15006683-de7222d4fa3bc650.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15006683-0f7d390f4b22b482.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15006683-0487962eeac2a791.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15006683-4df590b716e233eb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15006683-e0e3ffe5c959624a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15006683-d13871ad64bf3250.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15006683-00467b350612f9bf.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15006683-a680373ec3c3f9e2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15006683-78c3452612758806.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15006683-25ae5c0b452cba03.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15006683-57389a2b435039c1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15006683-0f8610d6e1f24c53.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15006683-94355cdf58d91568.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15006683-dd1ba5306d977c4e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15006683-d832a1aa59901905.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15006683-c68e816b3d40bbd0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15006683-e0421ecdcfb0dc99.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15006683-85c75c2afaaa6800.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15006683-9b9f5263486178d7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15006683-5861edc20fbd6da0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15006683-708e4bdab51f33e1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2019-01-24T12:23:41.355Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="STM32替换Arduino直通车">
+<meta name="twitter:description" content="前言（废话较多，可直接滚动到教程）众所周知，用Arduino进行开发简单快捷，一个项目能很快的做好，而Arduino相比STM32，贵且性价比也很低，Arduino Uno可用的针脚也少得可怜，怎么办？？换做STM32吧！STM32高性能，STM32的最小系统版价格很低，对我这种穷学生来说是福利啊！于是我兴致勃勃的淘了STM32的最小系统版准备入坑STM32。">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/15006683-08ef48344e09a736.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/02/12/STM32替换Arduino直通车/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>STM32替换Arduino直通车 | HK-SHAO</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">HK-SHAO</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">Shao's blog</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/12/STM32替换Arduino直通车/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="王家晔">
+      <meta itemprop="description" content="在黑夜中睁开眼睛。">
+      <meta itemprop="image" content="/images/logo.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="HK-SHAO">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">STM32替换Arduino直通车
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-02-12 23:58:07" itemprop="dateCreated datePublished" datetime="2018-02-12T23:58:07+08:00">2018-02-12</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-01-24 20:23:41" itemprop="dateModified" datetime="2019-01-24T20:23:41+08:00">2019-01-24</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言（废话较多，可直接滚动到教程）"><a href="#前言（废话较多，可直接滚动到教程）" class="headerlink" title="前言（废话较多，可直接滚动到教程）"></a>前言（废话较多，可直接滚动到教程）</h2><p>众所周知，用Arduino进行开发简单快捷，一个项目能很快的做好，而Arduino相比STM32，贵且性价比也很低，Arduino Uno可用的针脚也少得可怜，怎么办？？换做STM32吧！STM32高性能，STM32的最小系统版价格很低，对我这种穷学生来说是福利啊！于是我兴致勃勃的淘了STM32的最小系统版准备入坑STM32。<br><a id="more"></a><br><img src="https://upload-images.jianshu.io/upload_images/15006683-08ef48344e09a736.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>可接下来我就要下载各种各样的软件进行编程，烧录，写个最简单的Blink程序都非常麻烦，折腾我一天。<br><img src="https://upload-images.jianshu.io/upload_images/15006683-90af07d226e0d095.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>要是能像Arduino一样简单方便快捷就好了，怎么办呢？那么现在正式开始教程！  </p>
+<h2 id="所需工具"><a href="#所需工具" class="headerlink" title="所需工具"></a>所需工具</h2><p>1，STM32最小系统板，配套数据线，20元以下的就可以了。<br>2，Arduino（不是必须，但如果你不想买USB转TTL就可以把Arduino用作USB转TTL）或者USB转TTL模块一个。<br>3，跳线数根。  </p>
+<h2 id="教程"><a href="#教程" class="headerlink" title="教程"></a>教程</h2><h3 id="1，配置Arduino并下载所需的文件"><a href="#1，配置Arduino并下载所需的文件" class="headerlink" title="1，配置Arduino并下载所需的文件"></a>1，配置Arduino并下载所需的文件</h3><p>首先我们下载这个人开源的Arduino-STM32项目<br><img src="https://upload-images.jianshu.io/upload_images/15006683-eebc180cac4d8066.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>下载下来并解压<br><img src="https://upload-images.jianshu.io/upload_images/15006683-8df6d84537ed41c9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>Arduino快捷方式右键打开文件所在位置，将解压下来的文件移动到如下图所示目录，并将文件夹改名为STM32<br><img src="https://upload-images.jianshu.io/upload_images/15006683-59c9b5ed5b7acc27.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>接下来是重点，打开Arduino，进入开发板管理器，安装如下图所示的开发板文件<br><img src="https://upload-images.jianshu.io/upload_images/15006683-de7222d4fa3bc650.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p><img src="https://upload-images.jianshu.io/upload_images/15006683-0f7d390f4b22b482.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>安装完后选择你的STM32开发板型号<br><img src="https://upload-images.jianshu.io/upload_images/15006683-0487962eeac2a791.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>Arduino新建一个空文件，点击左上角的验证按钮，看看能不能编译，如果可以就继续<br><img src="https://upload-images.jianshu.io/upload_images/15006683-4df590b716e233eb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<h3 id="2，为STM32下载和烧写Bootloader"><a href="#2，为STM32下载和烧写Bootloader" class="headerlink" title="2，为STM32下载和烧写Bootloader"></a>2，为STM32下载和烧写Bootloader</h3><p>接下来我们需要用USB转TTL给STM32烧录Bootloader，首先我们要下载Bootloader，进入刚刚那个人的另一个开源项目，这个地址：<br><a href="https://github.com/rogerclarkmelbourne/STM32duino-bootloader/tree/master/binaries" target="_blank" rel="noopener">https://github.com/rogerclarkmelbourne/STM32duino-bootloader/tree/master/binaries</a><br>选择你的STM32最小系统板的D2所对应的接口名字的文件下载（一定要选择对应的）<br>比如我这里找到开发板的原理图，D1是通电后的指示灯，D2是另外的LED灯，它连接了PC13针脚<br><img src="https://upload-images.jianshu.io/upload_images/15006683-e0e3ffe5c959624a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>那么我就选择这个文件下载<br><img src="https://upload-images.jianshu.io/upload_images/15006683-d13871ad64bf3250.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>下载完成后，我们要烧录这个文件到STM32里，我们先下载所需要的软件，叫做FlyMcu<br>下载地址：<a href="https://pan.baidu.com/s/1bqkVY6j" target="_blank" rel="noopener">https://pan.baidu.com/s/1bqkVY6j</a><br>密码：vygm<br><img src="https://upload-images.jianshu.io/upload_images/15006683-00467b350612f9bf.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>然后，这里我用Arduino代替USB转TTL进行烧录，降低额外的成本。  </p>
+<p>需要注意的是，STM32的BOOT0要接上VCC高电平，BOOT1要接上GND低电平，然后按STM32版上的REST按钮使之重启进入ISP下载模式，我们才可以烧录Bootloader进去（重要）。<br><img src="https://upload-images.jianshu.io/upload_images/15006683-a680373ec3c3f9e2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>然后我们还可以看到，PA9是TX，PA10是RX。STM32的TX连接Arduino的RX（0接口），STM32的RX连接Aruidno的TX（1接口）。<br>紧接着，如果要把Arduino用作USB转TTL一定要把Arudino的RST接口一直连接Arduino的GND！Arduino连接电脑，STM32也要供电！<br><img src="https://upload-images.jianshu.io/upload_images/15006683-78c3452612758806.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>OK，恭喜你来到了这一步，接下来我们要用FlyMcu烧录程序，但FlyMcu无法烧录.bin文件（可以打开但无法烧录），这时我们要需要把刚刚下载下来的Bootloader从.bin文件转换成.hex文件进行烧录！<br>所以我们还需要一个软件，来完成这个操作，叫做BinToHex。<br>下载地址：<a href="https://pan.baidu.com/s/1kWkFGgB" target="_blank" rel="noopener">https://pan.baidu.com/s/1kWkFGgB</a><br>密码：ox9g<br><img src="https://upload-images.jianshu.io/upload_images/15006683-25ae5c0b452cba03.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>选择我们刚刚下载的bootloader文件，然后选择文件夹导出成.hex文件，随便取个名字。<br><img src="https://upload-images.jianshu.io/upload_images/15006683-57389a2b435039c1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>这时我们还需要很重要的一步，将生成的.hex文件用文本编辑器打开，将第一行的:020000040000FA更改成:020000040800F2（非常非常重要）<br><img src="https://upload-images.jianshu.io/upload_images/15006683-0f8610d6e1f24c53.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br><img src="https://upload-images.jianshu.io/upload_images/15006683-94355cdf58d91568.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>紧接着保存退出，我们打开FlyMcu，选择已经修改好的.hex文件，点击开始编程<br><img src="https://upload-images.jianshu.io/upload_images/15006683-dd1ba5306d977c4e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>注意，如果长时间无法连接，请按STM32版上的RST按钮或者断电重试！<br>如果烧录Bootloader成功，并且STM32版是通过USB连接电脑供电的话，你的电脑会提示你USB设备异常，这是没用安装正确的驱动造成的，我们打开设备管理器看一下<br><img src="https://upload-images.jianshu.io/upload_images/15006683-d832a1aa59901905.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<h3 id="3，为电脑安装连接STM32的驱动"><a href="#3，为电脑安装连接STM32的驱动" class="headerlink" title="3，为电脑安装连接STM32的驱动"></a>3，为电脑安装连接STM32的驱动</h3><p>解决这个问题，接下来我们安装驱动程序。<br>进入我们之前下载的文件目录，点击下图所示的.bat文件安装驱动，一定要要管理员身份运行<br><img src="https://upload-images.jianshu.io/upload_images/15006683-c68e816b3d40bbd0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br><img src="https://upload-images.jianshu.io/upload_images/15006683-e0421ecdcfb0dc99.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>success就是成功了，我们按STM32上的RST键，随着电脑的提示音，这时我们再看看设备管理器<br><img src="https://upload-images.jianshu.io/upload_images/15006683-85c75c2afaaa6800.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>我们发现多了一个串口，如果不行就重启电脑试一试。  </p>
+<h3 id="4，用Arduino-IDE为STM32烧录Blink程序"><a href="#4，用Arduino-IDE为STM32烧录Blink程序" class="headerlink" title="4，用Arduino IDE为STM32烧录Blink程序"></a>4，用Arduino IDE为STM32烧录Blink程序</h3><p>最后我们打开Aruidno IDE，选择上传程序的模式，如下图<br><img src="https://upload-images.jianshu.io/upload_images/15006683-9b9f5263486178d7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>然后写入一个Blink程序<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">void setup() &#123;</span><br><span class="line">  pinMode(PC14, OUTPUT);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void loop() &#123;</span><br><span class="line">  digitalWrite(PC14, HIGH);</span><br><span class="line">  delay(50);</span><br><span class="line">  digitalWrite(PC14, LOW);</span><br><span class="line">  delay(50);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><img src="https://upload-images.jianshu.io/upload_images/15006683-5861edc20fbd6da0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>随着红色的“Done！”和电脑一声USB提示，STM32自动重启，然后连接在STM32PC14接口上的LED开始闪烁了！<br><img src="https://upload-images.jianshu.io/upload_images/15006683-708e4bdab51f33e1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>以后我们不需要额外的硬件，直接用数据线连接STM32最小系统版和电脑，并打开Arduino IDE就可以像玩Arduino一样简单方便快捷了！  </p>
+<h4 id="教程结束，如果博文有错误或者有疑问，欢迎评论来告诉我，谢谢！"><a href="#教程结束，如果博文有错误或者有疑问，欢迎评论来告诉我，谢谢！" class="headerlink" title="教程结束，如果博文有错误或者有疑问，欢迎评论来告诉我，谢谢！"></a>教程结束，如果博文有错误或者有疑问，欢迎评论来告诉我，谢谢！</h4>
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/硬件开发/" rel="tag"># 硬件开发</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/02/08/Arduino-用声音传感器制作简单的“声纹锁”/" rel="next" title="Arduino-用声音传感器制作简单的“声纹锁”">
+                <i class="fa fa-chevron-left"></i> Arduino-用声音传感器制作简单的“声纹锁”
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/04/21/Python-数字黑洞/" rel="prev" title="Python-数字黑洞">
+                Python-数字黑洞 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/logo.png" alt="王家晔">
+            
+              <p class="site-author-name" itemprop="name">王家晔</p>
+              <p class="site-description motion-element" itemprop="description">在黑夜中睁开眼睛。</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">14</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">5</span>
+                    <span class="site-state-item-name">标签</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/HK-SHAO" title="GitHub &rarr; https://github.com/HK-SHAO" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="/2063597709@qq.com" title="E-Mail &rarr; 2063597709@qq.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言（废话较多，可直接滚动到教程）"><span class="nav-number">1.</span> <span class="nav-text">前言（废话较多，可直接滚动到教程）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#所需工具"><span class="nav-number">2.</span> <span class="nav-text">所需工具</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#教程"><span class="nav-number">3.</span> <span class="nav-text">教程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1，配置Arduino并下载所需的文件"><span class="nav-number">3.1.</span> <span class="nav-text">1，配置Arduino并下载所需的文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2，为STM32下载和烧写Bootloader"><span class="nav-number">3.2.</span> <span class="nav-text">2，为STM32下载和烧写Bootloader</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3，为电脑安装连接STM32的驱动"><span class="nav-number">3.3.</span> <span class="nav-text">3，为电脑安装连接STM32的驱动</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4，用Arduino-IDE为STM32烧录Blink程序"><span class="nav-number">3.4.</span> <span class="nav-text">4，用Arduino IDE为STM32烧录Blink程序</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#教程结束，如果博文有错误或者有疑问，欢迎评论来告诉我，谢谢！"><span class="nav-number">3.4.1.</span> <span class="nav-text">教程结束，如果博文有错误或者有疑问，欢迎评论来告诉我，谢谢！</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">王家晔</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v6.7.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.7.0"></script>
+
+  <script src="/js/src/motion.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=6.7.0"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=6.7.0"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=6.7.0"></script>
+<script src="/js/src/post-details.js?v=6.7.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.7.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
