@@ -96,22 +96,19 @@
 
 
 
-  <meta name="description" content="前言最近在Android上发现一个开源软件，叫做ShaderEditor（着色编辑器），可以用它编写GLSL程序并且预览，还能与Android内置变量联系（电量，陀螺仪，磁力，触摸，等等），还可以将效果作用于桌面壁纸，非常酷炫，在深入了解之后认识了OpenGL和GLSL（Graphics Library Shader Language）">
+  <meta name="description" content="前言最近在Android上发现一个开源软件，叫做ShaderEditor（着色编辑器），可以用它编写GLSL程序并且预览，还能与Android内置变量联系（电量，陀螺仪，磁力，触摸，等等），还可以将效果作用于桌面壁纸，非常酷炫，在深入了解之后认识了OpenGL和GLSL（Graphics Library Shader Language）开源地址：https://github.com/markusf">
 <meta name="keywords" content="程序&amp;算法,OpenGL">
 <meta property="og:type" content="article">
 <meta property="og:title" content="OpenGL着色器（Shader）和GLSL语言的简单介绍">
 <meta property="og:url" content="http://yoursite.com/2018/08/26/OpenGL着色器（Shader）和GLSL语言的简单介绍/index.html">
 <meta property="og:site_name" content="HK-SHAO">
-<meta property="og:description" content="前言最近在Android上发现一个开源软件，叫做ShaderEditor（着色编辑器），可以用它编写GLSL程序并且预览，还能与Android内置变量联系（电量，陀螺仪，磁力，触摸，等等），还可以将效果作用于桌面壁纸，非常酷炫，在深入了解之后认识了OpenGL和GLSL（Graphics Library Shader Language）">
+<meta property="og:description" content="前言最近在Android上发现一个开源软件，叫做ShaderEditor（着色编辑器），可以用它编写GLSL程序并且预览，还能与Android内置变量联系（电量，陀螺仪，磁力，触摸，等等），还可以将效果作用于桌面壁纸，非常酷炫，在深入了解之后认识了OpenGL和GLSL（Graphics Library Shader Language）开源地址：https://github.com/markusf">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15006683-a80eea48a8314986.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15006683-c0be9f388da276d2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15006683-087864e6d5fb3d38.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15006683-59197f34589becad.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2019-01-24T15:29:46.965Z">
+<meta property="og:updated_time" content="2019-01-25T06:49:04.897Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="OpenGL着色器（Shader）和GLSL语言的简单介绍">
-<meta name="twitter:description" content="前言最近在Android上发现一个开源软件，叫做ShaderEditor（着色编辑器），可以用它编写GLSL程序并且预览，还能与Android内置变量联系（电量，陀螺仪，磁力，触摸，等等），还可以将效果作用于桌面壁纸，非常酷炫，在深入了解之后认识了OpenGL和GLSL（Graphics Library Shader Language）">
+<meta name="twitter:description" content="前言最近在Android上发现一个开源软件，叫做ShaderEditor（着色编辑器），可以用它编写GLSL程序并且预览，还能与Android内置变量联系（电量，陀螺仪，磁力，触摸，等等），还可以将效果作用于桌面壁纸，非常酷炫，在深入了解之后认识了OpenGL和GLSL（Graphics Library Shader Language）开源地址：https://github.com/markusf">
 <meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/15006683-a80eea48a8314986.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 
 
@@ -392,7 +389,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-01-24 23:29:46" itemprop="dateModified" datetime="2019-01-24T23:29:46+08:00">2019-01-24</time>
+                <time title="修改时间：2019-01-25 14:49:04" itemprop="dateModified" datetime="2019-01-25T14:49:04+08:00">2019-01-25</time>
               
             
           </span>
@@ -425,8 +422,8 @@
       
 
       
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>最近在Android上发现一个开源软件，叫做ShaderEditor（着色编辑器），可以用它编写GLSL程序并且预览，还能与Android内置变量联系（电量，陀螺仪，磁力，触摸，等等），还可以将效果作用于桌面壁纸，非常酷炫，在深入了解之后认识了OpenGL和GLSL（Graphics Library Shader Language）  <a id="more"></a><br>开源地址：<a href="https://github.com/markusfisch/ShaderEditor" target="_blank" rel="noopener">https://github.com/markusfisch/ShaderEditor</a><br>这里我展示了用这个编辑器编写的3D河豚，3D海浪，火焰，生命游戏（元胞自动机）  </p>
-<p><img src="https://upload-images.jianshu.io/upload_images/15006683-a80eea48a8314986.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><img src="https://upload-images.jianshu.io/upload_images/15006683-c0be9f388da276d2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><img src="https://upload-images.jianshu.io/upload_images/15006683-087864e6d5fb3d38.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><img src="https://upload-images.jianshu.io/upload_images/15006683-59197f34589becad.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>最近在Android上发现一个开源软件，叫做ShaderEditor（着色编辑器），可以用它编写GLSL程序并且预览，还能与Android内置变量联系（电量，陀螺仪，磁力，触摸，等等），还可以将效果作用于桌面壁纸，非常酷炫，在深入了解之后认识了OpenGL和GLSL（Graphics Library Shader Language）<br>开源地址：<a href="https://github.com/markusfisch/ShaderEditor" target="_blank" rel="noopener">https://github.com/markusfisch/ShaderEditor</a><br>这里我展示了用这个编辑器编写的3D河豚，3D海浪，火焰，生命游戏（元胞自动机）  </p>
+<p><img src="https://upload-images.jianshu.io/upload_images/15006683-a80eea48a8314986.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="">![]<br><a id="more"></a><br>(<a href="https://upload-images.jianshu.io/upload_images/15006683-c0be9f388da276d2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)![](https://upload-images.jianshu.io/upload_images/15006683-087864e6d5fb3d38.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)![](https://upload-images.jianshu.io/upload_images/15006683-59197f34589becad.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" target="_blank" rel="noopener">https://upload-images.jianshu.io/upload_images/15006683-c0be9f388da276d2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)![](https://upload-images.jianshu.io/upload_images/15006683-087864e6d5fb3d38.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)![](https://upload-images.jianshu.io/upload_images/15006683-59197f34589becad.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240</a>)</p>
 <h2 id="什么是OpenGL？"><a href="#什么是OpenGL？" class="headerlink" title="什么是OpenGL？"></a>什么是OpenGL？</h2><p>OpenGL（全写Open Graphics Library）是指定义了一个跨编程语言、跨平台的编程接口规格的专业的图形程序接口。它用于三维图像（二维的亦可），是一个功能强大，调用方便的底层图形库。  </p>
 <p>OpenGL™ 是行业领域中最为广泛接纳的 2D/3D 图形 API，其自诞生至今已催生了各种计算机平台及设备上的数千优秀应用程序。OpenGL™ 是独立于视窗操作系统或其它操作系统的，亦是网络透明的。在包含CAD、内容创作、能源、娱乐、游戏开发、制造业、制药业及虚拟现实等行业领域中，OpenGL™ 帮助程序员实现在 PC、工作站、超级计算机等硬件设备上的高性能、极具冲击力的高视觉表现力图形处理软件的开发。——百度百科  </p>
 <h2 id="什么是Shader？"><a href="#什么是Shader？" class="headerlink" title="什么是Shader？"></a>什么是Shader？</h2><p>着色器（Shader）是用来实现图像渲染的，用来替代固定渲染管线的可编辑程序。其中Vertex Shader主要负责顶点的几何关系等的运算，Pixel Shader主要负责片源颜色等的计算。  </p>
