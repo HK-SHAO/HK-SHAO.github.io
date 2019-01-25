@@ -329,6 +329,183 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/30/如何比较整点的大小（排序）？/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="王家晔">
+      <meta itemprop="description" content="在黑夜中睁开眼睛">
+      <meta itemprop="image" content="/images/logo.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="HK-SHAO">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/09/30/如何比较整点的大小（排序）？/" class="post-title-link" itemprop="url">如何比较整点的大小（排序）？</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-09-30 18:13:52" itemprop="dateCreated datePublished" datetime="2018-09-30T18:13:52+08:00">2018-09-30</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-01-25 20:22:14" itemprop="dateModified" datetime="2019-01-25T20:22:14+08:00">2019-01-25</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="提问"><a href="#提问" class="headerlink" title="提问"></a>提问</h2><p>当我知道复数是无法比较大小的时候，我就怀疑这个命题了，如果我能从复数映射到实数，并且从实数映射到复数：  </p>
+<script type="math/tex; mode=display">
+\mathbb{C}\rightarrow\mathbb{R}\\ \mathbb{R}\rightarrow\mathbb{C}</script><p>也就是任意的复数都有一个实数与之一一对应，那我就可以利用实数的性质将所有复数进行排序了，这就可以比较复数大小了。我们知道复数可以与平面上的点一一对应，经过我的思考，我想了一个办法，利用等速螺线：  </p>
+<p><img src="https://pic1.zhimg.com/v2-daf26fd7ab7ecda7f06c548ec7aedecc_b.jpg" alt="">  </p>
+<p>如图，从原点出发，沿着螺旋线运动，我们用不等号做记号，排序先到达的点和后到达的点，如图是先到达 $A$ 点，后到达 $B$ 点，也就是 $A&lt;B$ ，这样我就可以将螺旋线上的所有点排序了。  </p>
+<p>但当我仔细思考，平面上点是稠密的，如果我想排序所有的点，那螺旋线就得无限密集，这显然是做不到的。  </p>
+<p><img src="https://pic1.zhimg.com/v2-6ab660499f3c16c8e0d96b342d7598a0_b.jpg" alt="">  </p>
+<p>我又开始思考，既然平面上的所有点无法排序，那平面上的整点能否排序呢？<br>我第一时间想到的当然还是螺旋，不过是方形的螺旋：  </p>
+<p><img src="https://pic1.zhimg.com/v2-c3c4f3b29d037afcc0f23fa148dc7d48_b.jpg" alt="">  </p>
+<p>如图，这样我就可以用方形的螺旋线顺次将平面内所有的整点连接，从原点出发，按照先后顺序将所有的整点映射到整数（整数就是从原点出发沿着方形螺旋线运动的路程）。如图 $A (0, 0)\rightarrow 0 ， B (1, 0) \rightarrow 1 ， E (-1, -1) \rightarrow 6$ 。所有的整数与平面上的整点一一对应，也就可以将所有整点排序了，$D$ 在 $E$ 的前面，这里可以用记号表示 $D&lt;E$ ，也就是 $(-1,1)&lt;(-1,-1)$ 。  </p>
+<p>如果整点用复数 $x+yi$ 表示，整数用 $z$ 表示，其中 $x,y,z\in\mathbb{Z}$ ，那么函数 $f(x+yi)=z$ 和其反函数 $f^{-1}(z)=x+yi$ 的映射关系是什么呢？如何用表达式表示它们呢？  </p>
+<h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><p>As your wish:<br><img src="https://pic1.zhimg.com/v2-50b50f74c758312dc7be263ff8205e38_r.jpg" alt="">  </p>
+<p>points on x-axes: </p>
+<script type="math/tex; mode=display">
+f_x(n)=4 n^2-\left| n\right| -2 n</script><p>points on y-axes: </p>
+<script type="math/tex; mode=display">
+f_y(n)=4 n^2+\left| n\right| -2 n</script><p><br>  </p>
+<script type="math/tex; mode=display">
+x+yi\rightarrow f_{\max(x,y)}(\max(x,y))\mp\min(x,y)</script><p>The inverse function will be more complicated:  </p>
+<script type="math/tex; mode=display">
+x_n=\sum _{i=1}^n \sin \left(\frac{ \pi}{2}  (\left\lfloor \sqrt{4 i-3}\right\rfloor  \bmod 4)\right)</script><script type="math/tex; mode=display">
+y_n=-\sum _{i=1}^n \cos \left(\frac{ \pi}{2}  (\left\lfloor \sqrt{4 i-3}\right\rfloor  \bmod 4)\right)</script><script type="math/tex; mode=display">
+n\rightarrow (x_n,y_n)</script><p><img src="https://pic2.zhimg.com/v2-815b59f4b26f6f15a70815dd81de8215_r.jpg" alt="">  </p>
+<h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><p>解答来自知乎   <a href="https://www.zhihu.com/question/296719713/answer/501579029" target="_blank" rel="noopener">https://www.zhihu.com/question/296719713/answer/501579029</a> ——<br>酱紫君</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/27/游戏与意义/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -795,167 +972,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/29/Python-函数绘图及函数图像微分与积分/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="王家晔">
-      <meta itemprop="description" content="在黑夜中睁开眼睛">
-      <meta itemprop="image" content="/images/logo.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="HK-SHAO">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/04/29/Python-函数绘图及函数图像微分与积分/" class="post-title-link" itemprop="url">Python-函数绘图及函数图像微分与积分</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-04-29 14:28:25" itemprop="dateCreated datePublished" datetime="2018-04-29T14:28:25+08:00">2018-04-29</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-01-24 21:40:16" itemprop="dateModified" datetime="2019-01-24T21:40:16+08:00">2019-01-24</time>
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>在学校太闲，就写了这个程序，可以绘制函数图像，并且可以绘制其导函数图像和不定积分的图像，效果非常不错。</p>
-<h3 id="效果图"><a href="#效果图" class="headerlink" title="效果图"></a>效果图</h3><p><img src="https://upload-images.jianshu.io/upload_images/15006683-8f6ccbeb41b1195b.gif?imageMogr2/auto-orient/strip" alt=""><br>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2018/04/29/Python-函数绘图及函数图像微分与积分/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </p></div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1005,7 +1021,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">13</span>
+                    <span class="site-state-item-count">15</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1046,7 +1062,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">13</span>
+                      
+                    
+                    <span class="site-state-item-count">14</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -1278,9 +1296,9 @@
   
     
       
-        
-      
     
+      
+        
       
     
       
