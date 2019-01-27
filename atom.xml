@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2019-01-24T13:40:16.316Z</updated>
+  <updated>2019-01-27T12:19:59.978Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>一张图形象理解高数中的中值定理</title>
+    <link href="http://yoursite.com/2019/01/27/%E4%B8%80%E5%BC%A0%E5%9B%BE%E5%BD%A2%E8%B1%A1%E7%90%86%E8%A7%A3%E9%AB%98%E6%95%B0%E4%B8%AD%E7%9A%84%E4%B8%AD%E5%80%BC%E5%AE%9A%E7%90%86/"/>
+    <id>http://yoursite.com/2019/01/27/一张图形象理解高数中的中值定理/</id>
+    <published>2019-01-27T12:09:09.000Z</published>
+    <updated>2019-01-27T12:19:59.978Z</updated>
+    
+    <content type="html"><![CDATA[<p><img src="/images/blog/4.jpg" alt=""></p><p><em>这张图分享自知乎用户<a href="https://www.zhihu.com/people/xilaganlan/activities" target="_blank" rel="noopener">快来签到小助手</a></em></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;&lt;img src=&quot;/images/blog/4.jpg&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;这张图分享自知乎用户&lt;a href=&quot;https://www.zhihu.com/people/xilaganlan/activities&quot; target=&quot;_blank&quot; r
+      
+    
+    </summary>
+    
+    
+      <category term="数学" scheme="http://yoursite.com/tags/%E6%95%B0%E5%AD%A6/"/>
+    
+      <category term="微积分" scheme="http://yoursite.com/tags/%E5%BE%AE%E7%A7%AF%E5%88%86/"/>
+    
+  </entry>
   
   <entry>
     <title>建立个人Blog和使用LaTeX写文章</title>
@@ -217,31 +243,6 @@
     
       &lt;h3 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h3&gt;&lt;p&gt;在学校太闲，就写了这个程序，可以绘制函数图像，并且可以绘制其导函数图像和不定积分的图像，效果非常不错。&lt;/p&gt;
 &lt;h3 id=&quot;效果图&quot;&gt;&lt;a href=&quot;#效果图&quot; class=&quot;headerlink&quot; title=&quot;效果图&quot;&gt;&lt;/a&gt;效果图&lt;/h3&gt;&lt;p&gt;&lt;img src=&quot;https://upload-images.jianshu.io/upload_images/15006683-8f6ccbeb41b1195b.gif?imageMogr2/auto-orient/strip&quot; alt=&quot;&quot;&gt;&lt;br&gt;
-    
-    </summary>
-    
-    
-      <category term="程序&amp;算法" scheme="http://yoursite.com/tags/%E7%A8%8B%E5%BA%8F-%E7%AE%97%E6%B3%95/"/>
-    
-      <category term="Python" scheme="http://yoursite.com/tags/Python/"/>
-    
-      <category term="数学" scheme="http://yoursite.com/tags/%E6%95%B0%E5%AD%A6/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Python-复平面绘图</title>
-    <link href="http://yoursite.com/2018/04/29/Python-%E5%A4%8D%E5%B9%B3%E9%9D%A2%E7%BB%98%E5%9B%BE/"/>
-    <id>http://yoursite.com/2018/04/29/Python-复平面绘图/</id>
-    <published>2018-04-29T05:59:34.000Z</published>
-    <updated>2019-01-25T11:59:35.029Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在学校太闲，就写了这个程序，可以在复平面绘制曲线，画圆什么的很轻松，f(z) = e^(1j * z)，螺旋线，函数图象等都可以。  </p><h2 id="效果图"><a href="#效果图" class="headerlink" title="效果图"></a>效果图</h2><p><img src="https://img-blog.csdn.net/20180429135325750?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2hrX3NoYW8=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt=""><br><a id="more"></a></p><h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><p>此程序使用turtle绘图，可以用作画函数图像，假设你想画函数g(x)的图像，那么就输入f(z) = z + 1j * g(z)，g(z)是含z的表达式。<br>表达式可支持Python math库，random库，time库的所有函数，具体使用方法请自行探索。</p><h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"># Python <span class="number">2.</span>x</span><br><span class="line"></span><br><span class="line">import turtle</span><br><span class="line">from <span class="built_in">random</span> import *</span><br><span class="line">from <span class="built_in">math</span> import *</span><br><span class="line">from <span class="built_in">time</span> import *</span><br><span class="line"></span><br><span class="line">def printf(f):</span><br><span class="line">    global z</span><br><span class="line">    turtle.<span class="keyword">goto</span>(f.real * <span class="number">20</span>, f.imag * <span class="number">20</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"f("</span> + str(z) + <span class="string">") = "</span> + str(f))</span><br><span class="line">    z += d</span><br><span class="line"></span><br><span class="line">def <span class="built_in">format</span>(s):</span><br><span class="line">    s = s.replace(<span class="string">"^"</span>,<span class="string">"**"</span>)</span><br><span class="line">    <span class="keyword">return</span> s</span><br><span class="line"></span><br><span class="line">def evale(s):</span><br><span class="line">    n = eval(s)</span><br><span class="line">    <span class="keyword">return</span> n</span><br><span class="line"></span><br><span class="line">delay = <span class="built_in">input</span>(<span class="string">"delay = "</span>) * <span class="number">1e-3</span></span><br><span class="line">turtle.setup(<span class="number">1280</span>, <span class="number">720</span>)</span><br><span class="line">turtle.speed(<span class="number">10</span>)</span><br><span class="line">turtle.pensize(<span class="number">2</span>)</span><br><span class="line">turtle.<span class="keyword">goto</span>(<span class="number">-640</span>, <span class="number">0</span>)</span><br><span class="line">turtle.<span class="keyword">goto</span>(<span class="number">640</span>, <span class="number">0</span>)</span><br><span class="line">turtle.<span class="keyword">goto</span>(<span class="number">0</span>, <span class="number">0</span>)</span><br><span class="line">turtle.<span class="keyword">goto</span>(<span class="number">0</span>, <span class="number">360</span>)</span><br><span class="line">turtle.<span class="keyword">goto</span>(<span class="number">0</span>, <span class="number">-360</span>)</span><br><span class="line">turtle.<span class="keyword">goto</span>(<span class="number">0</span>, <span class="number">0</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> True:</span><br><span class="line">    express = <span class="built_in">format</span>(raw_input(<span class="string">"f(z) = "</span>))</span><br><span class="line">    d = <span class="built_in">input</span>(<span class="string">"d = "</span>)</span><br><span class="line">    <span class="built_in">min</span> = <span class="built_in">input</span>(<span class="string">"min = "</span>)</span><br><span class="line">    <span class="built_in">max</span> = <span class="built_in">input</span>(<span class="string">"max = "</span>)</span><br><span class="line">    z = <span class="built_in">min</span></span><br><span class="line">    f = evale(express)</span><br><span class="line">    turtle.pencolor(<span class="built_in">random</span>(), <span class="built_in">random</span>(), <span class="built_in">random</span>())</span><br><span class="line">    turtle.penup()</span><br><span class="line">    printf(f)</span><br><span class="line">    turtle.pendown()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span>  z &lt; <span class="built_in">max</span>:</span><br><span class="line">        f = evale(express)</span><br><span class="line">        printf(f)</span><br></pre></td></tr></table></figure><h2 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h2><p>这个程序使用Python 2.x，若需要Python 3.x的程序，请自行修改。</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;在学校太闲，就写了这个程序，可以在复平面绘制曲线，画圆什么的很轻松，f(z) = e^(1j * z)，螺旋线，函数图象等都可以。  &lt;/p&gt;
-&lt;h2 id=&quot;效果图&quot;&gt;&lt;a href=&quot;#效果图&quot; class=&quot;headerlink&quot; title=&quot;效果图&quot;&gt;&lt;/a&gt;效果图&lt;/h2&gt;&lt;p&gt;&lt;img src=&quot;https://img-blog.csdn.net/20180429135325750?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2hrX3NoYW8=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70&quot; alt=&quot;&quot;&gt;&lt;br&gt;
     
     </summary>
     
