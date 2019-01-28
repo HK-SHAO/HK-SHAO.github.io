@@ -113,7 +113,7 @@
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://yoursite.com/images/blog/5.gif">
 <meta property="og:image" content="http://yoursite.com/images/blog/6.gif">
-<meta property="og:updated_time" content="2019-01-28T04:10:31.370Z">
+<meta property="og:updated_time" content="2019-01-28T08:59:38.403Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="对微积分运算推广的猜想">
 <meta name="twitter:description" content="不自量力本人才疏学浅，数学功底不好，微积分也只是了解一点，竟然想研究这样的高深理论？算了，不过是一个猜想而已，这里把它分享给大家，好让大家了解一下。 解析延拓要知道，在百年来数学的不断发展中，数字这个集合越来越大，从自然数，正整数，整数到有理数，实数，复数。这就是延拓，运算使得数字拥有了价值，运算自然也被延拓了。比如在古代，分数这个二元运算的分子与分母只能是正整数 ，而现在，它的定义域被拓展到了复">
@@ -399,7 +399,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-01-28 12:10:31" itemprop="dateModified" datetime="2019-01-28T12:10:31+08:00">2019-01-28</time>
+                <time title="修改时间：2019-01-28 16:59:38" itemprop="dateModified" datetime="2019-01-28T16:59:38+08:00">2019-01-28</time>
               
             
           </span>
@@ -433,8 +433,7 @@
 
       
         <h2 id="不自量力"><a href="#不自量力" class="headerlink" title="不自量力"></a>不自量力</h2><p>本人才疏学浅，数学功底不好，微积分也只是了解一点，竟然想研究这样的高深理论？算了，不过是一个猜想而已，这里把它分享给大家，好让大家了解一下。</p>
-<h2 id="解析延拓"><a href="#解析延拓" class="headerlink" title="解析延拓"></a>解析延拓</h2><p>要知道，在百年来数学的不断发展中，数字这个集合越来越大，从自然数，正整数，整数到有理数，实数，复数。这就是延拓，运算使得数字拥有了价值，运算自然也被延拓了。比如在古代，分数这个二元运算的分子与分母只能是正整数 ，而现在，它的定义域被拓展到了复数。再比如，很早之前 $x^a,a^x,sin(x),ln(x)$ 等等初等函数的定义域是实数或者正实数，而现在，它们可以被定义在复数域，并且是唯一的，这就是解析延拓。  </p>
-<p>最经典的是一元运算阶乘， $0!=1,1!=1,n!=n\times(n-1)!$ 这是一个定义在非负整数上的函数，而它可以被推广到实数域甚至复数域。阶乘函数的解析延拓就是 $\Gamma(x)$ ，当 $n$ 为非负整数时，有 $n!=\Gamma(n+1)$ ，$\Gamma(x)$ 也叫作欧拉第二积分，它在高数上有极其重要的应用，它的定义是 $\Gamma(x)=\int_R t^{x-1}e^{-t}dt$ 。<br><a id="more"></a></p>
+<h2 id="解析延拓"><a href="#解析延拓" class="headerlink" title="解析延拓"></a>解析延拓</h2><p>要知道，在百年来数学的不断发展中，数字这个集合越来越大，从自然数，正整数，整数到有理数，实数，复数。这就是延拓，运算使得数字拥有了价值，运算自然也被延拓了。比如在古代，分数这个二元运算的分子与分母只能是正整数 ，而现在，它的定义域被拓展到了复数。再比如，很早之前 $x^a,a^x,sin(x),ln(x)$ 等等初等函数的定义域是实数或者正实数，而现在，它们可以被定义在复数域，并且是唯一的，这就是解析延拓。<br><a id="more"></a><br>最经典的是一元运算阶乘， $0!=1,1!=1,n!=n\times(n-1)!$ 这是一个定义在非负整数上的函数，而它可以被推广到实数域甚至复数域。阶乘函数的解析延拓就是 $\Gamma(x)$ ，当 $n$ 为非负整数时，有 $n!=\Gamma(n+1)$ ，$\Gamma(x)$ 也叫作欧拉第二积分，它在高数上有极其重要的应用，它的定义是 $\Gamma(x)=\int_R t^{x-1}e^{-t}dt$ 。</p>
 <h2 id="将求导运算延拓到实数"><a href="#将求导运算延拓到实数" class="headerlink" title="将求导运算延拓到实数"></a>将求导运算延拓到实数</h2><h3 id="先研究最简单的幂函数"><a href="#先研究最简单的幂函数" class="headerlink" title="先研究最简单的幂函数"></a>先研究最简单的幂函数</h3><script type="math/tex; mode=display">
 f(x)=x^\alpha</script><p>我们对它求 $n$ 阶导数，$n \in \mathbb{N}$</p>
 <script type="math/tex; mode=display">
@@ -447,13 +446,17 @@ f^{(n)}(x)=\alpha (\alpha-1) \dots (\alpha-n+1) x^{\alpha-n} \\</script><p>左�
 <script type="math/tex; mode=display">
 f^{(n)}(x)=\frac{\alpha !}{(\alpha-n) !}x^{\alpha-n}</script><p>考虑到我们的目的是延拓求导，也就是把 $n$ 的取值从 $n \in \mathbb{N}$ 变成 $n \in \mathbb{R}$，所以我们把 $\alpha!$ 替换成 $\Gamma(\alpha+1)$ 得到  </p>
 <script type="math/tex; mode=display">
-f^{(n)}(x)=\frac{\Gamma(\alpha+1)}{\Gamma(\alpha-n+1)}x^{\alpha-n}</script><p>因为我们并不确定这种变换到底还是不是求导，所以我们定义一个算子 $D^n$ 有  </p>
+f^{(n)}(x)=\frac{\Gamma(\alpha+1)}{\Gamma(\alpha-n+1)}x^{\alpha-n}</script><p>因为我们并不确定这种变换到底还是不是求导，所以我们定义一个算子 $D^n$ ，使得 $(D^nf)(x)=f^{(n)}(x)$ ，于是有  </p>
 <script type="math/tex; mode=display">
-D^nf(x)=\frac{\Gamma(\alpha+1)}{\Gamma(\alpha-n+1)}x^{\alpha-n}</script><p>要知道，数学有个很美丽之处就是连续，现在 $n$ 连续了，我们尝试把 $f(x)=\frac{1}{2}x^2$ 在算子 $D^n,n \in [0,2]$ 的变换下的动画绘制出来，如下图  </p>
-<p><img src="/images/blog/5.gif" alt=""></p>
+(D^n)f(x)=\frac{\Gamma(\alpha+1)}{\Gamma(\alpha-n+1)}x^{\alpha-n}</script><p>要知道，数学有个很美丽之处就是连续，现在 $n$ 连续了，我们尝试把 $f(x)=\frac{1}{2}x^2$ 在算子 $D^n,n \in [0,2]$ 的变换下的动画绘制出来，如下图  </p>
+<h3 id="对于积分"><a href="#对于积分" class="headerlink" title="对于积分"></a>对于积分</h3><p>我们知道求导和积分实际上是一对逆运算。特别的，如果函数 $f(x)$ 在定义域上连续且可导，那么在其定义域上有  </p>
+<script type="math/tex; mode=display">
+\int{\frac{df(x)}{dx}}dx=f(x)</script><p>以前面所猜想的幂函数为例子， $f(x)=x^\alpha$ 的 $-1$ 次导数，实际上就是它的积分。如果我们定义算子 $J$ 使得 $(Jf)(x)=\int{f(x)dx}$ ，我们可以得出这样一个特殊结论。<br>若 $f(x) 是幂函数$ ，则有  </p>
+<script type="math/tex; mode=display">
+(D^nf)(x)=(J^{-n}f)(x)</script><p><img src="/images/blog/5.gif" alt=""></p>
 <h3 id="正弦函数的一个例子"><a href="#正弦函数的一个例子" class="headerlink" title="正弦函数的一个例子"></a>正弦函数的一个例子</h3><p>猜想</p>
 <script type="math/tex; mode=display">
-D^nsin(x)=cos(\frac{n\pi}{2})sin(x)+sin(\frac{n\pi}{2})cos(x)=sin(x+\frac{n\pi}{2})</script><p>变换的动画如下图</p>
+(D^nsin)(x)=(J^{-n}sin)(x)=cos(\frac{n\pi}{2})sin(x)+sin(\frac{n\pi}{2})cos(x)=sin(x+\frac{n\pi}{2})</script><p>变换的动画如下图</p>
 <p><img src="/images/blog/6.gif" alt=""></p>
 <h2 id="算子的定义"><a href="#算子的定义" class="headerlink" title="算子的定义"></a>算子的定义</h2><p>这个等式参照维基百科  </p>
 <h3 id="n阶求导算子D"><a href="#n阶求导算子D" class="headerlink" title="n阶求导算子D"></a>n阶求导算子D</h3><script type="math/tex; mode=display">
@@ -696,7 +699,7 @@ D^nsin(x)=cos(\frac{n\pi}{2})sin(x)+sin(\frac{n\pi}{2})cos(x)=sin(x+\frac{n\pi}{
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#不自量力"><span class="nav-number">1.</span> <span class="nav-text">不自量力</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解析延拓"><span class="nav-number">2.</span> <span class="nav-text">解析延拓</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#将求导运算延拓到实数"><span class="nav-number">3.</span> <span class="nav-text">将求导运算延拓到实数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#先研究最简单的幂函数"><span class="nav-number">3.1.</span> <span class="nav-text">先研究最简单的幂函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#正弦函数的一个例子"><span class="nav-number">3.2.</span> <span class="nav-text">正弦函数的一个例子</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#算子的定义"><span class="nav-number">4.</span> <span class="nav-text">算子的定义</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#n阶求导算子D"><span class="nav-number">4.1.</span> <span class="nav-text">n阶求导算子D</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#α重积分算子J"><span class="nav-number">4.2.</span> <span class="nav-text">α重积分算子J</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#维基百科"><span class="nav-number">5.</span> <span class="nav-text">维基百科</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#说明"><span class="nav-number">6.</span> <span class="nav-text">说明</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#不自量力"><span class="nav-number">1.</span> <span class="nav-text">不自量力</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解析延拓"><span class="nav-number">2.</span> <span class="nav-text">解析延拓</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#将求导运算延拓到实数"><span class="nav-number">3.</span> <span class="nav-text">将求导运算延拓到实数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#先研究最简单的幂函数"><span class="nav-number">3.1.</span> <span class="nav-text">先研究最简单的幂函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对于积分"><span class="nav-number">3.2.</span> <span class="nav-text">对于积分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#正弦函数的一个例子"><span class="nav-number">3.3.</span> <span class="nav-text">正弦函数的一个例子</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#算子的定义"><span class="nav-number">4.</span> <span class="nav-text">算子的定义</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#n阶求导算子D"><span class="nav-number">4.1.</span> <span class="nav-text">n阶求导算子D</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#α重积分算子J"><span class="nav-number">4.2.</span> <span class="nav-text">α重积分算子J</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#维基百科"><span class="nav-number">5.</span> <span class="nav-text">维基百科</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#说明"><span class="nav-number">6.</span> <span class="nav-text">说明</span></a></li></ol></div>
             
 
           </div>
