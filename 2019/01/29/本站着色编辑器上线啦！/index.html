@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=6.7.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.7.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.7.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.7.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="什么是着色器？如果你不知道什么是着色器（Shader），你可以先看我之前写的这篇博客： 点击这里 ShaderEditor使用地址点击这里 打开着色编辑器。界面如下图">
+<meta name="keywords" content="程序&amp;算法,OpenGL,Blog,着色器,Shader">
+<meta property="og:type" content="article">
+<meta property="og:title" content="本站着色编辑器上线啦！">
+<meta property="og:url" content="http://yoursite.com/2019/01/29/本站着色编辑器上线啦！/index.html">
+<meta property="og:site_name" content="HK-SHAO">
+<meta property="og:description" content="什么是着色器？如果你不知道什么是着色器（Shader），你可以先看我之前写的这篇博客： 点击这里 ShaderEditor使用地址点击这里 打开着色编辑器。界面如下图">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/images/blog/9.PNG">
+<meta property="og:updated_time" content="2019-01-29T13:05:18.722Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="本站着色编辑器上线啦！">
+<meta name="twitter:description" content="什么是着色器？如果你不知道什么是着色器（Shader），你可以先看我之前写的这篇博客： 点击这里 ShaderEditor使用地址点击这里 打开着色编辑器。界面如下图">
+<meta name="twitter:image" content="http://yoursite.com/images/blog/9.PNG">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="HK-SHAO" type="application/atom+xml">
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/01/29/本站着色编辑器上线啦！/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>本站着色编辑器上线啦！ | HK-SHAO</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">HK-SHAO</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">Shao's blog</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/29/本站着色编辑器上线啦！/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="王家晔">
+      <meta itemprop="description" content="在黑夜中睁开眼睛">
+      <meta itemprop="image" content="/images/logo.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="HK-SHAO">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">本站着色编辑器上线啦！
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-01-29 20:43:56 / 修改时间：21:05:18" itemprop="dateCreated datePublished" datetime="2019-01-29T20:43:56+08:00">2019-01-29</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="什么是着色器？"><a href="#什么是着色器？" class="headerlink" title="什么是着色器？"></a>什么是着色器？</h2><p>如果你不知道什么是着色器（Shader），你可以先看我之前写的这篇博客： <a href="https://hk-shao.github.io/2018/08/26/OpenGL%E7%9D%80%E8%89%B2%E5%99%A8%EF%BC%88Shader%EF%BC%89%E5%92%8CGLSL%E8%AF%AD%E8%A8%80%E7%9A%84%E7%AE%80%E5%8D%95%E4%BB%8B%E7%BB%8D/" target="_blank" rel="noopener">点击这里</a></p>
+<h2 id="ShaderEditor使用地址"><a href="#ShaderEditor使用地址" class="headerlink" title="ShaderEditor使用地址"></a>ShaderEditor使用地址</h2><p><a href="https://hk-shao.github.io/demo/ShaderEditor/" target="_blank" rel="noopener">点击这里</a> 打开着色编辑器。界面如下图<br><img src="/images/blog/9.PNG" alt=""><br><a id="more"></a></p>
+<h2 id="开源项目"><a href="#开源项目" class="headerlink" title="开源项目"></a>开源项目</h2><p>这个是GitHub上的一个开源项目：<a href="https://github.com/patriciogonzalezvivo/glslEditor" target="_blank" rel="noopener">https://github.com/patriciogonzalezvivo/glslEditor</a><br>我只是把它搬进我的博客网站里而已。</p>
+<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><h3 id="简单的曲线绘制"><a href="#简单的曲线绘制" class="headerlink" title="简单的曲线绘制"></a>简单的曲线绘制</h3><figure class="highlight glsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#ifdef GL_ES</span></span><br><span class="line"><span class="keyword">precision</span> <span class="keyword">mediump</span> <span class="type">float</span>;</span><br><span class="line"><span class="meta">#endif</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">uniform</span> <span class="type">vec2</span> u_resolution;</span><br><span class="line"><span class="keyword">uniform</span> <span class="type">vec2</span> u_mouse;</span><br><span class="line"><span class="keyword">uniform</span> <span class="type">float</span> u_time;</span><br><span class="line"></span><br><span class="line"><span class="meta">#define ZOOM 20.0</span></span><br><span class="line"><span class="meta">#define LINE_SIZE 2.0</span></span><br><span class="line"><span class="meta">#define GRAD_OFFS vec2(1e-4 * ZOOM, 0.0)</span></span><br><span class="line"><span class="meta">#define GRAD(f, p) (vec2(f(p) - f(p + GRAD_OFFS.xy), f(p) - f(p + GRAD_OFFS.yx)) / GRAD_OFFS.x)</span></span><br><span class="line"><span class="meta">#define PLOT(f, c, d, p) d = mix(c(p), d, smoothstep(0.0, (LINE_SIZE / u_resolution.y * ZOOM), abs(f(p) / length(GRAD(f, p)))))</span></span><br><span class="line"></span><br><span class="line"><span class="type">float</span> Func(<span class="type">vec2</span> p)</span><br><span class="line">&#123;</span><br><span class="line">true<span class="keyword">return</span> (p.x * p.x + p.y * p.y - <span class="number">9.0</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">vec3</span> Color(<span class="type">vec2</span> p) &#123; <span class="keyword">return</span> <span class="type">vec3</span>(<span class="number">1.0</span>); &#125;</span><br><span class="line"><span class="type">float</span> Axes(<span class="type">vec2</span> p) &#123; <span class="keyword">return</span> p.x*p.y; &#125;</span><br><span class="line"><span class="type">vec3</span> Ac(<span class="type">vec2</span> p) &#123; <span class="keyword">return</span> <span class="type">vec3</span>(<span class="number">0.2</span>); &#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> main(<span class="type">void</span>)</span><br><span class="line">&#123;</span><br><span class="line">true<span class="type">vec2</span> uv = ((<span class="built_in">gl_FragCoord</span>.xy - u_resolution / <span class="number">2.0</span>) / u_resolution.xy) * ZOOM;</span><br><span class="line">true<span class="type">vec3</span> col;</span><br><span class="line">truePLOT(Axes, Ac, col, uv);</span><br><span class="line">truePLOT(Func, Color, col, uv);</span><br><span class="line">true<span class="built_in">gl_FragColor</span> = <span class="type">vec4</span>(col, <span class="number">1.0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>return (p.x * p.x + p.y * p.y - 9.0);</code> 表示绘制曲线 $x^2+y^2=9$ ，这是一个半径为 $3$ 的圆，你可以将它修改成任何你想绘制的初等函数曲线，比如这样 <code>return (pow(p.x, 2.0) + pow(p.y - pow(pow(p.x, 2.0),1.0 / 3.0), 2.0) - 4.0);</code> 。</p>
+<h3 id="曼德博集绘制"><a href="#曼德博集绘制" class="headerlink" title="曼德博集绘制"></a>曼德博集绘制</h3><figure class="highlight glsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#ifdef GL_FRAGMENT_PRECISION_HIGH</span></span><br><span class="line"><span class="keyword">precision</span> <span class="keyword">highp</span> <span class="type">float</span>;</span><br><span class="line"><span class="meta">#else</span></span><br><span class="line"><span class="keyword">precision</span> <span class="keyword">mediump</span> <span class="type">float</span>;</span><br><span class="line"><span class="meta">#endif</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">uniform</span> <span class="type">vec2</span> u_resolution;</span><br><span class="line"></span><br><span class="line"><span class="type">vec3</span> C,mcol;</span><br><span class="line"><span class="type">bool</span> bColoring=<span class="literal">false</span>;</span><br><span class="line"><span class="meta">#define pi 3.14159265358979</span></span><br><span class="line"><span class="type">float</span> DE(<span class="keyword">in</span> <span class="type">vec3</span> p)&#123;</span><br><span class="line">true<span class="type">float</span> dr=<span class="number">1.0</span>,r=<span class="built_in">length</span>(p);</span><br><span class="line">true<span class="comment">//C=p;</span></span><br><span class="line">true<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;<span class="number">10</span>;i++)&#123;</span><br><span class="line">truetrue<span class="keyword">if</span>(r&gt;<span class="number">20.0</span>)<span class="keyword">break</span>;</span><br><span class="line">truetruedr=dr*<span class="number">2.0</span>*r;</span><br><span class="line">truetrue<span class="type">float</span> psi = <span class="built_in">abs</span>(<span class="built_in">mod</span>(<span class="built_in">atan</span>(p.z,p.y)+pi/<span class="number">8.0</span>,pi/<span class="number">4.0</span>)-pi/<span class="number">8.0</span>);</span><br><span class="line">truetruep.yz=<span class="type">vec2</span>(<span class="built_in">cos</span>(psi),<span class="built_in">sin</span>(psi))*<span class="built_in">length</span>(p.yz);</span><br><span class="line">truetrue<span class="type">vec3</span> p2=p*p;</span><br><span class="line">truetruep=<span class="type">vec3</span>(<span class="type">vec2</span>(p2.x-p2.y,<span class="number">2.0</span>*p.x*p.y)*(<span class="number">1.0</span>-p2.z/(p2.x+p2.y+p2.z)),</span><br><span class="line">truetruetrue<span class="number">2.0</span>*p.z*<span class="built_in">sqrt</span>(p2.x+p2.y))+C;</span><br><span class="line">truetruer=<span class="built_in">length</span>(p);</span><br><span class="line">truetrue<span class="keyword">if</span>(bColoring &amp;&amp; i==<span class="number">3</span>)mcol=p;</span><br><span class="line">true&#125;</span><br><span class="line">true<span class="keyword">return</span> <span class="built_in">min</span>(<span class="built_in">log</span>(r)*r/<span class="built_in">max</span>(dr,<span class="number">1.0</span>),<span class="number">1.0</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">float</span> rnd(<span class="type">vec2</span> c)&#123;<span class="keyword">return</span> <span class="number">0.5</span>;&#125;</span><br><span class="line"><span class="type">float</span> rndStart(<span class="type">vec2</span> fragCoord)&#123;</span><br><span class="line">true<span class="keyword">return</span> <span class="number">0.5</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">float</span> shadao(<span class="type">vec3</span> ro, <span class="type">vec3</span> rd, <span class="type">float</span> px, <span class="type">vec2</span> fragCoord)&#123;<span class="comment">//pretty much IQ's SoftShadow</span></span><br><span class="line">true<span class="type">float</span> res=<span class="number">1.0</span>,d,t=<span class="number">2.0</span>*px*rndStart(fragCoord);</span><br><span class="line">true<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;<span class="number">4</span>;i++)&#123;</span><br><span class="line">truetrued=<span class="built_in">max</span>(px,DE(ro+rd*t)*<span class="number">1.5</span>);</span><br><span class="line">truetruet+=d;</span><br><span class="line">truetrueres=<span class="built_in">min</span>(res,d/t+t*<span class="number">0.1</span>);</span><br><span class="line">true&#125;</span><br><span class="line">true<span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">vec3</span> Sky(<span class="type">vec3</span> rd)&#123;<span class="comment">//what sky??</span></span><br><span class="line">true<span class="keyword">return</span> <span class="type">vec3</span>(<span class="number">0.5</span>+<span class="number">0.5</span>*rd.y);</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">vec3</span> L;</span><br><span class="line"><span class="type">vec3</span> Color(<span class="type">vec3</span> ro, <span class="type">vec3</span> rd, <span class="type">float</span> t, <span class="type">float</span> px, <span class="type">vec3</span> col, <span class="type">bool</span> bFill, <span class="type">vec2</span> fragCoord)&#123;</span><br><span class="line">truero+=rd*t;</span><br><span class="line">truebColoring=<span class="literal">true</span>;<span class="type">float</span> d=DE(ro);bColoring=<span class="literal">false</span>;</span><br><span class="line">true<span class="type">vec2</span> e=<span class="type">vec2</span>(px*t,<span class="number">0.0</span>);</span><br><span class="line">true<span class="type">vec3</span> dn=<span class="type">vec3</span>(DE(ro-e.xyy),DE(ro-e.yxy),DE(ro-e.yyx));</span><br><span class="line">true<span class="type">vec3</span> dp=<span class="type">vec3</span>(DE(ro+e.xyy),DE(ro+e.yxy),DE(ro+e.yyx));</span><br><span class="line">true<span class="type">vec3</span> N=(dp-dn)/(<span class="built_in">length</span>(dp-<span class="type">vec3</span>(d))+<span class="built_in">length</span>(<span class="type">vec3</span>(d)-dn));</span><br><span class="line">true<span class="type">vec3</span> R=<span class="built_in">reflect</span>(rd,N);</span><br><span class="line">true<span class="type">vec3</span> lc=<span class="type">vec3</span>(<span class="number">1.0</span>,<span class="number">0.9</span>,<span class="number">0.8</span>),sc=<span class="built_in">sqrt</span>(<span class="built_in">abs</span>(<span class="built_in">sin</span>(mcol))),rc=Sky(R);</span><br><span class="line">true<span class="type">float</span> sh=<span class="built_in">clamp</span>(shadao(ro,L,px*t,fragCoord)+<span class="number">0.2</span>,<span class="number">0.0</span>,<span class="number">1.0</span>);</span><br><span class="line">truesh=sh*(<span class="number">0.5</span>+<span class="number">0.5</span>*<span class="built_in">dot</span>(N,L))*<span class="built_in">exp</span>(-t*<span class="number">0.125</span>);</span><br><span class="line">true<span class="type">vec3</span> scol=sh*lc*(sc+rc*<span class="built_in">pow</span>(<span class="built_in">max</span>(<span class="number">0.0</span>,<span class="built_in">dot</span>(R,L)),<span class="number">4.0</span>));</span><br><span class="line">true<span class="keyword">if</span>(bFill)d*=<span class="number">0.05</span>;</span><br><span class="line">truecol=<span class="built_in">mix</span>(scol,col,<span class="built_in">clamp</span>(d/(px*t),<span class="number">0.0</span>,<span class="number">1.0</span>));</span><br><span class="line">true<span class="keyword">return</span> col;</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">mat3</span> lookat(<span class="type">vec3</span> fw)&#123;</span><br><span class="line">truefw=<span class="built_in">normalize</span>(fw);<span class="type">vec3</span> rt=<span class="built_in">normalize</span>(<span class="built_in">cross</span>(fw,<span class="type">vec3</span>(<span class="number">0.0</span>,<span class="number">1.0</span>,<span class="number">0.0</span>)));<span class="keyword">return</span> <span class="type">mat3</span>(rt,<span class="built_in">cross</span>(rt,fw),fw);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> main(<span class="type">void</span>) &#123;</span><br><span class="line">true<span class="type">float</span> px=<span class="number">0.5</span>/u_resolution.y;</span><br><span class="line">trueL=<span class="built_in">normalize</span>(<span class="type">vec3</span>(<span class="number">0.4</span>,<span class="number">0.8</span>,<span class="number">-0.6</span>));</span><br><span class="line"></span><br><span class="line">true<span class="type">vec3</span> ro = <span class="type">vec3</span>(<span class="type">vec2</span>(<span class="number">-0.180</span>,<span class="number">0.550</span>),<span class="number">3.862</span>);</span><br><span class="line">true<span class="type">vec3</span> rd=lookat(<span class="number">-2.0</span>*ro*pi)*<span class="built_in">normalize</span>(<span class="type">vec3</span>((<span class="number">2.0</span>*<span class="built_in">gl_FragCoord</span>.xy-u_resolution.xy)/u_resolution.y,<span class="number">3.0</span>));</span><br><span class="line"></span><br><span class="line">trueC = <span class="type">vec3</span>(<span class="number">-0.8</span>,<span class="number">0.0</span>,<span class="number">0.0</span>);</span><br><span class="line"></span><br><span class="line">true<span class="type">float</span> t=DE(ro)*rndStart(<span class="built_in">gl_FragCoord</span>.xy),d=<span class="number">0.0</span>,od=<span class="number">10.0</span>;</span><br><span class="line">true<span class="type">vec3</span> edge=<span class="type">vec3</span>(<span class="number">-1.0</span>);</span><br><span class="line">true<span class="type">bool</span> bGrab=<span class="literal">false</span>;</span><br><span class="line">true<span class="type">vec3</span> col=Sky(rd);</span><br><span class="line">true<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;<span class="number">78</span>;i++)&#123;</span><br><span class="line">truetruet+=d*<span class="number">0.5</span>;</span><br><span class="line">truetrued=DE(ro+rd*t);</span><br><span class="line">truetrue<span class="keyword">if</span>(d&gt;od)&#123;</span><br><span class="line">truetruetrue<span class="keyword">if</span>(bGrab &amp;&amp; od&lt;px*t &amp;&amp; edge.x&lt;<span class="number">0.0</span>)&#123;</span><br><span class="line">truetruetruetrueedge=<span class="type">vec3</span>(edge.yz,t-od);</span><br><span class="line">truetruetruetruebGrab=<span class="literal">false</span>;</span><br><span class="line">truetruetrue&#125;</span><br><span class="line">truetrue&#125;<span class="keyword">else</span> bGrab=<span class="literal">true</span>;</span><br><span class="line">truetrueod=d;</span><br><span class="line">truetrue<span class="keyword">if</span>(t&gt;<span class="number">5.0</span> || d&lt;<span class="number">1e-5</span>)<span class="keyword">break</span>;</span><br><span class="line">true&#125;</span><br><span class="line">true<span class="type">bool</span> bFill=<span class="literal">false</span>;</span><br><span class="line">trued*=<span class="number">0.05</span>;</span><br><span class="line">true<span class="keyword">if</span>(d&lt;px*t &amp;&amp; t&lt;<span class="number">10.0</span>)&#123;</span><br><span class="line">truetrue<span class="keyword">if</span>(edge.x&gt;<span class="number">0.0</span>)edge=edge.zxy;</span><br><span class="line">truetrueedge=<span class="type">vec3</span>(edge.yz,t);</span><br><span class="line">truetruebFill=<span class="literal">true</span>;</span><br><span class="line">true&#125;</span><br><span class="line">true<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;<span class="number">3</span>;i++)&#123;</span><br><span class="line">truetrue<span class="keyword">if</span>(edge.z&gt;<span class="number">0.0</span>)col=Color(ro,rd,edge.z,px,col,bFill,<span class="built_in">gl_FragCoord</span>.xy);</span><br><span class="line">truetrueedge=edge.zxy;</span><br><span class="line">truetruebFill=<span class="literal">false</span>;</span><br><span class="line">true&#125;</span><br><span class="line">true<span class="built_in">gl_FragColor</span> = <span class="type">vec4</span>(<span class="number">2.0</span>*col,<span class="number">1.0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>你可以修改一些参数来绘制更加惊艳的效果。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/程序-算法/" rel="tag"># 程序&算法</a>
+          
+            <a href="/tags/OpenGL/" rel="tag"># OpenGL</a>
+          
+            <a href="/tags/Blog/" rel="tag"># Blog</a>
+          
+            <a href="/tags/着色器/" rel="tag"># 着色器</a>
+          
+            <a href="/tags/Shader/" rel="tag"># Shader</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/01/29/ffmpeg转码视频真的好用！/" rel="next" title="ffmpeg转码视频真的好用！（ffmpeg的简单使用方法）">
+                <i class="fa fa-chevron-left"></i> ffmpeg转码视频真的好用！（ffmpeg的简单使用方法）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/logo.png" alt="王家晔">
+            
+              <p class="site-author-name" itemprop="name">王家晔</p>
+              <p class="site-description motion-element" itemprop="description">在黑夜中睁开眼睛</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">19</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">22</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/HK-SHAO" title="GitHub &rarr; https://github.com/HK-SHAO" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:2063597709@qq.com" title="E-Mail &rarr; mailto:2063597709@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Demo
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://hk-shao.github.io/demo/ShaderEditor/" title="https://hk-shao.github.io/demo/ShaderEditor/" rel="noopener" target="_blank">ShaderEditor</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是着色器？"><span class="nav-number">1.</span> <span class="nav-text">什么是着色器？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ShaderEditor使用地址"><span class="nav-number">2.</span> <span class="nav-text">ShaderEditor使用地址</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#开源项目"><span class="nav-number">3.</span> <span class="nav-text">开源项目</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#示例"><span class="nav-number">4.</span> <span class="nav-text">示例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#简单的曲线绘制"><span class="nav-number">4.1.</span> <span class="nav-text">简单的曲线绘制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#曼德博集绘制"><span class="nav-number">4.2.</span> <span class="nav-text">曼德博集绘制</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">王家晔</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.7.0"></script>
+
+  <script src="/js/src/motion.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=6.7.0"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=6.7.0"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=6.7.0"></script>
+<script src="/js/src/post-details.js?v=6.7.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.7.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+  
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      
+      equationNumbers: {
+        autoNumber: "AMS"
+      }
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+      for (i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+<script src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+<style>
+.MathJax_Display {
+  overflow: auto hidden;
+}
+</style>
+
+    
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
