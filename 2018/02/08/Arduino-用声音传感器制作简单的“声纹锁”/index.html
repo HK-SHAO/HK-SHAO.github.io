@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=6.7.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.7.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.7.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.7.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="前言之前就一直在想如何用Arduino制作一个门锁，简单廉价，又可以很方便的开门，最后想了一个办法，就是使用一个声音传感器，制作一个“声纹锁”，以后没带钥匙，根据设定好的节拍敲门，门就开了，是不是很方便？">
+<meta name="keywords" content="硬件开发,Arduino">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Arduino-用声音传感器制作简单的“声纹锁”">
+<meta property="og:url" content="http://yoursite.com/2018/02/08/Arduino-用声音传感器制作简单的“声纹锁”/index.html">
+<meta property="og:site_name" content="HK-SHAO">
+<meta property="og:description" content="前言之前就一直在想如何用Arduino制作一个门锁，简单廉价，又可以很方便的开门，最后想了一个办法，就是使用一个声音传感器，制作一个“声纹锁”，以后没带钥匙，根据设定好的节拍敲门，门就开了，是不是很方便？">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15006683-525f08c1c0ed1858.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2019-01-24T13:38:38.781Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Arduino-用声音传感器制作简单的“声纹锁”">
+<meta name="twitter:description" content="前言之前就一直在想如何用Arduino制作一个门锁，简单廉价，又可以很方便的开门，最后想了一个办法，就是使用一个声音传感器，制作一个“声纹锁”，以后没带钥匙，根据设定好的节拍敲门，门就开了，是不是很方便？">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/15006683-525f08c1c0ed1858.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="HK-SHAO" type="application/atom+xml">
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/02/08/Arduino-用声音传感器制作简单的“声纹锁”/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Arduino-用声音传感器制作简单的“声纹锁” | HK-SHAO</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">HK-SHAO</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">Shao's blog</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/08/Arduino-用声音传感器制作简单的“声纹锁”/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="王家晔">
+      <meta itemprop="description" content="在黑夜中睁开眼睛">
+      <meta itemprop="image" content="/images/logo.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="HK-SHAO">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Arduino-用声音传感器制作简单的“声纹锁”
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-02-08 10:54:44" itemprop="dateCreated datePublished" datetime="2018-02-08T10:54:44+08:00">2018-02-08</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-01-24 21:38:38" itemprop="dateModified" datetime="2019-01-24T21:38:38+08:00">2019-01-24</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>之前就一直在想如何用Arduino制作一个门锁，简单廉价，又可以很方便的开门，最后想了一个办法，就是使用一个声音传感器，制作一个“声纹锁”，以后没带钥匙，根据设定好的节拍敲门，门就开了，是不是很方便？<br><img src="https://upload-images.jianshu.io/upload_images/15006683-525f08c1c0ed1858.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br><a id="more"></a></p>
+<h2 id="材料"><a href="#材料" class="headerlink" title="材料"></a>材料</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>数量</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Arduino UNO</td>
+<td>一个</td>
+</tr>
+<tr>
+<td>声音传感模块</td>
+<td>一个</td>
+</tr>
+<tr>
+<td>舵机或继电器</td>
+<td>一个</td>
+</tr>
+<tr>
+<td>面包版</td>
+<td>一个</td>
+</tr>
+<tr>
+<td>跳线</td>
+<td>数根</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="“声纹锁”原理"><a href="#“声纹锁”原理" class="headerlink" title="“声纹锁”原理"></a>“声纹锁”原理</h2><p>当声音传感器检测到一次振动后开始计时，接着第二次振动时算出间隔时间，如果间隔时间满足预先设定好的节拍，并且连续正确到节拍结束，就控制继电器或者舵机打开门。  </p>
+<h2 id="关于安全性"><a href="#关于安全性" class="headerlink" title="关于安全性"></a>关于安全性</h2><p>经过我的测试，节拍长度最好大于10个，另外密码容错最好低于400，声音传感器的灵敏度调低点，就非常安全。再这样的情况，就算是你长时间的随机尝试密码，也不会撞对的。并且，市面上基本没人卖声纹锁，别人做梦也想不到开门的方式是敲门敲对节拍的。</p>
+<h2 id="Arduino代码"><a href="#Arduino代码" class="headerlink" title="Arduino代码"></a>Arduino代码</h2><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;Servo.h&gt;<span class="comment">//声明调用Servo.h库 </span></span><br><span class="line"></span><br><span class="line">#define THRESHOLD <span class="number">200</span><span class="comment">//密码容错范围</span></span><br><span class="line"></span><br><span class="line">unsigned long t = <span class="number">0</span>;<span class="comment">//基准时间</span></span><br><span class="line">int <span class="type">key</span>[<span class="number">5</span>][<span class="number">9</span>] = &#123;</span><br><span class="line">  &#123;<span class="number">400</span>, <span class="number">991</span>, <span class="number">313</span>, <span class="number">304</span>, <span class="number">343</span>, <span class="number">274</span>, <span class="number">271</span>, <span class="number">272</span>, <span class="number">663</span>&#125;,</span><br><span class="line">  &#123;<span class="number">329</span>, <span class="number">1108</span>, <span class="number">293</span>, <span class="number">272</span>, <span class="number">283</span>, <span class="number">254</span>, <span class="number">254</span>, <span class="number">278</span>, <span class="number">721</span>&#125;,</span><br><span class="line">  &#123;<span class="number">341</span>, <span class="number">1141</span>, <span class="number">295</span>, <span class="number">298</span>, <span class="number">343</span>, <span class="number">244</span>, <span class="number">272</span>, <span class="number">310</span>, <span class="number">741</span>&#125;,</span><br><span class="line">  &#123;<span class="number">352</span>, <span class="number">922</span>, <span class="number">284</span>, <span class="number">290</span>, <span class="number">314</span>, <span class="number">258</span>, <span class="number">256</span>, <span class="number">321</span>, <span class="number">588</span>&#125;,</span><br><span class="line">  &#123;<span class="number">559</span>, <span class="number">1240</span>, <span class="number">415</span>, <span class="number">421</span>, <span class="number">411</span>, <span class="number">401</span>, <span class="number">331</span>, <span class="number">419</span>, <span class="number">938</span>&#125;</span><br><span class="line">&#125;;<span class="comment">//声纹密码，义勇军进行曲前10个词的间隔，除去开始的第一个，含有5个节拍是为了适应不同的情况，让识别率更高</span></span><br><span class="line"></span><br><span class="line">int i = <span class="number">0</span>;<span class="comment">//输入的密码位数</span></span><br><span class="line">Servo servo;<span class="comment">//创建一个舵机对象</span></span><br><span class="line"></span><br><span class="line">void setup()</span><br><span class="line">&#123;</span><br><span class="line">  servo.<span class="section">attach</span>(<span class="number">9</span>);<span class="comment">//将引脚9上的舵机与声明的舵机对象连接起来</span></span><br><span class="line">  t = millis();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void loop()</span><br><span class="line">&#123;</span><br><span class="line">  int dt = millis() - t;</span><br><span class="line"></span><br><span class="line">  if (dt &gt; <span class="number">2000</span>) &#123;<span class="comment">//如果长时间无响应</span></span><br><span class="line">    t = millis();<span class="comment">//时间复位</span></span><br><span class="line">    i = <span class="number">0</span>;<span class="comment">//密码复位</span></span><br><span class="line">    servo.write(<span class="number">0</span>);<span class="comment">//舵机复位</span></span><br><span class="line">    return;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  if (analogRead(A0) &lt; <span class="number">200</span> &amp;&amp; dt &gt; <span class="number">200</span>) &#123;<span class="comment">//检测到声音并且间隔大于200毫秒</span></span><br><span class="line">    t = millis();</span><br><span class="line">    bool b = false;</span><br><span class="line"></span><br><span class="line">    for (int a = <span class="number">0</span>; a &lt; sizeof(<span class="type">key</span>) / sizeof(<span class="type">key</span>[<span class="number">0</span>]); a++) &#123;</span><br><span class="line">      b = (<span class="type">key</span>[a][i - <span class="number">1</span>] - THRESHOLD &lt; dt &amp;&amp; dt &lt; <span class="type">key</span>[a][i - <span class="number">1</span>] + THRESHOLD);</span><br><span class="line">      if (b) break;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    if (i == <span class="number">0</span> || b) &#123;<span class="comment">//判断声音间隔是否落在密码区间</span></span><br><span class="line">      if (++i &gt; sizeof(<span class="type">key</span>[<span class="number">0</span>]) / sizeof(<span class="type">key</span>[<span class="number">0</span>][<span class="number">0</span>])) &#123;<span class="comment">//如果密码输入完成</span></span><br><span class="line">        i = <span class="number">0</span>;<span class="comment">//密码复位</span></span><br><span class="line">        servo.write(<span class="number">180</span>);<span class="comment">//舵机旋转180度</span></span><br><span class="line">      &#125;</span><br><span class="line">      return;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    i = <span class="number">0</span>;<span class="comment">//密码复位</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="完善"><a href="#完善" class="headerlink" title="完善"></a>完善</h2><p>使用声音做密钥确实是不错的选择，当然你也可以提高密钥的级别，加以判断响度，音调，节奏等等方面，这样的话，才是真正的声纹锁，绝对是非常安全的。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/硬件开发/" rel="tag"># 硬件开发</a>
+          
+            <a href="/tags/Arduino/" rel="tag"># Arduino</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/02/08/C&C++-数组排序/" rel="next" title="C&C++-数组排序">
+                <i class="fa fa-chevron-left"></i> C&C++-数组排序
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/02/12/STM32替换Arduino直通车/" rel="prev" title="STM32替换Arduino直通车">
+                STM32替换Arduino直通车 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/logo.png" alt="王家晔">
+            
+              <p class="site-author-name" itemprop="name">王家晔</p>
+              <p class="site-description motion-element" itemprop="description">在黑夜中睁开眼睛</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">18</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">20</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/HK-SHAO" title="GitHub &rarr; https://github.com/HK-SHAO" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:2063597709@qq.com" title="E-Mail &rarr; mailto:2063597709@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Demo
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://hk-shao.github.io/demo/ShaderEditor/" title="https://hk-shao.github.io/demo/ShaderEditor/" rel="noopener" target="_blank">ShaderEditor</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#材料"><span class="nav-number">2.</span> <span class="nav-text">材料</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#“声纹锁”原理"><span class="nav-number">3.</span> <span class="nav-text">“声纹锁”原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关于安全性"><span class="nav-number">4.</span> <span class="nav-text">关于安全性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Arduino代码"><span class="nav-number">5.</span> <span class="nav-text">Arduino代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#完善"><span class="nav-number">6.</span> <span class="nav-text">完善</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">王家晔</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.7.0"></script>
+
+  <script src="/js/src/motion.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=6.7.0"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=6.7.0"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=6.7.0"></script>
+<script src="/js/src/post-details.js?v=6.7.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.7.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

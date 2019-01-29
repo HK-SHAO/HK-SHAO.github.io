@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=6.7.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.7.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.7.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.7.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="前言最近在Android上发现一个开源软件，叫做ShaderEditor（着色编辑器），可以用它编写GLSL程序并且预览，还能与Android内置变量联系（电量，陀螺仪，磁力，触摸，等等），还可以将效果作用于桌面壁纸，非常酷炫，在深入了解之后认识了OpenGL和GLSL（Graphics Library Shader Language）开源地址：https://github.com/markusf">
+<meta name="keywords" content="程序&amp;算法,OpenGL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OpenGL着色器（Shader）和GLSL语言的简单介绍">
+<meta property="og:url" content="http://yoursite.com/2018/08/26/OpenGL着色器（Shader）和GLSL语言的简单介绍/index.html">
+<meta property="og:site_name" content="HK-SHAO">
+<meta property="og:description" content="前言最近在Android上发现一个开源软件，叫做ShaderEditor（着色编辑器），可以用它编写GLSL程序并且预览，还能与Android内置变量联系（电量，陀螺仪，磁力，触摸，等等），还可以将效果作用于桌面壁纸，非常酷炫，在深入了解之后认识了OpenGL和GLSL（Graphics Library Shader Language）开源地址：https://github.com/markusf">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15006683-a80eea48a8314986.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15006683-c0be9f388da276d2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15006683-087864e6d5fb3d38.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15006683-59197f34589becad.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2019-01-25T06:55:36.160Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="OpenGL着色器（Shader）和GLSL语言的简单介绍">
+<meta name="twitter:description" content="前言最近在Android上发现一个开源软件，叫做ShaderEditor（着色编辑器），可以用它编写GLSL程序并且预览，还能与Android内置变量联系（电量，陀螺仪，磁力，触摸，等等），还可以将效果作用于桌面壁纸，非常酷炫，在深入了解之后认识了OpenGL和GLSL（Graphics Library Shader Language）开源地址：https://github.com/markusf">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/15006683-a80eea48a8314986.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="HK-SHAO" type="application/atom+xml">
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/08/26/OpenGL着色器（Shader）和GLSL语言的简单介绍/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>OpenGL着色器（Shader）和GLSL语言的简单介绍 | HK-SHAO</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">HK-SHAO</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">Shao's blog</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/26/OpenGL着色器（Shader）和GLSL语言的简单介绍/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="王家晔">
+      <meta itemprop="description" content="在黑夜中睁开眼睛">
+      <meta itemprop="image" content="/images/logo.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="HK-SHAO">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">OpenGL着色器（Shader）和GLSL语言的简单介绍
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-08-26 21:11:26" itemprop="dateCreated datePublished" datetime="2018-08-26T21:11:26+08:00">2018-08-26</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-01-25 14:55:36" itemprop="dateModified" datetime="2019-01-25T14:55:36+08:00">2019-01-25</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>最近在Android上发现一个开源软件，叫做ShaderEditor（着色编辑器），可以用它编写GLSL程序并且预览，还能与Android内置变量联系（电量，陀螺仪，磁力，触摸，等等），还可以将效果作用于桌面壁纸，非常酷炫，在深入了解之后认识了OpenGL和GLSL（Graphics Library Shader Language）<br>开源地址：<a href="https://github.com/markusfisch/ShaderEditor" target="_blank" rel="noopener">https://github.com/markusfisch/ShaderEditor</a><br>这里我展示了用这个编辑器编写的3D河豚，3D海浪，火焰，生命游戏（元胞自动机）  </p>
+<p><img src="https://upload-images.jianshu.io/upload_images/15006683-a80eea48a8314986.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><a id="more"></a><br><img src="https://upload-images.jianshu.io/upload_images/15006683-c0be9f388da276d2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br><img src="https://upload-images.jianshu.io/upload_images/15006683-087864e6d5fb3d38.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br><img src="https://upload-images.jianshu.io/upload_images/15006683-59197f34589becad.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<h2 id="什么是OpenGL？"><a href="#什么是OpenGL？" class="headerlink" title="什么是OpenGL？"></a>什么是OpenGL？</h2><p>OpenGL（全写Open Graphics Library）是指定义了一个跨编程语言、跨平台的编程接口规格的专业的图形程序接口。它用于三维图像（二维的亦可），是一个功能强大，调用方便的底层图形库。  </p>
+<p>OpenGL™ 是行业领域中最为广泛接纳的 2D/3D 图形 API，其自诞生至今已催生了各种计算机平台及设备上的数千优秀应用程序。OpenGL™ 是独立于视窗操作系统或其它操作系统的，亦是网络透明的。在包含CAD、内容创作、能源、娱乐、游戏开发、制造业、制药业及虚拟现实等行业领域中，OpenGL™ 帮助程序员实现在 PC、工作站、超级计算机等硬件设备上的高性能、极具冲击力的高视觉表现力图形处理软件的开发。——百度百科  </p>
+<h2 id="什么是Shader？"><a href="#什么是Shader？" class="headerlink" title="什么是Shader？"></a>什么是Shader？</h2><p>着色器（Shader）是用来实现图像渲染的，用来替代固定渲染管线的可编辑程序。其中Vertex Shader主要负责顶点的几何关系等的运算，Pixel Shader主要负责片源颜色等的计算。  </p>
+<p>着色器替代了传统的固定渲染管线，可以实现3D图形学计算中的相关计算，由于其可编辑性，可以实现各种各样的图像效果而不用受显卡的固定渲染管线限制。  </p>
+<h2 id="什么是GLSL？"><a href="#什么是GLSL？" class="headerlink" title="什么是GLSL？"></a>什么是GLSL？</h2><p>OpenGL着色语言（OpenGL Shading Language）是用来在OpenGL中着色编程的语言，也即开发人员写的短小的自定义程序，他们是在图形卡的GPU （Graphic Processor Unit图形处理单元）上执行的，代替了固定的渲染管线的一部分，使渲染管线中不同层次具有可编程性。比如：视图转换、投影转换等。GLSL（GL Shading Language）的着色器代码分成2个部分：Vertex Shader（顶点着色器）和Fragment（片断着色器），有时还会有Geometry Shader（几何着色器）。负责运行顶点着色的是顶点着色器。它可以得到当前OpenGL 中的状态，GLSL内置变量进行传递。GLSL其使用C语言作为基础高阶着色语言，避免了使用汇编语言或硬件规格语言的复杂性。  </p>
+<h2 id="GLSL简单实例分析"><a href="#GLSL简单实例分析" class="headerlink" title="GLSL简单实例分析"></a>GLSL简单实例分析</h2><figure class="highlight glsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#ifdef GL_FRAGMENT_PRECISION_HIGH</span></span><br><span class="line"><span class="keyword">precision</span> <span class="keyword">highp</span> <span class="type">float</span>;</span><br><span class="line"><span class="meta">#else</span></span><br><span class="line"><span class="keyword">precision</span> <span class="keyword">mediump</span> <span class="type">float</span>;</span><br><span class="line"><span class="meta">#endif</span></span><br><span class="line"> <span class="comment">//上面是预编译，如果设备支持就使用高精度模式（更高精度的浮点运算），否则使用低精度模式</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">uniform</span> <span class="type">vec2</span> resolution;</span><br><span class="line"> <span class="comment">//只读的全局变量，是一个二维浮点向量，表示当前设备的分辨率</span></span><br><span class="line"></span><br><span class="line"><span class="type">void</span> main(<span class="type">void</span>)</span><br><span class="line"> <span class="comment">//用于着色的主函数</span></span><br><span class="line">&#123;</span><br><span class="line">true<span class="type">vec2</span> uv = <span class="built_in">gl_FragCoord</span>.xy / resolutionCoord.xy	<span class="comment">//当前着色像素坐标与设备分辨率的比值</span></span><br><span class="line">true<span class="type">vec4</span> wave_color = <span class="type">vec4</span>(uv, <span class="number">1.0</span>, <span class="number">1.0</span>);	<span class="comment">//uv设置了当前像素的红绿（RG）程度，蓝色（B）程度固定为1.0,透明度（A）固定为1.0</span></span><br><span class="line">true<span class="built_in">gl_FragColor</span> = wave_color;	<span class="comment">//将颜色（一个四维向量）赋值给gl_FragColor，这是设置当前像素颜色的固定写法</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们可以看到GLSL语言风格与C语言非常相似，上手比较容易。<br>二维浮点向量<code>vec2 vec</code>相当于C语言中的数组<code>float vec[2]</code>。<br>事实上GLSL也支持数组，如<code>vec2 vec[2]</code>相当于C语言中的二维数组<code>float vec[2][2]</code></p>
+<h2 id="OpenGL学习网站"><a href="#OpenGL学习网站" class="headerlink" title="OpenGL学习网站"></a>OpenGL学习网站</h2><p>OpenGL学习网站——<a href="https://learnopengl-cn.github.io/" target="_blank" rel="noopener">https://learnopengl-cn.github.io/</a></p>
+<h2 id="OpenGL深度介绍博客"><a href="#OpenGL深度介绍博客" class="headerlink" title="OpenGL深度介绍博客"></a>OpenGL深度介绍博客</h2><p>OpenGL深度介绍博客——<a href="http://www.twinklingstar.cn/category/opengl/" target="_blank" rel="noopener">http://www.twinklingstar.cn/category/opengl/</a></p>
+<h2 id="GLSL中文手册"><a href="#GLSL中文手册" class="headerlink" title="GLSL中文手册"></a>GLSL中文手册</h2><p>GLSL中文手册——<a href="https://blog.csdn.net/hk_shao/article/details/82084274" target="_blank" rel="noopener">https://blog.csdn.net/hk_shao/article/details/82084274</a></p>
+<h2 id="GLSL程序展示"><a href="#GLSL程序展示" class="headerlink" title="GLSL程序展示"></a>GLSL程序展示</h2><p>效果参见本文开头图片</p>
+<ul>
+<li>3D河豚鱼——<a href="https://blog.csdn.net/hk_shao/article/details/82084361" target="_blank" rel="noopener">https://blog.csdn.net/hk_shao/article/details/82084361</a></li>
+<li>火焰效果——<a href="https://blog.csdn.net/hk_shao/article/details/82084411" target="_blank" rel="noopener">https://blog.csdn.net/hk_shao/article/details/82084411</a></li>
+<li>3D海洋——<a href="https://blog.csdn.net/hk_shao/article/details/82084448" target="_blank" rel="noopener">https://blog.csdn.net/hk_shao/article/details/82084448</a></li>
+<li>生命游戏（元胞自动机）——<a href="https://blog.csdn.net/hk_shao/article/details/82084481" target="_blank" rel="noopener">https://blog.csdn.net/hk_shao/article/details/82084481</a>  </li>
+</ul>
+<h2 id="国外着色器（Shader）源码分享网站"><a href="#国外着色器（Shader）源码分享网站" class="headerlink" title="国外着色器（Shader）源码分享网站"></a>国外着色器（Shader）源码分享网站</h2><p>Shadertoy——<a href="https://www.shadertoy.com/" target="_blank" rel="noopener">https://www.shadertoy.com/</a>  </p>
+<h3 id="以上，本文结束"><a href="#以上，本文结束" class="headerlink" title="以上，本文结束"></a>以上，本文结束</h3><h5 id="本文章大部分内容来自网络，本人只是整理和简要说明，方便大家。"><a href="#本文章大部分内容来自网络，本人只是整理和简要说明，方便大家。" class="headerlink" title="本文章大部分内容来自网络，本人只是整理和简要说明，方便大家。"></a>本文章大部分内容来自网络，本人只是整理和简要说明，方便大家。</h5>
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/程序-算法/" rel="tag"># 程序&算法</a>
+          
+            <a href="/tags/OpenGL/" rel="tag"># OpenGL</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/06/16/向量外积的高中数学运用/" rel="next" title="向量外积的高中数学运用">
+                <i class="fa fa-chevron-left"></i> 向量外积的高中数学运用
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/08/27/游戏与意义/" rel="prev" title="游戏与意义">
+                游戏与意义 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/logo.png" alt="王家晔">
+            
+              <p class="site-author-name" itemprop="name">王家晔</p>
+              <p class="site-description motion-element" itemprop="description">在黑夜中睁开眼睛</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">18</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">20</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/HK-SHAO" title="GitHub &rarr; https://github.com/HK-SHAO" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:2063597709@qq.com" title="E-Mail &rarr; mailto:2063597709@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Demo
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://hk-shao.github.io/demo/ShaderEditor/" title="https://hk-shao.github.io/demo/ShaderEditor/" rel="noopener" target="_blank">ShaderEditor</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是OpenGL？"><span class="nav-number">2.</span> <span class="nav-text">什么是OpenGL？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是Shader？"><span class="nav-number">3.</span> <span class="nav-text">什么是Shader？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是GLSL？"><span class="nav-number">4.</span> <span class="nav-text">什么是GLSL？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GLSL简单实例分析"><span class="nav-number">5.</span> <span class="nav-text">GLSL简单实例分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OpenGL学习网站"><span class="nav-number">6.</span> <span class="nav-text">OpenGL学习网站</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OpenGL深度介绍博客"><span class="nav-number">7.</span> <span class="nav-text">OpenGL深度介绍博客</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GLSL中文手册"><span class="nav-number">8.</span> <span class="nav-text">GLSL中文手册</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GLSL程序展示"><span class="nav-number">9.</span> <span class="nav-text">GLSL程序展示</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#国外着色器（Shader）源码分享网站"><span class="nav-number">10.</span> <span class="nav-text">国外着色器（Shader）源码分享网站</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#以上，本文结束"><span class="nav-number">10.1.</span> <span class="nav-text">以上，本文结束</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#本文章大部分内容来自网络，本人只是整理和简要说明，方便大家。"><span class="nav-number">10.1.0.1.</span> <span class="nav-text">本文章大部分内容来自网络，本人只是整理和简要说明，方便大家。</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">王家晔</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.7.0"></script>
+
+  <script src="/js/src/motion.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=6.7.0"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=6.7.0"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=6.7.0"></script>
+<script src="/js/src/post-details.js?v=6.7.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.7.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
