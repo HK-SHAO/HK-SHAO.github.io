@@ -182,9 +182,9 @@
     
       <category term="程序&amp;算法" scheme="http://yoursite.com/tags/%E7%A8%8B%E5%BA%8F-%E7%AE%97%E6%B3%95/"/>
     
-      <category term="数学" scheme="http://yoursite.com/tags/%E6%95%B0%E5%AD%A6/"/>
-    
       <category term="OpenGL" scheme="http://yoursite.com/tags/OpenGL/"/>
+    
+      <category term="数学" scheme="http://yoursite.com/tags/%E6%95%B0%E5%AD%A6/"/>
     
   </entry>
   
