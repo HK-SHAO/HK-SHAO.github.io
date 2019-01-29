@@ -112,7 +112,7 @@
 <meta property="og:description" content="转码和编辑视频今天用Android Studio（后面简称AS）里的模拟器给系统录屏，用来展示OpenGL可视化的东西，打算上传B站，后来发现AS只能保存webm格式和GIF格式的视频，并且文件体积巨大，视频图像也是顺时针旋转的。   没办法，只能找个视频编辑器进行转码和编辑，结果发现网上的视频转码工具基本粗制滥造，像Adobe PR这样的视频剪辑软件我也没必要下载，于是找到了ffmpeg（其实很">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://yoursite.com/images/blog/8.PNG">
-<meta property="og:updated_time" content="2019-01-29T05:11:52.372Z">
+<meta property="og:updated_time" content="2019-01-29T05:22:24.774Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ffmpeg转码视频真的好用！（ffmpeg的简单使用方法）">
 <meta name="twitter:description" content="转码和编辑视频今天用Android Studio（后面简称AS）里的模拟器给系统录屏，用来展示OpenGL可视化的东西，打算上传B站，后来发现AS只能保存webm格式和GIF格式的视频，并且文件体积巨大，视频图像也是顺时针旋转的。   没办法，只能找个视频编辑器进行转码和编辑，结果发现网上的视频转码工具基本粗制滥造，像Adobe PR这样的视频剪辑软件我也没必要下载，于是找到了ffmpeg（其实很">
@@ -381,7 +381,7 @@
                 
               
 
-              <time title="创建时间：2019-01-29 12:43:40 / 修改时间：13:11:52" itemprop="dateCreated datePublished" datetime="2019-01-29T12:43:40+08:00">2019-01-29</time>
+              <time title="创建时间：2019-01-29 12:43:40 / 修改时间：13:22:24" itemprop="dateCreated datePublished" datetime="2019-01-29T12:43:40+08:00">2019-01-29</time>
             
 
             
@@ -422,8 +422,7 @@
         <h2 id="转码和编辑视频"><a href="#转码和编辑视频" class="headerlink" title="转码和编辑视频"></a>转码和编辑视频</h2><p>今天用Android Studio（后面简称AS）里的模拟器给系统录屏，用来展示OpenGL可视化的东西，打算上传B站，后来发现AS只能保存webm格式和GIF格式的视频，并且文件体积巨大，视频图像也是顺时针旋转的。  </p>
 <p>没办法，只能找个视频编辑器进行转码和编辑，结果发现网上的视频转码工具基本粗制滥造，像Adobe PR这样的视频剪辑软件我也没必要下载，于是找到了ffmpeg（其实很早之前在树莓派上玩Linux的时候用过）。  </p>
 <p>我进入<a href="http://ffmpeg.org/" target="_blank" rel="noopener">ffmpeg官网</a>下载了Win64版本，下载速度很快，下载下来就是一个压缩包，解压后就是工具本体了，不过它没有任何UI界面，在Windows下你只能进入bin目录，然后Shift+鼠标右键打开命令窗口，使用ffmpeg的指令进行操作。如下图，可以看到转码效率很高。</p>
-<p><img src="/images/blog/8.PNG" alt=""></p>
-<p>下面分析网上搜集的ffmpeg简单用法，可以进行很多基础的视频编辑。  </p>
+<p><img src="/images/blog/8.PNG" alt=""><br><a id="more"></a><br>下面分析网上搜集的ffmpeg简单用法，可以进行很多基础的视频编辑。  </p>
 <h2 id="ffmpeg的简单用法"><a href="#ffmpeg的简单用法" class="headerlink" title="ffmpeg的简单用法"></a>ffmpeg的简单用法</h2><h3 id="转码"><a href="#转码" class="headerlink" title="转码"></a>转码</h3><p>最简单命令如下：<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -<span class="selector-tag">i</span> out<span class="selector-class">.ogv</span> -vcodec h264 out.mp4</span><br><span class="line">ffmpeg -<span class="selector-tag">i</span> out<span class="selector-class">.ogv</span> -vcodec mpeg4 out.mp4</span><br><span class="line">ffmpeg -<span class="selector-tag">i</span> out<span class="selector-class">.ogv</span> -vcodec libxvid out.mp4</span><br><span class="line">ffmpeg -<span class="selector-tag">i</span> out<span class="selector-class">.mp4</span> -vcodec wmv1 out.wmv</span><br><span class="line">ffmpeg -<span class="selector-tag">i</span> out<span class="selector-class">.mp4</span> -vcodec wmv2 out.wmv</span><br></pre></td></tr></table></figure></p>
 <p>-i 后面是输入文件名。-vcodec 后面是编码格式，h264 最佳，但 Windows 系统默认不安装。如果是要插入 ppt 的视频，选择 wmv1 或 wmv2 基本上万无一失。  </p>
 <p>附加选项：-r 指定帧率，-s 指定分辨率，-b 指定比特率；于此同时可以对声道进行转码，-acodec 指定音频编码，-ab 指定音频比特率，-ac 指定声道数，例如<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -<span class="selector-tag">i</span> out<span class="selector-class">.ogv</span> -s <span class="number">640</span>x480 -<span class="selector-tag">b</span> <span class="number">500</span>k -vcodec h264 -r <span class="number">29.97</span> -acodec libfaac -ab <span class="number">48</span>k -ac <span class="number">2</span> out.mp4</span><br></pre></td></tr></table></figure></p>
