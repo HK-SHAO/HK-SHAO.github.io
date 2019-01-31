@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=6.7.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.7.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.7.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.7.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="TensorFlow机器学习框架TensorFlow是Google开源的一个机器学习框架，它可以在Python环境下运行，我昨天认识和接触它。">
+<meta name="keywords" content="程序&amp;算法,人工智能,机器学习,TensorFlow,数学建模">
+<meta property="og:type" content="article">
+<meta property="og:title" content="用TensorFlow机器学习框架构建学校学科成绩的线性模型">
+<meta property="og:url" content="http://yoursite.com/2019/01/31/用TensorFlow机器学习框架构建学校学科成绩的线性模型/index.html">
+<meta property="og:site_name" content="HK-SHAO">
+<meta property="og:description" content="TensorFlow机器学习框架TensorFlow是Google开源的一个机器学习框架，它可以在Python环境下运行，我昨天认识和接触它。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/images/blog/10.PNG">
+<meta property="og:image" content="http://yoursite.com/images/blog/11.PNG">
+<meta property="og:updated_time" content="2019-01-31T10:11:32.691Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="用TensorFlow机器学习框架构建学校学科成绩的线性模型">
+<meta name="twitter:description" content="TensorFlow机器学习框架TensorFlow是Google开源的一个机器学习框架，它可以在Python环境下运行，我昨天认识和接触它。">
+<meta name="twitter:image" content="http://yoursite.com/images/blog/10.PNG">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="HK-SHAO" type="application/atom+xml">
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/01/31/用TensorFlow机器学习框架构建学校学科成绩的线性模型/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>用TensorFlow机器学习框架构建学校学科成绩的线性模型 | HK-SHAO</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">HK-SHAO</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">Shao's blog</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/31/用TensorFlow机器学习框架构建学校学科成绩的线性模型/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="王家晔">
+      <meta itemprop="description" content="在黑夜中睁开眼睛">
+      <meta itemprop="image" content="/images/logo.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="HK-SHAO">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">用TensorFlow机器学习框架构建学校学科成绩的线性模型
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-01-31 17:15:59 / 修改时间：18:11:32" itemprop="dateCreated datePublished" datetime="2019-01-31T17:15:59+08:00">2019-01-31</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="TensorFlow机器学习框架"><a href="#TensorFlow机器学习框架" class="headerlink" title="TensorFlow机器学习框架"></a>TensorFlow机器学习框架</h2><p>TensorFlow是Google开源的一个机器学习框架，它可以在Python环境下运行，我昨天认识和接触它。<br><img src="/images/blog/10.PNG" alt=""><br><a id="more"></a></p>
+<h2 id="模型构建方法-amp-事情经过"><a href="#模型构建方法-amp-事情经过" class="headerlink" title="模型构建方法&amp;事情经过"></a>模型构建方法&amp;事情经过</h2><p>昨天我用Excel尝试绘制了我们学校高二年级的各个学科——物理散点图，然后用Excel绘制了三次方回归曲线，我发现不论是哪个学科与物理，残差平方都很低，这代表它们之间的的关系并不明显，几乎是随机的。  </p>
+<p>因此我就想，如果一个量映射到另一个量的关系不明显，那我几个量映射到一个量可能就会有比较强的关系了。但是想要找到这个关系，似乎非常困难，我尝试把各个学科与物理的三次方回归曲线以它的残差平方为权重线性混合起来，结果得到了一个不三不四的方程，处理极其困难，误差也很大。  </p>
+<p>刚好昨天认识了TensorFlow（后面简称TF），于是打算下载使用TF训练出我想要的模型，但是在安装TF的过程中遇到了很多坑，这里我就不细说了。  </p>
+<p>在使用TF前，我简单的看了几个别人写的Demo，然后我就开始构建学校学科成绩的线性模型，步骤基本分为下面几个。</p>
+<h3 id="1，构建模型"><a href="#1，构建模型" class="headerlink" title="1，构建模型"></a>1，构建模型</h3><p>我将物理成绩构建成一个线性模型，满足下面这个式子：</p>
+<script type="math/tex; mode=display">
+{\begin{aligned}
+物理成绩 &\approx a \times 语文成绩 \\
+&+ b \times 数学成绩 \\
+&+ c \times 英语成绩 \\
+&+ d \times 化学成绩 \\
+&+ e \times 生物成绩 \\
+&+ s
+\end{aligned}}</script><p>我们只需要使用TF，把上式的各个系数优化到最贴近真实，使得我把一个真实的成绩代入上式后能得到一个较为精确的值。</p>
+<h3 id="2，找数据，然后把数据转换成csv格式"><a href="#2，找数据，然后把数据转换成csv格式" class="headerlink" title="2，找数据，然后把数据转换成csv格式"></a>2，找数据，然后把数据转换成csv格式</h3><p>我找到了我们高二年级这次期末统考成绩的表格，用Excel打开它，然后提取所需要的数据，另存为csv格式。</p>
+<h3 id="3，用Python写一个读取csv的程序"><a href="#3，用Python写一个读取csv的程序" class="headerlink" title="3，用Python写一个读取csv的程序"></a>3，用Python写一个读取csv的程序</h3><p>要注意csv文件的编码！其它我就不细说了。<br><figure class="highlight processing"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> csv</span><br><span class="line"></span><br><span class="line">csv_file = csv.reader(<span class="built_in">open</span>(<span class="string">'cj.csv'</span>, encoding=<span class="string">'utf-8'</span>))</span><br><span class="line"></span><br><span class="line">x_data = []</span><br><span class="line">y_data = []</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> data in csv_file:</span><br><span class="line">    x_s = data[<span class="number">3</span>]</span><br><span class="line">    y_s = data[<span class="number">5</span>]</span><br><span class="line">    <span class="keyword">if</span> not len(x_s) * len(y_s) == <span class="number">0</span>:</span><br><span class="line">        x_data.<span class="built_in">append</span>(<span class="built_in">float</span>(x_s))</span><br><span class="line">        y_data.<span class="built_in">append</span>(<span class="built_in">float</span>(y_s))</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(x_data)</span><br></pre></td></tr></table></figure></p>
+<h3 id="4，用Python写TS的模型训练程序"><a href="#4，用Python写TS的模型训练程序" class="headerlink" title="4，用Python写TS的模型训练程序"></a>4，用Python写TS的模型训练程序</h3><p>运行下面的这个程序，训练一千万次来优化系数。具体不细说了，下面是这个工程的全部源码：<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line">import tensorflow <span class="keyword">as</span> <span class="keyword">tf</span></span><br><span class="line">import numpy <span class="keyword">as</span> np</span><br><span class="line">import csv</span><br><span class="line"></span><br><span class="line">csv_file = csv.reader(<span class="keyword">open</span>(<span class="string">'cj.csv'</span>, encoding=<span class="string">'utf-8'</span>))</span><br><span class="line"></span><br><span class="line">a_data = []</span><br><span class="line">b_data = []</span><br><span class="line">c_data = []</span><br><span class="line">d_data = []</span><br><span class="line">e_data = []</span><br><span class="line">y_data = []</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> data in csv_file:</span><br><span class="line">    a_s = data[<span class="number">0</span>]</span><br><span class="line">    b_s = data[<span class="number">1</span>]</span><br><span class="line">    c_s = data[<span class="number">2</span>]</span><br><span class="line">    d_s = data[<span class="number">3</span>]</span><br><span class="line">    e_s = data[<span class="number">4</span>]</span><br><span class="line">    y_s = data[<span class="number">5</span>]</span><br><span class="line">    <span class="keyword">if</span> not <span class="built_in">len</span>(a_s)*<span class="built_in">len</span>(b_s)*<span class="built_in">len</span>(c_s)*<span class="built_in">len</span>(d_s)*<span class="built_in">len</span>(e_s)*<span class="built_in">len</span>(y_s) == <span class="number">0</span>:</span><br><span class="line">        a_data.<span class="keyword">append</span>(float(a_s))</span><br><span class="line">        b_data.<span class="keyword">append</span>(float(b_s))</span><br><span class="line">        c_data.<span class="keyword">append</span>(float(c_s))</span><br><span class="line">        d_data.<span class="keyword">append</span>(float(d_s))</span><br><span class="line">        e_data.<span class="keyword">append</span>(float(e_s))</span><br><span class="line">        y_data.<span class="keyword">append</span>(float(y_s))</span><br><span class="line"></span><br><span class="line"># 构造一个线性模型</span><br><span class="line"><span class="keyword">a</span> = <span class="keyword">tf</span>.Variable(<span class="keyword">tf</span>.random_uniform([<span class="number">1</span>], -<span class="number">1.0</span>, <span class="number">1.0</span>))</span><br><span class="line"><span class="keyword">b</span> = <span class="keyword">tf</span>.Variable(<span class="keyword">tf</span>.random_uniform([<span class="number">1</span>], -<span class="number">1.0</span>, <span class="number">1.0</span>))</span><br><span class="line"><span class="keyword">c</span> = <span class="keyword">tf</span>.Variable(<span class="keyword">tf</span>.random_uniform([<span class="number">1</span>], -<span class="number">1.0</span>, <span class="number">1.0</span>))</span><br><span class="line">d = <span class="keyword">tf</span>.Variable(<span class="keyword">tf</span>.random_uniform([<span class="number">1</span>], -<span class="number">1.0</span>, <span class="number">1.0</span>))</span><br><span class="line"><span class="keyword">e</span> = <span class="keyword">tf</span>.Variable(<span class="keyword">tf</span>.random_uniform([<span class="number">1</span>], -<span class="number">1.0</span>, <span class="number">1.0</span>))</span><br><span class="line">s = <span class="keyword">tf</span>.Variable(<span class="keyword">tf</span>.random_uniform([<span class="number">1</span>], -<span class="number">1.0</span>, <span class="number">1.0</span>))</span><br><span class="line"></span><br><span class="line"><span class="keyword">y</span> = <span class="keyword">a</span>*a_data + <span class="keyword">b</span>*b_data + <span class="keyword">c</span>*c_data + d*d_data + <span class="keyword">e</span>*e_data + s</span><br><span class="line"></span><br><span class="line"># 最小化方差</span><br><span class="line">loss = <span class="keyword">tf</span>.reduce_mean(<span class="keyword">tf</span>.square(<span class="keyword">y</span> - y_data))</span><br><span class="line">optimizer = <span class="keyword">tf</span>.train.GradientDescentOptimizer(<span class="number">0.00001</span>)</span><br><span class="line">train = optimizer.minimize(loss)</span><br><span class="line"></span><br><span class="line"># 初始化变量</span><br><span class="line">init = <span class="keyword">tf</span>.global_variables_initializer()</span><br><span class="line"></span><br><span class="line"># 启动图 (graph)</span><br><span class="line">sess = <span class="keyword">tf</span>.Session()</span><br><span class="line">sess.run(init)</span><br><span class="line"></span><br><span class="line"># 拟合</span><br><span class="line"><span class="keyword">for</span> step in <span class="built_in">range</span>(<span class="number">10000001</span>):</span><br><span class="line">    sess.run(train)</span><br><span class="line">    <span class="keyword">if</span> step % <span class="number">1000000</span> == <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">print</span>(step, sess.run(<span class="keyword">a</span>), sess.run(<span class="keyword">b</span>), sess.run(<span class="keyword">c</span>), sess.run(d), sess.run(<span class="keyword">e</span>), sess.run(s))</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> True :</span><br><span class="line">    a1 = float(<span class="built_in">input</span>(<span class="string">"语文成绩："</span>))</span><br><span class="line">    b1 = float(<span class="built_in">input</span>(<span class="string">"数学成绩："</span>))</span><br><span class="line">    c1 = float(<span class="built_in">input</span>(<span class="string">"英语成绩："</span>))</span><br><span class="line">    d1 = float(<span class="built_in">input</span>(<span class="string">"化学成绩："</span>))</span><br><span class="line">    e1 = float(<span class="built_in">input</span>(<span class="string">"生物成绩："</span>))</span><br><span class="line">    v = sess.run(<span class="keyword">a</span>)*a1 + sess.run(<span class="keyword">b</span>)*b1 + sess.run(<span class="keyword">c</span>)*c1 + sess.run(d)*d1 + sess.run(<span class="keyword">e</span>)*e1 + sess.run(s)</span><br><span class="line">    <span class="keyword">print</span>(<span class="string">"你的物理成绩大概是："</span>, v[<span class="number">0</span>])</span><br></pre></td></tr></table></figure></p>
+<h2 id="成果"><a href="#成果" class="headerlink" title="成果"></a>成果</h2><script type="math/tex; mode=display">
+{\begin{aligned}
+物理成绩 \approx &-0.04158394 \times 语文成绩 \\
+&+ 0.37960723 \times 数学成绩 \\
+&+ 0.18630792 \times 英语成绩 \\
+&+ 0.48215818 \times 化学成绩 \\
+&+ 0.28883076 \times 生物成绩 \\
+&- 26.1632100
+\end{aligned}}</script><p><img src="/images/blog/11.PNG" alt=""></p>
+<h2 id="猜想和总结"><a href="#猜想和总结" class="headerlink" title="猜想和总结"></a>猜想和总结</h2><p>上面的一个模型，使用范围是有限的，因为我的数据仅仅只是我们学校高二年级在2019年的期末统考数据。精度也是有限的，因为我的数据只有1000多个，并且我使用的是线性模型，所以一般来说误差会在10以内，比较好的情况下误差不超过2。  </p>
+<p>如果把模型构建成二次方，三次方，甚至更多，那么所得到的模型就越贴近真实，但是训练次数也要更多，模型的表达式也会很复杂。</p>
+<p>上面式子每个成绩前面的系数，就是这个学科成绩对物理成绩的影响大小，可以发现化学成绩前的系数最大，这代表着大部分化学成绩优秀的学生，物理成绩也不会太差。我们还可以发现语文成绩前面的系数竟然是负值！这说明，物理成绩较好的学生，语文往往拖他后退。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/程序-算法/" rel="tag"># 程序&算法</a>
+          
+            <a href="/tags/人工智能/" rel="tag"># 人工智能</a>
+          
+            <a href="/tags/机器学习/" rel="tag"># 机器学习</a>
+          
+            <a href="/tags/TensorFlow/" rel="tag"># TensorFlow</a>
+          
+            <a href="/tags/数学建模/" rel="tag"># 数学建模</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/01/29/本站着色编辑器上线啦！/" rel="next" title="本站着色编辑器上线啦！">
+                <i class="fa fa-chevron-left"></i> 本站着色编辑器上线啦！
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/logo.png" alt="王家晔">
+            
+              <p class="site-author-name" itemprop="name">王家晔</p>
+              <p class="site-description motion-element" itemprop="description">在黑夜中睁开眼睛</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">20</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">26</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/HK-SHAO" title="GitHub &rarr; https://github.com/HK-SHAO" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:2063597709@qq.com" title="E-Mail &rarr; mailto:2063597709@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Demo
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://hk-shao.github.io/demo/ShaderEditor/" title="https://hk-shao.github.io/demo/ShaderEditor/" rel="noopener" target="_blank">ShaderEditor</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#TensorFlow机器学习框架"><span class="nav-number">1.</span> <span class="nav-text">TensorFlow机器学习框架</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#模型构建方法-amp-事情经过"><span class="nav-number">2.</span> <span class="nav-text">模型构建方法&amp;事情经过</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1，构建模型"><span class="nav-number">2.1.</span> <span class="nav-text">1，构建模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2，找数据，然后把数据转换成csv格式"><span class="nav-number">2.2.</span> <span class="nav-text">2，找数据，然后把数据转换成csv格式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3，用Python写一个读取csv的程序"><span class="nav-number">2.3.</span> <span class="nav-text">3，用Python写一个读取csv的程序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4，用Python写TS的模型训练程序"><span class="nav-number">2.4.</span> <span class="nav-text">4，用Python写TS的模型训练程序</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#成果"><span class="nav-number">3.</span> <span class="nav-text">成果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#猜想和总结"><span class="nav-number">4.</span> <span class="nav-text">猜想和总结</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">王家晔</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.7.0"></script>
+
+  <script src="/js/src/motion.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=6.7.0"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=6.7.0"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=6.7.0"></script>
+<script src="/js/src/post-details.js?v=6.7.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.7.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+  
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      
+      equationNumbers: {
+        autoNumber: "AMS"
+      }
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+      for (i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+<script src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+<style>
+.MathJax_Display {
+  overflow: auto hidden;
+}
+</style>
+
+    
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
