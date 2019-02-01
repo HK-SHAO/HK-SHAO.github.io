@@ -115,7 +115,7 @@
 <meta property="og:image" content="http://yoursite.com/images/blog/11.PNG">
 <meta property="og:image" content="http://yoursite.com/images/blog/12.PNG">
 <meta property="og:image" content="http://yoursite.com/images/blog/13.PNG">
-<meta property="og:updated_time" content="2019-02-01T06:07:21.421Z">
+<meta property="og:updated_time" content="2019-02-01T17:02:48.598Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="用TensorFlow机器学习框架构建学校学科成绩的线性模型">
 <meta name="twitter:description" content="TensorFlow机器学习框架TensorFlow是Google开源的一个机器学习框架，它可以在Python环境下运行，我昨天认识和接触它。">
@@ -401,7 +401,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-02-01 14:07:21" itemprop="dateModified" datetime="2019-02-01T14:07:21+08:00">2019-02-01</time>
+                <time title="修改时间：2019-02-02 01:02:48" itemprop="dateModified" datetime="2019-02-02T01:02:48+08:00">2019-02-02</time>
               
             
           </span>
@@ -435,8 +435,8 @@
 
       
         <h2 id="TensorFlow机器学习框架"><a href="#TensorFlow机器学习框架" class="headerlink" title="TensorFlow机器学习框架"></a>TensorFlow机器学习框架</h2><p>TensorFlow是Google开源的一个机器学习框架，它可以在Python环境下运行，我昨天认识和接触它。<br><img src="/images/blog/10.PNG" alt=""><br><a id="more"></a></p>
-<h2 id="模型构建方法-amp-事情经过"><a href="#模型构建方法-amp-事情经过" class="headerlink" title="模型构建方法&amp;事情经过"></a>模型构建方法&amp;事情经过</h2><p>昨天我用Excel尝试绘制了我们学校高二年级的各个学科——物理散点图，然后用Excel绘制了三次方回归曲线，我发现不论是哪个学科与物理，残差平方都很低，这代表它们之间的的关系并不明显，几乎是随机的。  </p>
-<p>因此我就想，如果一个量映射到另一个量的关系不明显，那我几个量映射到一个量可能就会有比较强的关系了。但是想要找到这个关系，似乎非常困难，我尝试把各个学科与物理的三次方回归曲线以它的残差平方为权重线性混合起来，结果得到了一个不三不四的方程，处理极其困难，误差也很大。  </p>
+<h2 id="模型构建方法-amp-事情经过"><a href="#模型构建方法-amp-事情经过" class="headerlink" title="模型构建方法&amp;事情经过"></a>模型构建方法&amp;事情经过</h2><p>昨天我用Excel尝试绘制了我们学校高二年级的各个学科——物理散点图，然后用Excel绘制了三次方回归曲线，我发现不论是哪个学科与物理，拟合优度 $R^2$ 都很低，这代表它们之间的的关系并不明显，几乎是随机的。  </p>
+<p>因此我就想，如果一个量映射到另一个量的关系不明显，那我几个量映射到一个量可能就会有比较强的关系了。但是想要找到这个关系，似乎非常困难，我尝试把各个学科与物理的三次方回归曲线以它的拟合优度 $R^2$ 为权重线性混合起来，结果得到了一个不三不四的方程，处理极其困难，误差也很大。  </p>
 <p>刚好昨天认识了TensorFlow（后面简称TF），于是打算下载使用TF训练出我想要的模型，但是在安装TF的过程中遇到了很多坑，这里我就不细说了。  </p>
 <p>在使用TF前，我简单的看了几个别人写的Demo，然后我就开始构建学校学科成绩的线性模型，步骤基本分为下面几个。</p>
 <h3 id="1，构建模型"><a href="#1，构建模型" class="headerlink" title="1，构建模型"></a>1，构建模型</h3><p>我将物理成绩构建成一个线性模型，满足下面这个式子：</p>
