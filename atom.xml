@@ -166,9 +166,9 @@
     </summary>
     
     
-      <category term="公告" scheme="http://yoursite.com/tags/%E5%85%AC%E5%91%8A/"/>
-    
       <category term="Blog" scheme="http://yoursite.com/tags/Blog/"/>
+    
+      <category term="公告" scheme="http://yoursite.com/tags/%E5%85%AC%E5%91%8A/"/>
     
   </entry>
   
