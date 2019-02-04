@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2019-02-01T17:02:48.598Z</updated>
+  <updated>2019-02-04T05:00:39.070Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>一个超级赖皮的数学证明方法——例证法</title>
+    <link href="http://yoursite.com/2019/02/04/%E4%B8%80%E4%B8%AA%E8%B6%85%E7%BA%A7%E8%B5%96%E7%9A%AE%E7%9A%84%E6%95%B0%E5%AD%A6%E8%AF%81%E6%98%8E%E6%96%B9%E6%B3%95%E2%80%94%E2%80%94%E4%BE%8B%E8%AF%81%E6%B3%95/"/>
+    <id>http://yoursite.com/2019/02/04/一个超级赖皮的数学证明方法——例证法/</id>
+    <published>2019-02-04T04:41:02.000Z</published>
+    <updated>2019-02-04T05:00:39.070Z</updated>
+    
+    <content type="html"><![CDATA[<p>这篇文章作者是：physixfan，<a href="https://www.physixfan.com/%E4%B8%80%E4%B8%AA%E8%B6%85%E7%BA%A7%E8%B5%96%E7%9A%AE%E7%9A%84%E6%95%B0%E5%AD%A6%E8%AF%81%E6%98%8E%E6%96%B9%E6%B3%95%E2%80%94%E2%80%94%E4%BE%8B%E8%AF%81%E6%B3%95/" target="_blank" rel="noopener">点击这里</a>查看原文  </p><h2 id="原文（有删减）"><a href="#原文（有删减）" class="headerlink" title="原文（有删减）"></a>原文（有删减）</h2><p>今天看到《数学家的眼光》（张景中著）写到了一个巨赖皮的数学证明方法，叫例证法，看完我都惊得不行了，就写到这里来和大家分享一下。<br>为了说明例证法，我们举一个简单的例子。试证明： $(x+1)(x-1)=x^2-1$ 。我们假设我们不会做（这不是在贬低你的智商阿）。现在我就讲一个所有人都肯定能学会的方法，用例证法来证明！</p><blockquote><p>证明：令 $x=1$ 代入原式，发现等式成立。<br>令 $x=2$ 代入原式，发现等式成立。<br>令 $x=3$ 代入原式，发现等式成立。<br>所以原式恒成立。<br><a id="more"></a><br>你看了可能会狂笑不止，有种想揍我的冲动，这什么东西，举了3个例子就说证明了原式？证明等式成立可必须是所有x都满足才行啊！可是，且慢，我可以告诉你，这样证明是严谨的。不信就听我仔细分析。分析一下原等式，发现x的最高次是2次。根据代数基本定理，这个式子如果不是恒等式就有两个根。现在我们举了3个例子，即便前两个正好就是两个根，那么第三个数代进去又成立了，就说明原式是恒等式了！</p></blockquote><p>怎么样，这个例证法神奇吧！</p><p>我们还可以把它推广，如果有多个未知数，例如想要证明 $(x^2+y)(x^2-y)=x^4-y^2$ ，我们只要把 $x$ 附 $5$ 个值， $y$ 附 $3$ 个值，一共代 $15$ 组数进去验证就可以了。 </p><p>据说，我国一个数学家（笔者注：就是张景中）甚至把例证法推广，利用解析几何把普通几何题转变为类似的代数问题，就可以用例证法来证明了（笔者注：就是机器证明）！</p><p>不知道，如果我在高考的时候用这么个方法，老师会给我几分？呵呵。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;这篇文章作者是：physixfan，&lt;a href=&quot;https://www.physixfan.com/%E4%B8%80%E4%B8%AA%E8%B6%85%E7%BA%A7%E8%B5%96%E7%9A%AE%E7%9A%84%E6%95%B0%E5%AD%A6%E8%AF%81%E6%98%8E%E6%96%B9%E6%B3%95%E2%80%94%E2%80%94%E4%BE%8B%E8%AF%81%E6%B3%95/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;点击这里&lt;/a&gt;查看原文  &lt;/p&gt;
+&lt;h2 id=&quot;原文（有删减）&quot;&gt;&lt;a href=&quot;#原文（有删减）&quot; class=&quot;headerlink&quot; title=&quot;原文（有删减）&quot;&gt;&lt;/a&gt;原文（有删减）&lt;/h2&gt;&lt;p&gt;今天看到《数学家的眼光》（张景中著）写到了一个巨赖皮的数学证明方法，叫例证法，看完我都惊得不行了，就写到这里来和大家分享一下。&lt;br&gt;为了说明例证法，我们举一个简单的例子。试证明： $(x+1)(x-1)=x^2-1$ 。我们假设我们不会做（这不是在贬低你的智商阿）。现在我就讲一个所有人都肯定能学会的方法，用例证法来证明！&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;证明：令 $x=1$ 代入原式，发现等式成立。&lt;br&gt;令 $x=2$ 代入原式，发现等式成立。&lt;br&gt;令 $x=3$ 代入原式，发现等式成立。&lt;br&gt;所以原式恒成立。&lt;br&gt;
+    
+    </summary>
+    
+    
+      <category term="数学" scheme="http://yoursite.com/tags/%E6%95%B0%E5%AD%A6/"/>
+    
+      <category term="等式" scheme="http://yoursite.com/tags/%E7%AD%89%E5%BC%8F/"/>
+    
+      <category term="证明" scheme="http://yoursite.com/tags/%E8%AF%81%E6%98%8E/"/>
+    
+  </entry>
   
   <entry>
     <title>用TensorFlow机器学习框架构建学校学科成绩的线性模型</title>
@@ -240,36 +267,9 @@
     
       <category term="程序&amp;算法" scheme="http://yoursite.com/tags/%E7%A8%8B%E5%BA%8F-%E7%AE%97%E6%B3%95/"/>
     
+      <category term="数学" scheme="http://yoursite.com/tags/%E6%95%B0%E5%AD%A6/"/>
+    
       <category term="OpenGL" scheme="http://yoursite.com/tags/OpenGL/"/>
-    
-      <category term="数学" scheme="http://yoursite.com/tags/%E6%95%B0%E5%AD%A6/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>如何比较整点的大小（排序）？</title>
-    <link href="http://yoursite.com/2018/09/30/%E5%A6%82%E4%BD%95%E6%AF%94%E8%BE%83%E6%95%B4%E7%82%B9%E7%9A%84%E5%A4%A7%E5%B0%8F%EF%BC%88%E6%8E%92%E5%BA%8F%EF%BC%89%EF%BC%9F/"/>
-    <id>http://yoursite.com/2018/09/30/如何比较整点的大小（排序）？/</id>
-    <published>2018-09-30T10:13:52.000Z</published>
-    <updated>2019-01-26T10:15:47.526Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="提问"><a href="#提问" class="headerlink" title="提问"></a>提问</h2><p>当我知道复数是无法比较大小的时候，我就怀疑这个命题了，如果我能从复数映射到实数，并且从实数映射到复数：  </p><script type="math/tex; mode=display">\mathbb{C}\rightarrow\mathbb{R}\\ \mathbb{R}\rightarrow\mathbb{C}</script><p>也就是任意的复数都有一个实数与之一一对应，那我就可以利用实数的性质将所有复数进行排序了，这就可以比较复数大小了。我们知道复数可以与平面上的点一一对应，经过我的思考，我想了一个办法，利用等速螺线：  </p><p><img src="https://s2.ax1x.com/2019/01/26/knLR0S.jpg" alt=""><br><a id="more"></a><br>如图，从原点出发，沿着螺旋线运动，我们用不等号做记号，排序先到达的点和后到达的点，如图是先到达 $A$ 点，后到达 $B$ 点，也就是 $A&lt;B$ ，这样我就可以将螺旋线上的所有点排序了。  </p><p>但当我仔细思考，平面上点是稠密的，如果我想排序所有的点，那螺旋线就得无限密集，这显然是做不到的。  </p><p><img src="https://s2.ax1x.com/2019/01/26/knLhkQ.jpg" alt="">  </p><p>我又开始思考，既然平面上的所有点无法排序，那平面上的整点能否排序呢？<br>我第一时间想到的当然还是螺旋，不过是方形的螺旋：  </p><p><img src="https://s2.ax1x.com/2019/01/26/knL2m8.jpg" alt="">  </p><p>如图，这样我就可以用方形的螺旋线顺次将平面内所有的整点连接，从原点出发，按照先后顺序将所有的整点映射到整数（整数就是从原点出发沿着方形螺旋线运动的路程）。如图 $A (0, 0)\rightarrow 0 ， B (1, 0) \rightarrow 1 ， E (-1, -1) \rightarrow 6$ 。所有的整数与平面上的整点一一对应，也就可以将所有整点排序了，$D$ 在 $E$ 的前面，这里可以用记号表示 $D&lt;E$ ，也就是 $(-1,1)&lt;(-1,-1)$ 。  </p><p>如果整点用复数 $x+yi$ 表示，整数用 $z$ 表示，其中 $x,y,z\in\mathbb{Z}$ ，那么函数 $f(x+yi)=z$ 和其反函数 $f^{-1}(z)=x+yi$ 的映射关系是什么呢？如何用表达式表示它们呢？  </p><h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><p>As your wish:<br><img src="https://s2.ax1x.com/2019/01/26/knLWTg.jpg" alt="">  </p><p>points on x-axes:  </p><script type="math/tex; mode=display">f_x(n)=4 n^2-\left| n\right| -2 n</script><p>points on y-axes:  </p><script type="math/tex; mode=display">f_y(n)=4 n^2+\left| n\right| -2 n</script><p><br>  </p><script type="math/tex; mode=display">x+yi\rightarrow f_{\max(x,y)}(\max(x,y))\mp\min(x,y)</script><p>The inverse function will be more complicated:  </p><script type="math/tex; mode=display">x_n=\sum _{i=1}^n \sin \left(\frac{ \pi}{2}  (\left\lfloor \sqrt{4 i-3}\right\rfloor  \bmod 4)\right)</script><script type="math/tex; mode=display">y_n=-\sum _{i=1}^n \cos \left(\frac{ \pi}{2}  (\left\lfloor \sqrt{4 i-3}\right\rfloor  \bmod 4)\right)</script><script type="math/tex; mode=display">n\rightarrow (x_n,y_n)</script><p><img src="https://s2.ax1x.com/2019/01/26/knL4Yj.jpg" alt=""> </p><h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><p>解答来自知乎   <a href="https://www.zhihu.com/question/296719713/answer/501579029" target="_blank" rel="noopener">https://www.zhihu.com/question/296719713/answer/501579029</a> —— 酱紫君</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;提问&quot;&gt;&lt;a href=&quot;#提问&quot; class=&quot;headerlink&quot; title=&quot;提问&quot;&gt;&lt;/a&gt;提问&lt;/h2&gt;&lt;p&gt;当我知道复数是无法比较大小的时候，我就怀疑这个命题了，如果我能从复数映射到实数，并且从实数映射到复数：  &lt;/p&gt;
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;
-\mathbb{C}\rightarrow\mathbb{R}\\ \mathbb{R}\rightarrow\mathbb{C}&lt;/script&gt;&lt;p&gt;也就是任意的复数都有一个实数与之一一对应，那我就可以利用实数的性质将所有复数进行排序了，这就可以比较复数大小了。我们知道复数可以与平面上的点一一对应，经过我的思考，我想了一个办法，利用等速螺线：  &lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;https://s2.ax1x.com/2019/01/26/knLR0S.jpg&quot; alt=&quot;&quot;&gt;&lt;br&gt;
-    
-    </summary>
-    
-    
-      <category term="程序&amp;算法" scheme="http://yoursite.com/tags/%E7%A8%8B%E5%BA%8F-%E7%AE%97%E6%B3%95/"/>
-    
-      <category term="数学" scheme="http://yoursite.com/tags/%E6%95%B0%E5%AD%A6/"/>
-    
-      <category term="Mathematica" scheme="http://yoursite.com/tags/Mathematica/"/>
     
   </entry>
   
