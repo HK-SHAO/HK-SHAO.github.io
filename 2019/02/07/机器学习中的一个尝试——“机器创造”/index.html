@@ -114,7 +114,7 @@
 <meta property="og:image" content="https://hk-shao.github.io/images/blog/14.PNG">
 <meta property="og:image" content="https://hk-shao.github.io/images/blog/15.PNG">
 <meta property="og:image" content="https://hk-shao.github.io/images/blog/16.PNG">
-<meta property="og:updated_time" content="2019-02-07T14:29:27.849Z">
+<meta property="og:updated_time" content="2019-02-07T14:38:18.795Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="机器学习中的一个尝试——“机器创造”">
 <meta name="twitter:description" content="从识别数字开始MNIST文件中包含了几万个手写数字的灰度图片，这些图片尺寸是28x28，灰度值为[0, 256)。机器学习有两个入门的“Hello World”，除了做散点图的回归直线外，就是识别手写数字，这个过程一般涉及三个神经网络层，输入层（28x28 = 784个神经元），隐藏层（神经元个数按需决定），输出层（10个神经元，代表10个可能的数字）。   所以将模型建好后，训练模型，优化所有的">
@@ -383,7 +383,7 @@
                 
               
 
-              <time title="创建时间：2019-02-07 09:00:47 / 修改时间：22:29:27" itemprop="dateCreated datePublished" datetime="2019-02-07T09:00:47+08:00">2019-02-07</time>
+              <time title="创建时间：2019-02-07 09:00:47 / 修改时间：22:38:18" itemprop="dateCreated datePublished" datetime="2019-02-07T09:00:47+08:00">2019-02-07</time>
             
 
             
@@ -435,7 +435,7 @@
  \begin{matrix}
    x \\\
    y \\\
-   z \\\
+   z 
   \end{matrix}
   \right] + b_{1}</script><script type="math/tex; mode=display">
  f(x, y, z) = \left[
@@ -446,7 +446,7 @@
  \begin{matrix}
    g(x^2,y,z) \\\
    g(x,y^2,z) \\\
-   g(x,y,z^2) \\\
+   g(x,y,z^2) 
   \end{matrix}
   \right] + \left[
  \begin{matrix}
@@ -456,7 +456,7 @@
  \begin{matrix}
    x \\\ 
    y \\\
-   z \\\
+   z 
   \end{matrix}
   \right] + b_{2}</script><p>要问为啥这样设计，其实我也不知道（笑，随便设计一个玩一下。</p>
 <h2 id="源代码"><a href="#源代码" class="headerlink" title="源代码"></a>源代码</h2><h3 id="将MNIST文件中所有图片和对于标签保存成csv文件"><a href="#将MNIST文件中所有图片和对于标签保存成csv文件" class="headerlink" title="将MNIST文件中所有图片和对于标签保存成csv文件"></a>将MNIST文件中所有图片和对于标签保存成csv文件</h3><p>x, y, c, l分别是像素横坐标，纵坐标，灰度值，数字标签，保存成文件有655MB大小。</p>
@@ -726,6 +726,10 @@
                 
                   <li class="links-of-blogroll-item">
                     <a href="https://hk-shao.github.io/demo/ShaderEditor/" title="https://hk-shao.github.io/demo/ShaderEditor/">ShaderEditor</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://wuyudi.github.io/" title="https://wuyudi.github.io/" rel="noopener" target="_blank">wuyudi的小站</a>
                   </li>
                 
               </ul>
