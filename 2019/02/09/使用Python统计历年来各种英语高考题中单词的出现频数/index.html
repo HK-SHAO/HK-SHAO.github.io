@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=6.7.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.7.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.7.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.7.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="我从网上搜集了历年来高考英语新课标卷真题，还有各个省的高考真题，以及各种模拟题，题型汇总总共20多个doc文件，然后使用正则匹配删除了除了英文单词外的所有字符（保留空格），使用Python写了一个很简单的程序，统计出了8千多个不同的单词及其频数，使用Excel进行排序。">
+<meta name="keywords" content="Python,视频,英语,高考,统计">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用Python统计历年来各种英语高考题中单词的出现频数">
+<meta property="og:url" content="https://hk-shao.github.io/2019/02/09/使用Python统计历年来各种英语高考题中单词的出现频数/index.html">
+<meta property="og:site_name" content="HK-SHAO">
+<meta property="og:description" content="我从网上搜集了历年来高考英语新课标卷真题，还有各个省的高考真题，以及各种模拟题，题型汇总总共20多个doc文件，然后使用正则匹配删除了除了英文单词外的所有字符（保留空格），使用Python写了一个很简单的程序，统计出了8千多个不同的单词及其频数，使用Excel进行排序。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://hk-shao.github.io/images/blog/21.PNG">
+<meta property="og:image" content="https://hk-shao.github.io/images/blog/20.PNG">
+<meta property="og:updated_time" content="2019-02-08T18:40:20.362Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用Python统计历年来各种英语高考题中单词的出现频数">
+<meta name="twitter:description" content="我从网上搜集了历年来高考英语新课标卷真题，还有各个省的高考真题，以及各种模拟题，题型汇总总共20多个doc文件，然后使用正则匹配删除了除了英文单词外的所有字符（保留空格），使用Python写了一个很简单的程序，统计出了8千多个不同的单词及其频数，使用Excel进行排序。">
+<meta name="twitter:image" content="https://hk-shao.github.io/images/blog/21.PNG">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="HK-SHAO" type="application/atom+xml">
+
+
+
+
+  <link rel="canonical" href="https://hk-shao.github.io/2019/02/09/使用Python统计历年来各种英语高考题中单词的出现频数/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>使用Python统计历年来各种英语高考题中单词的出现频数 | HK-SHAO</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">HK-SHAO</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">Shao's blog</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hk-shao.github.io/2019/02/09/使用Python统计历年来各种英语高考题中单词的出现频数/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="王家晔">
+      <meta itemprop="description" content="在黑夜中睁开眼睛">
+      <meta itemprop="image" content="/images/logo.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="HK-SHAO">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">使用Python统计历年来各种英语高考题中单词的出现频数
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-02-09 02:04:34 / 修改时间：02:40:20" itemprop="dateCreated datePublished" datetime="2019-02-09T02:04:34+08:00">2019-02-09</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>我从网上搜集了历年来高考英语新课标卷真题，还有各个省的高考真题，以及各种模拟题，题型汇总总共20多个doc文件，然后使用正则匹配删除了除了英文单词外的所有字符（保留空格），使用Python写了一个很简单的程序，统计出了8千多个不同的单词及其频数，使用Excel进行排序。<br><img src="/images/blog/21.PNG" alt=""><a id="more"></a></p>
+<h2 id="演示的视频"><a href="#演示的视频" class="headerlink" title="演示的视频"></a>演示的视频</h2><p>闲着就录成视频发到B站：<a href="https://www.bilibili.com/video/av42936333/" target="_blank" rel="noopener">https://www.bilibili.com/video/av42936333/</a><br><img src="/images/blog/20.PNG" alt=""></p>
+<h2 id="Python源代码"><a href="#Python源代码" class="headerlink" title="Python源代码"></a>Python源代码</h2><figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">import csv</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">'english.txt'</span>) <span class="comment"># 打开txt文件</span></span><br><span class="line"><span class="built_in">word</span> = f.<span class="built_in">read</span>().<span class="built_in">split</span>(<span class="string">' '</span>) <span class="comment"># 将单词转换成列表</span></span><br><span class="line">f.<span class="built_in">close</span>() <span class="comment"># 关闭txt文件</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># l = [] # 统计的列表</span></span><br><span class="line"></span><br><span class="line">csv_file = <span class="built_in">open</span>(<span class="string">'data.csv'</span>, <span class="string">'w'</span>, newline = <span class="string">''</span>) <span class="comment"># 打开csv文件</span></span><br><span class="line">csv_write = csv.writer(csv_file) <span class="comment"># 写csv文件</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> <span class="built_in">len</span>(<span class="built_in">word</span>) is <span class="keyword">not</span> <span class="number">0</span>: <span class="comment"># 当列表未空</span></span><br><span class="line">    w = <span class="built_in">word</span>[<span class="number">0</span>] <span class="comment"># 单词</span></span><br><span class="line">    n = <span class="number">0</span> <span class="comment"># 出现的次数</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> w <span class="keyword">in</span> <span class="built_in">word</span>: <span class="comment"># 当word里还有单词w</span></span><br><span class="line">        <span class="built_in">word</span>.remove(w) <span class="comment"># 删除已经统计的单词</span></span><br><span class="line">        n = n + <span class="number">1</span> <span class="comment"># 次数加一</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(w) &gt; <span class="number">3</span>: <span class="comment"># 过滤长度小于4的单词</span></span><br><span class="line">        csv_write.writerow([w, n]) <span class="comment"># 写入csv文件</span></span><br><span class="line">        <span class="comment"># l.append([w, n])</span></span><br><span class="line"></span><br><span class="line">csv_file.<span class="built_in">close</span>() <span class="comment"># 关闭csv文件</span></span><br></pre></td></tr></table></figure>
+<h2 id="英语单词频数表"><a href="#英语单词频数表" class="headerlink" title="英语单词频数表"></a>英语单词频数表</h2><p>这里只给出前500个频数最高的单词。<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br><span class="line">327</span><br><span class="line">328</span><br><span class="line">329</span><br><span class="line">330</span><br><span class="line">331</span><br><span class="line">332</span><br><span class="line">333</span><br><span class="line">334</span><br><span class="line">335</span><br><span class="line">336</span><br><span class="line">337</span><br><span class="line">338</span><br><span class="line">339</span><br><span class="line">340</span><br><span class="line">341</span><br><span class="line">342</span><br><span class="line">343</span><br><span class="line">344</span><br><span class="line">345</span><br><span class="line">346</span><br><span class="line">347</span><br><span class="line">348</span><br><span class="line">349</span><br><span class="line">350</span><br><span class="line">351</span><br><span class="line">352</span><br><span class="line">353</span><br><span class="line">354</span><br><span class="line">355</span><br><span class="line">356</span><br><span class="line">357</span><br><span class="line">358</span><br><span class="line">359</span><br><span class="line">360</span><br><span class="line">361</span><br><span class="line">362</span><br><span class="line">363</span><br><span class="line">364</span><br><span class="line">365</span><br><span class="line">366</span><br><span class="line">367</span><br><span class="line">368</span><br><span class="line">369</span><br><span class="line">370</span><br><span class="line">371</span><br><span class="line">372</span><br><span class="line">373</span><br><span class="line">374</span><br><span class="line">375</span><br><span class="line">376</span><br><span class="line">377</span><br><span class="line">378</span><br><span class="line">379</span><br><span class="line">380</span><br><span class="line">381</span><br><span class="line">382</span><br><span class="line">383</span><br><span class="line">384</span><br><span class="line">385</span><br><span class="line">386</span><br><span class="line">387</span><br><span class="line">388</span><br><span class="line">389</span><br><span class="line">390</span><br><span class="line">391</span><br><span class="line">392</span><br><span class="line">393</span><br><span class="line">394</span><br><span class="line">395</span><br><span class="line">396</span><br><span class="line">397</span><br><span class="line">398</span><br><span class="line">399</span><br><span class="line">400</span><br><span class="line">401</span><br><span class="line">402</span><br><span class="line">403</span><br><span class="line">404</span><br><span class="line">405</span><br><span class="line">406</span><br><span class="line">407</span><br><span class="line">408</span><br><span class="line">409</span><br><span class="line">410</span><br><span class="line">411</span><br><span class="line">412</span><br><span class="line">413</span><br><span class="line">414</span><br><span class="line">415</span><br><span class="line">416</span><br><span class="line">417</span><br><span class="line">418</span><br><span class="line">419</span><br><span class="line">420</span><br><span class="line">421</span><br><span class="line">422</span><br><span class="line">423</span><br><span class="line">424</span><br><span class="line">425</span><br><span class="line">426</span><br><span class="line">427</span><br><span class="line">428</span><br><span class="line">429</span><br><span class="line">430</span><br><span class="line">431</span><br><span class="line">432</span><br><span class="line">433</span><br><span class="line">434</span><br><span class="line">435</span><br><span class="line">436</span><br><span class="line">437</span><br><span class="line">438</span><br><span class="line">439</span><br><span class="line">440</span><br><span class="line">441</span><br><span class="line">442</span><br><span class="line">443</span><br><span class="line">444</span><br><span class="line">445</span><br><span class="line">446</span><br><span class="line">447</span><br><span class="line">448</span><br><span class="line">449</span><br><span class="line">450</span><br><span class="line">451</span><br><span class="line">452</span><br><span class="line">453</span><br><span class="line">454</span><br><span class="line">455</span><br><span class="line">456</span><br><span class="line">457</span><br><span class="line">458</span><br><span class="line">459</span><br><span class="line">460</span><br><span class="line">461</span><br><span class="line">462</span><br><span class="line">463</span><br><span class="line">464</span><br><span class="line">465</span><br><span class="line">466</span><br><span class="line">467</span><br><span class="line">468</span><br><span class="line">469</span><br><span class="line">470</span><br><span class="line">471</span><br><span class="line">472</span><br><span class="line">473</span><br><span class="line">474</span><br><span class="line">475</span><br><span class="line">476</span><br><span class="line">477</span><br><span class="line">478</span><br><span class="line">479</span><br><span class="line">480</span><br><span class="line">481</span><br><span class="line">482</span><br><span class="line">483</span><br><span class="line">484</span><br><span class="line">485</span><br><span class="line">486</span><br><span class="line">487</span><br><span class="line">488</span><br><span class="line">489</span><br><span class="line">490</span><br><span class="line">491</span><br><span class="line">492</span><br><span class="line">493</span><br><span class="line">494</span><br><span class="line">495</span><br><span class="line">496</span><br><span class="line">497</span><br><span class="line">498</span><br><span class="line">499</span><br><span class="line">500</span><br></pre></td><td class="code"><pre><span class="line">that,<span class="number">1475</span></span><br><span class="line">with,<span class="number">892</span></span><br><span class="line">they,<span class="number">775</span></span><br><span class="line">have,<span class="number">670</span></span><br><span class="line">from,<span class="number">645</span></span><br><span class="line">their,<span class="number">591</span></span><br><span class="line">more,<span class="number">571</span></span><br><span class="line">people,<span class="number">532</span></span><br><span class="line">what,<span class="number">513</span></span><br><span class="line">this,<span class="number">461</span></span><br><span class="line">when,<span class="number">456</span></span><br><span class="line">about,<span class="number">444</span></span><br><span class="line">your,<span class="number">418</span></span><br><span class="line">there,<span class="number">365</span></span><br><span class="line">them,<span class="number">359</span></span><br><span class="line">some,<span class="number">357</span></span><br><span class="line">were,<span class="number">355</span></span><br><span class="line">than,<span class="number">355</span></span><br><span class="line">will,<span class="number">342</span></span><br><span class="line">which,<span class="number">323</span></span><br><span class="line">time,<span class="number">322</span></span><br><span class="line">would,<span class="number">310</span></span><br><span class="line">children,<span class="number">293</span></span><br><span class="line">been,<span class="number">264</span></span><br><span class="line">many,<span class="number">258</span></span><br><span class="line">because,<span class="number">251</span></span><br><span class="line">most,<span class="number">246</span></span><br><span class="line">school,<span class="number">238</span></span><br><span class="line">after,<span class="number">236</span></span><br><span class="line">students,<span class="number">227</span></span><br><span class="line">help,<span class="number">219</span></span><br><span class="line">first,<span class="number">214</span></span><br><span class="line">other,<span class="number">214</span></span><br><span class="line">life,<span class="number">212</span></span><br><span class="line">work,<span class="number">196</span></span><br><span class="line">make,<span class="number">195</span></span><br><span class="line">said,<span class="number">192</span></span><br><span class="line">only,<span class="number">189</span></span><br><span class="line">should,<span class="number">184</span></span><br><span class="line">years,<span class="number">183</span></span><br><span class="line">year,<span class="number">182</span></span><br><span class="line">like,<span class="number">179</span></span><br><span class="line">could,<span class="number">179</span></span><br><span class="line">good,<span class="number">178</span></span><br><span class="line">world,<span class="number">176</span></span><br><span class="line">also,<span class="number">169</span></span><br><span class="line">even,<span class="number">160</span></span><br><span class="line">just,<span class="number">159</span></span><br><span class="line">then,<span class="number">158</span></span><br><span class="line">water,<span class="number">154</span></span><br><span class="line">parents,<span class="number">153</span></span><br><span class="line">found,<span class="number">151</span></span><br><span class="line">into,<span class="number">150</span></span><br><span class="line">much,<span class="number">148</span></span><br><span class="line">author,<span class="number">147</span></span><br><span class="line">passage,<span class="number">145</span></span><br><span class="line">very,<span class="number">141</span></span><br><span class="line">know,<span class="number">141</span></span><br><span class="line">according,<span class="number">139</span></span><br><span class="line">important,<span class="number">139</span></span><br><span class="line">paragraph,<span class="number">138</span></span><br><span class="line">down,<span class="number">137</span></span><br><span class="line">while,<span class="number">136</span></span><br><span class="line">well,<span class="number">135</span></span><br><span class="line">think,<span class="number">135</span></span><br><span class="line">want,<span class="number">135</span></span><br><span class="line">family,<span class="number">135</span></span><br><span class="line">often,<span class="number">133</span></span><br><span class="line">find,<span class="number">131</span></span><br><span class="line">over,<span class="number">130</span></span><br><span class="line">hours,<span class="number">130</span></span><br><span class="line">before,<span class="number">130</span></span><br><span class="line">writing,<span class="number">130</span></span><br><span class="line">take,<span class="number">129</span></span><br><span class="line">those,<span class="number">129</span></span><br><span class="line">does,<span class="number">129</span></span><br><span class="line">these,<span class="number">127</span></span><br><span class="line">best,<span class="number">126</span></span><br><span class="line">however,<span class="number">125</span></span><br><span class="line">feel,<span class="number">124</span></span><br><span class="line">made,<span class="number">123</span></span><br><span class="line">never,<span class="number">122</span></span><br><span class="line">where,<span class="number">119</span></span><br><span class="line">less,<span class="number">119</span></span><br><span class="line">research,<span class="number">118</span></span><br><span class="line">great,<span class="number">114</span></span><br><span class="line">learn,<span class="number">114</span></span><br><span class="line">change,<span class="number">114</span></span><br><span class="line">study,<span class="number">114</span></span><br><span class="line">teacher,<span class="number">114</span></span><br><span class="line">need,<span class="number">112</span></span><br><span class="line">small,<span class="number">112</span></span><br><span class="line">food,<span class="number">112</span></span><br><span class="line">following,<span class="number">110</span></span><br><span class="line">thought,<span class="number">109</span></span><br><span class="line">through,<span class="number">109</span></span><br><span class="line">better,<span class="number">109</span></span><br><span class="line">class,<span class="number">109</span></span><br><span class="line">talk,<span class="number">108</span></span><br><span class="line">between,<span class="number">107</span></span><br><span class="line">still,<span class="number">107</span></span><br><span class="line">used,<span class="number">107</span></span><br><span class="line">others,<span class="number">106</span></span><br><span class="line">something,<span class="number">105</span></span><br><span class="line">home,<span class="number">104</span></span><br><span class="line">every,<span class="number">104</span></span><br><span class="line">three,<span class="number">103</span></span><br><span class="line">last,<span class="number">103</span></span><br><span class="line">being,<span class="number">102</span></span><br><span class="line">might,<span class="number">102</span></span><br><span class="line"><span class="section">money</span>,<span class="number">99</span></span><br><span class="line">same,<span class="number">98</span></span><br><span class="line">says,<span class="number">98</span></span><br><span class="line">part,<span class="number">97</span></span><br><span class="line">things,<span class="number">97</span></span><br><span class="line">another,<span class="number">97</span></span><br><span class="line">different,<span class="number">96</span></span><br><span class="line">come,<span class="number">96</span></span><br><span class="line">away,<span class="number">95</span></span><br><span class="line">child,<span class="number">94</span></span><br><span class="line">place,<span class="number">93</span></span><br><span class="line">mother,<span class="number">93</span></span><br><span class="line">without,<span class="number">90</span></span><br><span class="line">true,<span class="number">90</span></span><br><span class="line">little,<span class="number">90</span></span><br><span class="line">attitudes,<span class="number">90</span></span><br><span class="line">right,<span class="number">88</span></span><br><span class="line">such,<span class="number">88</span></span><br><span class="line">experience,<span class="number">88</span></span><br><span class="line">long,<span class="number">88</span></span><br><span class="line">point,<span class="number">86</span></span><br><span class="line">keep,<span class="number">86</span></span><br><span class="line">animals,<span class="number">86</span></span><br><span class="line">handwriting,<span class="number">85</span></span><br><span class="line">give,<span class="number">83</span></span><br><span class="line">once,<span class="number">83</span></span><br><span class="line">young,<span class="number">82</span></span><br><span class="line">write,<span class="number">82</span></span><br><span class="line">jacket,<span class="number">82</span></span><br><span class="line">going,<span class="number">81</span></span><br><span class="line">times,<span class="number">81</span></span><br><span class="line">each,<span class="number">81</span></span><br><span class="line">text,<span class="number">78</span></span><br><span class="line">words,<span class="number">78</span></span><br><span class="line">five,<span class="number">77</span></span><br><span class="line">friends,<span class="number">77</span></span><br><span class="line">teachers,<span class="number">77</span></span><br><span class="line">problem,<span class="number">77</span></span><br><span class="line">must,<span class="number">76</span></span><br><span class="line">hard,<span class="number">76</span></span><br><span class="line">show,<span class="number">76</span></span><br><span class="line">university,<span class="number">76</span></span><br><span class="line">making,<span class="number">75</span></span><br><span class="line">probably,<span class="number">75</span></span><br><span class="line">means,<span class="number">74</span></span><br><span class="line">human,<span class="number">74</span></span><br><span class="line">days,<span class="number">73</span></span><br><span class="line">back,<span class="number">73</span></span><br><span class="line">early,<span class="number">73</span></span><br><span class="line">social,<span class="number">73</span></span><br><span class="line">washington,<span class="number">73</span></span><br><span class="line">science,<span class="number">72</span></span><br><span class="line">next,<span class="number">71</span></span><br><span class="line">spelling,<span class="number">71</span></span><br><span class="line">really,<span class="number">70</span></span><br><span class="line">called,<span class="number">69</span></span><br><span class="line">body,<span class="number">69</span></span><br><span class="line">become,<span class="number">69</span></span><br><span class="line">around,<span class="number">69</span></span><br><span class="line">women,<span class="number">69</span></span><br><span class="line">chinese,<span class="number">69</span></span><br><span class="line">person,<span class="number">68</span></span><br><span class="line">thinking,<span class="number">68</span></span><br><span class="line">college,<span class="number">68</span></span><br><span class="line">high,<span class="number">66</span></span><br><span class="line">today,<span class="number">66</span></span><br><span class="line">having,<span class="number">65</span></span><br><span class="line">read,<span class="number">65</span></span><br><span class="line">until,<span class="number">65</span></span><br><span class="line">week,<span class="number">64</span></span><br><span class="line">came,<span class="number">64</span></span><br><span class="line">percent,<span class="number">64</span></span><br><span class="line">house,<span class="number">64</span></span><br><span class="line">paper,<span class="number">63</span></span><br><span class="line">here,<span class="number">63</span></span><br><span class="line">china,<span class="number">63</span></span><br><span class="line">name,<span class="number">63</span></span><br><span class="line">service,<span class="number">63</span></span><br><span class="line">makes,<span class="number">63</span></span><br><span class="line">studies,<span class="number">63</span></span><br><span class="line">tell,<span class="number">62</span></span><br><span class="line">sometimes,<span class="number">62</span></span><br><span class="line">example,<span class="number">61</span></span><br><span class="line">since,<span class="number">61</span></span><br><span class="line">always,<span class="number">61</span></span><br><span class="line">getting,<span class="number">61</span></span><br><span class="line">attention,<span class="number">61</span></span><br><span class="line">city,<span class="number">60</span></span><br><span class="line">ever,<span class="number">60</span></span><br><span class="line">word,<span class="number">60</span></span><br><span class="line">wanted,<span class="number">60</span></span><br><span class="line">humans,<span class="number">60</span></span><br><span class="line">road,<span class="number">60</span></span><br><span class="line">sitting,<span class="number">59</span></span><br><span class="line">ability,<span class="number">59</span></span><br><span class="line">believe,<span class="number">59</span></span><br><span class="line">went,<span class="number">59</span></span><br><span class="line">develop,<span class="number">59</span></span><br><span class="line">along,<span class="number">59</span></span><br><span class="line">space,<span class="number">59</span></span><br><span class="line">friend,<span class="number">58</span></span><br><span class="line">love,<span class="number">58</span></span><br><span class="line">someone,<span class="number">58</span></span><br><span class="line">public,<span class="number">58</span></span><br><span class="line">felt,<span class="number">58</span></span><br><span class="line">eating,<span class="number">58</span></span><br><span class="line">reading,<span class="number">57</span></span><br><span class="line">rather,<span class="number">57</span></span><br><span class="line">states,<span class="number">57</span></span><br><span class="line">soon,<span class="number">56</span></span><br><span class="line">idea,<span class="number">56</span></span><br><span class="line">book,<span class="number">56</span></span><br><span class="line">call,<span class="number">56</span></span><br><span class="line">likely,<span class="number">56</span></span><br><span class="line">didn,<span class="number">56</span></span><br><span class="line">business,<span class="number">56</span></span><br><span class="line">street,<span class="number">56</span></span><br><span class="line">system,<span class="number">56</span></span><br><span class="line">design,<span class="number">56</span></span><br><span class="line">davis,<span class="number">56</span></span><br><span class="line">personal,<span class="number">55</span></span><br><span class="line">united,<span class="number">55</span></span><br><span class="line">language,<span class="number">55</span></span><br><span class="line">american,<span class="number">55</span></span><br><span class="line">during,<span class="number">54</span></span><br><span class="line">ideas,<span class="number">54</span></span><br><span class="line">ways,<span class="number">54</span></span><br><span class="line">both,<span class="number">54</span></span><br><span class="line">crying,<span class="number">54</span></span><br><span class="line">health,<span class="number">54</span></span><br><span class="line">started,<span class="number">54</span></span><br><span class="line">self,<span class="number">53</span></span><br><span class="line">myself,<span class="number">53</span></span><br><span class="line">underlined,<span class="number">53</span></span><br><span class="line">teaching,<span class="number">53</span></span><br><span class="line">deep,<span class="number">53</span></span><br><span class="line">plants,<span class="number">53</span></span><br><span class="line">teach,<span class="number">52</span></span><br><span class="line">past,<span class="number">52</span></span><br><span class="line">office,<span class="number">52</span></span><br><span class="line">team,<span class="number">52</span></span><br><span class="line">west,<span class="number">52</span></span><br><span class="line">father,<span class="number">52</span></span><br><span class="line">museum,<span class="number">52</span></span><br><span class="line">working,<span class="number">51</span></span><br><span class="line">story,<span class="number">51</span></span><br><span class="line">special,<span class="number">51</span></span><br><span class="line">number,<span class="number">51</span></span><br><span class="line">stay,<span class="number">51</span></span><br><span class="line">shows,<span class="number">50</span></span><br><span class="line">asked,<span class="number">50</span></span><br><span class="line">yourself,<span class="number">50</span></span><br><span class="line">facebook,<span class="number">50</span></span><br><span class="line">disease,<span class="number">50</span></span><br><span class="line">everyone,<span class="number">49</span></span><br><span class="line">books,<span class="number">49</span></span><br><span class="line">instead,<span class="number">49</span></span><br><span class="line">couldn,<span class="number">49</span></span><br><span class="line">stop,<span class="number">49</span></span><br><span class="line">information,<span class="number">49</span></span><br><span class="line">realized,<span class="number">49</span></span><br><span class="line">influence,<span class="number">49</span></span><br><span class="line">given,<span class="number">48</span></span><br><span class="line">learning,<span class="number">48</span></span><br><span class="line">able,<span class="number">48</span></span><br><span class="line">happy,<span class="number">48</span></span><br><span class="line">using,<span class="number">48</span></span><br><span class="line">move,<span class="number">48</span></span><br><span class="line">desk,<span class="number">48</span></span><br><span class="line">four,<span class="number">48</span></span><br><span class="line">silence,<span class="number">48</span></span><br><span class="line">classroom,<span class="number">48</span></span><br><span class="line">heat,<span class="number">48</span></span><br><span class="line">longer,<span class="number">47</span></span><br><span class="line">problems,<span class="number">47</span></span><br><span class="line">mind,<span class="number">47</span></span><br><span class="line">coming,<span class="number">47</span></span><br><span class="line">improve,<span class="number">47</span></span><br><span class="line">room,<span class="number">47</span></span><br><span class="line">doing,<span class="number">47</span></span><br><span class="line">culture,<span class="number">47</span></span><br><span class="line">products,<span class="number">47</span></span><br><span class="line">tend,<span class="number">47</span></span><br><span class="line">left,<span class="number">46</span></span><br><span class="line">remember,<span class="number">46</span></span><br><span class="line">night,<span class="number">46</span></span><br><span class="line">grow,<span class="number">46</span></span><br><span class="line">researchers,<span class="number">46</span></span><br><span class="line">play,<span class="number">46</span></span><br><span class="line">later,<span class="number">46</span></span><br><span class="line">group,<span class="number">46</span></span><br><span class="line">outside,<span class="number">46</span></span><br><span class="line">energy,<span class="number">46</span></span><br><span class="line">product,<span class="number">46</span></span><br><span class="line">buying,<span class="number">45</span></span><br><span class="line">mainly,<span class="number">45</span></span><br><span class="line">began,<span class="number">45</span></span><br><span class="line">stories,<span class="number">45</span></span><br><span class="line">student,<span class="number">45</span></span><br><span class="line">development,<span class="number">45</span></span><br><span class="line">several,<span class="number">45</span></span><br><span class="line">store,<span class="number">45</span></span><br><span class="line">impulse,<span class="number">45</span></span><br><span class="line">look,<span class="number">44</span></span><br><span class="line">understand,<span class="number">44</span></span><br><span class="line">easy,<span class="number">44</span></span><br><span class="line">reason,<span class="number">44</span></span><br><span class="line">almost,<span class="number">44</span></span><br><span class="line">difficult,<span class="number">44</span></span><br><span class="line">turn,<span class="number">44</span></span><br><span class="line">live,<span class="number">44</span></span><br><span class="line">exercise,<span class="number">44</span></span><br><span class="line">storm,<span class="number">44</span></span><br><span class="line">title,<span class="number">43</span></span><br><span class="line">common,<span class="number">43</span></span><br><span class="line">worked,<span class="number">43</span></span><br><span class="line">wrong,<span class="number">43</span></span><br><span class="line">hold,<span class="number">43</span></span><br><span class="line">already,<span class="number">43</span></span><br><span class="line">heart,<span class="number">43</span></span><br><span class="line">effect,<span class="number">43</span></span><br><span class="line">names,<span class="number">43</span></span><br><span class="line">interest,<span class="number">43</span></span><br><span class="line">schools,<span class="number">43</span></span><br><span class="line">respect,<span class="number">42</span></span><br><span class="line">free,<span class="number">42</span></span><br><span class="line">visit,<span class="number">42</span></span><br><span class="line">success,<span class="number">42</span></span><br><span class="line">full,<span class="number">42</span></span><br><span class="line">writer,<span class="number">42</span></span><br><span class="line">mean,<span class="number">42</span></span><br><span class="line">famous,<span class="number">42</span></span><br><span class="line">scientists,<span class="number">42</span></span><br><span class="line">music,<span class="number">42</span></span><br><span class="line">start,<span class="number">41</span></span><br><span class="line">skills,<span class="number">41</span></span><br><span class="line">weight,<span class="number">41</span></span><br><span class="line">english,<span class="number">41</span></span><br><span class="line">education,<span class="number">41</span></span><br><span class="line">lives,<span class="number">41</span></span><br><span class="line">woman,<span class="number">40</span></span><br><span class="line">message,<span class="number">40</span></span><br><span class="line">decided,<span class="number">40</span></span><br><span class="line">finally,<span class="number">40</span></span><br><span class="line">done,<span class="number">40</span></span><br><span class="line">future,<span class="number">40</span></span><br><span class="line">sense,<span class="number">40</span></span><br><span class="line">though,<span class="number">40</span></span><br><span class="line">possible,<span class="number">40</span></span><br><span class="line">rise,<span class="number">40</span></span><br><span class="line">million,<span class="number">40</span></span><br><span class="line">order,<span class="number">39</span></span><br><span class="line">watch,<span class="number">39</span></span><br><span class="line">save,<span class="number">39</span></span><br><span class="line">allow,<span class="number">39</span></span><br><span class="line">opened,<span class="number">39</span></span><br><span class="line">looking,<span class="number">39</span></span><br><span class="line">within,<span class="number">39</span></span><br><span class="line">among,<span class="number">39</span></span><br><span class="line">healthy,<span class="number">39</span></span><br><span class="line">silk,<span class="number">39</span></span><br><span class="line">careers,<span class="number">39</span></span><br><span class="line">report,<span class="number">38</span></span><br><span class="line">jobs,<span class="number">38</span></span><br><span class="line">open,<span class="number">38</span></span><br><span class="line">minutes,<span class="number">38</span></span><br><span class="line">spent,<span class="number">38</span></span><br><span class="line">together,<span class="number">38</span></span><br><span class="line">head,<span class="number">38</span></span><br><span class="line">fire,<span class="number">38</span></span><br><span class="line">tour,<span class="number">38</span></span><br><span class="line">program,<span class="number">38</span></span><br><span class="line">friday,<span class="number">38</span></span><br><span class="line">leaves,<span class="number">38</span></span><br><span class="line">customers,<span class="number">37</span></span><br><span class="line">british,<span class="number">37</span></span><br><span class="line">taking,<span class="number">37</span></span><br><span class="line">real,<span class="number">37</span></span><br><span class="line">certain,<span class="number">37</span></span><br><span class="line">morning,<span class="number">37</span></span><br><span class="line">wait,<span class="number">37</span></span><br><span class="line">cold,<span class="number">37</span></span><br><span class="line">express,<span class="number">37</span></span><br><span class="line">attitude,<span class="number">37</span></span><br><span class="line">inside,<span class="number">37</span></span><br><span class="line">adults,<span class="number">37</span></span><br><span class="line">took,<span class="number">36</span></span><br><span class="line">again,<span class="number">36</span></span><br><span class="line">national,<span class="number">36</span></span><br><span class="line">popular,<span class="number">36</span></span><br><span class="line">sure,<span class="number">36</span></span><br><span class="line">enough,<span class="number">36</span></span><br><span class="line">chance,<span class="number">36</span></span><br><span class="line">finding,<span class="number">36</span></span><br><span class="line">fact,<span class="number">36</span></span><br><span class="line">sign,<span class="number">36</span></span><br><span class="line">travel,<span class="number">36</span></span><br><span class="line">became,<span class="number">36</span></span><br><span class="line">cars,<span class="number">36</span></span><br><span class="line">arts,<span class="number">36</span></span><br><span class="line">katzmarzyk,<span class="number">36</span></span><br><span class="line">process,<span class="number">35</span></span><br><span class="line">knowledge,<span class="number">35</span></span><br><span class="line">activities,<span class="number">35</span></span><br><span class="line"><span class="section">control</span>,<span class="number">35</span></span><br><span class="line">front,<span class="number">35</span></span><br><span class="line">told,<span class="number">35</span></span><br><span class="line">computer,<span class="number">35</span></span><br><span class="line">please,<span class="number">35</span></span><br><span class="line">happiness,<span class="number">35</span></span><br><span class="line">comes,<span class="number">35</span></span><br><span class="line">living,<span class="number">35</span></span><br><span class="line">encourage,<span class="number">35</span></span><br><span class="line">return,<span class="number">35</span></span><br><span class="line">break,<span class="number">35</span></span><br><span class="line">shopping,<span class="number">35</span></span><br><span class="line">experiment,<span class="number">35</span></span><br><span class="line">natural,<span class="number">35</span></span><br><span class="line">fish,<span class="number">35</span></span><br><span class="line">face,<span class="number">34</span></span><br><span class="line">leave,<span class="number">34</span></span><br><span class="line">necessary,<span class="number">34</span></span><br><span class="line">hour,<span class="number">34</span></span><br><span class="line">events,<span class="number">34</span></span><br><span class="line">against,<span class="number">34</span></span><br><span class="line">large,<span class="number">34</span></span><br><span class="line">hands,<span class="number">34</span></span><br><span class="line">kids,<span class="number">34</span></span><br><span class="line">lost,<span class="number">34</span></span><br><span class="line">experienced,<span class="number">34</span></span><br><span class="line">places,<span class="number">34</span></span><br><span class="line">recent,<span class="number">34</span></span><br><span class="line">peter,<span class="number">34</span></span><br><span class="line">animal,<span class="number">34</span></span><br><span class="line">published,<span class="number">34</span></span><br><span class="line">white,<span class="number">34</span></span><br><span class="line">main,<span class="number">34</span></span><br><span class="line">safe,<span class="number">34</span></span><br><span class="line">clothes,<span class="number">34</span></span><br><span class="line">deaths,<span class="number">34</span></span><br><span class="line">coffee,<span class="number">33</span></span><br><span class="line">under,<span class="number">33</span></span><br><span class="line">beyond,<span class="number">33</span></span><br><span class="line">result,<span class="number">33</span></span><br><span class="line">behavior,<span class="number">33</span></span><br><span class="line">meaning,<span class="number">33</span></span><br><span class="line">generation,<span class="number">33</span></span><br><span class="line">strong,<span class="number">33</span></span><br><span class="line">company,<span class="number">33</span></span><br><span class="line">practice,<span class="number">33</span></span><br><span class="line">feelings,<span class="number">33</span></span><br><span class="line">news,<span class="number">33</span></span><br><span class="line">toward,<span class="number">33</span></span><br><span class="line">foreign,<span class="number">33</span></span><br><span class="line">position,<span class="number">33</span></span><br><span class="line">advice,<span class="number">33</span></span><br><span class="line">modern,<span class="number">33</span></span><br><span class="line">heard,<span class="number">33</span></span><br><span class="line">higher,<span class="number">33</span></span><br><span class="line">especially,<span class="number">33</span></span><br><span class="line">proper,<span class="number">33</span></span><br><span class="line">nothing,<span class="number">33</span></span><br><span class="line">including,<span class="number">33</span></span><br><span class="line">zoology,<span class="number">33</span></span><br><span class="line">himself,<span class="number">32</span></span><br><span class="line">plan,<span class="number">32</span></span><br><span class="line">relationship,<span class="number">32</span></span><br><span class="line">hand,<span class="number">32</span></span><br><span class="line">emotions,<span class="number">32</span></span><br><span class="line">showed,<span class="number">32</span></span><br><span class="line">winter,<span class="number">32</span></span><br><span class="line">visitors,<span class="number">32</span></span><br><span class="line">clean,<span class="number">32</span></span><br><span class="line">phone,<span class="number">32</span></span><br><span class="line">rich,<span class="number">32</span></span><br><span class="line">successful,<span class="number">32</span></span><br><span class="line">construction,<span class="number">32</span></span><br><span class="line">programs,<span class="number">32</span></span><br><span class="line">usually,<span class="number">32</span></span><br><span class="line">market,<span class="number">32</span></span><br><span class="line">offered,<span class="number">32</span></span><br><span class="line">considered,<span class="number">32</span></span><br><span class="line">memorial,<span class="number">32</span></span><br><span class="line">degavre,<span class="number">32</span></span><br><span class="line">earth,<span class="number">32</span></span><br><span class="line">interested,<span class="number">31</span></span><br><span class="line">matter,<span class="number">31</span></span><br><span class="line">studying,<span class="number">31</span></span><br><span class="line">doesn,<span class="number">31</span></span><br><span class="line">focus,<span class="number">31</span></span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Python/" rel="tag"># Python</a>
+          
+            <a href="/tags/视频/" rel="tag"># 视频</a>
+          
+            <a href="/tags/英语/" rel="tag"># 英语</a>
+          
+            <a href="/tags/高考/" rel="tag"># 高考</a>
+          
+            <a href="/tags/统计/" rel="tag"># 统计</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/02/07/机器学习中的一个尝试——“机器创造”/" rel="next" title="机器学习中的一个尝试——“机器创造”">
+                <i class="fa fa-chevron-left"></i> 机器学习中的一个尝试——“机器创造”
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/02/09/使用Mandelbulb3D渲染三维分形/" rel="prev" title="使用Mandelbulb3D渲染三维分形">
+                使用Mandelbulb3D渲染三维分形 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/logo.png" alt="王家晔">
+            
+              <p class="site-author-name" itemprop="name">王家晔</p>
+              <p class="site-description motion-element" itemprop="description">在黑夜中睁开眼睛</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">25</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">39</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/HK-SHAO" title="GitHub &rarr; https://github.com/HK-SHAO" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:2063597709@qq.com" title="E-Mail &rarr; mailto:2063597709@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://hk-shao.github.io/demo/ShaderEditor/" title="https://hk-shao.github.io/demo/ShaderEditor/">ShaderEditor</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://wuyudi.github.io/" title="https://wuyudi.github.io/" rel="noopener" target="_blank">wuyudi的小站</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#演示的视频"><span class="nav-number">1.</span> <span class="nav-text">演示的视频</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Python源代码"><span class="nav-number">2.</span> <span class="nav-text">Python源代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#英语单词频数表"><span class="nav-number">3.</span> <span class="nav-text">英语单词频数表</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">王家晔</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.7.0"></script>
+
+  <script src="/js/src/motion.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=6.7.0"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=6.7.0"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=6.7.0"></script>
+<script src="/js/src/post-details.js?v=6.7.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.7.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
