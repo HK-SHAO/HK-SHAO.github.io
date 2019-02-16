@@ -439,18 +439,11 @@
 <p>3，$\qquad\vec{a}\times \vec{b}=-(\vec{b} \times \vec a)$  </p>
 <h2 id="运用1，已知三点坐标，求三角形面积"><a href="#运用1，已知三点坐标，求三角形面积" class="headerlink" title="运用1，已知三点坐标，求三角形面积"></a>运用1，已知三点坐标，求三角形面积</h2><p>以任意一个点坐标为基准，做差得到两个向量，这两个向量可围成向量三角形<br>例如点 $A (a, b, c)$ ，点 $B (d, e, f)$ ，点 $C (g, h, i)$<br>得到向量 $\vec{p} = (d - a, e - b, f - c)$ 和 $\vec{q} = (g - a, h - b, i - c)$<br>使用公式2，然后取绝对值，得到三角形面积 $S = | \vec{p} \times \vec{q} | / 2$  </p>
 <p>空间向量外积求三角形面积可以很容易的推广到平面  </p>
-<p>令 </p>
-<script type="math/tex; mode=display">
-\ n = 0，q = 0</script><p>则有 </p>
-<script type="math/tex; mode=display">
-\vec{a} ×\vec{b}= (l, m, 0) × (o, p, 0) = (0, 0, lp - mo)</script><p>故 </p>
-<script type="math/tex; mode=display">
-S =  |\vec{a}×\vec{b}| / 2 = | lp - mo | / 2</script><p><em>三角形是最简单的几何图形，而在计算机领域求多边形面积是非常重要的，而用向量外积算出的有向面积，是解决求多边形面积的重要方法，它适用于凸多边形和凹多边形，非常灵活，简洁优美。</em>  </p>
+<p>令<br>$$<br>\ n = 0，q = 0<br>$$<br>则有<br>$$<br>\vec{a} ×\vec{b}= (l, m, 0) × (o, p, 0) = (0, 0, lp - mo)<br>$$<br>故<br>$$<br>S =  |\vec{a}×\vec{b}| / 2 = | lp - mo | / 2<br>$$</p>
+<p><em>三角形是最简单的几何图形，而在计算机领域求多边形面积是非常重要的，而用向量外积算出的有向面积，是解决求多边形面积的重要方法，它适用于凸多边形和凹多边形，非常灵活，简洁优美。</em>  </p>
 <h2 id="运用2，已知平面，求平面的法向量"><a href="#运用2，已知平面，求平面的法向量" class="headerlink" title="运用2，已知平面，求平面的法向量"></a>运用2，已知平面，求平面的法向量</h2><p>找到平面内不共线的两向量 $\vec a,\vec b$ ，这两个向量决定了这个平面<br>使用公式2，得到向量 $\vec c$ ，按照向量外积的定义，$\vec c$ 垂直于 $\vec a,\vec b$<br>故所求向量 $\vec c$ 即平面的法向量  </p>
 <p><em>向量外积得到的法向量，有很多用途，尤其是物理上的，例如3D图像渲染在CG和游戏领域非常重要，而好的视觉效果多半取决于环境光的仿真，光的传播有一个最基本的定理，那就是光线与平面的法线所成的反射角等于入射角，而与利用向量外积求平面法线，是最简洁优美的。</em></p>
-<h2 id="运用3，求三棱锥体积"><a href="#运用3，求三棱锥体积" class="headerlink" title="运用3，求三棱锥体积"></a>运用3，求三棱锥体积</h2><p>由三个不共面向量 $\vec{a},\vec{b},\vec{c}$ 所决定的平行六面体的体积为  </p>
-<script type="math/tex; mode=display">
-V=|\vec{a} \cdot ({\vec{b} \times} \vec{c})|=|\vec{b} \cdot ({\vec{a} \times} \vec{c})|=|\vec{c} \cdot ({\vec{a} \times} \vec{b})|</script><p>故由三个不共面向量所决定的三棱锥的体积为 $V/6$</p>
+<h2 id="运用3，求三棱锥体积"><a href="#运用3，求三棱锥体积" class="headerlink" title="运用3，求三棱锥体积"></a>运用3，求三棱锥体积</h2><p>由三个不共面向量 $\vec{a},\vec{b},\vec{c}$ 所决定的平行六面体的体积为<br>$$<br>V=|\vec{a} \cdot ({\vec{b} \times} \vec{c})|=|\vec{b} \cdot ({\vec{a} \times} \vec{c})|=|\vec{c} \cdot ({\vec{a} \times} \vec{b})|<br>$$<br>故由三个不共面向量所决定的三棱锥的体积为 $V/6$</p>
 <h2 id="运用4，高中数学外挂"><a href="#运用4，高中数学外挂" class="headerlink" title="运用4，高中数学外挂"></a>运用4，高中数学外挂</h2><p>用它来做高中数学题简直就是开挂。</p>
 <p>已知三点坐标，求三角形面积这个问题。按照高中数学的套路，无非就是两点间距离公式算三边长，然后要么用海伦公式算面积，要么用余弦定理求出余弦值，换成正弦值，再求面积，这两种方法海伦公式稍微简便一点，但无非都难算了一些。而使用向量外积则简洁优美，我直接算 $|\vec{a}×\vec{b}| / 2$ 的值就是面积了。</p>
 <p>已知平面，求平面的法向量这个问题。按照高中数学的套路，无非找出平面内两个不共线向量 $\vec a,\vec b$ ，然后设平面的法向量 $\vec{c} = (x, y, z)$ 然后根据向量垂直 $\vec{c} \cdot\vec{a}= 0$ 和 $\vec{c} \cdot\vec{b}= 0$ 联立解得 $x,y,z$ 为含参的式子(因为一个平面的法向量有无数个)，最后取一个容易计算的法向量。而使用向量外积，那就很简单了，计算 $\vec{a} × \vec b$ 就搞定了。</p>
@@ -577,7 +570,7 @@ V=|\vec{a} \cdot ({\vec{b} \times} \vec{c})|=|\vec{b} \cdot ({\vec{a} \times} \v
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">26</span>
+                    <span class="site-state-item-count">27</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -672,7 +665,11 @@ V=|\vec{a} \cdot ({\vec{b} \times} \vec{c})|=|\vec{b} \cdot ({\vec{a} \times} \v
                     
                       
                     
-                    <span class="site-state-item-count">40</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">42</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
