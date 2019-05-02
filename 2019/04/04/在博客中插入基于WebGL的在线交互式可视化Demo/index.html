@@ -111,7 +111,7 @@
 <meta property="og:site_name" content="HK-SHAO">
 <meta property="og:description" content="这个简单的Demo是一个在博客内容中插入一段由GLSL语言写的着色器程序，可以实现很多种图像效果，关于GLSL和着色器的具体内容可以看我之前写的博客。本站着色编辑器上线啦！ OpenGL着色器（Shader）和GLSL语言的简单介绍 使用的 GLSL Canvas 开源项目在：https://github.com/patriciogonzalezvivo/glslCanvas交互式可视化Demo如">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-04-05T04:59:35.926Z">
+<meta property="og:updated_time" content="2019-04-05T05:03:52.093Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="在博客中插入基于WebGL的在线交互式可视化Demo">
 <meta name="twitter:description" content="这个简单的Demo是一个在博客内容中插入一段由GLSL语言写的着色器程序，可以实现很多种图像效果，关于GLSL和着色器的具体内容可以看我之前写的博客。本站着色编辑器上线啦！ OpenGL着色器（Shader）和GLSL语言的简单介绍 使用的 GLSL Canvas 开源项目在：https://github.com/patriciogonzalezvivo/glslCanvas交互式可视化Demo如">
@@ -396,7 +396,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-04-05 12:59:35" itemprop="dateModified" datetime="2019-04-05T12:59:35+08:00">2019-04-05</time>
+                <time title="修改时间：2019-04-05 13:03:52" itemprop="dateModified" datetime="2019-04-05T13:03:52+08:00">2019-04-05</time>
               
             
           </span>
@@ -465,7 +465,7 @@ void main(void)
     PLOT(Axes, Ac, col, uv);
     PLOT(Func, Color, col, uv);
     gl_FragColor = vec4(vec3(1.0) - col, 1.0);
-}" width="500" height="500"></canvas><br><br></html>
+}" width="300" height="300"></canvas><br><br></html>
 
 <h2 id="GLSL程序"><a href="#GLSL程序" class="headerlink" title="GLSL程序"></a>GLSL程序</h2><figure class="highlight glsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#ifdef GL_ES</span></span><br><span class="line"><span class="keyword">precision</span> <span class="keyword">mediump</span> <span class="type">float</span>;</span><br><span class="line"><span class="meta">#endif</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">uniform</span> <span class="type">vec2</span> u_resolution;</span><br><span class="line"><span class="keyword">uniform</span> <span class="type">vec2</span> u_mouse;</span><br><span class="line"><span class="keyword">uniform</span> <span class="type">float</span> u_time;</span><br><span class="line"></span><br><span class="line"><span class="meta">#define ZOOM 20.0</span></span><br><span class="line"><span class="meta">#define LINE_SIZE 2.0</span></span><br><span class="line"><span class="meta">#define GRAD_OFFS vec2(1e-4 * ZOOM, 0.0)</span></span><br><span class="line"><span class="meta">#define GRAD(f, p) (vec2(f(p) - f(p + GRAD_OFFS.xy), f(p) - f(p + GRAD_OFFS.yx)) / GRAD_OFFS.x)</span></span><br><span class="line"><span class="meta">#define PLOT(f, c, d, p) d = mix(c(p), d, smoothstep(0.0, (LINE_SIZE / u_resolution.y * ZOOM), abs(f(p) / length(GRAD(f, p)))))</span></span><br><span class="line"></span><br><span class="line"><span class="type">float</span> Func(<span class="type">vec2</span> p)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> (<span class="built_in">pow</span>(p.x, <span class="number">2.0</span>) + <span class="built_in">pow</span>(p.y - <span class="built_in">pow</span>(<span class="built_in">pow</span>(p.x, <span class="number">2.0</span>),<span class="number">1.0</span> / <span class="number">3.0</span>), <span class="number">2.0</span>) - <span class="number">7.0</span> - <span class="number">3.0</span>*<span class="built_in">sin</span>(u_time)*<span class="built_in">sin</span>(u_time));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">vec3</span> Color(<span class="type">vec2</span> p) &#123; <span class="keyword">return</span> <span class="type">vec3</span>(<span class="number">1.0</span>); &#125;</span><br><span class="line"><span class="type">float</span> Axes(<span class="type">vec2</span> p) &#123; </span><br><span class="line">    <span class="type">vec2</span> uv = ((u_mouse - u_resolution / <span class="number">2.0</span>) / u_resolution.xy) * ZOOM;</span><br><span class="line">    <span class="keyword">return</span> (p.x-uv.x)*(p.y-uv.y); </span><br><span class="line">&#125;</span><br><span class="line"><span class="type">vec3</span> Ac(<span class="type">vec2</span> p) &#123; <span class="keyword">return</span> <span class="type">vec3</span>(<span class="number">0.2</span>); &#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> main(<span class="type">void</span>)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">vec2</span> uv = ((<span class="built_in">gl_FragCoord</span>.xy - u_resolution / <span class="number">2.0</span>) / u_resolution.xy) * ZOOM;</span><br><span class="line">    <span class="type">vec3</span> col;</span><br><span class="line">    PLOT(Axes, Ac, col, uv);</span><br><span class="line">    PLOT(Func, Color, col, uv);</span><br><span class="line">    <span class="built_in">gl_FragColor</span> = <span class="type">vec4</span>(<span class="type">vec3</span>(<span class="number">1.0</span>) - col, <span class="number">1.0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>你可以在本站的着色编辑器中运行上面的程序：<br><a href="https://hk-shao.github.io/demo/ShaderEditor/">https://hk-shao.github.io/demo/ShaderEditor/</a></p>
@@ -522,6 +522,10 @@ void main(void)
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/05/02/编写和排版到打印和封装一本高考词典/" rel="prev" title="编写和排版到打印和封装一本高考词典">
+                编写和排版到打印和封装一本高考词典 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -595,7 +599,7 @@ void main(void)
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">30</span>
+                    <span class="site-state-item-count">31</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -696,7 +700,9 @@ void main(void)
                     
                       
                     
-                    <span class="site-state-item-count">43</span>
+                      
+                    
+                    <span class="site-state-item-count">44</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

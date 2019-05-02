@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=6.7.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.7.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.7.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.7.0',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":false,"scrollpercent":true,"onmobile":true},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="搜集了历年来各个省份的高三英语模拟卷和历年来的高考英语全国卷总共130多份电子文档，统计其中所有的大约50多万单词，得到不同单词的频数。使用python爬取了Google翻译的汉语释义和英文释义，有道词典的单词音标和单词的短语。整理好后用Word进行排版，最后导出pdf到网店进行封装打印成书。">
+<meta name="keywords" content="Python,统计,Office">
+<meta property="og:type" content="article">
+<meta property="og:title" content="编写和排版到打印和封装一本高考词典">
+<meta property="og:url" content="https://hk-shao.github.io/2019/05/02/编写和排版到打印和封装一本高考词典/index.html">
+<meta property="og:site_name" content="HK-SHAO">
+<meta property="og:description" content="搜集了历年来各个省份的高三英语模拟卷和历年来的高考英语全国卷总共130多份电子文档，统计其中所有的大约50多万单词，得到不同单词的频数。使用python爬取了Google翻译的汉语释义和英文释义，有道词典的单词音标和单词的短语。整理好后用Word进行排版，最后导出pdf到网店进行封装打印成书。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://hk-shao.github.io/images/blog/27.PNG">
+<meta property="og:image" content="https://hk-shao.github.io/images/blog/28.PNG">
+<meta property="og:image" content="https://hk-shao.github.io/images/blog/29.PNG">
+<meta property="og:image" content="https://hk-shao.github.io/images/blog/30.PNG">
+<meta property="og:image" content="https://hk-shao.github.io/images/blog/31.PNG">
+<meta property="og:image" content="https://hk-shao.github.io/images/blog/32.GIF">
+<meta property="og:updated_time" content="2019-05-02T10:05:26.406Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="编写和排版到打印和封装一本高考词典">
+<meta name="twitter:description" content="搜集了历年来各个省份的高三英语模拟卷和历年来的高考英语全国卷总共130多份电子文档，统计其中所有的大约50多万单词，得到不同单词的频数。使用python爬取了Google翻译的汉语释义和英文释义，有道词典的单词音标和单词的短语。整理好后用Word进行排版，最后导出pdf到网店进行封装打印成书。">
+<meta name="twitter:image" content="https://hk-shao.github.io/images/blog/27.PNG">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="HK-SHAO" type="application/atom+xml">
+
+
+
+
+  <link rel="canonical" href="https://hk-shao.github.io/2019/05/02/编写和排版到打印和封装一本高考词典/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>编写和排版到打印和封装一本高考词典 | HK-SHAO</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">HK-SHAO</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">Shao's blog</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hk-shao.github.io/2019/05/02/编写和排版到打印和封装一本高考词典/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="王家晔">
+      <meta itemprop="description" content="在黑夜中睁开眼睛">
+      <meta itemprop="image" content="/images/logo.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="HK-SHAO">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">编写和排版到打印和封装一本高考词典
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-05-02 17:00:37 / 修改时间：18:05:26" itemprop="dateCreated datePublished" datetime="2019-05-02T17:00:37+08:00">2019-05-02</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>搜集了历年来各个省份的高三英语模拟卷和历年来的高考英语全国卷总共130多份电子文档，统计其中所有的大约50多万单词，得到不同单词的频数。使用python爬取了Google翻译的汉语释义和英文释义，有道词典的单词音标和单词的短语。整理好后用Word进行排版，最后导出pdf到网店进行封装打印成书。<br><a id="more"></a></p>
+<h3 id="搜集和整理考题数据"><a href="#搜集和整理考题数据" class="headerlink" title="搜集和整理考题数据"></a>搜集和整理考题数据</h3><p>主要是在百度文库，百度高考估分和e网通下载文档，下载和整理过滤均为手工。成果如下：<br><img src="/images/blog/27.PNG" alt=""></p>
+<p>接着手工把所有文档打开，把所有文档中的文字整理到一个txt文件里，使用VS Code打开这个文档，用正则表达式<code>[^a-z]</code>去除所有的非英文字符，然后把所有的多余空格去掉，把不同单词之间的空格替换成逗号。效果如下：<br><img src="/images/blog/28.PNG" alt=""></p>
+<h3 id="编写Python程序统计单词频数"><a href="#编写Python程序统计单词频数" class="headerlink" title="编写Python程序统计单词频数"></a>编写Python程序统计单词频数</h3><p>同时编写程序过滤掉重复的单词和长度小于4的单词，并且过滤掉常见的人名和地名。相比之前的程序，这个程序因为使用了字典而大幅度提高了运行效率。代码如下：<br><figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">f = <span class="built_in">open</span>(<span class="string">'words.txt'</span>)</span><br><span class="line"><span class="built_in">word</span> = f.<span class="built_in">read</span>().<span class="built_in">split</span>(<span class="string">','</span>)</span><br><span class="line">f.<span class="built_in">close</span>()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 过滤表（去除人名地名）</span></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">'filter.txt'</span>, encoding=<span class="string">'utf-8'</span>)</span><br><span class="line">fi = dict.fromkeys(f.<span class="built_in">read</span>().<span class="built_in">split</span>(<span class="string">','</span>))</span><br><span class="line">f.<span class="built_in">close</span>()</span><br><span class="line"></span><br><span class="line">dic = dict()</span><br><span class="line"><span class="keyword">for</span> w <span class="keyword">in</span> <span class="built_in">word</span>:</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(w) &lt; <span class="number">4</span> <span class="keyword">or</span> w <span class="keyword">in</span> fi:</span><br><span class="line">        continue</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(w) == <span class="number">4</span> <span class="keyword">and</span> w[<span class="number">-1</span>] == <span class="string">'s'</span>:</span><br><span class="line">        continue</span><br><span class="line">    dic.setdefault(w, <span class="number">0</span>)</span><br><span class="line">    dic[w] += <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 去除重复单词</span></span><br><span class="line"><span class="keyword">for</span> w <span class="keyword">in</span> list(dic.<span class="built_in">keys</span>()):</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> w <span class="keyword">in</span> dic:</span><br><span class="line">        continue</span><br><span class="line">    <span class="keyword">if</span> w + w[<span class="number">-1</span>] + <span class="string">'ing'</span> <span class="keyword">in</span> dic:</span><br><span class="line">        dic[w] += dic.pop(w + w[<span class="number">-1</span>] + <span class="string">'ing'</span>)</span><br><span class="line">    <span class="keyword">if</span> w + w[<span class="number">-1</span>] + <span class="string">'ed'</span> <span class="keyword">in</span> dic:</span><br><span class="line">        dic[w] += dic.pop(w + w[<span class="number">-1</span>] + <span class="string">'ed'</span>)</span><br><span class="line">    <span class="keyword">if</span> w + <span class="string">'ing'</span> <span class="keyword">in</span> dic:</span><br><span class="line">        dic[w] += dic.pop(w + <span class="string">'ing'</span>)</span><br><span class="line">    <span class="keyword">if</span> w + <span class="string">'ed'</span> <span class="keyword">in</span> dic:</span><br><span class="line">        dic[w] += dic.pop(w + <span class="string">'ed'</span>)</span><br><span class="line">    <span class="keyword">if</span> w + <span class="string">'s'</span> <span class="keyword">in</span> dic:</span><br><span class="line">        dic[w] += dic.pop(w + <span class="string">'s'</span>)</span><br><span class="line">    <span class="keyword">if</span> w + <span class="string">'es'</span> <span class="keyword">in</span> dic:</span><br><span class="line">        dic[w] += dic.pop(w + <span class="string">'es'</span>)</span><br><span class="line">    <span class="keyword">if</span> w + <span class="string">'ly'</span> <span class="keyword">in</span> dic:</span><br><span class="line">        dic[w] += dic.pop(w + <span class="string">'ly'</span>)</span><br><span class="line"></span><br><span class="line">l = []</span><br><span class="line"><span class="keyword">for</span> k <span class="keyword">in</span> sorted(dic,key=dic.__getitem__,reverse=True):</span><br><span class="line">    l.append([k, dic[k]])</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">'dic.txt'</span>, <span class="string">'w'</span>)</span><br><span class="line"><span class="built_in">word</span> = f.<span class="built_in">write</span>(str(l))</span><br><span class="line">f.<span class="built_in">close</span>()</span><br></pre></td></tr></table></figure></p>
+<p>得到一个频数列表：<br><img src="/images/blog/29.PNG" alt=""></p>
+<h3 id="编写Google翻译爬虫和有道词典爬虫"><a href="#编写Google翻译爬虫和有道词典爬虫" class="headerlink" title="编写Google翻译爬虫和有道词典爬虫"></a>编写Google翻译爬虫和有道词典爬虫</h3><p>这部分参考了网上的很多代码，因为代码太多所以只贴上main程序。其中的【【】】是标签，方便后面排版时进行文字处理。<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">import tyoudao</span><br><span class="line">import tgoogle</span><br><span class="line"></span><br><span class="line"><span class="keyword">f</span> = <span class="keyword">open</span>(<span class="string">'dic.txt'</span>, encoding=<span class="string">'utf-8'</span>)</span><br><span class="line">fi = <span class="keyword">f</span>.<span class="keyword">read</span>()</span><br><span class="line"><span class="keyword">f</span>.<span class="keyword">close</span>()</span><br><span class="line"></span><br><span class="line"><span class="keyword">ls</span> = <span class="built_in">eval</span>(fi)</span><br><span class="line"><span class="keyword">for</span> li in <span class="keyword">ls</span>[:<span class="number">3000</span>]:</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        s1 = tgoogle.<span class="built_in">get</span>(li[<span class="number">0</span>])</span><br><span class="line">        s2 = tyoudao.<span class="built_in">get</span>(li[<span class="number">0</span>])</span><br><span class="line">    except KeyboardInterrup<span class="variable">t:</span></span><br><span class="line">        <span class="keyword">quit</span>()</span><br><span class="line">    excep<span class="variable">t:</span></span><br><span class="line">        <span class="keyword">print</span>(<span class="string">'【错误】&#123;&#125;'</span>.format(li[<span class="number">0</span>]))</span><br><span class="line">        <span class="keyword">continue</span></span><br><span class="line">    s = <span class="string">'【【a1】】&#123;&#125;【【a2】】| 【【a3】】&#123;&#125;【【a4】】\n【【a5】】&#123;&#125;【【a6】】\n&#123;&#125;【【a7】】\n【【a8】】&#123;&#125;【【a9】】\n【【a10】】&#123;&#125;【【a11】】'</span>.format(li[<span class="number">1</span>], s2[<span class="number">0</span>], s1[<span class="number">0</span>], s2[<span class="number">1</span>], s2[<span class="number">2</span>], s1[<span class="number">1</span>])</span><br><span class="line">    <span class="keyword">print</span>(s)</span><br><span class="line">    <span class="keyword">f</span> = <span class="keyword">open</span>(<span class="string">'english.txt'</span>, <span class="string">'a+'</span>, encoding=<span class="string">'utf-8'</span>)</span><br><span class="line">    <span class="keyword">f</span>.<span class="keyword">write</span>(s + <span class="string">'\n'</span>)</span><br><span class="line">    <span class="keyword">f</span>.<span class="keyword">close</span>()</span><br></pre></td></tr></table></figure></p>
+<p>最后得到排版前数据：<br><img src="/images/blog/30.PNG" alt=""></p>
+<h3 id="使用LibreOffice进行排版"><a href="#使用LibreOffice进行排版" class="headerlink" title="使用LibreOffice进行排版"></a>使用LibreOffice进行排版</h3><p>说实话我不喜欢也不会用Office系列软件，由于没有正版Office软件，我只好用免费开源的LibreOffice进行排版。由于某些单词音标不全，我还只好手动去网上搜索然后编辑进去。排版过程及其痛苦，不停的使用搜索和替换功能，写了无数次正则表达式和用了无数次通配符。最坑的就是添加单词目录，我使用了各种文本处理方法手工制作了单词目录。在无数次机械般的试错和百度搜索之后，终于排版好了。最后进行微调和添加页码水印，导出pdf。<br><img src="/images/blog/31.PNG" alt=""></p>
+<h3 id="最终成果"><a href="#最终成果" class="headerlink" title="最终成果"></a>最终成果</h3><p>最后打印封装这些就是网店的事情了，这里就不多说了。<br><img src="/images/blog/32.GIF" alt=""></p>
+<h3 id="项目的所有工程文件"><a href="#项目的所有工程文件" class="headerlink" title="项目的所有工程文件"></a>项目的所有工程文件</h3><p>如果有需要可以联系我。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Python/" rel="tag"># Python</a>
+          
+            <a href="/tags/统计/" rel="tag"># 统计</a>
+          
+            <a href="/tags/Office/" rel="tag"># Office</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/04/04/在博客中插入基于WebGL的在线交互式可视化Demo/" rel="next" title="在博客中插入基于WebGL的在线交互式可视化Demo">
+                <i class="fa fa-chevron-left"></i> 在博客中插入基于WebGL的在线交互式可视化Demo
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/logo.png" alt="王家晔">
+            
+              <p class="site-author-name" itemprop="name">王家晔</p>
+              <p class="site-description motion-element" itemprop="description">在黑夜中睁开眼睛</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">31</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">44</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/HK-SHAO" title="GitHub &rarr; https://github.com/HK-SHAO" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:2063597709@qq.com" title="E-Mail &rarr; mailto:2063597709@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://hk-shao.github.io/demo/ShaderEditor/" title="https://hk-shao.github.io/demo/ShaderEditor/">ShaderEditor</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://wuyudi.github.io/" title="https://wuyudi.github.io/" rel="noopener" target="_blank">wuyudi的小站</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#搜集和整理考题数据"><span class="nav-number">1.</span> <span class="nav-text">搜集和整理考题数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编写Python程序统计单词频数"><span class="nav-number">2.</span> <span class="nav-text">编写Python程序统计单词频数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编写Google翻译爬虫和有道词典爬虫"><span class="nav-number">3.</span> <span class="nav-text">编写Google翻译爬虫和有道词典爬虫</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用LibreOffice进行排版"><span class="nav-number">4.</span> <span class="nav-text">使用LibreOffice进行排版</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#最终成果"><span class="nav-number">5.</span> <span class="nav-text">最终成果</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#项目的所有工程文件"><span class="nav-number">6.</span> <span class="nav-text">项目的所有工程文件</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">王家晔</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.7.0"></script>
+
+  <script src="/js/src/motion.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+  
+  <script src="/js/src/scrollspy.js?v=6.7.0"></script>
+<script src="/js/src/post-details.js?v=6.7.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.7.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
