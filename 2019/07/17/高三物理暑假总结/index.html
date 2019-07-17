@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=6.7.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.7.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.7.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.7.0',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":false,"scrollpercent":true,"onmobile":true},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="结论两物体发生弹性碰撞若物块 $A$ 以速度 $v_1$ 在光滑平面上撞向另一静止的物块 $B$，发生弹性碰撞，则可根据动量守恒和能量守恒解得$$v_1’=\frac{m_1-m_2}{m_1+m_2}v_1\v_2’=\frac{2m_1}{m_1+m_2}v_1$$其中 $v_1’$ 代表碰撞后的物块 $A$ 的速度， $v_2’$ 代表碰撞后的物块 $B$ 的速度，依据上式我们可以得到下述">
+<meta name="keywords" content="物理,高中,高考">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【更新中·物理】暑假总结">
+<meta property="og:url" content="https://hk-shao.github.io/2019/07/17/高三物理暑假总结/index.html">
+<meta property="og:site_name" content="HK-SHAO">
+<meta property="og:description" content="结论两物体发生弹性碰撞若物块 $A$ 以速度 $v_1$ 在光滑平面上撞向另一静止的物块 $B$，发生弹性碰撞，则可根据动量守恒和能量守恒解得$$v_1’=\frac{m_1-m_2}{m_1+m_2}v_1\v_2’=\frac{2m_1}{m_1+m_2}v_1$$其中 $v_1’$ 代表碰撞后的物块 $A$ 的速度， $v_2’$ 代表碰撞后的物块 $B$ 的速度，依据上式我们可以得到下述">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://hk-shao.github.io/images/study/02.png">
+<meta property="og:image" content="https://hk-shao.github.io/images/study/03.png">
+<meta property="og:image" content="https://hk-shao.github.io/images/study/04.png">
+<meta property="og:image" content="https://hk-shao.github.io/images/study/05.png">
+<meta property="og:image" content="https://hk-shao.github.io/images/study/08.png">
+<meta property="og:image" content="https://hk-shao.github.io/images/study/09.png">
+<meta property="og:image" content="https://hk-shao.github.io/images/study/13.png">
+<meta property="og:image" content="https://hk-shao.github.io/images/study/12.png">
+<meta property="og:image" content="https://hk-shao.github.io/images/study/07.png">
+<meta property="og:image" content="https://hk-shao.github.io/images/study/06.jpg">
+<meta property="og:updated_time" content="2019-07-17T13:35:40.436Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【更新中·物理】暑假总结">
+<meta name="twitter:description" content="结论两物体发生弹性碰撞若物块 $A$ 以速度 $v_1$ 在光滑平面上撞向另一静止的物块 $B$，发生弹性碰撞，则可根据动量守恒和能量守恒解得$$v_1’=\frac{m_1-m_2}{m_1+m_2}v_1\v_2’=\frac{2m_1}{m_1+m_2}v_1$$其中 $v_1’$ 代表碰撞后的物块 $A$ 的速度， $v_2’$ 代表碰撞后的物块 $B$ 的速度，依据上式我们可以得到下述">
+<meta name="twitter:image" content="https://hk-shao.github.io/images/study/02.png">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="HK-SHAO" type="application/atom+xml">
+
+
+
+
+  <link rel="canonical" href="https://hk-shao.github.io/2019/07/17/高三物理暑假总结/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>【更新中·物理】暑假总结 | HK-SHAO</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">HK-SHAO</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">Shao's blog</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hk-shao.github.io/2019/07/17/高三物理暑假总结/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="王家晔">
+      <meta itemprop="description" content="在黑夜中睁开眼睛">
+      <meta itemprop="image" content="/images/logo.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="HK-SHAO">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">【更新中·物理】暑假总结
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-07-17 21:27:42 / 修改时间：21:35:40" itemprop="dateCreated datePublished" datetime="2019-07-17T21:27:42+08:00">2019-07-17</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <a id="more"></a>
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><h5 id="两物体发生弹性碰撞"><a href="#两物体发生弹性碰撞" class="headerlink" title="两物体发生弹性碰撞"></a>两物体发生弹性碰撞</h5><p>若物块 $A$ 以速度 $v_1$ 在光滑平面上撞向另一静止的物块 $B$，发生弹性碰撞，则可根据动量守恒和能量守恒解得<br>$$<br>v_1’=\frac{m_1-m_2}{m_1+m_2}v_1\<br>v_2’=\frac{2m_1}{m_1+m_2}v_1<br>$$<br>其中 $v_1’$ 代表碰撞后的物块 $A$ 的速度， $v_2’$ 代表碰撞后的物块 $B$ 的速度，依据上式我们可以得到下述三种情况<br>$$<br>\ \ 当\ m_1=m_2\ 时，v_1’=0,v_2’=v_1\quad(交换)\<br>\ \ 当\ m_1&gt;m_2\ 时，v_1’&gt;0,v_2’&gt;0\ \ \quad(推挤)\<br>\ \ 当\ m_1&lt;m_2\ 时，v_1’&lt;0,v_2’&gt;0\ \ \quad(反弹)<br>$$<br>若两物体都在运动，能发生弹性碰撞，且 $v_1&gt;v_2$ ，则碰撞后有<br>$$<br>v_1’=\frac{m_1-m_2}{m_1+m_2}(v_1-v_2)+v_2\<br>v_2’=\frac{2m_1}{m_1+m_2}(v_1-v_2)+v_2<br>$$<br><strong>无论什么情况，只要发生了弹性碰撞，且两物体质量相等，则两物体碰撞前后速度交换</strong></p>
+<h5 id="光电效应中的电流表示数"><a href="#光电效应中的电流表示数" class="headerlink" title="光电效应中的电流表示数"></a>光电效应中的电流表示数</h5><p>实验原理图如下：</p>
+<p><img src="/images/study/02.png" alt=""></p>
+<p>根据光电效应，当入射光频率大于或等于金属的极限频率时，金属会溢出电子，而入射光强度越大，单位时间内溢出的电子数越多，所以当金属发生光电效应时，光强决定了上面实验装置的光电流大小。<strong>若保持入射光强度不变，在入射光频率大于极限频率后继续提高入射光频率，则电流表 $\rm{\mu A}$ 的示数不会增大，可能会减小。</strong>原因如下：</p>
+<p>由光电效应方程 $h\nu=\frac{1}{2}mv_{max}^2+W_0$ ，$\nu$ 越大， $v_{max}$ 越大，当 $v_{max}$ 大到一定程度，部分电子可能无法聚集在阴极板 $A$ ，导致光电流减小。</p>
+<h5 id="原子衰变产生的三种粒子"><a href="#原子衰变产生的三种粒子" class="headerlink" title="原子衰变产生的三种粒子"></a>原子衰变产生的三种粒子</h5><table>
+<thead>
+<tr>
+<th style="text-align:center">名称</th>
+<th style="text-align:center">$\alpha$ 粒子</th>
+<th style="text-align:center">$\beta$ 粒子</th>
+<th style="text-align:center">$\gamma$ 粒子</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">实质</td>
+<td style="text-align:center">氦原子核 $_2^4\rm{He}^+$</td>
+<td style="text-align:center">电子 $\rm e^-$</td>
+<td style="text-align:center">光子</td>
+</tr>
+<tr>
+<td style="text-align:center">穿透能力</td>
+<td style="text-align:center">弱</td>
+<td style="text-align:center">中</td>
+<td style="text-align:center">强</td>
+</tr>
+<tr>
+<td style="text-align:center">电离能力</td>
+<td style="text-align:center">强</td>
+<td style="text-align:center">中</td>
+<td style="text-align:center">弱</td>
+</tr>
+</tbody>
+</table>
+<h5 id="两种原子衰变"><a href="#两种原子衰变" class="headerlink" title="两种原子衰变"></a>两种原子衰变</h5><h6 id="衰变的方程式"><a href="#衰变的方程式" class="headerlink" title="衰变的方程式"></a>衰变的方程式</h6><p>$\alpha$ 衰变：$\rm{2\ _1^1H\ + 2\ _0^1n \to\ _2^4He}$</p>
+<p>$\beta$ 衰变：$\rm{<em>0^1n \to</em>{-1}^{\  \ 0}e +\ _1^1H}$</p>
+<h6 id="判断衰变的次数"><a href="#判断衰变的次数" class="headerlink" title="判断衰变的次数"></a>判断衰变的次数</h6><p>若 $\rm{_m^nA}$ 衰变为 $\rm{_p^qB}$</p>
+<p>则 $\frac{n-q}{4}$ 为 $\alpha$ 衰变的次数， $p+\frac{n-q}{2}-m$ 为 $\beta$ 衰变次数</p>
+<h6 id="衰变产生的粒子在磁场中的运动轨迹"><a href="#衰变产生的粒子在磁场中的运动轨迹" class="headerlink" title="衰变产生的粒子在磁场中的运动轨迹"></a>衰变产生的粒子在磁场中的运动轨迹</h6><p>$\alpha$ 衰变：由于衰变后两粒子都带正电相互排斥，所以其运动轨迹如下</p>
+<p><img src="/images/study/03.png" alt=""></p>
+<p><strong>$\alpha$ 衰变产生氦核，其中大圆为氦核运动轨迹，小圆为另一个原子核的运动轨迹。</strong></p>
+<p>带电粒子在磁场中做匀速圆周运动，其轨道半径为 $r=\frac{mv}{qB}$ ，因为衰变前粒子静止，衰变后产生的两个粒子的动量 $p=mv$ 相同，所以电荷量 $q$ 越小， $r$ 越大。一般来说，衰变后产生的氦核电荷量较小，所以其轨道半径较大。</p>
+<p>$\beta$ 衰变：由于衰变后两粒子都带异种电荷相互吸引，所以其运动轨迹如下</p>
+<p><img src="/images/study/04.png" alt=""></p>
+<p><strong>$\beta$ 衰变产生电子，其中大圆为电子运动轨迹，小圆为另一个原子核的运动轨迹。</strong></p>
+<p>与 $\alpha$ 衰变同理，电子的电荷量小，所以其轨道半径较大。</p>
+<h5 id="近代物理结论汇总"><a href="#近代物理结论汇总" class="headerlink" title="近代物理结论汇总"></a>近代物理结论汇总</h5><ol>
+<li>大量物体或波长越长容易表现为波动性，个别物体或频率越高容易表现为粒子性。</li>
+<li>核聚变过程中，聚变后的原子的比结合能一定比聚变前的原子的比结合能大。</li>
+<li>比结合能越高的原子越稳定。</li>
+<li>原子衰变产生的 $\alpha,\beta,\gamma$ 粒子均来自原子核内部。</li>
+<li>放射性同位素半衰期短，环境污染小，但不适合用作核燃料。</li>
+<li>地壳中的一些半衰期很短的物质，主要源于其它放射性物质的衰变。</li>
+</ol>
+<h5 id="水银管移动问题"><a href="#水银管移动问题" class="headerlink" title="水银管移动问题"></a>水银管移动问题</h5><p>如下图所示，两端封闭的玻璃管中间有一段水银柱将管内气体分为左右两部分，左端气体温度 $T_a$ 大于右端气体温度 $T_b$ ，状态稳定。现使两端气体升高相同温度，则水银柱向哪一端移动？</p>
+<p><img src="/images/study/05.png" alt=""></p>
+<p><strong>分析：</strong></p>
+<p>稳定时， $P_a=P_b$ 且 $n_a,n_b$ 一定，移动瞬间 $V_a,B_b$ 不变，根据理想气体方程 $Pv=nRT$ 有</p>
+<p>$P_0T_1=P_1T_0$ ，变形得 $T_0\Delta P=P_0\Delta T$ ，由于 $P_0\Delta T$ 一定，$T_0$ 大则 $\Delta P$ 小，因为两端气体压强相等时才能恢复稳定，所以水银柱会往 $\Delta P$ 小的一端移动，也就是往左端移动。</p>
+<p>根据公式 $\Delta P=\frac{P_0}{T_0}\Delta T$ 推广之，可以得到下面的结论：</p>
+<p><strong>升高相同温度，水银柱向初始温度高的一端移动或向初始压强低的一端移动，与其它因素无关。</strong></p>
+<p>什么是向初始压强低的一端移动？假设上面的玻璃管两端初始温度相同，但是玻璃管倾斜放置，于是在重力的作用下，玻璃罐上端气体压强会比下端气体压强低，当两端升高相同温度，水银柱会向上端移动。</p>
+<h5 id="质心等效法"><a href="#质心等效法" class="headerlink" title="质心等效法"></a>质心等效法</h5><p>在某些情况下，我们可以把多个物体看作系统来分析问题，这时我们往往需要找到系统的质心。两质点到系统质心的距离与其各自质量的乘积相等。即<br>$$<br>m_1x_1=m_2x_2<br>$$<br>这个公式是普适的，对于杠杆问题，动量问题，双星问题等都适用。</p>
+<h6 id="例1"><a href="#例1" class="headerlink" title="例1"></a>例1</h6><p>如下图所示，一光滑轻杆沿水平方向放置，左端 $O$ 处连接转动轴， $a,b$ 为两个可视为质点的小球，串在轻杆上。用细线连接 $O_a,O_b$，且 $O_a=O_b$ ，$b$ 球质量为 $a$ 的 $3$ 倍，当轻杆绕着 $O$ 点匀速转动时，细线 $O_a,O_b$ 的拉力比为多少？</p>
+<p><img src="/images/study/08.png" alt=""></p>
+<p><strong>分析：</strong></p>
+<p>可以设 $a$ 的质量为 $1$，$b$ 的质量为 $3$，根据质心公式 $m_1x_1=m_2x_2$ ，可以找到 $a,b$ 的质心 $O’$ ，$aO’$ 和 $bO’$ 分别为 $3$ 和 $1$ 。如下图所示</p>
+<p><img src="/images/study/09.png" alt=""></p>
+<p>将 $a,b$ 看作整体，则有 $F_{Oa}=(m_a+m_b)\omega^2x_{OO’}$</p>
+<p>单看 $b$ ，则有 $F_{ab}=m_b\omega^2x_{Ob}$</p>
+<p>因为角速度相同，代入数据可得<br>$$<br>\frac{F_{Oa}}{F_{ab}}=\frac{(m_a+m_b)\omega^2x_{OO’}}{m_b\omega^2x_{Ob}}=\frac{(1+3)\times(4+3)}{3\times8}=\frac{7}{6}<br>$$</p>
+<h4 id="传送带热量问题"><a href="#传送带热量问题" class="headerlink" title="传送带热量问题"></a>传送带热量问题</h4><p>对于下图所示的传送带，物块通过传送带，要考虑物块<strong>能否运动到末端</strong>，若不能，物块在<strong>什么时候会在传送带上匀速运动</strong>，物块与传送带的<strong>相对位移</strong>是多少。物块在传送带上产生的摩擦热就是滑动摩擦力与相对位移的乘积。</p>
+<h6 id="例1-1"><a href="#例1-1" class="headerlink" title="例1"></a>例1</h6><p>水平传送带长为 $L=10m$，以 $v_0=4m/s$ 的速度顺时针匀速转动，将一质量为 $m=1kg$ 的小物体无初速释放在传送带的左端，小物体与传送带间动摩擦因数 $μ=0.1$ ，求物体在传送带上产生的热量。$(g=10m/s^2)$</p>
+<p><img src="/images/study/13.png" alt=""></p>
+<p><strong>分析：</strong></p>
+<p>物体加速过程的加速度 $a=\frac{\mu mg}{m}=1m/s^2$</p>
+<p>加速到 $v_0$ 时，时间 $t=\frac{v_0}{a}=4s$</p>
+<p>此时物体的位移 $x_1=\frac{1}{2}at^2=8m$</p>
+<p>传送带长度 $L&gt;x$，因此物体会继续向前做匀速运动</p>
+<p>在加速期间，传送带的位移 $x_2=v_0t=16m$</p>
+<p>可知物体与传送带的相对位移 $s=x_2-x_1=8m$</p>
+<p>因此摩擦生热 $Q=\mu mgs=8J$</p>
+<h2 id="技巧"><a href="#技巧" class="headerlink" title="技巧"></a>技巧</h2><h6 id="例1-2"><a href="#例1-2" class="headerlink" title="例1"></a>例1</h6><p>(2019 全国卷Ⅲ, 21) 如图，电荷量分别为 $q$ 和 $–q\ (q&gt;0)$ 的点电荷固定在正方体的两个顶点上， $a,b$ 是正方体的另外两个顶点。则</p>
+<p><img src="/images/study/12.png" alt=""></p>
+<p> A．$a$ 点和 $b$ 点的电势相等<br> B．$a$ 点和 $b$ 点的电场强度大小相等<br> C．$a$ 点和 $b$ 点的电场强度方向相同<br> D．将负电荷从 $a$ 点移到 $b$ 点，电势能增加</p>
+<p><strong>分析：</strong></p>
+<p>如下图所示，连接矩形和其对角线，对角线交于 $O$ 点，易知 $a$ 点， $O$ 点和 $-q$ 所成角为锐角。</p>
+<p><img src="/images/study/07.png" alt=""></p>
+<p>由此可以画出矩形平面内的电场线分布，如下图</p>
+<p><img src="/images/study/06.jpg" alt=""></p>
+<p><strong>关于异种电荷所连直线对称的点，电势相等</strong>，由于 $a,b$ 两点所连直线不垂直于异种电荷所连直线，因此电势不相等。A选项错误。</p>
+<p><strong>关于异种电荷所连线段中点对称的点，电场强度大小和方向都相等</strong>。由于 $a,b$ 两点关于 $O$ 点对称，所以 $a$ 点和 $b$ 点的电场强度大小方向相同。B、C选项正确。</p>
+<p>根据对称性，将 $b$ 点对称到 $c$ 点，负电荷从 $a$ 点移动到 $c$ 点，电场力做正功，电势能减小。D选项错误。</p>
+<h2 id="其它"><a href="#其它" class="headerlink" title="其它"></a>其它</h2>
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/物理/" rel="tag"># 物理</a>
+          
+            <a href="/tags/高中/" rel="tag"># 高中</a>
+          
+            <a href="/tags/高考/" rel="tag"># 高考</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/07/17/高三数学暑假总结/" rel="next" title="【更新中·数学】暑假总结">
+                <i class="fa fa-chevron-left"></i> 【更新中·数学】暑假总结
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/07/17/高三语文暑假总结/" rel="prev" title="【更新中·语文】暑假总结">
+                【更新中·语文】暑假总结 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/logo.png" alt="王家晔">
+            
+              <p class="site-author-name" itemprop="name">王家晔</p>
+              <p class="site-description motion-element" itemprop="description">在黑夜中睁开眼睛</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">36</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">44</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/HK-SHAO" title="GitHub &rarr; https://github.com/HK-SHAO" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:2063597709@qq.com" title="E-Mail &rarr; mailto:2063597709@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://hk-shao.github.io/demo/ShaderEditor/" title="https://hk-shao.github.io/demo/ShaderEditor/">ShaderEditor</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://wuyudi.github.io/" title="https://wuyudi.github.io/" rel="noopener" target="_blank">wuyudi的小站</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#结论"><span class="nav-number">1.</span> <span class="nav-text">结论</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#两物体发生弹性碰撞"><span class="nav-number">1.0.0.1.</span> <span class="nav-text">两物体发生弹性碰撞</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#光电效应中的电流表示数"><span class="nav-number">1.0.0.2.</span> <span class="nav-text">光电效应中的电流表示数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#原子衰变产生的三种粒子"><span class="nav-number">1.0.0.3.</span> <span class="nav-text">原子衰变产生的三种粒子</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#两种原子衰变"><span class="nav-number">1.0.0.4.</span> <span class="nav-text">两种原子衰变</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#衰变的方程式"><span class="nav-number">1.0.0.4.1.</span> <span class="nav-text">衰变的方程式</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#判断衰变的次数"><span class="nav-number">1.0.0.4.2.</span> <span class="nav-text">判断衰变的次数</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#衰变产生的粒子在磁场中的运动轨迹"><span class="nav-number">1.0.0.4.3.</span> <span class="nav-text">衰变产生的粒子在磁场中的运动轨迹</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#近代物理结论汇总"><span class="nav-number">1.0.0.5.</span> <span class="nav-text">近代物理结论汇总</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#水银管移动问题"><span class="nav-number">1.0.0.6.</span> <span class="nav-text">水银管移动问题</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#质心等效法"><span class="nav-number">1.0.0.7.</span> <span class="nav-text">质心等效法</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#例1"><span class="nav-number">1.0.0.7.1.</span> <span class="nav-text">例1</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#传送带热量问题"><span class="nav-number">1.0.1.</span> <span class="nav-text">传送带热量问题</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#例1-1"><span class="nav-number">1.0.1.0.1.</span> <span class="nav-text">例1</span></a></li></ol></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#技巧"><span class="nav-number">2.</span> <span class="nav-text">技巧</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#例1-2"><span class="nav-number">2.0.0.0.1.</span> <span class="nav-text">例1</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其它"><span class="nav-number">3.</span> <span class="nav-text">其它</span></a></li></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">王家晔</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv" title="总访客量">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="site-pv" title="总访问量">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.7.0"></script>
+
+  <script src="/js/src/motion.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+  
+  <script src="/js/src/scrollspy.js?v=6.7.0"></script>
+<script src="/js/src/post-details.js?v=6.7.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.7.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+  
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      
+      equationNumbers: {
+        autoNumber: "AMS"
+      }
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+      for (i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+<script src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+<style>
+.MathJax_Display {
+  overflow: auto hidden;
+}
+</style>
+
+    
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

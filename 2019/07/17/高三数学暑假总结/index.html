@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=6.7.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.7.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.7.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.7.0',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":false,"scrollpercent":true,"onmobile":true},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="结论1，不定积分$\int e^{mx}dx=\frac{1}{m}e^{mx}$ $\int \cos(\omega x)dx=\frac{1}{\omega}\sin(\omega x)$ $\int \sin(\omega x)dx=-\frac{1}{\omega}\cos(\omega x)$ $\int a^xdx=\frac{a^x}{\ln a}$ 2，单词拼写错误的种数例1$s">
+<meta name="keywords" content="数学,高中,高考">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【更新中·数学】暑假总结">
+<meta property="og:url" content="https://hk-shao.github.io/2019/07/17/高三数学暑假总结/index.html">
+<meta property="og:site_name" content="HK-SHAO">
+<meta property="og:description" content="结论1，不定积分$\int e^{mx}dx=\frac{1}{m}e^{mx}$ $\int \cos(\omega x)dx=\frac{1}{\omega}\sin(\omega x)$ $\int \sin(\omega x)dx=-\frac{1}{\omega}\cos(\omega x)$ $\int a^xdx=\frac{a^x}{\ln a}$ 2，单词拼写错误的种数例1$s">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://hk-shao.github.io/images/study/10.png">
+<meta property="og:image" content="https://hk-shao.github.io/images/study/20.png">
+<meta property="og:image" content="https://hk-shao.github.io/images/study/14.png">
+<meta property="og:image" content="https://hk-shao.github.io/images/study/15.png">
+<meta property="og:image" content="https://hk-shao.github.io/images/study/16.png">
+<meta property="og:image" content="https://hk-shao.github.io/images/study/17.png">
+<meta property="og:image" content="https://hk-shao.github.io/images/study/18.png">
+<meta property="og:image" content="https://hk-shao.github.io/images/study/19.png">
+<meta property="og:image" content="https://hk-shao.github.io/images/study/01.PNG">
+<meta property="og:image" content="https://hk-shao.github.io/images/study/11.png">
+<meta property="og:image" content="https://hk-shao.github.io/images/study/06.png">
+<meta property="og:updated_time" content="2019-07-17T13:35:46.611Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【更新中·数学】暑假总结">
+<meta name="twitter:description" content="结论1，不定积分$\int e^{mx}dx=\frac{1}{m}e^{mx}$ $\int \cos(\omega x)dx=\frac{1}{\omega}\sin(\omega x)$ $\int \sin(\omega x)dx=-\frac{1}{\omega}\cos(\omega x)$ $\int a^xdx=\frac{a^x}{\ln a}$ 2，单词拼写错误的种数例1$s">
+<meta name="twitter:image" content="https://hk-shao.github.io/images/study/10.png">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="HK-SHAO" type="application/atom+xml">
+
+
+
+
+  <link rel="canonical" href="https://hk-shao.github.io/2019/07/17/高三数学暑假总结/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>【更新中·数学】暑假总结 | HK-SHAO</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">HK-SHAO</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">Shao's blog</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hk-shao.github.io/2019/07/17/高三数学暑假总结/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="王家晔">
+      <meta itemprop="description" content="在黑夜中睁开眼睛">
+      <meta itemprop="image" content="/images/logo.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="HK-SHAO">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">【更新中·数学】暑假总结
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-07-17 21:20:39 / 修改时间：21:35:46" itemprop="dateCreated datePublished" datetime="2019-07-17T21:20:39+08:00">2019-07-17</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <a id="more"></a>
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><h5 id="1，不定积分"><a href="#1，不定积分" class="headerlink" title="1，不定积分"></a>1，不定积分</h5><p>$\int e^{mx}dx=\frac{1}{m}e^{mx}$</p>
+<p>$\int \cos(\omega x)dx=\frac{1}{\omega}\sin(\omega x)$</p>
+<p>$\int \sin(\omega x)dx=-\frac{1}{\omega}\cos(\omega x)$</p>
+<p>$\int a^xdx=\frac{a^x}{\ln a}$</p>
+<h5 id="2，单词拼写错误的种数"><a href="#2，单词拼写错误的种数" class="headerlink" title="2，单词拼写错误的种数"></a>2，单词拼写错误的种数</h5><h6 id="例1"><a href="#例1" class="headerlink" title="例1"></a>例1</h6><p>$school$ 的错误拼写有多少种？</p>
+<p><strong>分析：</strong></p>
+<p>因为单词中有6个字母，除了2个字母 $o$ 以外，其余的字母各不相同，所以种数为<br>$$<br>\frac{\rm{A}^6_{6}}{2!}-1=359<br>$$<br>其中的式子除以 $2!$ 是因为要排除重复的2个字母 $o$ ，而减1是因为正确拼法只有一种，要排除本身的正确拼法。</p>
+<h5 id="3，独立性检验中关系性最强"><a href="#3，独立性检验中关系性最强" class="headerlink" title="3，独立性检验中关系性最强"></a>3，独立性检验中关系性最强</h5><p>$$<br>K^2=\frac{n(ad-bc)}{(a+b)(c+d)(a+c)(b+d)},\ 其中\ n=a+b+c+d<br>$$</p>
+<p><strong>当 $|ad-bc|$ 越大，关系性越强。</strong></p>
+<h5 id="4，环状相邻区域的涂色问题"><a href="#4，环状相邻区域的涂色问题" class="headerlink" title="4，环状相邻区域的涂色问题"></a>4，环状相邻区域的涂色问题</h5><p><img src="/images/study/10.png" alt=""></p>
+<h6 id="例1-1"><a href="#例1-1" class="headerlink" title="例1"></a>例1</h6><p>如图所示，你有4种颜色的颜料，现在需要将每个圆上色，要求相邻的圆颜色不同，则有多少种不同涂色方式？</p>
+<p><strong>分析：</strong></p>
+<p>① 若A,C同色，涂A有4种，涂B和D都有3种，C颜色与A一样，涂C只有一种，所以有 $4\times3\times3=36$ 种</p>
+<p>② 若A,C不同色，涂A,C从4个里选2个排列，涂B,D都有2种，所以有 $\rm{A}_4^2\times2\times2=48$ 种</p>
+<p>所以共有 $36+48=84$ 种</p>
+<p><strong>组合学问题要正确把握好分类和分步</strong>，如先涂后涂就是分步，用乘法计数，而分类讨论A,C是否同色就是分类，用加法计数。</p>
+<h6 id="例2"><a href="#例2" class="headerlink" title="例2"></a>例2</h6><p>如图所示，你有4种不同颜色，将每个三角形区域上色，要求相邻区域的颜色不同，则有多少种不同涂色方式？</p>
+<p><strong>分析：</strong></p>
+<p>① 若F,C同色，有 $4\times(3\times2)^2=144$ 种</p>
+<p>② 若F,C不同色，有 $\rm{A}_4^2(3+2\times2)^2=588$ 种</p>
+<p>所以共有 $144+488=732$ 种</p>
+<p>归纳推广之，得到结论</p>
+<p>m种不同颜色，n个环状相邻区域，相邻区域颜色不同，不同涂色种类数为<br>$$<br>(m-1)^n+(m-1)\times(-1)^n\<br>n\ne1,2,3,\cdots,m-3<br>$$<br>4种颜色时，种类数为<br>$$<br>3^n+3\times(-1)^n,n\geqslant2\<br>4,n=1<br>$$</p>
+<h5 id="5，函数的对称性"><a href="#5，函数的对称性" class="headerlink" title="5，函数的对称性"></a>5，函数的对称性</h5><p>① $f(m-x)+f(x)=0$ 关于点 $(\frac{m}{2},0)$ 中心对称</p>
+<p>② $f(m-x)+f(x)=n$ 关于点 $(\frac{m}{2},\frac{n}{2})$ 中心对称</p>
+<p>③ $f(m-x)-f(x)=0$ 关于直线 $x=\frac{m}{2}$对称</p>
+<p><strong>6，可以根据正余弦函数的性质来辅助理解和记忆</strong></p>
+<p><strong>函数的周期性</strong></p>
+<p>若存在实数 $T$，使定义在 $\mathbb{R}$ 上的函数满足 $f(x+T)=f(x)$，则函数 $f(x)$ 为周期函数，$T$ 为函数的一个周期，而最小的正实数 $T$ 满足上述条件，则称 $T$ 为函数的最小正周期。</p>
+<ol>
+<li>若函数 $f(x)$ 存在对称中心 $(a,y_1)$ 和对称中心 $(b,y_2)$，则函数的周期为 $2|a-b|$</li>
+<li>若函数 $f(x)$ 存在对称轴 $x=a$ 和对称轴 $x=b$，则函数的周期为 $2|a-b|$</li>
+<li>若函数 $f(x)$ 存在对称中心 $(a,y_1)$ 和对称轴 $x=b$，则函数的周期为 $4|a-b|$</li>
+</ol>
+<p>上述三点可以结合正余弦函数的图像特点来理解记忆。</p>
+<ol start="4">
+<li>$f(x+a)=-f(x)$，周期 $T=2a$</li>
+<li>$f(x+a)=f(x-a)$，周期 $T=2a$</li>
+<li>$f(x+a)=\frac{1}{f(x)}$，周期 $T=2a$</li>
+<li>$f(x+a)=\frac{1-f(x)}{1+f(x)}$，周期 $T=2a$</li>
+</ol>
+<p>还有很多，这里不一一列举。遇到此类题可以现场推导，实在不行就把数字列举出来，猜测其周期。</p>
+<h5 id="6，二次分式的最值问题"><a href="#6，二次分式的最值问题" class="headerlink" title="6，二次分式的最值问题"></a>6，二次分式的最值问题</h5><h6 id="结论-1"><a href="#结论-1" class="headerlink" title="结论"></a>结论</h6><p>设 $m,n,a,b&gt;0$ </p>
+<p>若 $x&gt;y$ 则<br>$$<br>\frac{ma^2+nb^2+xab}{ma^2+nb^2+yab} \leqslant \frac{2\sqrt{mn}+x}{2\sqrt{mn}+y}<br>$$<br>若 $x&lt;y$ 则<br>$$<br>\frac{ma^2+nb^2+xab}{ma^2+nb^2+yab} \geqslant \frac{2\sqrt{mn}+x}{2\sqrt{mn}+y}<br>$$</p>
+<h6 id="证明"><a href="#证明" class="headerlink" title="证明"></a>证明</h6><p>$$<br>\frac{ma^2+nb^2+xab}{ma^2+nb^2+yab} = 1+\frac{x-y}{\frac{ma}{b}+\frac{nb}{a}+y}<br>$$</p>
+<p>然后分类讨论 $x$ 与 $y$ 的大小关系，利用基本不等式可以得到以上结论。</p>
+<h6 id="例1-2"><a href="#例1-2" class="headerlink" title="例1"></a>例1</h6><p>若实数 $x,y$ 满足 $4x^2-5xy+4y^2=5$ ，则 $x^2+y^2$ 的最大值为多少？</p>
+<p>由以上结论可得<br>$$<br>\frac{4x^2+4y^2}{4x^2+4y^2-5xy} \leqslant \frac{2\sqrt{4 \times 4}+0}{2\sqrt{4 \times 4}-5} = \frac{8}{3}<br>$$<br>即<br>$$<br>\frac{4(x^2+y^2)}{5} \leqslant \frac{8}{3}<br>$$<br>故<br>$$<br>x^2+y^2 \leqslant \frac{10}{3}<br>$$</p>
+<h6 id="例2-1"><a href="#例2-1" class="headerlink" title="例2"></a>例2</h6><p>若实数 $x,y$ 满足 $x^2+y^2+xy=1$ ，则 $x+y$ 的最大值为多少？  </p>
+<p>由以上结论可得<br>$$<br>x+y \leqslant  \sqrt{x^2+y^2+2xy} = \sqrt{\frac{x^2+y^2+2xy}{x^2+y^2+xy}} \leqslant \sqrt{\frac{2+2}{2+1}}=\frac{2\sqrt{3}}{3}<br>$$</p>
+<h5 id="7，非直角三角形中的正切值"><a href="#7，非直角三角形中的正切值" class="headerlink" title="7，非直角三角形中的正切值"></a>7，非直角三角形中的正切值</h5><h6 id="结论-2"><a href="#结论-2" class="headerlink" title="结论"></a>结论</h6><p>在非直角三角形中，三个角依次是 $A,B,C$ 有下述等式恒成立<br>$$<br>\tan A+\tan B+\tan C=\tan A\tan B\tan C<br>$$</p>
+<h6 id="证明-1"><a href="#证明-1" class="headerlink" title="证明"></a>证明</h6><p>$$<br>\begin{align<em>}<br>\tan A+\tan B+\tan C&amp;=\tan A+\tan B+\tan[\pi-(A+B)]\<br> &amp;=\tan A+\tan B-\tan(A+B)\<br> &amp;=\tan A+\tan B-\frac{\tan A+\tan B}{1-\tan A\tan B}\<br> &amp;=(\tan A+\tan B)(1-\frac{1}{1-\tan A\tan B})\<br> &amp;=(\tan A+\tan B)(\frac{-\tan A\tan B}{1-\tan A\tan B})\<br> &amp;=\tan A\tan B\cdot\frac{-(\tan A+\tan B)}{1-\tan A\tan B}\<br> &amp;=\tan A\tan B\cdot(-\tan(A+B))\<br> &amp;=\tan A\tan B\tan[\pi-(A+B)]\<br> &amp;=\tan A\tan B\tan C<br>\end{align</em>}<br>$$</p>
+<h6 id="例1-3"><a href="#例1-3" class="headerlink" title="例1"></a>例1</h6><p>在非直角三角形中，三个角依次是 $A,B,C$ ，若 $\tan A=1，\tan B=2$，求 $\tan C$</p>
+<p><strong>分析：</strong></p>
+<p>依据上述结论，可得方程 $3+\tan C=2\tan C$，解得 $\tan C = 3$</p>
+<h5 id="8，点关于直线对称"><a href="#8，点关于直线对称" class="headerlink" title="8，点关于直线对称"></a>8，点关于直线对称</h5><h6 id="结论-3"><a href="#结论-3" class="headerlink" title="结论"></a>结论</h6><p>点 $(x_0,y_0)$ 关于直线 $Ax+By+C=0$ 对称的点为 $(x,y)$，则<br>$$<br>x=x_0-2A\frac{Ax_0+By_0+C}{A^2+B^2}\<br>y=y_0-2B\frac{Ax_0+By_0+C}{A^2+B^2}<br>$$</p>
+<h6 id="反解法"><a href="#反解法" class="headerlink" title="反解法"></a>反解法</h6><p>是上述结论的一个特例，是考题中最经常出现的一种。</p>
+<p>若点 $(x_0,y_0)$ 关于直线 $x\pm y+m=0$ 对称的点为 $(x,y)$ 则满足<br>$$<br>x_0\pm y+m=0\<br>x\pm y_0+m=0<br>$$<br>简单点来说，若一个点关于斜率为 $\pm 1$ 的直线对称，把这个点的横坐标代入直线方程解得纵坐标，反之也成立。</p>
+<h6 id="例1-4"><a href="#例1-4" class="headerlink" title="例1"></a>例1</h6><p>求点 $(2,3)$ 关于直线 $x+y+2=0$ 对称的点的坐标</p>
+<p><strong>分析：</strong></p>
+<p>$2+y+2=0$ 得 $y=-4$，$x+3+2=0$ 得 $x=-5$，所以对称的点坐标为 $(-5,-4)$</p>
+<h5 id="9，函数-f-x-frac-b-x-a-x-的单调性"><a href="#9，函数-f-x-frac-b-x-a-x-的单调性" class="headerlink" title="9，函数 $f(x)=\frac{b+x}{a+x}$ 的单调性"></a>9，函数 $f(x)=\frac{b+x}{a+x}$ 的单调性</h5><p>对其求导可以得到以下结论</p>
+<p>① 当 $a&gt;b$ 时，$f(x)$ 在 $(-\infty,-a)$ 和 $(-a,+\infty)$ 上单调递增</p>
+<p>② 当 $a&lt;b$ 时，$f(x)$ 在 $(-\infty,-a)$ 和 $(-a,+\infty)$ 上单调递减</p>
+<p>其实可以利用向一杯水里加糖，水的甜度变化来形象的理解记忆。若把 $a,b$ 分别看作水和糖的浓度，则向溶液里加糖，溶液会变甜。若把 $a,b$ 分别看作糖和水的浓度，则向溶液里加水，溶液会变不甜。</p>
+<h5 id="10，四边形面积最大值"><a href="#10，四边形面积最大值" class="headerlink" title="10，四边形面积最大值"></a>10，四边形面积最大值</h5><h6 id="例1-5"><a href="#例1-5" class="headerlink" title="例1"></a>例1</h6><p>已知平面图形 $ABCD$ 为凸四边形，且 $AB=2,BC=4,CD=5,DA=3$，求 $ABCD$ 面积 $S$ 的最大值</p>
+<p><strong>分析：</strong></p>
+<p>根据题意可作出下图</p>
+<p><img src="/images/study/20.png" alt=""></p>
+<p>在 $\triangle ABD$ 和 $\triangle CBD$ 中分别使用公式 $S=\frac{1}{2}ab\sin C$ 可得四边形面积为 $S=3\sin A+10\sin C$</p>
+<p>在 $\triangle ABD$ 和 $\triangle CBD$ 中分别使用余弦定理可得等式 $7=-3\cos A+10\cos C$</p>
+<p>两式平方再相加得 $S^2+49=109-60\cos(A+C)$</p>
+<p>当对角互补时，即 $A+C=\pi$ 时，有面积最大值 $S=2\sqrt{30}$</p>
+<p><strong>推广之</strong></p>
+<p>四边形的边长分别为 $a,b,c,d$，四边形的面积最大值为 $S$，则有<br>$$<br>S=\sqrt{(p-a)(p-b)(p-c)(p-d)}\<br>p=\frac{a+b+c+d}{2}<br>$$<br><strong>特例</strong></p>
+<p>当 $a+b=c+d$ 或 $a+c=b+d$ 时，$(p-a)(p-b)(p-c)(p-d)=abcd$</p>
+<p>此时 $S=\sqrt{abcd}$</p>
+<p>例1满足这个特例 $2+5=3+4$ ，因此 $S=\sqrt{2\times4\times5\times3}=2\sqrt{30}$</p>
+<h5 id="11，常见函数图像"><a href="#11，常见函数图像" class="headerlink" title="11，常见函数图像"></a>11，常见函数图像</h5><h6 id="1，-f-x-xe-x"><a href="#1，-f-x-xe-x" class="headerlink" title="1， $f(x)=xe^x$"></a>1， $f(x)=xe^x$</h6><p><img src="/images/study/14.png" alt=""></p>
+<h6 id="2，-f-x-frac-x-e-x"><a href="#2，-f-x-frac-x-e-x" class="headerlink" title="2，$f(x)=\frac{x}{e^x}$"></a>2，$f(x)=\frac{x}{e^x}$</h6><p><img src="/images/study/15.png" alt=""></p>
+<h6 id="3，-f-x-frac-e-x-x"><a href="#3，-f-x-frac-e-x-x" class="headerlink" title="3，$f(x)=\frac{e^x}{x}$"></a>3，$f(x)=\frac{e^x}{x}$</h6><p><img src="/images/study/16.png" alt=""></p>
+<h6 id="4，-f-x-x-ln-x"><a href="#4，-f-x-x-ln-x" class="headerlink" title="4，$f(x)=x\ln x$"></a>4，$f(x)=x\ln x$</h6><p><img src="/images/study/17.png" alt=""></p>
+<h6 id="5，-f-x-frac-ln-x-x"><a href="#5，-f-x-frac-ln-x-x" class="headerlink" title="5，$f(x)=\frac{\ln x}{x}$"></a>5，$f(x)=\frac{\ln x}{x}$</h6><p><img src="/images/study/18.png" alt=""></p>
+<h6 id="6，-f-x-frac-x-ln-x"><a href="#6，-f-x-frac-x-ln-x" class="headerlink" title="6，$f(x)=\frac{x}{\ln x}$"></a>6，$f(x)=\frac{x}{\ln x}$</h6><p><img src="/images/study/19.png" alt=""></p>
+<h2 id="技巧"><a href="#技巧" class="headerlink" title="技巧"></a>技巧</h2><h5 id="例1（提公因式）"><a href="#例1（提公因式）" class="headerlink" title="例1（提公因式）"></a>例1（提公因式）</h5><p>已知函数 $f(x)=\frac{a\ln x}{x+1}+\frac{b}{x}$ ，曲线 $y=f(x)\ 在\ (1,f(1))$ 处的切线方程为 $x+2y-3=0$</p>
+<p>(1) 求 $a,b$ 的值  (2) 证明：当 $x&gt;0$ 且 $x \ne 1$ 时 $f(x)&gt;\frac{\ln x}{x-1}$</p>
+<p><strong>分析：</strong>（第一问略）<br>$$<br>令\ g(x)=\frac{\ln x}{x+1}+\frac{1}{x}-\frac{\ln x}{x-1}=\frac{1}{1-x^2}(2\ln x-x+\frac{1}{x})\<br>令\ h(x)=2\ln x-x+\frac{1}{x}\<br>h’(x)=-\frac{(x-1)^2}{x^2}\<br>因为\ x\ne1\ 所以\ h’(x)&lt;0,h(x)\ 在\ (0,1)\ 和\ (1,+\infty)\ 上单调递减\<br>分类讨论\ x\ 在\ (0,1)\ 和\ (1,+\infty)\ 时\ h(x)\ 和\ \frac{1}{1-x^2}\ 的正负性\<br>可发现\ g(x)\ 恒大于\ 0\ ,于是原命题得证<br>$$<br><strong>许多证明不等式的导数题可以通过移项然后构造新函数证明其与0​的大小关系，通过提公因式把复杂式子变形为乘积形式，分类讨论各个相乘的式子与0的关系来证明。</strong></p>
+<h5 id="例2（数形结合）"><a href="#例2（数形结合）" class="headerlink" title="例2（数形结合）"></a>例2（数形结合）</h5><p>若函数 $f(x)=x^3-6x^2+9x$ 在 $(3-a^2,a)$ 内有最大值，求 $a$ 的取值范围</p>
+<p><strong>分析：</strong><br>$$<br>f’(x)=3x^2-12x=3(x-1)(x-3)<br>$$<br>可画出 $f(x)$ 的大致图像：</p>
+<p><img src="/images/study/01.PNG" alt=""></p>
+<p>可知当 $x=1$ 时，$f(x)$ 有极大值 $f(1)=4$，我们试图找到 $f(x)=4$ 的另一个根，即 $x^3-6x^2+9x-4=0$ 的另一个根，由于方程已有 $x=1$ 的一个根，可以用原方程除以 $x-1$ ，使用多项式长除法<br>$$<br>\qquad \ \underline{x^2-5x+4}\<br>\qquad x-1\ )\ x^3-6x^2+9x-4\<br>\ \ \ \underline{x^3-x^2}\<br>\ \ \quad -5x^2+9x-4\<br>\ \underline{-5x^2+5x}\<br>4x-4\<br>\underline{4x-4}\<br>\qquad 0<br>$$<br>将 $x^2-5x+4=0$ 配方可得 $(x-4)(x-1)=0$ ，所以 $f(4)=4$<br>结合图像我们可以得到关系式 $3-a^2&lt;1$ 且 $a\in[1,4]$，于是得到 $a\in(\sqrt2,4]$</p>
+<p><strong>这类题要结合图像来分析，灵活使用多项式长除法可以用来求解三次方程和化简高次多项式。</strong></p>
+<h5 id="例3（数形结合）"><a href="#例3（数形结合）" class="headerlink" title="例3（数形结合）"></a>例3（数形结合）</h5><p>已知复数 $z$ 满足 $|z+3-4i|=2$，求 $|z|$ 的最大值</p>
+<p><strong>分析：</strong><br>$$<br>设\ z=x+yi\<br>则有\ |(x+3)+(y-4)i|=2\<br>即\ (x+3)^2+(y-4)^2=2^2\<br>而\ |z|=\sqrt{x^2+y^2}<br>$$<br><img src="/images/study/11.png" alt=""></p>
+<p>由上图可以知道 $|z|$ 的最大值为 $5+2=7$</p>
+<h5 id="例4（数形结合）"><a href="#例4（数形结合）" class="headerlink" title="例4（数形结合）"></a>例4（数形结合）</h5><p>曲线 $y=\sin x$ 在点 $P(x_0,\sin x_0)$，$x_0 \in[0,\pi]$ ，处切线为  $l$，则下列各点中不可能在直线 $l$ 上的是？</p>
+<p>$\rm{A}.(-1,-1)\quad\rm{B}.(-2,0)\quad \rm{C}.(1,-2)\quad\rm{D}(4,1)$</p>
+<p><strong>分析：</strong></p>
+<p>作图可得答案</p>
+<p><img src="/images/study/06.png" alt=""></p>
+<h5 id="例5（函数对称性）"><a href="#例5（函数对称性）" class="headerlink" title="例5（函数对称性）"></a>例5（函数对称性）</h5><p>若函数 $f(x)=2\sin (\frac{\pi}{6}x+\frac{\pi}{3})$，$x\in(-2,10)$，图像与 $x$ 轴交于点 $A$，过点 $A$ 的直线 $l$ 与函数的图像交于 $B,C$ 两点，则 $(\vec{OB}+\vec{OC})\cdot \vec{OA}$ 的值为多少？</p>
+<p><strong>分析：</strong></p>
+<p>结合定义域，此函数与 $x$ 轴的交点 $A(4,0)$ 为图像的对称中心，所以 $B,C$ 两点关于点 $A$ 对称，因此<br>$$<br>(\vec{OB}+\vec{OC})\cdot \vec{OA}=2\vec{OA}\cdot \vec{OA}=2|\vec{OA}|^2=2\times4^2=32<br>$$</p>
+<h5 id="例6（函数对称性）"><a href="#例6（函数对称性）" class="headerlink" title="例6（函数对称性）"></a>例6（函数对称性）</h5><p>若函数 $f(x)=\frac{4^x}{4^x+1}$，求 $f(1)+f(2)+f(3)+\cdots+f(2018)+f(-2)+f(-3)+f(-4)+\cdots+f(-2018)$ 的值</p>
+<p><strong>分析：</strong></p>
+<p>注意到对称性，发现<br>$$<br>f(x)+f(-x)=\frac{4^x}{4^x+1}+\frac{4^{-x}}{4^{-x}+1}=1<br>$$<br>因此原式 $=2017\times1+f(1)=2017+\frac{4}{5}$</p>
+<h5 id="例7（函数的奇偶性）"><a href="#例7（函数的奇偶性）" class="headerlink" title="例7（函数的奇偶性）"></a>例7（函数的奇偶性）</h5><p>若函数 $f(x)=2015^x-\log_{2015}(\sqrt{x^2+1}-x)-2015^{-x}+2$，求解不等式 $f(3x+1)+f(x)&gt;4$</p>
+<p><strong>分析：</strong></p>
+<p>令 $g(x)=f(x)-2$，分析可知 $g(x)$ 为奇函数且在定义域上单调递增</p>
+<p>原式化为 $g(3x+1)&gt;g(-x)$ 即 $3x+1&gt;-x$，因此 $x&gt;-\frac{1}{4}$</p>
+<p><strong>对于函数的问题，一定要关注函数的性质，利用函数性质来解题。</strong></p>
+<p>要注意的函数的性质包括：</p>
+<p>1，有界性（<strong>定义域</strong>、上界、下界）；2，<strong>单调性</strong>；3，<strong>奇偶性</strong>；4，<strong>对称性</strong>；5，<strong>周期性</strong>；</p>
+<h2 id="其它"><a href="#其它" class="headerlink" title="其它"></a>其它</h2><h5 id="例1（中值定理）"><a href="#例1（中值定理）" class="headerlink" title="例1（中值定理）"></a>例1（中值定理）</h5><p>已知函数 $f(x) = \frac{1}{2}x^2-2a\ln x+(a-2)x$，是否存在实数 $a$ ，对 $\forall x_1,x_2\in(0,+\infty)$ 且 $x_1\ne x_2$，都有 $\frac{f(x_2)-f(x_1)}{x_2-x_1}&gt;a$ 恒成立？若存在，求出 $a$ 的取值范围</p>
+<p><strong>分析：</strong><br>$$<br>设\ x_2&gt;x_1&gt;0\<br>f(x_2)-f(x_1)&gt;a(x_2-x_1)\<br>f(x_2)-ax_2&gt;f(x_1)-ax_1\<br>令\ g(x)=f(x)-ax,\ 则\ g(x）\ 在\ (0,+\infty)\ 上单调递增\<br>即可求得\ a\in(-\infty,-\frac{1}{2}\rbrack<br>$$</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/数学/" rel="tag"># 数学</a>
+          
+            <a href="/tags/高中/" rel="tag"># 高中</a>
+          
+            <a href="/tags/高考/" rel="tag"># 高考</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/06/06/【持续更新】我收藏的一些网站/" rel="next" title="【持续更新】我收藏的一些网站">
+                <i class="fa fa-chevron-left"></i> 【持续更新】我收藏的一些网站
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/07/17/高三物理暑假总结/" rel="prev" title="【更新中·物理】暑假总结">
+                【更新中·物理】暑假总结 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/logo.png" alt="王家晔">
+            
+              <p class="site-author-name" itemprop="name">王家晔</p>
+              <p class="site-description motion-element" itemprop="description">在黑夜中睁开眼睛</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">36</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">44</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/HK-SHAO" title="GitHub &rarr; https://github.com/HK-SHAO" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:2063597709@qq.com" title="E-Mail &rarr; mailto:2063597709@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://hk-shao.github.io/demo/ShaderEditor/" title="https://hk-shao.github.io/demo/ShaderEditor/">ShaderEditor</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://wuyudi.github.io/" title="https://wuyudi.github.io/" rel="noopener" target="_blank">wuyudi的小站</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#结论"><span class="nav-number">1.</span> <span class="nav-text">结论</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1，不定积分"><span class="nav-number">1.0.0.1.</span> <span class="nav-text">1，不定积分</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2，单词拼写错误的种数"><span class="nav-number">1.0.0.2.</span> <span class="nav-text">2，单词拼写错误的种数</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#例1"><span class="nav-number">1.0.0.2.1.</span> <span class="nav-text">例1</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3，独立性检验中关系性最强"><span class="nav-number">1.0.0.3.</span> <span class="nav-text">3，独立性检验中关系性最强</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4，环状相邻区域的涂色问题"><span class="nav-number">1.0.0.4.</span> <span class="nav-text">4，环状相邻区域的涂色问题</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#例1-1"><span class="nav-number">1.0.0.4.1.</span> <span class="nav-text">例1</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#例2"><span class="nav-number">1.0.0.4.2.</span> <span class="nav-text">例2</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5，函数的对称性"><span class="nav-number">1.0.0.5.</span> <span class="nav-text">5，函数的对称性</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#6，二次分式的最值问题"><span class="nav-number">1.0.0.6.</span> <span class="nav-text">6，二次分式的最值问题</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#结论-1"><span class="nav-number">1.0.0.6.1.</span> <span class="nav-text">结论</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#证明"><span class="nav-number">1.0.0.6.2.</span> <span class="nav-text">证明</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#例1-2"><span class="nav-number">1.0.0.6.3.</span> <span class="nav-text">例1</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#例2-1"><span class="nav-number">1.0.0.6.4.</span> <span class="nav-text">例2</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#7，非直角三角形中的正切值"><span class="nav-number">1.0.0.7.</span> <span class="nav-text">7，非直角三角形中的正切值</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#结论-2"><span class="nav-number">1.0.0.7.1.</span> <span class="nav-text">结论</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#证明-1"><span class="nav-number">1.0.0.7.2.</span> <span class="nav-text">证明</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#例1-3"><span class="nav-number">1.0.0.7.3.</span> <span class="nav-text">例1</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#8，点关于直线对称"><span class="nav-number">1.0.0.8.</span> <span class="nav-text">8，点关于直线对称</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#结论-3"><span class="nav-number">1.0.0.8.1.</span> <span class="nav-text">结论</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#反解法"><span class="nav-number">1.0.0.8.2.</span> <span class="nav-text">反解法</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#例1-4"><span class="nav-number">1.0.0.8.3.</span> <span class="nav-text">例1</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#9，函数-f-x-frac-b-x-a-x-的单调性"><span class="nav-number">1.0.0.9.</span> <span class="nav-text">9，函数 $f(x)=\frac{b+x}{a+x}$ 的单调性</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#10，四边形面积最大值"><span class="nav-number">1.0.0.10.</span> <span class="nav-text">10，四边形面积最大值</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#例1-5"><span class="nav-number">1.0.0.10.1.</span> <span class="nav-text">例1</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#11，常见函数图像"><span class="nav-number">1.0.0.11.</span> <span class="nav-text">11，常见函数图像</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#1，-f-x-xe-x"><span class="nav-number">1.0.0.11.1.</span> <span class="nav-text">1， $f(x)=xe^x$</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#2，-f-x-frac-x-e-x"><span class="nav-number">1.0.0.11.2.</span> <span class="nav-text">2，$f(x)=\frac{x}{e^x}$</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#3，-f-x-frac-e-x-x"><span class="nav-number">1.0.0.11.3.</span> <span class="nav-text">3，$f(x)=\frac{e^x}{x}$</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#4，-f-x-x-ln-x"><span class="nav-number">1.0.0.11.4.</span> <span class="nav-text">4，$f(x)=x\ln x$</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#5，-f-x-frac-ln-x-x"><span class="nav-number">1.0.0.11.5.</span> <span class="nav-text">5，$f(x)=\frac{\ln x}{x}$</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#6，-f-x-frac-x-ln-x"><span class="nav-number">1.0.0.11.6.</span> <span class="nav-text">6，$f(x)=\frac{x}{\ln x}$</span></a></li></ol></li></ol></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#技巧"><span class="nav-number">2.</span> <span class="nav-text">技巧</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#例1（提公因式）"><span class="nav-number">2.0.0.1.</span> <span class="nav-text">例1（提公因式）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#例2（数形结合）"><span class="nav-number">2.0.0.2.</span> <span class="nav-text">例2（数形结合）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#例3（数形结合）"><span class="nav-number">2.0.0.3.</span> <span class="nav-text">例3（数形结合）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#例4（数形结合）"><span class="nav-number">2.0.0.4.</span> <span class="nav-text">例4（数形结合）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#例5（函数对称性）"><span class="nav-number">2.0.0.5.</span> <span class="nav-text">例5（函数对称性）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#例6（函数对称性）"><span class="nav-number">2.0.0.6.</span> <span class="nav-text">例6（函数对称性）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#例7（函数的奇偶性）"><span class="nav-number">2.0.0.7.</span> <span class="nav-text">例7（函数的奇偶性）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其它"><span class="nav-number">3.</span> <span class="nav-text">其它</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#例1（中值定理）"><span class="nav-number">3.0.0.1.</span> <span class="nav-text">例1（中值定理）</span></a></li></ol></li></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">王家晔</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv" title="总访客量">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="site-pv" title="总访问量">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.7.0"></script>
+
+  <script src="/js/src/motion.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+  
+  <script src="/js/src/scrollspy.js?v=6.7.0"></script>
+<script src="/js/src/post-details.js?v=6.7.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.7.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+  
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      
+      equationNumbers: {
+        autoNumber: "AMS"
+      }
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+      for (i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+<script src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+<style>
+.MathJax_Display {
+  overflow: auto hidden;
+}
+</style>
+
+    
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
