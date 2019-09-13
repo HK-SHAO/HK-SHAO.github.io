@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=6.7.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.7.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.7.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.7.0',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":false,"scrollpercent":true,"onmobile":true},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="前言在我们学校，几乎所有同学都有MP3用来听歌和看小说，但市面上所流行的大多数MP3都没有英语词典功能。同学们往往选择英语词典进行查单词，最流行的牛津高阶词典词量多，但太厚太笨重，查词并不方便。我发现大多数时候，我们查词仅仅是看中文释义、变形或者音标，于是我萌生了个念头，能不能在MP3上做一个查单词的程序？ 想法比想象中的要困难。虽然我会一点C语言，也了解一点硬件开发，但基于MP3的芯片（炬力）开">
+<meta name="keywords" content="Python,词典,英语,高中">
+<meta property="og:type" content="article">
+<meta property="og:title" content="为MP3做一个英语词典">
+<meta property="og:url" content="https://hk-shao.github.io/2019/09/12/为MP3做一个英语词典/index.html">
+<meta property="og:site_name" content="HK-SHAO">
+<meta property="og:description" content="前言在我们学校，几乎所有同学都有MP3用来听歌和看小说，但市面上所流行的大多数MP3都没有英语词典功能。同学们往往选择英语词典进行查单词，最流行的牛津高阶词典词量多，但太厚太笨重，查词并不方便。我发现大多数时候，我们查词仅仅是看中文释义、变形或者音标，于是我萌生了个念头，能不能在MP3上做一个查单词的程序？ 想法比想象中的要困难。虽然我会一点C语言，也了解一点硬件开发，但基于MP3的芯片（炬力）开">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="d:/Project/HK-SHAO/source/images/blog/37.PNG">
+<meta property="og:image" content="d:/Project/HK-SHAO/source/images/blog/38.gif">
+<meta property="og:image" content="d:/Project/HK-SHAO/source/images/blog/39.gif">
+<meta property="og:image" content="d:/Project/HK-SHAO/source/images/blog/40.gif">
+<meta property="og:updated_time" content="2019-09-13T01:54:28.496Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="为MP3做一个英语词典">
+<meta name="twitter:description" content="前言在我们学校，几乎所有同学都有MP3用来听歌和看小说，但市面上所流行的大多数MP3都没有英语词典功能。同学们往往选择英语词典进行查单词，最流行的牛津高阶词典词量多，但太厚太笨重，查词并不方便。我发现大多数时候，我们查词仅仅是看中文释义、变形或者音标，于是我萌生了个念头，能不能在MP3上做一个查单词的程序？ 想法比想象中的要困难。虽然我会一点C语言，也了解一点硬件开发，但基于MP3的芯片（炬力）开">
+<meta name="twitter:image" content="d:/Project/HK-SHAO/source/images/blog/37.PNG">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="HK-SHAO" type="application/atom+xml">
+
+
+
+
+  <link rel="canonical" href="https://hk-shao.github.io/2019/09/12/为MP3做一个英语词典/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>为MP3做一个英语词典 | HK-SHAO</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">HK-SHAO</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">Shao's blog</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hk-shao.github.io/2019/09/12/为MP3做一个英语词典/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="王家晔">
+      <meta itemprop="description" content="在黑夜中睁开眼睛">
+      <meta itemprop="image" content="/images/logo.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="HK-SHAO">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">为MP3做一个英语词典
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-09-12 18:35:51" itemprop="dateCreated datePublished" datetime="2019-09-12T18:35:51+08:00">2019-09-12</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-09-13 09:54:28" itemprop="dateModified" datetime="2019-09-13T09:54:28+08:00">2019-09-13</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>在我们学校，几乎所有同学都有MP3用来听歌和看小说，但市面上所流行的大多数MP3都没有英语词典功能。同学们往往选择英语词典进行查单词，最流行的牛津高阶词典词量多，但太厚太笨重，查词并不方便。我发现大多数时候，我们查词仅仅是看中文释义、变形或者音标，于是我萌生了个念头，能不能在MP3上做一个查单词的程序？</p>
+<h1 id="想法"><a href="#想法" class="headerlink" title="想法"></a>想法</h1><p>比想象中的要困难。虽然我会一点C语言，也了解一点硬件开发，但基于MP3的芯片（炬力）开发软件，真的太过麻烦。</p>
+<p>有一天晚上，在学校宿舍，我突然想到了一个简单的解决办法：将所有单词的字母顺序创建为文件夹，在相应的的文件夹里放一个解释这个单词的txt文件，不就可以实现这个功能了吗？</p>
+<p><img src="D:\Project\HK-SHAO\source\images\blog\37.PNG" alt="37"></p>
+<p><img src="D:\Project\HK-SHAO\source\images\blog\38.gif" alt="38"></p>
+<p>我只需要在MP3文件夹视图中，一层层打开相应的文件夹来定位这个单词，得到单词释义。</p>
+<p>程序很好写，数据也很好找，放假回家马上就实现了。总共制作了近四万个单词（包括文件夹有十几万），效果如下：</p>
+<p><img src="D:\Project\HK-SHAO\source\images\blog\39.gif" alt="39"></p>
+<h1 id="成果"><a href="#成果" class="headerlink" title="成果"></a>成果</h1><p>把这些文件夹放到一张SD卡里，插到MP3上。打开，效果跟预想中的一样。我在学校试用了2个星期，感觉查单词挺方便的。后来又回家做了个40万单词的版本，在MP3上的最终效果如下图：</p>
+<p><img src="D:\Project\HK-SHAO\source\images\blog\40.gif" alt="40"></p>
+<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> csv</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fi</span><span class="params">(l)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> re.search(<span class="string">r'\d|\W'</span>, l[<span class="number">0</span>]) <span class="keyword">is</span> <span class="keyword">None</span></span><br><span class="line"></span><br><span class="line">dic = []</span><br><span class="line">words = []</span><br><span class="line"><span class="keyword">with</span> open(<span class="string">'ecdict.csv'</span>,<span class="string">'r'</span>, encoding=<span class="string">'utf-8'</span>) <span class="keyword">as</span> csvfile:</span><br><span class="line">    reader = csv.reader(csvfile)</span><br><span class="line">    <span class="keyword">for</span> w <span class="keyword">in</span> reader:</span><br><span class="line">        <span class="keyword">if</span> fi(w):</span><br><span class="line">            words.append(w[<span class="number">0</span>])</span><br><span class="line">            dic.append(w)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fo</span><span class="params">(s)</span>:</span></span><br><span class="line">    n = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> w <span class="keyword">in</span> words:</span><br><span class="line">        <span class="keyword">if</span> s == w[:len(s)]:</span><br><span class="line">            n += <span class="number">1</span></span><br><span class="line">    <span class="keyword">if</span> n &lt; <span class="number">13</span>:</span><br><span class="line">        <span class="keyword">for</span> w <span class="keyword">in</span> words:</span><br><span class="line">            <span class="keyword">if</span> s == w[:len(s)]:</span><br><span class="line">                <span class="keyword">del</span> w</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">True</span></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">False</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> line <span class="keyword">in</span> dic:</span><br><span class="line">    w = line[<span class="number">0</span>]</span><br><span class="line">    l3r = <span class="string">''</span></span><br><span class="line">    <span class="keyword">if</span> line[<span class="number">3</span>] <span class="keyword">is</span> <span class="keyword">not</span> <span class="string">''</span>:</span><br><span class="line">        l3r = <span class="string">'\n'</span> + line[<span class="number">3</span>].replace(<span class="string">'\\n'</span>, <span class="string">'；'</span>)</span><br><span class="line">    l2r = <span class="string">''</span></span><br><span class="line">    <span class="keyword">if</span> line[<span class="number">2</span>] <span class="keyword">is</span> <span class="keyword">not</span> <span class="string">''</span>:</span><br><span class="line">        l2r = <span class="string">'\n英文释义：&#123;&#125;'</span>.format(line[<span class="number">2</span>].replace(<span class="string">'\\n'</span>, <span class="string">'；'</span>).replace(<span class="string">'：n '</span>, <span class="string">'：n. '</span>).replace(<span class="string">'；n '</span>, <span class="string">'；n. '</span>))</span><br><span class="line">    l10r = <span class="string">''</span></span><br><span class="line">    <span class="keyword">if</span> line[<span class="number">10</span>] <span class="keyword">is</span> <span class="keyword">not</span> <span class="string">''</span>:</span><br><span class="line">        l10r = <span class="string">'\n'</span> + line[<span class="number">10</span>].replace(<span class="string">'p:'</span>, <span class="string">'过去式：'</span>).replace(<span class="string">'d:'</span>, <span class="string">'过去分词：'</span>).replace(<span class="string">'i:'</span>, <span class="string">'现在分词：'</span>).replace(<span class="string">'r:'</span>, <span class="string">'比较级：'</span>).replace(<span class="string">'t:'</span>, <span class="string">'最高级：'</span>).replace(<span class="string">'s:'</span>, <span class="string">'复数：'</span>).replace(<span class="string">'3:'</span>, <span class="string">'三单：'</span>).replace(<span class="string">'0:'</span>, <span class="string">'原型：'</span>).replace(<span class="string">'1:'</span>, <span class="string">'形式：'</span>).replace(<span class="string">'/'</span>, <span class="string">'；'</span>)</span><br><span class="line">    l7r = <span class="string">''</span></span><br><span class="line">    <span class="keyword">if</span> line[<span class="number">7</span>] <span class="keyword">is</span> <span class="keyword">not</span> <span class="string">''</span>:</span><br><span class="line">        l7r = <span class="string">'\n考试要求：'</span> + line[<span class="number">7</span>].replace(<span class="string">'zk'</span>, <span class="string">'中考'</span>).replace(<span class="string">'gk'</span>, <span class="string">'高考'</span>).replace(<span class="string">'cet4'</span>, <span class="string">'四级'</span>).replace(<span class="string">'cet6'</span>, <span class="string">'六级'</span>).replace(<span class="string">'ky'</span>, <span class="string">'考研'</span>).replace(<span class="string">'ielts'</span>, <span class="string">'雅思'</span>).replace(<span class="string">'toefl'</span>, <span class="string">'托福'</span>).replace(<span class="string">'gre'</span>, <span class="string">'GRE'</span>).replace(<span class="string">' '</span>, <span class="string">'；'</span>)</span><br><span class="line">    l1r = <span class="string">''</span></span><br><span class="line">    <span class="keyword">if</span> line[<span class="number">1</span>] <span class="keyword">is</span> <span class="keyword">not</span> <span class="string">''</span>:</span><br><span class="line">        l1r = <span class="string">'\n/&#123;&#125;/'</span>.format(line[<span class="number">1</span>])</span><br><span class="line">    string = <span class="string">'【&#123;&#125;】&#123;&#125;&#123;&#125;&#123;&#125;&#123;&#125;&#123;&#125;'</span>.format(w, l1r, l3r, l10r, l2r, l7r)</span><br><span class="line"></span><br><span class="line">    path = <span class="string">''</span></span><br><span class="line">    b = <span class="string">''</span></span><br><span class="line">    <span class="keyword">for</span> l <span class="keyword">in</span> w:</span><br><span class="line">        b += l</span><br><span class="line">        path += <span class="string">'&#123;&#125;-/'</span>.format(b)</span><br><span class="line">        <span class="keyword">if</span> fo(b):</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">    path = <span class="string">'DIC/'</span> + path.lower()</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(path):</span><br><span class="line">        os.makedirs(path)</span><br><span class="line">        print(path)</span><br><span class="line">    <span class="keyword">with</span> open(<span class="string">'&#123;&#125;-&#123;&#125;.txt'</span>.format(path, w),<span class="string">'w'</span>, encoding=<span class="string">'utf-8'</span>) <span class="keyword">as</span> f:</span><br><span class="line">        f.write(string)</span><br><span class="line">    <span class="comment"># print(string)</span></span><br></pre></td></tr></table></figure>
+<h1 id="单词数据库"><a href="#单词数据库" class="headerlink" title="单词数据库"></a>单词数据库</h1><p>单词数据库（总共80万单词短语）开源地址：<a href="https://github.com/skywind3000/ECDICT" target="_blank" rel="noopener">https://github.com/skywind3000/ECDICT</a></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Python/" rel="tag"># Python</a>
+          
+            <a href="/tags/词典/" rel="tag"># 词典</a>
+          
+            <a href="/tags/英语/" rel="tag"># 英语</a>
+          
+            <a href="/tags/高中/" rel="tag"># 高中</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/07/28/自定义Typora的主题/" rel="next" title="自定义Typora的主题">
+                <i class="fa fa-chevron-left"></i> 自定义Typora的主题
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/logo.png" alt="王家晔">
+            
+              <p class="site-author-name" itemprop="name">王家晔</p>
+              <p class="site-description motion-element" itemprop="description">在黑夜中睁开眼睛</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">36</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">44</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/HK-SHAO" title="GitHub &rarr; https://github.com/HK-SHAO" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:2063597709@qq.com" title="E-Mail &rarr; mailto:2063597709@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://hk-shao.github.io/demo/ShaderEditor/" title="https://hk-shao.github.io/demo/ShaderEditor/">ShaderEditor</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://wuyudi.github.io/" title="https://wuyudi.github.io/" rel="noopener" target="_blank">wuyudi的小站</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#想法"><span class="nav-number">2.</span> <span class="nav-text">想法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#成果"><span class="nav-number">3.</span> <span class="nav-text">成果</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#代码"><span class="nav-number">4.</span> <span class="nav-text">代码</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#单词数据库"><span class="nav-number">5.</span> <span class="nav-text">单词数据库</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">王家晔</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.7.0"></script>
+
+  <script src="/js/src/motion.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+  
+  <script src="/js/src/scrollspy.js?v=6.7.0"></script>
+<script src="/js/src/post-details.js?v=6.7.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.7.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
