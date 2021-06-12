@@ -10818,12 +10818,15 @@ article.article .content {
 }
 article.article .content h1 {
   font-size: 1.75em;
+  font-weight: 900;
 }
 article.article .content h2 {
   font-size: 1.5em;
+  font-weight: 700;
 }
 article.article .content h3 {
   font-size: 1.25em;
+  font-weight: 500;
 }
 article.article .content h4 {
   font-size: 1.125em;
