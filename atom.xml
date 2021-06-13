@@ -6,7 +6,7 @@
   <link href="https://hk-shao.github.io/atom.xml" rel="self"/>
   
   <link href="https://hk-shao.github.io/"/>
-  <updated>2021-06-12T15:11:35.964Z</updated>
+  <updated>2021-06-13T13:17:06.557Z</updated>
   <id>https://hk-shao.github.io/</id>
   
   <author>
@@ -15,6 +15,35 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Plotter: 图形科学计算</title>
+    <link href="https://hk-shao.github.io/p/2f55.html"/>
+    <id>https://hk-shao.github.io/p/2f55.html</id>
+    <published>2021-06-13T12:57:18.000Z</published>
+    <updated>2021-06-13T13:17:06.557Z</updated>
+    
+    <content type="html"><![CDATA[<p>Plotter &#x662F;&#x4E00;&#x4E2A;&#x56FE;&#x5F62;&#x79D1;&#x5B66;&#x8BA1;&#x7B97;&#x8F6F;&#x4EF6;&#xFF0C;&#x5B83;&#x8D77;&#x6E90;&#x4E8E;&#x6211;&#x9AD8;&#x4E09;&#x65F6;&#x5BF9;&#x6570;&#x5B66;&#x56FE;&#x5F62;&#x53EF;&#x89C6;&#x5316;&#x7684;&#x6267;&#x5FF5;&#x3002;Plotter &#x7684;&#x4E00;&#x4E2A;&#x65E9;&#x671F;&#x7248;&#x672C;&#x754C;&#x9762;&#x3001;&#x64CD;&#x4F5C;&#x548C;&#x5B9E;&#x73B0;&#x90FD;&#x6BD4;&#x8F83;&#x7B80;&#x964B;&#x3002;&#x65B0;&#x7248;&#x672C;&#x7684; Plotter &#x4F7F;&#x7528;&#x6E38;&#x620F;&#x5F15;&#x64CE;&#x5F00;&#x53D1;&#xFF0C;&#x867D;&#x7136;&#x76EE;&#x524D;&#x4ECD;&#x7136;&#x8FD8;&#x5F88;&#x7B80;&#x964B;&#xFF0C;&#x751A;&#x81F3;&#x7F3A;&#x5C11;&#x4E86;&#x65E7;&#x7248;&#x672C;&#x7684;&#x5F88;&#x591A;&#x529F;&#x80FD;&#xFF0C;&#x4F46;&#x5B83;&#x7684;&#x67B6;&#x6784;&#x975E;&#x5E38;&#x6709;&#x4F18;&#x52BF;&#xFF0C;&#x53EF;&#x6301;&#x7EED;&#x53D1;&#x5C55;&#x6027;&#x6BD4;&#x8F83;&#x5F3A;&#x3002;&#x5E0C;&#x671B;&#x672A;&#x6765;&#x7684; Plotter &#x5C06;&#x4F1A;&#x662F;&#x4E00;&#x4E2A;&#x975E;&#x5E38;&#x6613;&#x7528;&#x7684;&#x79D1;&#x5B66;&#x3001;&#x6570;&#x5B66;&#x3001;&#x6570;&#x636E;&#x53EF;&#x89C6;&#x5316;&#x5DE5;&#x5177;&#x3002;</p><span id="more"></span><p>&#x4E0B;&#x9762;&#x662F; Plotter &#x7684;&#x4E00;&#x4E2A; DEMO &#x7248;&#x672C;&#x3002;</p><center><iframe src="https://hk-shao.github.io/plotter/" style="width:400px;height:800px;border: 3px solid gray;"></iframe></center>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;Plotter 是一个图形科学计算软件，它起源于我高三时对数学图形可视化的执念。Plotter 的一个早期版本界面、操作和实现都比较简陋。新版本的 Plotter 使用游戏引擎开发，虽然目前仍然还很简陋，甚至缺少了旧版本的很多功能，但它的架构非常有优势，可持续发展性比较强。希望未来的 Plotter 将会是一个非常易用的科学、数学、数据可视化工具。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="编程" scheme="https://hk-shao.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
+    
+    
+    <category term="数学" scheme="https://hk-shao.github.io/tags/%E6%95%B0%E5%AD%A6/"/>
+    
+    <category term="科学" scheme="https://hk-shao.github.io/tags/%E7%A7%91%E5%AD%A6/"/>
+    
+    <category term="图形" scheme="https://hk-shao.github.io/tags/%E5%9B%BE%E5%BD%A2/"/>
+    
+    <category term="计算" scheme="https://hk-shao.github.io/tags/%E8%AE%A1%E7%AE%97/"/>
+    
+    <category term="软件" scheme="https://hk-shao.github.io/tags/%E8%BD%AF%E4%BB%B6/"/>
+    
+  </entry>
   
   <entry>
     <title>新的开始 | A New Beginning</title>
