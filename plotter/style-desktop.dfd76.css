@@ -4,9 +4,11 @@ body {
   border: 0;
   margin: 0;
 
+  align-content: center;
+
   text-align: center;
   background-color: #1E1E1E;
-  font-family: 'KaTeX_main', '华文中宋', Helvetica, Verdana, Arial, sans-serif;
+  font-family: 'KaTeX_main', '华文中宋', Georgia, "Nimbus Roman No9 L", "Songti SC", "Noto Serif CJK SC", "Source Han Serif SC", "Source Han Serif CN", STSong, "AR PL New Sung", "AR PL SungtiL GB", NSimSun, SimSun, "TW\-Sung", "WenQuanYi Bitmap Song", "AR PL UMing CN", "AR PL UMing HK", "AR PL UMing TW", "AR PL UMing TW MBE", PMingLiU, MingLiU, serif;
   color: white;
 }
 
