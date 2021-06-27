@@ -6,7 +6,7 @@
   <link href="https://hk-shao.github.io/atom.xml" rel="self"/>
   
   <link href="https://hk-shao.github.io/"/>
-  <updated>2021-06-27T13:35:00.145Z</updated>
+  <updated>2021-06-27T14:21:55.703Z</updated>
   <id>https://hk-shao.github.io/</id>
   
   <author>
@@ -21,9 +21,9 @@
     <link href="https://hk-shao.github.io/p/c26.html"/>
     <id>https://hk-shao.github.io/p/c26.html</id>
     <published>2021-06-26T14:48:28.000Z</published>
-    <updated>2021-06-27T13:35:00.145Z</updated>
+    <updated>2021-06-27T14:21:55.703Z</updated>
     
-    <content type="html"><![CDATA[<div class="gene" style><p>&#x8FD9;&#x4E2A;&#x7F51;&#x9875;&#x91CC;&#x5D4C;&#x5165;&#x4E86;&#x4E00;&#x6BB5;&#x7528; Javascript &#x5199;&#x7684;&#x9057;&#x4F20;&#x7B97;&#x6CD5;&#x7A0B;&#x5E8F;&#xFF0C;&#x8FD9;&#x6BB5;&#x7A0B;&#x5E8F;&#x4F1A;&#x6253;&#x4E71;&#x6587;&#x7AE0;&#x7684;&#x5185;&#x5BB9;&#xFF0C;&#x7136;&#x540E;&#x8BA9;&#x6BCF;&#x4E2A;&#x8BCD;&#x8BED;&#x5F62;&#x6210;&#x79CD;&#x7FA4;&#xFF0C;&#x4E2A;&#x4F53;&#x4E4B;&#x95F4;&#x76F8;&#x4E92;&#x7ADE;&#x4E89;&#xFF0C;&#x6700;&#x7EC8;&#x8FDB;&#x5316;&#x4E3A;&#x4E00;&#x6BB5;&#x6709;&#x610F;&#x4E49;&#x7684;&#x6587;&#x5B57;&#x3002;</p><p>This web page embeds a genetic algorithm program written in Javascript that disrupts the content of the text and then allows each word to form populations, with individuals competing with each other to evolve into a meaningful text.</p></div><script src="/js/text_genetic.js"></script><script>let all_elem = [];for (let node of document.getElementsByClassName("gene")) {all_elem = [all_elem, ...node.parentNode.querySelectorAll('p')]}genetic(all_elem);</script>]]></content>
+    <content type="html"><![CDATA[<div class="gene" style><p>&#x8FD9;&#x4E2A;&#x7F51;&#x9875;&#x91CC;&#x5D4C;&#x5165;&#x4E86;&#x4E00;&#x6BB5;&#x7528; Javascript &#x5199;&#x7684;&#x9057;&#x4F20;&#x7B97;&#x6CD5;&#x7A0B;&#x5E8F;&#xFF0C;&#x8FD9;&#x6BB5;&#x7A0B;&#x5E8F;&#x4F1A;&#x8BA9;&#x4E00;&#x6BB5;&#x6587;&#x672C;&#x5168;&#x90E8;&#x53D8;&#x4E3A;&#x7A7A;&#x5B57;&#x7B26;&#xFF0C;&#x7136;&#x540E;&#x8BA9;&#x6BCF;&#x6BB5;&#x6587;&#x672C;&#x5F62;&#x6210;&#x591A;&#x4E2A;&#x79CD;&#x7FA4;&#xFF0C;&#x4E2A;&#x4F53;&#x4E4B;&#x95F4;&#x76F8;&#x4E92;&#x7ADE;&#x4E89;&#xFF0C;&#x6700;&#x7EC8;&#x8FDB;&#x5316;&#x4E3A;&#x4E00;&#x6BB5;&#x6709;&#x610F;&#x4E49;&#x7684;&#x6587;&#x5B57;&#x3002;</p><p>This web page embeds a genetic algorithm program written in Javascript that makes a piece of text all null characters and then allows each piece of text to form multiple populations, with individuals competing with each other to evolve into a meaningful piece of text.</p></div><script src="/js/text_genetic.js"></script><script>let all_elem = [];for (let node of document.getElementsByClassName("gene")) {all_elem = [all_elem, ...node.parentNode.querySelectorAll('p')]}genetic(all_elem);</script>]]></content>
     
     
       
