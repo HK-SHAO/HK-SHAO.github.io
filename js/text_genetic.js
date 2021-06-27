@@ -109,7 +109,7 @@ function genetic(all_elem) {
                 }
 
                 new_generation.push({
-                    DNA: Math.random() < 0.01 ? best_single.DNA : best.DNA
+                    DNA: best_single.DNA
                 });
 
                 while (generation.length !== 0) {
