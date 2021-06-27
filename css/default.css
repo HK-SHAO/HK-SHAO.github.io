@@ -11269,10 +11269,11 @@ figure.highlight table tr:not(:last-child) td {
 figure.highlight pre {
   padding: 0;
   overflow: visible;
+  line-height: 1.2em;
 }
 figure.highlight pre .line,
 figure.highlight pre code .hljs {
-  line-height: 1.5rem;
+  line-height: 1em;
 }
 figure.highlight figcaption,
 figure.highlight .gutter {

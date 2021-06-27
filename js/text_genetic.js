@@ -56,8 +56,8 @@ function genetic(all_elem) {
         let ans = p.innerText;
         if (typeof ans !== 'string') continue;
         let single = '';
-        for (let c of ans) {
-            single += variation(c);
+        for (let i = 0, l = ans.length; i < l; i++) {
+            single += " ";
         }
         p.innerText = single;
 
