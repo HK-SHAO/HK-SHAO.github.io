@@ -33,14 +33,15 @@
     }
 
     function variation(c) {
-        return String.fromCharCode(Math.round(Math.random() * 20 + c.charCodeAt() - 10));
+        return String.fromCharCode(Math.round(Math.random() * 60 + c.charCodeAt() - 30));
     }
 
     // DNA 变异
     function variations(s) {
         let res = '';
+        let k = 1 / s.length;
         for (let c of s) {
-            res += Math.random() < 0.1 ? variation(c) : c;
+            res += Math.random() < k ? variation(c) : c;
         }
         return res;
     }
