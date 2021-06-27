@@ -1,152 +1,19 @@
 <!doctype html>
-<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><title>一段简单的遗传算法演示 - HK-SHAO | 烧风的小站</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="HK-SHAO | 烧风的小站"><meta name="msapplication-TileImage" content="/img/favicon.svg"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="HK-SHAO | 烧风的小站"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="&amp;amp;#x8FD9;&amp;amp;#x4E2A;&amp;amp;#x7F51;&amp;amp;#x9875;&amp;amp;#x91CC;&amp;amp;#x5D4C;&amp;amp;#x5165;&amp;amp;#x4E86;&amp;amp;#x4E00;&amp;amp;#x6BB5;&amp;amp;#x7528; Javascript &amp;amp;#x5199;&amp;amp;#x7684;&amp;amp;#x9057;&amp;amp;#x4F20;&amp;amp;#x7B97;&amp;amp;#x6CD5;&amp;amp;#x7A0B;&amp;amp;#x5E8F;&amp;amp;#xFF0C;&amp;amp;#x8FD9;&amp;amp;#x6BB5;&amp;amp;#x7A0B;&amp;amp;"><meta property="og:type" content="article"><meta property="og:title" content="一段简单的遗传算法演示"><meta property="og:url" content="https://hk-shao.github.io/p/c26.html"><meta property="og:site_name" content="HK-SHAO | 烧风的小站"><meta property="og:description" content="&amp;amp;#x8FD9;&amp;amp;#x4E2A;&amp;amp;#x7F51;&amp;amp;#x9875;&amp;amp;#x91CC;&amp;amp;#x5D4C;&amp;amp;#x5165;&amp;amp;#x4E86;&amp;amp;#x4E00;&amp;amp;#x6BB5;&amp;amp;#x7528; Javascript &amp;amp;#x5199;&amp;amp;#x7684;&amp;amp;#x9057;&amp;amp;#x4F20;&amp;amp;#x7B97;&amp;amp;#x6CD5;&amp;amp;#x7A0B;&amp;amp;#x5E8F;&amp;amp;#xFF0C;&amp;amp;#x8FD9;&amp;amp;#x6BB5;&amp;amp;#x7A0B;&amp;amp;"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="https://hk-shao.github.io/img/og_image.png"><meta property="article:published_time" content="2021-06-26T14:48:28.000Z"><meta property="article:modified_time" content="2021-06-27T10:54:04.723Z"><meta property="article:author" content="烧风"><meta property="article:tag" content="AI"><meta property="article:tag" content="遗传算法"><meta property="article:tag" content="编程"><meta property="twitter:card" content="summary"><meta property="twitter:image" content="/img/og_image.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://hk-shao.github.io/p/c26.html"},"headline":"一段简单的遗传算法演示","image":["https://hk-shao.github.io/img/og_image.png"],"datePublished":"2021-06-26T14:48:28.000Z","dateModified":"2021-06-27T10:54:04.723Z","author":{"@type":"Person","name":"烧风"},"publisher":{"@type":"Organization","name":"HK-SHAO | 烧风的小站","logo":{"@type":"ImageObject","url":"https://hk-shao.github.io/img/logo.svg"}},"description":"&amp;#x8FD9;&amp;#x4E2A;&amp;#x7F51;&amp;#x9875;&amp;#x91CC;&amp;#x5D4C;&amp;#x5165;&amp;#x4E86;&amp;#x4E00;&amp;#x6BB5;&amp;#x7528; Javascript &amp;#x5199;&amp;#x7684;&amp;#x9057;&amp;#x4F20;&amp;#x7B97;&amp;#x6CD5;&amp;#x7A0B;&amp;#x5E8F;&amp;#xFF0C;&amp;#x8FD9;&amp;#x6BB5;&amp;#x7A0B;&amp;"}</script><link rel="canonical" href="https://hk-shao.github.io/p/c26.html"><link rel="alternate" href="/atom.xml" title="HK-SHAO | 烧风的小站" type="application/atom+xml"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><!--!--><script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" defer></script><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css"><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script><!--!--><!--!--><script src="/js/global.js"></script><meta name="generator" content="Hexo 5.4.0"></head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="HK-SHAO | 烧风的小站" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">主页</a><a class="navbar-item" href="/archives">归档</a><a class="navbar-item" href="/categories">分类</a><a class="navbar-item" href="/tags">标签</a><a class="navbar-item" href="/board">留言</a><a class="navbar-item" href="/about">关于</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/HK-SHAO/HK-SHAO.github.io"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2021-06-26T14:48:28.000Z" title="2021/6/26 下午10:48:28">2021-06-26</time>发表</span><span class="level-item"><time dateTime="2021-06-27T10:54:04.723Z" title="2021/6/27 下午6:54:04">2021-06-27</time>更新</span><span class="level-item"><a class="link-muted" href="/categories/%E7%BC%96%E7%A8%8B/">编程</a></span><span class="level-item">3 分钟读完 (大约488个字)</span><span class="level-item" id="busuanzi_container_page_pv"><span id="busuanzi_value_page_pv">0</span> 次访问</span></div></div><h1 class="title is-3 is-size-4-mobile">一段简单的遗传算法演示</h1><div class="content">
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><title>一段简单的遗传算法演示 - HK-SHAO | 烧风的小站</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="HK-SHAO | 烧风的小站"><meta name="msapplication-TileImage" content="/img/favicon.svg"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="HK-SHAO | 烧风的小站"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="&amp;amp;#x8FD9;&amp;amp;#x4E2A;&amp;amp;#x7F51;&amp;amp;#x9875;&amp;amp;#x91CC;&amp;amp;#x5D4C;&amp;amp;#x5165;&amp;amp;#x4E86;&amp;amp;#x4E00;&amp;amp;#x6BB5;&amp;amp;#x7528; Javascript &amp;amp;#x5199;&amp;amp;#x7684;&amp;amp;#x9057;&amp;amp;#x4F20;&amp;amp;#x7B97;&amp;amp;#x6CD5;&amp;amp;#x7A0B;&amp;amp;#x5E8F;&amp;amp;#xFF0C;&amp;amp;#x8FD9;&amp;amp;#x6BB5;&amp;amp;#x7A0B;&amp;amp;"><meta property="og:type" content="article"><meta property="og:title" content="一段简单的遗传算法演示"><meta property="og:url" content="https://hk-shao.github.io/p/c26.html"><meta property="og:site_name" content="HK-SHAO | 烧风的小站"><meta property="og:description" content="&amp;amp;#x8FD9;&amp;amp;#x4E2A;&amp;amp;#x7F51;&amp;amp;#x9875;&amp;amp;#x91CC;&amp;amp;#x5D4C;&amp;amp;#x5165;&amp;amp;#x4E86;&amp;amp;#x4E00;&amp;amp;#x6BB5;&amp;amp;#x7528; Javascript &amp;amp;#x5199;&amp;amp;#x7684;&amp;amp;#x9057;&amp;amp;#x4F20;&amp;amp;#x7B97;&amp;amp;#x6CD5;&amp;amp;#x7A0B;&amp;amp;#x5E8F;&amp;amp;#xFF0C;&amp;amp;#x8FD9;&amp;amp;#x6BB5;&amp;amp;#x7A0B;&amp;amp;"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="https://hk-shao.github.io/img/og_image.png"><meta property="article:published_time" content="2021-06-26T14:48:28.000Z"><meta property="article:modified_time" content="2021-06-27T13:35:00.145Z"><meta property="article:author" content="烧风"><meta property="article:tag" content="AI"><meta property="article:tag" content="遗传算法"><meta property="article:tag" content="编程"><meta property="twitter:card" content="summary"><meta property="twitter:image" content="/img/og_image.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://hk-shao.github.io/p/c26.html"},"headline":"一段简单的遗传算法演示","image":["https://hk-shao.github.io/img/og_image.png"],"datePublished":"2021-06-26T14:48:28.000Z","dateModified":"2021-06-27T13:35:00.145Z","author":{"@type":"Person","name":"烧风"},"publisher":{"@type":"Organization","name":"HK-SHAO | 烧风的小站","logo":{"@type":"ImageObject","url":"https://hk-shao.github.io/img/logo.svg"}},"description":"&amp;#x8FD9;&amp;#x4E2A;&amp;#x7F51;&amp;#x9875;&amp;#x91CC;&amp;#x5D4C;&amp;#x5165;&amp;#x4E86;&amp;#x4E00;&amp;#x6BB5;&amp;#x7528; Javascript &amp;#x5199;&amp;#x7684;&amp;#x9057;&amp;#x4F20;&amp;#x7B97;&amp;#x6CD5;&amp;#x7A0B;&amp;#x5E8F;&amp;#xFF0C;&amp;#x8FD9;&amp;#x6BB5;&amp;#x7A0B;&amp;"}</script><link rel="canonical" href="https://hk-shao.github.io/p/c26.html"><link rel="alternate" href="/atom.xml" title="HK-SHAO | 烧风的小站" type="application/atom+xml"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><!--!--><script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" defer></script><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css"><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script><!--!--><!--!--><script src="/js/global.js"></script><meta name="generator" content="Hexo 5.4.0"></head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="HK-SHAO | 烧风的小站" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">主页</a><a class="navbar-item" href="/archives">归档</a><a class="navbar-item" href="/categories">分类</a><a class="navbar-item" href="/tags">标签</a><a class="navbar-item" href="/board">留言</a><a class="navbar-item" href="/about">关于</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/HK-SHAO/HK-SHAO.github.io"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2021-06-26T14:48:28.000Z" title="2021/6/26 下午10:48:28">2021-06-26</time>发表</span><span class="level-item"><time dateTime="2021-06-27T13:35:00.145Z" title="2021/6/27 下午9:35:00">2021-06-27</time>更新</span><span class="level-item"><a class="link-muted" href="/categories/%E7%BC%96%E7%A8%8B/">编程</a></span><span class="level-item">1 分钟读完 (大约130个字)</span><span class="level-item" id="busuanzi_container_page_pv"><span id="busuanzi_value_page_pv">0</span> 次访问</span></div></div><h1 class="title is-3 is-size-4-mobile">一段简单的遗传算法演示</h1><div class="content">
 <div class="gene" style>
 <p>
 &#x8FD9;&#x4E2A;&#x7F51;&#x9875;&#x91CC;&#x5D4C;&#x5165;&#x4E86;&#x4E00;&#x6BB5;&#x7528; Javascript &#x5199;&#x7684;&#x9057;&#x4F20;&#x7B97;&#x6CD5;&#x7A0B;&#x5E8F;&#xFF0C;&#x8FD9;&#x6BB5;&#x7A0B;&#x5E8F;&#x4F1A;&#x6253;&#x4E71;&#x6587;&#x7AE0;&#x7684;&#x5185;&#x5BB9;&#xFF0C;&#x7136;&#x540E;&#x8BA9;&#x6BCF;&#x4E2A;&#x8BCD;&#x8BED;&#x5F62;&#x6210;&#x79CD;&#x7FA4;&#xFF0C;&#x4E2A;&#x4F53;&#x4E4B;&#x95F4;&#x76F8;&#x4E92;&#x7ADE;&#x4E89;&#xFF0C;&#x6700;&#x7EC8;&#x8FDB;&#x5316;&#x4E3A;&#x4E00;&#x6BB5;&#x6709;&#x610F;&#x4E49;&#x7684;&#x6587;&#x5B57;&#x3002;</p>
 <p>
 This web page embeds a genetic algorithm program written in Javascript that disrupts the content of the text and then allows each word to form populations, with individuals competing with each other to evolve into a meaningful text.</p>
 </div>
-
+<script src="/js/text_genetic.js"></script>
 <script>
-(function () {
-    let all_elem = [];
-    for (let node of document.getElementsByClassName("gene")) {
-        all_elem = [all_elem, ...node.parentNode.querySelectorAll('p')]
-    }
-
-    function loss(s1, s2) {
-        let sum = 0;
-        for (let i = 0, l = Math.min(s1.length, s2.length); i < l; i++) {
-            sum += Math.abs(s1.charCodeAt(i) - s2.charCodeAt(i));
-        }
-        return sum
-    }
-    
-    function rsoftmax(s) {
-        let sum = 0;
-        for (let i = 0, l = s.length; i < l; i++) {
-            s[i] = Math.exp(1 / s[i]);
-            sum += s[i];
-        }
-    
-        for (let i = 0, l = s.length; i < l; i++) {
-            s[i] = s[i] / sum;
-            if (s[i] === NaN) {
-                s[i] = 1;
-            }
-        }
-        return s;
-    }
-    
-    function variation(c) {
-        return String.fromCharCode(Math.round(Math.random() * 60 + c.charCodeAt() - 30));
-    }
-    
-    // DNA 变异
-    function variations(s) {
-        let res = '';
-        let k = 1 / s.length;
-        for (let c of s) {
-            res += Math.random() < k ? variation(c) : c;
-        }
-        return res;
-    }
-    
-    // DNA 融合
-    function cross(s1, s2) {
-        let m = Math.round(Math.random() * Math.min(s1.length, s2.length));
-        return Math.random() < 0.5 ? (s1.slice(0, m) + s2.slice(m)) : (s2.slice(0, m) + s1.slice(m));
-    }
-    
-    function random_choice(s) {
-        return s[Math.floor(s.length * Math.random())];
-    }
-    
-    const MAXP = 30;
-    
-    for (let p of all_elem) {
-        let cnt = 0;
-        let ans = p.innerText;
-        if (typeof ans !== 'string') continue;
-        let single = '';
-        for (let c of ans) {
-            single += variation(c);
-        }
-        p.innerText = single;
-
-
-        let generation = [];
-        while (generation.length < MAXP) {
-            generation.push({
-                DNA: variations(single)
-            });
-        }
-    
-        let best_single = {
-            DNA: single,
-            loss: Infinity,
-            power: 0
-        };
-    
-        for (let x = 0; x < 30; x++) {
-            let update = setInterval(function () {
-                cnt++;
-                let losss = [];
-                for (let s of generation) {
-                    s.loss = loss(s.DNA, ans);
-                    losss.push(s.loss);
-                }
-                let powers = rsoftmax(losss);
-                for (let i = 0, l = powers.length; i < l; i++) {
-                    generation[i].power = powers[i];
-                }
-                generation.sort(function (a, b) {
-                    return b.loss - a.loss;
-                });
-    
-                let new_generation = [];
-    
-                let best = generation.pop();
-                let delta_loss = best.loss - best_single.loss;
-                if (delta_loss < 0) {
-                    best_single = best;
-                }
-    
-                if (best_single.loss === 0) {
-                    clearInterval(update);
-                    return;
-                }
-    
-                new_generation.push({
-                    DNA: Math.random() < 0.01 ? best_single.DNA : best.DNA
-                });
-    
-                while (generation.length !== 0) {
-                    let s = generation.pop();
-                    for (let i = 0, l = Math.round(s.power * MAXP); i < l; i++) {
-                        let new_DNA = variations(cross(s.DNA, random_choice(new_generation).DNA));
-                        new_generation.push({
-                            DNA: new_DNA
-                        });
-                    }
-                }
-    
-                generation = new_generation;
-            }, 1000 / 600000);
-        }
-    
-        let refresh = setInterval(function () {
-            p.innerText = best_single.DNA + " #" + cnt;
-    
-            if (best_single.loss === 0) {
-                clearInterval(refresh);
-            }
-        }, 1000 / 60);
-    
-    }
-})();
+let all_elem = [];
+for (let node of document.getElementsByClassName("gene")) {
+all_elem = [all_elem, ...node.parentNode.querySelectorAll('p')]
+}
+genetic(all_elem);
 </script>
-
 </div><div class="article-licensing box"><div class="licensing-title"><p>一段简单的遗传算法演示</p><p><a href="https://hk-shao.github.io/p/c26.html">https://hk-shao.github.io/p/c26.html</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>烧风</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2021-06-26</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2021-06-27</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/AI/">AI</a><a class="link-muted mr-2" rel="tag" href="/tags/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95/">遗传算法</a><a class="link-muted mr-2" rel="tag" href="/tags/%E7%BC%96%E7%A8%8B/">编程</a></div><!--!--></article></div><!--!--><nav class="post-navigation mt-4 level is-mobile"><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/p/f316.html"><span class="level-item">收藏的网站集合</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div class="content" id="valine-thread"></div><script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script><script src="https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js"></script><script>new Valine({
             el: '#valine-thread' ,
             appId: "ufBJRjsUeijVYeqS9d7FuGBr-gzGzoHsz",

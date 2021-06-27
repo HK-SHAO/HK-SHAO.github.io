@@ -1,12 +1,4 @@
-(function () {
-    let all_elem = [
-        ...document.getElementsByTagName('p'),
-        ...document.getElementsByTagName('h1'),
-        ...document.getElementsByTagName('h2'),
-        ...document.getElementsByTagName('h3'),
-        ...document.getElementsByTagName('h4'),
-        ...document.getElementsByTagName('h4')
-    ];
+function genetic(all_elem) {
 
     function loss(s1, s2) {
         let sum = 0;
@@ -38,12 +30,13 @@
 
     // DNA 变异
     function variations(s) {
-        let res = '';
-        let k = 1 / s.length;
-        for (let c of s) {
-            res += Math.random() < k ? variation(c) : c;
+        let arr = Array.from(s);
+        let n = Math.floor(Math.random() * 3);
+        for (let i = 0; i < n; i++) {
+            let k = Math.floor(arr.length * Math.random());
+            arr[k] = variation(arr[k]);
         }
-        return res;
+        return arr.join("");
     }
 
     // DNA 融合
@@ -82,7 +75,7 @@
             power: 0
         };
 
-        for (let x = 0; x < 3; x++) {
+        for (let x = 0; x < 30; x++) {
             let update = setInterval(function () {
                 cnt++;
                 let losss = [];
@@ -101,8 +94,12 @@
                 let new_generation = [];
 
                 let best = generation.pop();
-                let delta_loss = best.loss - best_single.loss;
-                if (delta_loss < 0) {
+                if (best === undefined) {
+                    clearInterval(update);
+                    return;
+                }
+
+                if (best.loss - best_single.loss < 0) {
                     best_single = best;
                 }
 
@@ -138,4 +135,4 @@
         }, 1000 / 60);
 
     }
-})();
+}
