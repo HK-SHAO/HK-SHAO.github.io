@@ -1,13 +1,5 @@
 function genetic(all_elem) {
 
-    function loss(s1, s2) {
-        let sum = 0;
-        for (let i = 0, l = Math.min(s1.length, s2.length); i < l; i++) {
-            sum += Math.abs(s1.charCodeAt(i) - s2.charCodeAt(i));
-        }
-        return sum
-    }
-
     function rsoftmax(s) {
         let sum = 0;
         for (let i = 0, l = s.length; i < l; i++) {
@@ -55,19 +47,26 @@ function genetic(all_elem) {
         let cnt = 0;
         let ans = p.innerText;
         if (typeof ans !== 'string') continue;
+
+        function loss(s1) {
+            let sum = 0;
+            for (let i = 0, l = Math.min(s1.length, ans.length); i < l; i++) {
+                sum += Math.abs(s1.charCodeAt(i) - ans.charCodeAt(i));
+            }
+            return sum;
+        }
+
         let single = '';
         for (let i = 0, l = ans.length; i < l; i++) {
             single += " ";
         }
-        p.innerText = single;
 
 
-        let generation = [];
-        while (generation.length < MAXP) {
-            generation.push({
-                DNA: variations(single)
-            });
-        }
+        let generation = [{
+            DNA: single
+        }, {
+            DNA: single
+        }];
 
         let best_single = {
             DNA: single,
@@ -80,7 +79,7 @@ function genetic(all_elem) {
                 cnt++;
                 let losss = [];
                 for (let s of generation) {
-                    s.loss = loss(s.DNA, ans);
+                    s.loss = loss(s.DNA);
                     losss.push(s.loss);
                 }
                 let powers = rsoftmax(losss);
@@ -123,7 +122,7 @@ function genetic(all_elem) {
                 }
 
                 generation = new_generation;
-            }, 1000 / 600000);
+            }, 1000 / 6000000);
         }
 
         let refresh = setInterval(function () {
