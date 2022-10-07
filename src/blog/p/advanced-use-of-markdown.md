@@ -1,8 +1,11 @@
 ---
+footer: MIT Licensed | Copyright © 2021-2022 HK-SHAO
 description: 进阶使用 Markdown 排版
 ---
 
 # 烧风的 Markdown 进阶教程
+
+> <p style="text-align: right">——没想到吧，Markdown 远比你想象的要精彩。</p>
 
 ::: warning
 如果你还没看过 Markdown 基础教程，请先阅读 [使用 Markdown 排版文章](how-to-use-markdown.md)
@@ -171,3 +174,9 @@ $$
 \ce{SO4^2- + Ba^2+ -> BaSO4 v} 
 $$
 ```
+
+## 尾声
+
+::: warning
+本站所有内容均使用 MIT 协议，并署名 [`shaofun`](//shao.fun)，请遵守 [此协议](/LICENSE.md) ，转载请标明出处。
+:::
