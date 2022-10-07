@@ -15,7 +15,7 @@ footer: MIT Licensed | Copyright © 2021-2022 HK-SHAO
 
 > 你好，我是烧风，不是风烧，英文写作 shaofun
 > 
-> 一个大三学生，爱数学、爱技术、爱运动、爱摄影、爱游戏、爱艺术。
+> 一个大三学生，爱数学、爱技术、爱写作、爱运动、爱摄影、爱游戏、爱艺术。
 
 ## [Bilibili](https://space.bilibili.com/24046148)
 
