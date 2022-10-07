@@ -25,15 +25,15 @@ Markdown 是简单高效的文章排版标记方式，同样所见即所得，�
 ```
 :::
 
-|  ![shaofun](/images/logo.png)   | ![shaofun](/images/logo.png "shaofun")  |
-|  :---------------------------:  | :------------------------------------:  |
-| `![shaofun](/images/logo.png)` | `![shaofun](/images/logo.png "shaofun")` |
+|   ![shaofun](/images/logo.png)    |  ![shaofun](/images/logo.png "shaofun")  |
+|   :---------------------------:   |  :------------------------------------:  |
+|  `![shaofun](/images/logo.png)`   | `![shaofun](/images/logo.png "shaofun")` |
 
 ::: details 查看 Markdown 代码
 ```markdown
-|  ![shaofun](/images/logo.png)   | ![shaofun](/images/logo.png "shaofun")  |
-|  :---------------------------:  | :------------------------------------:  |
-| `![shaofun](/images/logo.png)` | `![shaofun](/images/logo.png "shaofun")` |
+|   ![shaofun](/images/logo.png)    |  ![shaofun](/images/logo.png "shaofun")  |
+|   :---------------------------:   |  :------------------------------------:  |
+|  `![shaofun](/images/logo.png)`   | `![shaofun](/images/logo.png "shaofun")` |
 ```
 :::
 
