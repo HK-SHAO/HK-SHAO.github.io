@@ -43,6 +43,7 @@ jobs:
       - name: Build VuePress site
         run: yarn build
 
+
       # 查看 workflow 的文档来获取更多信息
       # @see https://github.com/crazy-max/ghaction-github-pages
       - name: Deploy to GitHub Pages
@@ -50,6 +51,10 @@ jobs:
         with:
           # 部署到 gh-pages 分支
           target_branch: gh-pages
+          # 创建 CNAME 绑定域名
+          fqdn: shao.fun
+          # 创建 .nojekyll 禁用 jekyll
+          jekyll: false
           # 部署目录为 VuePress 的默认输出目录
           build_dir: src/.vuepress/dist
         env:
