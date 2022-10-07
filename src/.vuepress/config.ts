@@ -3,7 +3,7 @@ import { defaultTheme } from 'vuepress'
 import { searchPlugin } from '@vuepress/plugin-search'
 import { pwaPlugin } from '@vuepress/plugin-pwa'
 import { registerComponentsPlugin } from '@vuepress/plugin-register-components'
-import { getDirname, path } from '@vuepress/utils'
+import { path } from '@vuepress/utils'
 
 export default defineUserConfig({
   lang: 'zh-CN',
@@ -27,6 +27,9 @@ export default defineUserConfig({
   theme: defaultTheme({
     logo: '/images/logo.png',
     repo: 'HK-SHAO',
+    docsRepo: 'HK-SHAO/HK-SHAO.github.io',
+    docsBranch: 'main',
+    docsDir: 'src',
     colorModeSwitch: true,
     colorMode: 'auto',
     home: '/',
