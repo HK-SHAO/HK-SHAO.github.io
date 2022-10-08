@@ -7,18 +7,18 @@ export const navbar: NavbarConfig = [
     },
     {
         text: '博文',
-        link: '/blog',
+        link: '/blog/',
     },
     {
         text: '照片',
-        link: '/photo',
+        link: '/photo/',
     },
     {
         text: '链接',
-        link: '/links',
+        link: '/links/',
     },
     {
         text: '关于',
-        link: '/about',
+        link: '/about/',
     },
 ];
