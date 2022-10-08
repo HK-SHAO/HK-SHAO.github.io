@@ -5,6 +5,7 @@ import { pwaPopupPlugin } from '@vuepress/plugin-pwa-popup'
 import { registerComponentsPlugin } from '@vuepress/plugin-register-components'
 import { path } from '@vuepress/utils'
 import { mdEnhancePlugin } from "vuepress-plugin-md-enhance";
+import { gitPlugin } from '@vuepress/plugin-git'
 
 
 export const plugins: PluginConfig = [
@@ -49,5 +50,10 @@ export const plugins: PluginConfig = [
                 placeholder: '搜索',
             },
         },
+    }),
+    gitPlugin({
+        createdTime: true,
+        updatedTime: true,
+        contributors: true,
     }),
 ]

@@ -6,7 +6,7 @@ sidebar: false
 
 # MIT 许可证书
 ::: warning
-本站所有内容均使用 MIT 协议，并署名 [`shaofun`](//shao.fun)，请遵守以下协议，转载请标明出处。
+本站所有内容均使用 MIT 协议，并署名 [`shaofun`](//shao.fun)，请遵守以下协议，转载请标明出处
 :::
 
 MIT License
