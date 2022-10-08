@@ -8,8 +8,12 @@ footer: MIT Licensed | Copyright © 2021-2022 HK-SHAO
 
 <center>
 
-![](https://raw.githubusercontent.com/HK-SHAO/github-stats/master/generated/overview.svg)
-![](https://raw.githubusercontent.com/HK-SHAO/github-stats/master/generated/languages.svg)
+<p>
+    <img src="https://cdn.jsdelivr.net/gh/HK-SHAO/github-stats/generated/overview.svg#gh-dark-mode-only" alt="" loading="lazy" class="medium-zoom-image" data-mode="darkmode-only">
+    <img src="https://cdn.jsdelivr.net/gh/HK-SHAO/github-stats/generated/overview.svg#gh-light-mode-only" alt="" loading="lazy" class="medium-zoom-image" data-mode="lightmode-only">
+    <img src="https://cdn.jsdelivr.net/gh/HK-SHAO/github-stats/generated/languages.svg#gh-dark-mode-only" alt="" loading="lazy" class="medium-zoom-image" data-mode="darkmode-only">
+    <img src="https://cdn.jsdelivr.net/gh/HK-SHAO/github-stats/generated/languages.svg#gh-light-mode-only" alt="" loading="lazy" class="medium-zoom-image" data-mode="lightmode-only">
+</p>
 
 </center>
 

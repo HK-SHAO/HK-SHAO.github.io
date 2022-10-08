@@ -8,33 +8,13 @@ description: Markdown 基础教程
 > <p style="text-align: right">——图文排版是集合计算机算法和软件工程等学科的一门艺术。</p>
 
 :::info 一些排版软件
-- Office World 和各种在线文档是所见即所得，但是并不方便开源行业使用，而且功能过于臃肿，不简洁高效和统一优雅。
-- $\TeX$ 是算法和程序设计技术先驱 D.E. Knuth 发明的排版系统，对 PDF 格式支持更好，是学术论文排版的首选，但是编译时间长，非所见即所得，$\TeX$ 最广为人知的衍生 [$\LaTeX$](https://www.latex-project.org/)。
-- Doxygen 是开源并跨平台的文档生成系统，但是学习门槛较高，泛用性没那么好。
+- **Office Word** 和各种在线文档是所见即所得的，但是并不方便开源行业使用，而且功能过于臃肿，不简洁高效和统一优雅。
+- **$\TeX$** 是算法和程序设计技术先驱 D.E. Knuth 发明的排版系统，对 PDF 格式支持更好，是学术论文排版的首选，但是编译时间长，非所见即所得，[$\LaTeX$](https://www.latex-project.org/) 是 $\TeX$ 最广为人知的衍生。
+- **Doxygen** 是开源并跨平台的文档生成系统，但是学习门槛较高，泛用性可能没那么好。
 :::
 
-::: note 选择 Markdown
+::: note 更多情况，请选择 Markdown
 Markdown 是简单高效的文章排版标记方式，同样所见即所得，被互联网广为使用，有大量工具软件支持，简单通用，一次编写到处发布。
-:::
-
-## 图片
-
-::: info 语法 
-```markdown
-![备注](图片链接 "标题")
-```
-:::
-
-|   ![shaofun](/images/logo.png)    |  ![shaofun](/images/logo.png "shaofun")  |
-|   :---------------------------:   |  :------------------------------------:  |
-|  `![shaofun](/images/logo.png)`   | `![shaofun](/images/logo.png "shaofun")` |
-
-::: details 查看 Markdown 代码
-```markdown
-|   ![shaofun](/images/logo.png)    |  ![shaofun](/images/logo.png "shaofun")  |
-|   :---------------------------:   |  :------------------------------------:  |
-|  `![shaofun](/images/logo.png)`   | `![shaofun](/images/logo.png "shaofun")` |
-```
 :::
 
 ## 多级标题
@@ -44,7 +24,7 @@ Markdown 是简单高效的文章排版标记方式，同样所见即所得，�
 :::
 
 ::: tip
-Markdown 相当于对 HTML 的简化， Markdown 通常要先转换为 HTML 然后再被排版渲染
+Markdown 相当于对 HTML 的简化， Markdown 通常要先转换为 HTML ，然后再被排版渲染
 :::
 
 ::: normal-demo
@@ -73,19 +53,30 @@ Markdown 相当于对 HTML 的简化， Markdown 通常要先转换为 HTML 然�
 
 ## 段落格式
 
-### 段落换行
+::: tip
+在 Markdown 中，请注意必要的空格 <kbd>Space</kbd> 和换行 <kbd>Enter</kbd> 是语法需要
+:::
+
+### 换行
 
 ::: tip
-换行在行末加两个空格
+在行末加两个空格然后回车换行
 :::
 
 这是第一行文字  
 这是第二行文字
 
-### 段落间距
+::: details 查看 Markdown 代码
+```markdown
+这是第一行文字  
+这是第二行文字
+```
+:::
+
+### 分段
 
 ::: tip
-回车换行实际上是分段
+两次回车换行实际上是分段
 :::
 
 这是第一段文字
@@ -94,11 +85,6 @@ Markdown 相当于对 HTML 的简化， Markdown 通常要先转换为 HTML 然�
 
 ::: details 查看 Markdown 代码
 ```markdown
-### 段落换行
-这是第一行文字  
-这是第二行文字
-
-### 段落间距
 这是第一段文字
 
 这是第二段文字
@@ -134,7 +120,7 @@ __这也是粗体文本__
 ### 粗斜体
 
 ::: tip
-实际上是组合使用粗体标记和斜体标记
+粗斜体实际上是组合使用粗体语法和斜体语法
 :::
 
 ***粗斜体文本***  
@@ -243,13 +229,17 @@ _ _ _
 
 ## 文字列表
 
+::: tip
+多使用列表，以及嵌套列表，可以让你的文本更加富有逻辑
+:::
+
 ### 无序列表
 
 ::: tip
-三个符号效果完全一样，可以代替使用，交替使用，也可以混合使用
+三个符号 ( `+` `-` `*` ) 效果完全一样，可以代替使用，交替使用，也可以混合使用
 :::
 
-#### `-`
+#### 使用 `-` 的例子
 
 - 第一项
 - 第二项
@@ -263,7 +253,7 @@ _ _ _
 ```
 :::
 
-#### `+`
+#### 使用 `+` 的例子
 
 + 第一项
   + 1.1
@@ -289,7 +279,7 @@ _ _ _
 ```
 :::
 
-#### `*`
+#### 使用 `*` 的例子
 
 * 第一项
 * * 1.1
@@ -317,6 +307,10 @@ _ _ _
 
 ### 有序列表
 
+::: info 语法
+数字之后加一个英文句号 `.` 再加空格，后面接内容
+:::
+
 1. 第一项
 2. 第二项
 3. 第三项
@@ -330,6 +324,10 @@ _ _ _
 :::
 
 ### 混合列表
+
+::: tip
+列表可以任意混合，嵌套使用，当然也可以嵌套其他语法
+:::
 
 1. 第一项：
     - 第一项嵌套的第一个元素
@@ -447,8 +445,12 @@ _ _ _
 
 ### 多行代码
 
+::: tip
+就像分隔线一样，更多的反引号 `` ```` `` 或者波浪线 `~~~~` 同样是可以的
+:::
+
 ::: warning
-因为某些原因，你不能复制这个案例的 Markdown 代码，因为这里的 `ˋˋˋ` 并不是标准符号，正确的三个反引号是 `` ``` `` ，它们只是看起来很像而已，你需要自己修正它
+正确的三个反引号是 `` ``` `` ，而不是 `ˋˋˋ` ，它们只是看起来很像而已
 :::
 
 ```
@@ -461,23 +463,19 @@ int main() {
 ```
 
 ::: details 查看 Markdown 代码
+````
 ```
-ˋˋˋ
 #include <stdio.h>
 
 int main() {
 	puts("Hello, World!");
 	return 0;
 }
-ˋˋˋ
 ```
+````
 :::
 
 ### 高亮代码
-
-::: warning
-因为某些原因，你不能复制这个案例的 Markdown 代码，因为这里的 `ˋˋˋ` 并不是标准符号，正确的三个反引号是 `` ``` `` ，它们只是看起来很像而已，你需要自己修正它
-:::
 
 ```c
 #include <stdio.h>
@@ -489,16 +487,16 @@ int main() {
 ```
 
 ::: details 查看 Markdown 代码
-```
-ˋˋˋc
+````
+```c
 #include <stdio.h>
 
 int main() {
 	puts("Hello, World!");
 	return 0;
 }
-ˋˋˋ
 ```
+````
 :::
 
 ~~~csharp
@@ -569,10 +567,14 @@ console.log('shaofun is a newbie')
 
 ## 表格
 
+::: tip
+对于复杂的表格，你可以通过在线 Markdown 表格生成工具来创建
+:::
+
 ### 默认对齐
 
 ::: warning
-不同的平台默认对齐情况可能不一样
+默认通常是左对齐，但不同的平台可能有少许差异
 :::
 
 |  表头   | 表头  |
@@ -637,6 +639,26 @@ console.log('shaofun is a newbie')
 ```
 :::
 
+## 图片
+
+::: info 语法 
+```markdown
+![备注](图片链接 "标题")
+```
+:::
+
+| ![shaofun](/images/logo.png)   | ![shaofun](/images/logo.png "shaofun") |
+| :---------------------------:  | :------------------------------------: |
+| `![shaofun](/images/logo.png)` |`![shaofun](/images/logo.png "shaofun")`|
+
+::: details 查看 Markdown 代码
+```markdown
+| ![shaofun](/images/logo.png)   | ![shaofun](/images/logo.png "shaofun") |
+| :---------------------------:  | :------------------------------------: |
+| `![shaofun](/images/logo.png)` |`![shaofun](/images/logo.png "shaofun")`|
+```
+:::
+
 ## 脚注
 
 虽然这是一个引用脚注 [^1]
@@ -658,7 +680,7 @@ console.log('shaofun is a newbie')
 ## 尾声
 
 ::: info 快试试吧
-快试试 Markdown 吧！网页搜索 Markdown 在线编辑，你就可以立即开始实践了。如果你想进阶，请看这篇文章 [烧风的 Markdown 进阶教程](advanced-use-of-markdown.md)
+快试试 Markdown 吧！网页搜索 [Markdown 在线编辑器](https://milkdown.dev/online-demo) ，你就可以立即开始实践了。如果你想进阶学习 Markdown 的扩展用法，请看这篇文章 [烧风的 Markdown 进阶教程](advanced-use-of-markdown.md)
 :::
 
 ::: warning
