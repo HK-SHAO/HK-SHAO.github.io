@@ -6,6 +6,7 @@ import { registerComponentsPlugin } from '@vuepress/plugin-register-components'
 import { path } from '@vuepress/utils'
 import { mdEnhancePlugin } from "vuepress-plugin-md-enhance";
 import { gitPlugin } from '@vuepress/plugin-git'
+import { commentPlugin } from "vuepress-plugin-comment2";
 
 
 export const plugins: PluginConfig = [
@@ -55,5 +56,12 @@ export const plugins: PluginConfig = [
         createdTime: true,
         updatedTime: true,
         contributors: true,
+    }),
+    commentPlugin({
+        provider: "Giscus",
+        repo: "HK-SHAO/HK-SHAO.github.io",
+        repoId: "MDEwOlJlcG9zaXRvcnkxNjczMTgzNDc=",
+        category: "General",
+        categoryId: "DIC_kwDOCfkTS84CR31L",
     }),
 ]
