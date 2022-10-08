@@ -30,6 +30,7 @@ export const plugins: PluginConfig = [
         footnote: true,
         lazyLoad: true,
         mark: true,
+        imageSize: true,
         imageMark: true,
         tasklist: true,
         include: true,
