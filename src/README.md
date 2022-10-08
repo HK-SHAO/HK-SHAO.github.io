@@ -4,7 +4,7 @@ title: 烧风
 description: 主页
 heroImage: /images/logo.png
 actions:
-  - text: 查看文章
+  - text: 查看博文
     link: /blog/
     type: primary
   - text: 个人简历
