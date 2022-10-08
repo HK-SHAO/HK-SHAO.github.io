@@ -39,6 +39,9 @@ export const plugins: PluginConfig = [
         flowchart: true,
         mermaid: true,
         demo: true,
+        presentation: {
+            plugins: ["highlight", "math", "search", "notes", "zoom"],
+        },
     }),
     searchPlugin({
         locales: {

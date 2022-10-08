@@ -11,6 +11,12 @@ description: 进阶使用 Markdown 排版
 如果你还没看过 Markdown 基础教程，请先阅读 [使用 Markdown 排版文章](how-to-use-markdown.md)
 :::
 
+::: info
+- 本篇 Markdown 进阶教程，同样也是完全使用 Markdown 编写的，然后渲染为你看到的这个网页，你可以在 [GitHub 仓库](https://github.com/HK-SHAO/HK-SHAO.github.io/blob/main/src/blog/p/advanced-use-of-markdown.md) 查看它的 Markdown 源码
+
+- 本篇文章很大程度上参考了 [vuepress-theme-hope](https://vuepress-theme-hope.github.io/v2/zh/) 的文档，它的 [vuepress-plugin-md-enhance](https://vuepress-theme-hope.github.io/v2/md-enhance/zh/) 是本站正在使用的 Markdown 渲染器
+:::
+
 ## Emoji 表情
 
 ::: info 
@@ -101,13 +107,13 @@ description: 进阶使用 Markdown 排版
 在以下字符前面添加反斜杠字符 `\` ，可以显示原本用于格式化 Markdown 文档的字符。
 
 ```markdown
-\       反斜线          `       反引号
-*       星号            _       下划线
-{}      花括号          []      方括号
-()      小括号          #       井字号
-+       加号            -       减号
-.       英文句点        !       感叹号
-|       管道符号        ~       波浪号
+\   反斜线          `   反引号
+*   星号            _   下划线
+{}  花括号          []  方括号
+()  小括号          #   井字号
++   加号            -   减号
+.   英文句点        !   感叹号
+|   管道符号        ~   波浪号
 ```
 
 ### 转义 `` ` ``
@@ -154,7 +160,7 @@ description: 进阶使用 Markdown 排版
 ## $\LaTeX$ 公式
 
 ::: info
-Markdown 内使用 $\LaTeX$ 通常是编辑器或者网页应用了 [Mathjax](https://www.mathjax.org/) 或者 [KaTeX](https://katex.org/)，使用 Mathjax 的 $\LaTeX$ 具体用法可以参考 [这篇帮助文档](https://latexlive.com/help)
+基于 [Mathjax](https://www.mathjax.org/) 或者 [KaTeX](https://katex.org/) 可以在 Markdown 中使用 $\LaTeX$ 语法来创建公式，本文的公式是使用 Mathjax 渲染的，其具体用法可以参考 [这篇帮助文档](https://latexlive.com/help)
 :::
 
 ### 数学公式
@@ -202,6 +208,109 @@ $$
 $$
 ```
 
+## 分组代码
+
+安装 VuePress Theme Hope
+
+::: code-tabs#shell
+
+@tab pnpm
+
+```bash
+pnpm add -D vuepress-theme-hope@next
+```
+
+@tab yarn
+
+```bash
+yarn add -D vuepress-theme-hope@next
+```
+
+@tab:active npm
+
+```bash
+npm i -D vuepress-theme-hope@next
+```
+
+:::
+
+安装 VuePress Plugin Markdown Enhance
+
+::: code-tabs#shell
+
+@tab pnpm
+
+```bash
+pnpm add -D vuepress-plugin-md-enhance@next
+```
+
+@tab yarn
+
+```bash
+yarn add -D vuepress-plugin-md-enhance@next
+```
+
+@tab:active npm
+
+```bash
+npm i -D vuepress-plugin-md-enhance@next
+```
+
+:::
+
+:::::details 查看 Markdown 代码
+`````md
+安装 VuePress Theme Hope
+
+::: code-tabs#shell
+
+@tab pnpm
+
+```bash
+pnpm add -D vuepress-theme-hope@next
+```
+
+@tab yarn
+
+```bash
+yarn add -D vuepress-theme-hope@next
+```
+
+@tab:active npm
+
+```bash
+npm i -D vuepress-theme-hope@next
+```
+
+:::
+
+安装 VuePress Plugin Markdown Enhance
+
+::: code-tabs#shell
+
+@tab pnpm
+
+```bash
+pnpm add -D vuepress-plugin-md-enhance@next
+```
+
+@tab yarn
+
+```bash
+yarn add -D vuepress-plugin-md-enhance@next
+```
+
+@tab:active npm
+
+```bash
+npm i -D vuepress-plugin-md-enhance@next
+```
+
+:::
+`````
+:::::
+
+
 ## 上下标
 
 - 19^th^
@@ -214,17 +323,86 @@ $$
 
 ## 对齐
 
+::: left
+要左对齐的段落
+:::
+
 ::: center
-要居中的段落
+要居中对齐的段落
 :::
 
 ::: right
-要居右的段落
+要右对齐的段落
 :::
+
+```md
+::: left
+要左对齐的段落
+:::
+
+::: center
+要居中对齐的段落
+:::
+
+::: right
+要右对齐的段落
+:::
+```
+
+## 图片
+
+### 图片尺寸
+
+|  ![shaofun](/images/logo.png =50x)  |  ![shaofun](/images/logo.png =50x100)  |  ![shaofun](/images/logo.png =x100)  |
+| :---------------------------------: | :------------------------------------: | :----------------------------------: |
+| `![image](image.png =50x)` | `![image](image.png =50x100)` | `![image](image.png =x100)` |
+
+
+```md
+|  ![image](image.png =50x)  |  ![image](image.png =50x100)  |  ![image](image.png =x100)  |
+| :------------------------: | :---------------------------: | :-------------------------: |
+| `![image](image.png =50x)` | `![image](image.png =50x100)` | `![image](image.png =x100)` |
+```
+
+
+### 图片标记
+
+::: info
+一种特殊情况，使用 `#` 用为图像设置以下 ID ，可以使得这张图片尽在特定模式下显示。
+```md
+#gh-dark-mode-only
+#gh-light-mode-only
+#dark
+#light
+```
+现在，你可以试试反复切换主题的暗黑模式，观察图像发生的变化。
+:::
+
+::: center
+![shaofun](/images/logo.png#dark =400x100)
+:::
+
+::: center
+![shaofun](/images/logo.png#light =200x100)
+:::
+
+```md
+::: center
+![shaofun](/images/logo.png#dark =400x100)
+:::
+
+::: center
+![shaofun](/images/logo.png#light =200x100)
+:::
+```
 
 ## 标记
 
 哈喽！很高兴认识你，我的 ==昵称== 叫烧风!
+
+```md
+哈喽！很高兴认识你，我的 ==昵称== 叫烧风!
+```
 
 ## 容器
 
@@ -327,8 +505,9 @@ const a = 1;
 ::: danger 自定义危险
 :::
 
-:::: details
-```md
+:::: details 查看 Markdown 代码
+
+`````md
 ::: info
 信息容器。
 :::
@@ -427,495 +606,14 @@ const a = 1;
 
 ::: danger 自定义危险
 :::
-```
+`````
 ::::
 
-## 框图
+## Mermaid 框图
 
-
-### 流程图
-
-```mermaid
-flowchart TB
-    c1-->a2
-    subgraph one
-    a1-->a2
-    end
-    subgraph two
-    b1-->b2
-    end
-    subgraph three
-    c1-->c2
-    end
-    one --> two
-    three --> two
-    two --> c2
-```
-
-::: details 查看 Markdown 代码
-
-````md
-```mermaid
-flowchart TB
-    c1-->a2
-    subgraph one
-    a1-->a2
-    end
-    subgraph two
-    b1-->b2
-    end
-    subgraph three
-    c1-->c2
-    end
-    one --> two
-    three --> two
-    two --> c2
-```
-````
-
+::: info
+下面是一个 Mermaid 框图的例子，具体请查看 [在 Markdown 中使用框图](./use-mermaid-in-markdwon.md)
 :::
-
-### 循序图
-
-```sequence
-Alice ->> Bob: Hello Bob, how are you?
-Bob-->>John: How about you John?
-Bob--x Alice: I am good thanks!
-Bob-x John: I am good thanks!
-Note right of John: Bob thinks a long<br/>long time, so long<br/>that the text does<br/>not fit on a row.
-
-Bob-->Alice: Checking with John...
-Alice->John: Yes... John, how are you?
-```
-
-::: details 查看 Markdown 代码
-
-````md
-```sequence
-Alice ->> Bob: Hello Bob, how are you?
-Bob-->>John: How about you John?
-Bob--x Alice: I am good thanks!
-Bob-x John: I am good thanks!
-Note right of John: Bob thinks a long<br/>long time, so long<br/>that the text does<br/>not fit on a row.
-
-Bob-->Alice: Checking with John...
-Alice->John: Yes... John, how are you?
-```
-````
-
-:::
-
-### 类图
-
-```class
-class Square~Shape~{
-    int id
-    List~int~ position
-    setPoints(List~int~ points)
-    getPoints() List~int~
-}
-
-Square : -List~string~ messages
-Square : +setMessages(List~string~ messages)
-Square : +getMessages() List~string~
-```
-
-::: details 查看 Markdown 代码
-
-````md
-```class
-class Square~Shape~{
-    int id
-    List~int~ position
-    setPoints(List~int~ points)
-    getPoints() List~int~
-}
-
-Square : -List~string~ messages
-Square : +setMessages(List~string~ messages)
-Square : +getMessages() List~string~
-```
-````
-
-:::
-
-### 状态图
-
-```state
-[*] --> Active
-
-state Active {
-    [*] --> NumLockOff
-    NumLockOff --> NumLockOn : EvNumLockPressed
-    NumLockOn --> NumLockOff : EvNumLockPressed
-    --
-    [*] --> CapsLockOff
-    CapsLockOff --> CapsLockOn : EvCapsLockPressed
-    CapsLockOn --> CapsLockOff : EvCapsLockPressed
-    --
-    [*] --> ScrollLockOff
-    ScrollLockOff --> ScrollLockOn : EvScrollLockPressed
-    ScrollLockOn --> ScrollLockOff : EvScrollLockPressed
-}
-```
-
-::: details 查看 Markdown 代码
-
-````md
-```state
-[*] --> Active
-
-state Active {
-    [*] --> NumLockOff
-    NumLockOff --> NumLockOn : EvNumLockPressed
-    NumLockOn --> NumLockOff : EvNumLockPressed
-    --
-    [*] --> CapsLockOff
-    CapsLockOff --> CapsLockOn : EvCapsLockPressed
-    CapsLockOn --> CapsLockOff : EvCapsLockPressed
-    --
-    [*] --> ScrollLockOff
-    ScrollLockOff --> ScrollLockOn : EvScrollLockPressed
-    ScrollLockOn --> ScrollLockOff : EvScrollLockPressed
-}
-```
-````
-
-:::
-
-### 关系图
-
-```er
-CAR ||--o{ NAMED-DRIVER : allows
-CAR {
-    string registrationNumber
-    string make
-    string model
-}
-PERSON ||--o{ NAMED-DRIVER : is
-PERSON {
-    string firstName
-    string lastName
-    int age
-}
-```
-
-::: details 查看 Markdown 代码
-
-````md
-```er
-CAR ||--o{ NAMED-DRIVER : allows
-CAR {
-    string registrationNumber
-    string make
-    string model
-}
-PERSON ||--o{ NAMED-DRIVER : is
-PERSON {
-    string firstName
-    string lastName
-    int age
-}
-```
-````
-
-:::
-
-### 用户日记图
-
-```journey
-title My working day
-section Go to work
-  Make tea: 5: Me
-  Go upstairs: 3: Me
-  Do work: 1: Me, Cat
-section Go home
-  Go downstairs: 5: Me
-  Sit down: 5: Me
-```
-
-::: details 查看 Markdown 代码
-
-````md
-```journey
-title My working day
-section Go to work
-  Make tea: 5: Me
-  Go upstairs: 3: Me
-  Do work: 1: Me, Cat
-section Go home
-  Go downstairs: 5: Me
-  Sit down: 5: Me
-```
-````
-
-:::
-
-### 甘特图
-
-```gantt
-dateFormat  YYYY-MM-DD
-title       Adding GANTT diagram functionality to mermaid
-excludes    weekends
-%% (`excludes` accepts specific dates in YYYY-MM-DD format, days of the week ("sunday") or "weekends", but not the word "weekdays".)
-
-section A section
-Completed task            :done,    des1, 2014-01-06,2014-01-08
-Active task               :active,  des2, 2014-01-09, 3d
-Future task               :         des3, after des2, 5d
-Future task2              :         des4, after des3, 5d
-
-section Critical tasks
-Completed task in the critical line :crit, done, 2014-01-06,24h
-Implement parser and jison          :crit, done, after des1, 2d
-Create tests for parser             :crit, active, 3d
-Future task in critical line        :crit, 5d
-Create tests for renderer           :2d
-Add to mermaid                      :1d
-
-section Documentation
-Describe gantt syntax               :active, a1, after des1, 3d
-Add gantt diagram to demo page      :after a1  , 20h
-Add another diagram to demo page    :doc1, after a1  , 48h
-
-section Last section
-Describe gantt syntax               :after doc1, 3d
-Add gantt diagram to demo page      :20h
-Add another diagram to demo page    :48h
-```
-
-::: details 查看 Markdown 代码
-
-````md
-```gantt
-dateFormat  YYYY-MM-DD
-title       Adding GANTT diagram functionality to mermaid
-excludes    weekends
-%% (`excludes` accepts specific dates in YYYY-MM-DD format, days of the week ("sunday") or "weekends", but not the word "weekdays".)
-
-section A section
-Completed task            :done,    des1, 2014-01-06,2014-01-08
-Active task               :active,  des2, 2014-01-09, 3d
-Future task               :         des3, after des2, 5d
-Future task2              :         des4, after des3, 5d
-
-section Critical tasks
-Completed task in the critical line :crit, done, 2014-01-06,24h
-Implement parser and jison          :crit, done, after des1, 2d
-Create tests for parser             :crit, active, 3d
-Future task in critical line        :crit, 5d
-Create tests for renderer           :2d
-Add to mermaid                      :1d
-
-section Documentation
-Describe gantt syntax               :active, a1, after des1, 3d
-Add gantt diagram to demo page      :after a1  , 20h
-Add another diagram to demo page    :doc1, after a1  , 48h
-
-section Last section
-Describe gantt syntax               :after doc1, 3d
-Add gantt diagram to demo page      :20h
-Add another diagram to demo page    :48h
-```
-````
-
-:::
-
-### 饼图
-
-```pie
-title What Voldemort doesn’t have?
-  "FRIENDS" : 2
-  "FAMILY" : 3
-  "NOSE" : 45
-```
-
-::: details 查看 Markdown 代码
-
-````md
-```pie
-title What Voldemort doesn’t have?
-  "FRIENDS" : 2
-  "FAMILY" : 3
-  "NOSE" : 45
-```
-````
-
-:::
-
-### Git 图表
-
-```git-graph
-commit
-branch hotfix
-checkout hotfix
-commit
-branch develop
-checkout develop
-commit id:"ash" tag:"abc"
-branch featureB
-checkout featureB
-commit type:HIGHLIGHT
-checkout main
-checkout hotfix
-commit type:NORMAL
-checkout develop
-commit type:REVERSE
-checkout featureB
-commit
-checkout main
-merge hotfix
-checkout featureB
-commit
-checkout develop
-branch featureA
-commit
-checkout develop
-merge hotfix
-checkout featureA
-commit
-checkout featureB
-commit
-checkout develop
-merge featureA
-branch release
-checkout release
-commit
-checkout main
-commit
-checkout release
-merge main
-checkout develop
-merge release
-```
-
-::: details 查看 Markdown 代码
-
-````md
-```git-graph
-commit
-branch hotfix
-checkout hotfix
-commit
-branch develop
-checkout develop
-commit id:"ash" tag:"abc"
-branch featureB
-checkout featureB
-commit type:HIGHLIGHT
-checkout main
-checkout hotfix
-commit type:NORMAL
-checkout develop
-commit type:REVERSE
-checkout featureB
-commit
-checkout main
-merge hotfix
-checkout featureB
-commit
-checkout develop
-branch featureA
-commit
-checkout develop
-merge hotfix
-checkout featureA
-commit
-checkout featureB
-commit
-checkout develop
-merge featureA
-branch release
-checkout release
-commit
-checkout main
-commit
-checkout release
-merge main
-checkout develop
-merge release
-```
-````
-
-:::
-
-### C4C 图表
-
-```c4c
-title System Context diagram for Internet Banking System
-
-Person(customerA, "Banking Customer A", "A customer of the bank, with personal bank accounts.")
-Person(customerB, "Banking Customer B")
-Person_Ext(customerC, "Banking Customer C")
-System(SystemAA, "Internet Banking System", "Allows customers to view information about their bank accounts, and make payments.")
-
-Person(customerD, "Banking Customer D", "A customer of the bank, <br/> with personal bank accounts.")
-
-Enterprise_Boundary(b1, "BankBoundary") {
-
-  SystemDb_Ext(SystemE, "Mainframe Banking System", "Stores all of the core banking information about customers, accounts, transactions, etc.")
-
-  System_Boundary(b2, "BankBoundary2") {
-    System(SystemA, "Banking System A")
-    System(SystemB, "Banking System B", "A system of the bank, with personal bank accounts.")
-  }
-
-  System_Ext(SystemC, "E-mail system", "The internal Microsoft Exchange e-mail system.")
-  SystemDb(SystemD, "Banking System D Database", "A system of the bank, with personal bank accounts.")
-
-  Boundary(b3, "BankBoundary3", "boundary") {
-    SystemQueue(SystemF, "Banking System F Queue", "A system of the bank, with personal bank accounts.")
-    SystemQueue_Ext(SystemG, "Banking System G Queue", "A system of the bank, with personal bank accounts.")
-  }
-}
-
-BiRel(customerA, SystemAA, "Uses")
-BiRel(SystemAA, SystemE, "Uses")
-Rel(SystemAA, SystemC, "Sends e-mails", "SMTP")
-Rel(SystemC, customerA, "Sends e-mails to")
-```
-
-::: details 查看 Markdown 代码
-
-````md
-```c4c
-title System Context diagram for Internet Banking System
-
-Person(customerA, "Banking Customer A", "A customer of the bank, with personal bank accounts.")
-Person(customerB, "Banking Customer B")
-Person_Ext(customerC, "Banking Customer C")
-System(SystemAA, "Internet Banking System", "Allows customers to view information about their bank accounts, and make payments.")
-
-Person(customerD, "Banking Customer D", "A customer of the bank, <br/> with personal bank accounts.")
-
-Enterprise_Boundary(b1, "BankBoundary") {
-
-  SystemDb_Ext(SystemE, "Mainframe Banking System", "Stores all of the core banking information about customers, accounts, transactions, etc.")
-
-  System_Boundary(b2, "BankBoundary2") {
-    System(SystemA, "Banking System A")
-    System(SystemB, "Banking System B", "A system of the bank, with personal bank accounts.")
-  }
-
-  System_Ext(SystemC, "E-mail system", "The internal Microsoft Exchange e-mail system.")
-  SystemDb(SystemD, "Banking System D Database", "A system of the bank, with personal bank accounts.")
-
-  Boundary(b3, "BankBoundary3", "boundary") {
-    SystemQueue(SystemF, "Banking System F Queue", "A system of the bank, with personal bank accounts.")
-    SystemQueue_Ext(SystemG, "Banking System G Queue", "A system of the bank, with personal bank accounts.")
-  }
-}
-
-BiRel(customerA, SystemAA, "Uses")
-BiRel(SystemAA, SystemE, "Uses")
-Rel(SystemAA, SystemC, "Sends e-mails", "SMTP")
-Rel(SystemC, customerA, "Sends e-mails to")
-```
-````
-
-:::
-
-### 一个复杂的案例
 
 ```mermaid
 graph TB
@@ -971,6 +669,64 @@ graph TB
 
 :::
 
+## 思维导图
+
+::: info
+使用 [Markmap](https://markmap.js.org/) 和 Markdown 语法来创建思维导图
+:::
+
+:::: normal-demo 演示
+```html
+<iframe src="/html/blog/markmap-demo.html"
+width="100%"
+height="100%"
+frameborder="0"
+scrolling="No"
+leftmargin="0"
+topmargin="0"
+id="markmap-iframe"
+/>
+```
+
+::::
+
+:::: details 查看 Markdown 代码
+`````md
+---
+markmap:
+  colorFreezeLevel: 2
+---
+
+# markmap
+
+## Links
+
+- <https://markmap.js.org/>
+- [GitHub](https://github.com/gera2ld/markmap)
+
+## Related Projects
+
+- [coc-markmap](https://github.com/gera2ld/coc-markmap)
+- [gatsby-remark-markmap](https://github.com/gera2ld/gatsby-remark-markmap)
+
+## Features
+
+- links
+- **strong** ~~del~~ *italic* ==highlight==
+- multiline
+  text
+- `inline code`
+-
+    ```js
+    console.log('code block');
+    ```
+- KateX
+  - $x = {-b \pm \sqrt{b^2-4ac} \over 2a}$
+  - [More Katex Examples](#?d=gist:af76a4c245b302206b16aec503dbe07b:katex.md)
+- Now we can wrap very very very very long text based on `maxWidth` option
+
+`````
+::::
 
 ## 选项卡
 
@@ -992,7 +748,7 @@ Orange
 
 :::
 
-:::: details
+:::: details 查看 Markdown 代码
 ```md
 ::: tabs
 
@@ -1044,7 +800,7 @@ Orange
 :::
 
 
-:::: details
+:::: details 查看 Markdown 代码
 ```md
 ::: tabs#fruit
 
@@ -1077,33 +833,11 @@ Orange
 ```
 ::::
 
-## 图表
+## Echarts 图表
 
-### 折线图
-
-::: echarts 一个折线图案例
-
-```json
-{
-  "xAxis": {
-    "type": "category",
-    "data": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
-  },
-  "yAxis": {
-    "type": "value"
-  },
-  "series": [
-    {
-      "data": [150, 230, 224, 218, 135, 147, 260],
-      "type": "line"
-    }
-  ]
-}
-```
-
+::: info
+下面是一个在 Markdwon 中使用 Echarts 图表的例子，更多信息请查看 [使用 Echarts 图表](use-echarts-in-markdown.md)
 :::
-
-### 柱状图
 
 ::: echarts 一个柱状图案例
 
@@ -1128,133 +862,175 @@ Orange
   ]
 }
 ```
-
 :::
 
-### 饼图
-
-::: echarts 一个基础南丁格尔玫瑰图案例
+:::: details 查看 Markdown 代码
+````md
+::: echarts 一个柱状图案例
 
 ```json
 {
-  "legend": {
-    "top": "bottom"
+  "xAxis": {
+    "type": "category",
+    "data": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
   },
-  "toolbox": {
-    "show": true,
-    "feature": {
-      "mark": {
-        "show": true
-      },
-      "dataView": {
-        "show": true,
-        "readOnly": false
-      },
-      "restore": {
-        "show": true
-      },
-      "saveAsImage": {
-        "show": true
+  "yAxis": {
+    "type": "value"
+  },
+  "series": [
+    {
+      "data": [120, 200, 150, 80, 70, 110, 130],
+      "type": "bar",
+      "showBackground": true,
+      "backgroundStyle": {
+        "color": "rgba(180, 180, 180, 0.2)"
       }
     }
-  },
-  "series": [
-    {
-      "name": "Nightingale Chart",
-      "type": "pie",
-      "radius": [20, 100],
-      "center": ["50%", "50%"],
-      "roseType": "area",
-      "itemStyle": {
-        "borderRadius": 8
-      },
-      "data": [
-        {
-          "value": 40,
-          "name": "rose 1"
-        },
-        {
-          "value": 38,
-          "name": "rose 2"
-        },
-        {
-          "value": 32,
-          "name": "rose 3"
-        },
-        {
-          "value": 30,
-          "name": "rose 4"
-        },
-        {
-          "value": 28,
-          "name": "rose 5"
-        },
-        {
-          "value": 26,
-          "name": "rose 6"
-        },
-        {
-          "value": 22,
-          "name": "rose 7"
-        },
-        {
-          "value": 18,
-          "name": "rose 8"
-        }
-      ]
-    }
   ]
+}
+```
+:::
+````
+::::
+
+## 幻灯片
+
+::: info
+基于 [reveal.js](https://revealjs.com/) ，使用 Markdown 语法来创建 Slides
+
+除此之外，你还有其他选择来创建 Slides ，例如 [Marp](https://marp.app/) 等
+:::
+
+@slidestart auto
+
+## 幻灯片 1
+
+一个有文字和 [链接](https://mrhope.site) 的段落
+
+---
+
+## 幻灯片 2
+
+- 项目 1
+- 项目 2
+
+---
+
+## 幻灯片 3.1
+
+```js
+const a = 1;
+```
+
+--
+
+## 幻灯片 3.2
+
+$$
+J(\theta_0,\theta_1) = \sum_{i=0}
+$$
+
+@slideend
+
+::: details 查看 Markdown 代码
+````md
+@slidestart
+
+## 幻灯片 1
+
+一个有文字和 [链接](https://mrhope.site) 的段落
+
+---
+
+## 幻灯片 2
+
+- 项目 1
+- 项目 2
+
+---
+
+## 幻灯片 3.1
+
+```js
+const a = 1;
+```
+
+--
+
+## 幻灯片 3.2
+
+$$
+J(\theta_0,\theta_1) = \sum_{i=0}
+$$
+
+@slideend
+````
+:::
+
+## 前端演示
+
+::: info
+在页面内独立出一个渲染 Web 的容器，支持纯 `HTML, JS, CSS` ，还支持 `Vue` 和 `React  `
+
+下面是一个例子，更多信息，请查看 Vuepress Theme Hope 的 [代码演示](https://vuepress-theme-hope.github.io/v2/zh/guide/markdown/demo.html)
+:::
+
+::: normal-demo Demo 演示
+
+```html
+<h1>VuePress Theme <span>Hope</span></h1>
+<p><button id="very">非常强大!</button></p>
+```
+
+```js
+document.querySelector("#very").addEventListener("click", () => {
+  alert("非常强大");
+});
+```
+
+```css
+span {
+  color: green;
 }
 ```
 
 :::
 
-### 散点图
+::::: details 查看 Markdown 代码
+`````md
+::: normal-demo Demo 演示
 
-::: echarts 一个散点图案例
+```html
+<h1>VuePress Theme <span>Hope</span></h1>
+<p><button id="very">非常强大!</button></p>
+```
 
-```json
-{
-  "xAxis": {},
-  "yAxis": {},
-  "series": [
-    {
-      "symbolSize": 20,
-      "data": [
-        [10.0, 8.04],
-        [8.07, 6.95],
-        [13.0, 7.58],
-        [9.05, 8.81],
-        [11.0, 8.33],
-        [14.0, 7.66],
-        [13.4, 6.81],
-        [10.0, 6.33],
-        [14.0, 8.96],
-        [12.5, 6.82],
-        [9.15, 7.2],
-        [11.5, 7.2],
-        [3.03, 4.23],
-        [12.2, 7.83],
-        [2.02, 4.47],
-        [1.05, 3.33],
-        [4.05, 4.96],
-        [6.03, 7.24],
-        [12.0, 6.26],
-        [12.0, 8.84],
-        [7.08, 5.82],
-        [5.02, 5.68]
-      ],
-      "type": "scatter"
-    }
-  ]
+```js
+document.querySelector("#very").addEventListener("click", () => {
+  alert("非常强大");
+});
+```
+
+```css
+span {
+  color: green;
 }
 ```
 
 :::
+`````
+:::::
 
 
 ## 尾声
 
+::: danger
+
+Markdown 的进阶使用方法，大多数并不是标准语法，不一定受平台支持，兼容性可能存在问题。你需要根据你使用的工具或者环境来判断这个语法或者功能是否被支持。
+
+:::
+
+---
 ::: warning
 本站所有内容均使用 MIT 协议，并署名 [`shaofun`](//shao.fun)，请遵守 [此协议](/LICENSE.md) ，转载请标明出处。
 :::
