@@ -6,7 +6,7 @@ export const navbar: NavbarConfig = [
         link: '/',
     },
     {
-        text: '文章',
+        text: '博文',
         link: '/blog',
     },
     {
