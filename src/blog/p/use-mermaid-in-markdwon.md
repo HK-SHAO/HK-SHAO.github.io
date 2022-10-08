@@ -1,11 +1,13 @@
-
+---
+footer: MIT Licensed | Copyright © 2021-2022 HK-SHAO
+---
 
 # 使用 Mermaid 框图
 
 ::: info
-通过 Mermaid ，你可以在 Markdown 中用文本和代码创建框图和其他可视化效果。
+通过 Mermaid ，你可以在 Markdown 中用文本和代码创建框图和其他可视化效果
 
-更多使用方法，请参考 [Mermaid 官网](https://mermaid-js.github.io/mermaid/) ，下面仅举出部分例子。
+更多使用方法，请参考 [Mermaid 官网](https://mermaid-js.github.io/mermaid/) ，下面仅举出部分例子
 :::
 
 ## 流程图
@@ -493,5 +495,5 @@ Rel(SystemC, customerA, "Sends e-mails to")
 
 ---
 ::: warning
-本站所有内容均使用 MIT 协议，并署名 [`shaofun`](//shao.fun)，请遵守 [此协议](/LICENSE.md) ，转载请标明出处。
+本站所有内容均使用 MIT 协议，并署名 [`shaofun`](//shao.fun)，请遵守 [此协议](/LICENSE.md) ，转载请标明出处
 :::

@@ -12,10 +12,12 @@
     "build": "vuepress build src"
   },
   "devDependencies": {
+    "@vuepress/plugin-git": "^2.0.0-beta.51",
     "@vuepress/plugin-pwa": "^2.0.0-beta.51",
     "@vuepress/plugin-pwa-popup": "^2.0.0-beta.51",
     "@vuepress/plugin-register-components": "^2.0.0-beta.51",
     "@vuepress/plugin-search": "^2.0.0-beta.51",
+    "@vuepress/plugin-toc": "^2.0.0-beta.51",
     "vuepress": "^2.0.0-beta.51",
     "vuepress-plugin-md-enhance": "^2.0.0-beta.108"
   }

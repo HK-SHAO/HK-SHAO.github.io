@@ -17,6 +17,28 @@ description: 进阶使用 Markdown 排版
 - 本篇文章很大程度上参考了 [vuepress-theme-hope](https://vuepress-theme-hope.github.io/v2/zh/) 的文档，它的 [vuepress-plugin-md-enhance](https://vuepress-theme-hope.github.io/v2/md-enhance/zh/) 是本站正在使用的 Markdown 渲染器
 :::
 
+## 目录
+
+::: warning
+
+生成目录的语法是 `[TOC]` 而有些平台则是 `[[TOC]]` ，因为这并不是标准 Markdown 语法。同样的，后面的很多高级用法都不是标准 Markdown 语法，使用它们要注意平台是否支持和兼容
+
+:::
+
+::: details 查看目录
+
+[[TOC]]
+
+:::
+
+::: details 查看 Markdown 代码
+```md
+[[TOC]]
+```
+:::
+
+
+
 ## Emoji 表情
 
 ::: info 
@@ -55,6 +77,11 @@ description: 进阶使用 Markdown 排版
 
 ### 强制居中
 
+::: warning
+你可以使用 `<center>` 来强制居中，但它是已经被废弃使用的 HTML 标签，非常不推荐你使用它。请使用样式 `style="text-align: center"` 来代替，或者使用 [对齐标记](#对齐) 来居中
+:::
+
+
 <center>这是强制居中的一段文本</center>
 
 <p style="text-align: center">这是居中的一段文本</p>
@@ -92,21 +119,17 @@ description: 进阶使用 Markdown 排版
 
 :::
 
-### 图像标签
+### 嵌入 Web 程序
 
-<br>
-<center><img src="/images/logo.png" width="100"/></center>
-<br>
-
-```markdown
-<center><img src="/images/logo.png" width="100"/></center>
-```
+::: info
+要完整的嵌入 HTML 和其他前端代码，请查看 [前端演示](#前端演示)
+:::
 
 ## 转义语法
 
 ### 转义符号
 
-在以下字符前面添加反斜杠字符 `\` ，可以显示原本用于格式化 Markdown 文档的字符。
+在以下字符前面添加反斜杠字符 `\` ，可以显示原本用于格式化 Markdown 文档的字符
 
 ```markdown
 \   反斜线          `   反引号
@@ -210,7 +233,59 @@ $$
 $$
 ```
 
-## 分组代码
+## 代码
+
+### 代码行高亮
+
+::: tip
+行数范围标记的例子
+
+- 行数范围: `{5-8}`
+- 多个单行: `{4,7,9}`
+- 组合使用: `{4,7-13,16,23-27,40}`
+:::
+
+```ts{1,6-8}
+import { defaultTheme, defineUserConfig } from 'vuepress'
+
+export default defineUserConfig({
+  title: '你好， VuePress',
+
+  theme: defaultTheme({
+    logo: 'https://vuejs.org/images/logo.png',
+  }),
+})
+```
+
+::: details 查看 Markdown 代码
+````md
+```ts{1,6-8}
+import { defaultTheme, defineUserConfig } from 'vuepress'
+
+export default defineUserConfig({
+  title: '你好， VuePress',
+
+  theme: defaultTheme({
+    logo: 'https://vuejs.org/images/logo.png',
+  }),
+})
+```
+````
+:::
+
+### 禁用行号
+
+```python:no-line-numbers
+print('你好烧风')
+```
+
+````md
+```python:no-line-numbers
+print('你好烧风')
+```
+````
+
+### 分组代码
 
 安装 VuePress Theme Hope
 
@@ -370,14 +445,14 @@ npm i -D vuepress-plugin-md-enhance@next
 ### 图片标记
 
 ::: info
-一种特殊情况，使用 `#` 用为图像设置以下 ID ，可以使得这张图片尽在特定模式下显示。
+一种特殊情况，使用 `#` 用为图像设置以下 ID ，可以使得这张图片尽在特定模式下显示
 ```md
 #gh-dark-mode-only
 #gh-light-mode-only
 #dark
 #light
 ```
-现在，你可以试试反复切换主题的暗黑模式，观察图像发生的变化。
+现在，你可以试试反复切换主题的暗黑模式，观察图像发生的变化
 :::
 
 ::: center
@@ -409,11 +484,11 @@ npm i -D vuepress-plugin-md-enhance@next
 ## 容器
 
 ::: info
-信息容器。
+信息容器
 :::
 
 ::: note
-注释容器。
+注释容器
 :::
 
 ::: tip
@@ -434,7 +509,7 @@ npm i -D vuepress-plugin-md-enhance@next
 
 ::: info 自定义标题
 
-一个有 `代码` 和 [链接](#演示) 的信息容器。
+一个有 `代码` 和 [链接](#演示) 的信息容器
 
 ```js
 const a = 1;
@@ -444,7 +519,7 @@ const a = 1;
 
 ::: note 自定义标题
 
-一个有 `代码` 和 [链接](#演示) 的注释容器。
+一个有 `代码` 和 [链接](#演示) 的注释容器
 
 ```js
 const a = 1;
@@ -454,7 +529,7 @@ const a = 1;
 
 ::: tip 自定义标题
 
-一个有 `代码` 和 [链接](#演示) 的提示容器。
+一个有 `代码` 和 [链接](#演示) 的提示容器
 
 ```js
 const a = 1;
@@ -464,7 +539,7 @@ const a = 1;
 
 ::: warning 自定义标题
 
-一个有 `代码` 和 [链接](#演示) 的警告容器。
+一个有 `代码` 和 [链接](#演示) 的警告容器
 
 ```js
 const a = 1;
@@ -474,7 +549,7 @@ const a = 1;
 
 ::: danger 自定义标题
 
-一个有 `代码` 和 [链接](#演示) 的危险容器。
+一个有 `代码` 和 [链接](#演示) 的危险容器
 
 ```js
 const a = 1;
@@ -484,7 +559,7 @@ const a = 1;
 
 ::: details 自定义标题
 
-一个有 `代码` 和 [链接](#演示) 的详情容器。
+一个有 `代码` 和 [链接](#演示) 的详情容器
 
 ```js
 const a = 1;
@@ -511,11 +586,11 @@ const a = 1;
 
 `````md
 ::: info
-信息容器。
+信息容器
 :::
 
 ::: note
-注释容器。
+注释容器
 :::
 
 ::: tip
@@ -536,7 +611,7 @@ const a = 1;
 
 ::: info 自定义标题
 
-一个有 `代码` 和 [链接](#演示) 的信息容器。
+一个有 `代码` 和 [链接](#演示) 的信息容器
 
 ```js
 const a = 1;
@@ -546,7 +621,7 @@ const a = 1;
 
 ::: note 自定义标题
 
-一个有 `代码` 和 [链接](#演示) 的注释容器。
+一个有 `代码` 和 [链接](#演示) 的注释容器
 
 ```js
 const a = 1;
@@ -556,7 +631,7 @@ const a = 1;
 
 ::: tip 自定义标题
 
-一个有 `代码` 和 [链接](#演示) 的提示容器。
+一个有 `代码` 和 [链接](#演示) 的提示容器
 
 ```js
 const a = 1;
@@ -566,7 +641,7 @@ const a = 1;
 
 ::: warning 自定义标题
 
-一个有 `代码` 和 [链接](#演示) 的警告容器。
+一个有 `代码` 和 [链接](#演示) 的警告容器
 
 ```js
 const a = 1;
@@ -576,7 +651,7 @@ const a = 1;
 
 ::: danger 自定义标题
 
-一个有 `代码` 和 [链接](#演示) 的危险容器。
+一个有 `代码` 和 [链接](#演示) 的危险容器
 
 ```js
 const a = 1;
@@ -586,7 +661,7 @@ const a = 1;
 
 ::: details 自定义标题
 
-一个有 `代码` 和 [链接](#演示) 的详情容器。
+一个有 `代码` 和 [链接](#演示) 的详情容器
 
 ```js
 const a = 1;
@@ -1035,11 +1110,11 @@ span {
 
 ::: danger
 
-Markdown 的进阶使用方法，大多数并不是标准语法，不一定受平台支持，兼容性可能存在问题。你需要根据你使用的工具或者环境来判断这个语法或者功能是否被支持。
+Markdown 的进阶使用方法，大多数并不是标准语法，不一定受平台支持，兼容性可能存在问题。你需要根据你使用的工具或者环境来判断这个语法或者功能是否被支持
 
 :::
 
 ---
 ::: warning
-本站所有内容均使用 MIT 协议，并署名 [`shaofun`](//shao.fun)，请遵守 [此协议](/LICENSE.md) ，转载请标明出处。
+本站所有内容均使用 MIT 协议，并署名 [`shaofun`](//shao.fun)，请遵守 [此协议](/LICENSE.md) ，转载请标明出处
 :::
