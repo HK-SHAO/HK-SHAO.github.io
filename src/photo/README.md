@@ -4,7 +4,9 @@ footer: MIT Licensed | Copyright © 2021-2022 HK-SHAO
 
 # 一些照片
 
-还没上传呢
+::: tip
+还没完工呢
+:::
 
 ---
 ::: warning

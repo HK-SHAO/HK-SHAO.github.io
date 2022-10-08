@@ -669,6 +669,67 @@ graph TB
 
 :::
 
+
+## Echarts 图表
+
+::: info
+下面是一个在 Markdwon 中使用 Echarts 图表的例子，更多信息请查看 [使用 Echarts 图表](use-echarts-in-markdown.md)
+:::
+
+::: echarts 一个柱状图案例
+
+```json
+{
+  "xAxis": {
+    "type": "category",
+    "data": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+  },
+  "yAxis": {
+    "type": "value"
+  },
+  "series": [
+    {
+      "data": [120, 200, 150, 80, 70, 110, 130],
+      "type": "bar",
+      "showBackground": true,
+      "backgroundStyle": {
+        "color": "rgba(180, 180, 180, 0.2)"
+      }
+    }
+  ]
+}
+```
+:::
+
+:::: details 查看 Markdown 代码
+````md
+::: echarts 一个柱状图案例
+
+```json
+{
+  "xAxis": {
+    "type": "category",
+    "data": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+  },
+  "yAxis": {
+    "type": "value"
+  },
+  "series": [
+    {
+      "data": [120, 200, 150, 80, 70, 110, 130],
+      "type": "bar",
+      "showBackground": true,
+      "backgroundStyle": {
+        "color": "rgba(180, 180, 180, 0.2)"
+      }
+    }
+  ]
+}
+```
+:::
+````
+::::
+
 ## 思维导图
 
 ::: info
@@ -833,66 +894,6 @@ Orange
 ```
 ::::
 
-## Echarts 图表
-
-::: info
-下面是一个在 Markdwon 中使用 Echarts 图表的例子，更多信息请查看 [使用 Echarts 图表](use-echarts-in-markdown.md)
-:::
-
-::: echarts 一个柱状图案例
-
-```json
-{
-  "xAxis": {
-    "type": "category",
-    "data": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
-  },
-  "yAxis": {
-    "type": "value"
-  },
-  "series": [
-    {
-      "data": [120, 200, 150, 80, 70, 110, 130],
-      "type": "bar",
-      "showBackground": true,
-      "backgroundStyle": {
-        "color": "rgba(180, 180, 180, 0.2)"
-      }
-    }
-  ]
-}
-```
-:::
-
-:::: details 查看 Markdown 代码
-````md
-::: echarts 一个柱状图案例
-
-```json
-{
-  "xAxis": {
-    "type": "category",
-    "data": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
-  },
-  "yAxis": {
-    "type": "value"
-  },
-  "series": [
-    {
-      "data": [120, 200, 150, 80, 70, 110, 130],
-      "type": "bar",
-      "showBackground": true,
-      "backgroundStyle": {
-        "color": "rgba(180, 180, 180, 0.2)"
-      }
-    }
-  ]
-}
-```
-:::
-````
-::::
-
 ## 幻灯片
 
 ::: info
@@ -1020,6 +1021,12 @@ span {
 :::
 `````
 :::::
+
+## 组件
+
+::: info
+在 Markdown 中嵌入 Vue 组件，可以实现为页面插入视频、PDF文档和其他 Web 程序。详细信息请查看 vuepress-theme-hope 的 [组件](https://vuepress-theme-hope.github.io/v2/zh/guide/markdown/components.html)
+:::
 
 
 ## 尾声
