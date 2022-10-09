@@ -1,5 +1,5 @@
 ---
-footer: MIT Licensed | Copyright © 2021-2022 HK-SHAO
+footer: Copyright © 2021-2022 HK-SHAO
 description: Markdown 基础教程
 ---
 
@@ -450,7 +450,7 @@ _ _ _
 ### 多行代码
 
 ::: tip
-就像分隔线一样，更多的反引号 `` ```` `` 或者波浪线 `~~~~` 同样是可以的
+就像分隔线一样，更多的反引号 `` ```` `` 或者波浪号 `~~~~` 同样是可以的
 :::
 
 ::: warning
@@ -691,7 +691,3 @@ console.log('shaofun is a newbie')
 ::: warning
 本站所有内容均使用 MIT 协议，并署名 [`shaofun`](//shao.fun)，请遵守 [此协议](/LICENSE.md) ，转载请标明出处
 :::
-
-## 评论
-
-<CommentService />

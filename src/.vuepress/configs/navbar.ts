@@ -18,6 +18,10 @@ export const navbar: NavbarConfig = [
         link: '/links/',
     },
     {
+        text: '留言',
+        link: '/board/',
+    },
+    {
         text: '关于',
         link: '/about/',
     },

@@ -1,5 +1,5 @@
 ---
-footer: MIT Licensed | Copyright © 2021-2022 HK-SHAO
+footer: Copyright © 2021-2022 HK-SHAO
 description: MIT License
 sidebar: false
 ---
@@ -9,7 +9,7 @@ sidebar: false
 本站所有内容均使用 MIT 协议，并署名 [`shaofun`](//shao.fun)，请遵守以下协议，转载请标明出处
 :::
 
-MIT License
+::: info MIT License
 
 Copyright (c) 2022 shaofun(hk-shao@outlook.com)
 
@@ -30,5 +30,4 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
-<CommentService />
+:::

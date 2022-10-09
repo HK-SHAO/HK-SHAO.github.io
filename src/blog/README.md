@@ -1,5 +1,6 @@
 ---
-footer: MIT Licensed | Copyright © 2021-2022 HK-SHAO
+footer: Copyright © 2021-2022 HK-SHAO
+comment: false
 ---
 
 # 我的博文
