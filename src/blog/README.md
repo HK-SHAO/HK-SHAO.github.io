@@ -13,7 +13,7 @@ sidebarDepth: 4
 
 借助前端框架、 HTML 和 Markdown 拓展用法可以实现更多样化的图文排版。本文介绍 Markdown 的非标准拓展用法，适合进阶学习使用 Markdown
 
-::: info 技术文档
+::: info 子内容
 #### [使用 Echarts 可视化框架](p/use-echarts-in-markdown.md)
 
 Echats 是一个开源的 Web 可视化框架，借助它你可以可视化流程、关系和数据
@@ -21,7 +21,7 @@ Echats 是一个开源的 Web 可视化框架，借助它你可以可视化流�
 
 
 
-::: info 技术文档
+::: info 子内容
 #### [使用 Mermaid 框图可视化](p/use-mermaid-in-markdwon.md)
 
 通过 Mermaid ，你可以在 Markdown 中用文本和代码创建框图和其他可视化效果
