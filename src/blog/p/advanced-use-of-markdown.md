@@ -1,6 +1,7 @@
 ---
 footer: Copyright © 2021-2022 HK-SHAO
 description: 进阶使用 Markdown 排版
+prev: how-to-use-markdown.md
 ---
 
 # 烧风的 Markdown 进阶教程
@@ -974,7 +975,7 @@ Orange
 ::: info
 基于 [reveal.js](https://revealjs.com/) ，使用 Markdown 语法来创建 Slides
 
-除此之外，你还有其他选择来创建 Slides ，例如 [Marp](https://marp.app/) 等
+除此之外，你还有其他选择来创建 Slides ，例如 [Marp](https://marp.app/) 和 [Slidev](https://sli.dev/) 等
 :::
 
 @slidestart auto
@@ -1046,7 +1047,7 @@ $$
 ## 前端演示
 
 ::: info
-在页面内独立出一个渲染 Web 的容器，支持纯 `HTML, JS, CSS` ，还支持 `Vue` 和 `React  `
+在页面内独立出一个渲染 Web 的容器，支持纯 `HTML/JS/CSS` ，还支持 `Vue` 和 `React  `
 
 下面是一个例子，更多信息，请查看 VuePress Theme Hope 的 [代码演示](https://vuepress-theme-hope.github.io/v2/zh/guide/markdown/demo.html)
 :::
