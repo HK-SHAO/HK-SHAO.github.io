@@ -6,7 +6,7 @@ prev: advanced-use-of-markdown.md
 # 使用 Mermaid 框图
 
 ::: tip
-本文是 [进阶使用 Markdown 排版](advanced-use-of-markdown.md) 的子内容。
+本文是 [进阶使用 Markdown 排版](advanced-use-of-markdown.md) 的子内容
 :::
 
 ::: info
