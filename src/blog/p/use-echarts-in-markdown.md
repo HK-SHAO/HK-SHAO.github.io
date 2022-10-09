@@ -1,8 +1,13 @@
 ---
 footer: Copyright © 2021-2022 HK-SHAO
+prev: advanced-use-of-markdown.md
 ---
 
 # 使用 Echarts 图表
+
+::: tip
+本文是 [进阶使用 Markdown 排版](advanced-use-of-markdown.md) 的子内容。
+:::
 
 ::: info
 Echats 是一个开源的的 Web 可视化框架，借助它你可以可视化流程、关系和数据
