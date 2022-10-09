@@ -14,5 +14,6 @@ export const theme: Theme = defaultTheme({
     home: '/',
     sidebar: 'auto',
     locales: locales,
-    navbar: navbar
+    navbar: navbar,
+    sidebarDepth: 3,
 })

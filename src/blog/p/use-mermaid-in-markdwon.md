@@ -1,8 +1,13 @@
 ---
 footer: Copyright © 2021-2022 HK-SHAO
+prev: advanced-use-of-markdown.md
 ---
 
 # 使用 Mermaid 框图
+
+::: tip
+本文是 [进阶使用 Markdown 排版](advanced-use-of-markdown.md) 的子内容。
+:::
 
 ::: info
 通过 Mermaid ，你可以在 Markdown 中用文本和代码创建框图和其他可视化效果
