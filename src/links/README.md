@@ -4,7 +4,7 @@ footer: Copyright © 2021-2022 HK-SHAO
 
 # 一些链接
 
-## 友联
+## 友链
 
 ::: center
 
@@ -35,7 +35,7 @@ footer: Copyright © 2021-2022 HK-SHAO
 
 ## 加入
 
-::: tip 将我加入你的友联
+::: tip 将我加入你的友链
 ```yaml
 - name: 烧风
   link: https://shao.fun/
@@ -45,7 +45,7 @@ footer: Copyright © 2021-2022 HK-SHAO
 ```
 :::
 
-::: info 将你加入我的友联
+::: info 将你加入我的友链
 
 在下面的评论区发消息就可以啦！
 
