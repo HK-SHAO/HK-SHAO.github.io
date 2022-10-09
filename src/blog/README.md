@@ -13,7 +13,7 @@ comment: false
 Echats 是一个开源的 Web 可视化框架，借助它你可以可视化流程、关系和数据
 :::
 
----
+
 
 ::: tip 技术教程
 ### [使用 Mermaid 框图可视化](p/use-mermaid-in-markdwon.md)
@@ -21,7 +21,7 @@ Echats 是一个开源的 Web 可视化框架，借助它你可以可视化流�
 通过 Mermaid ，你可以在 Markdown 中用文本和代码创建框图和其他可视化效果
 :::
 
----
+
 
 ::: tip 技术教程
 ### [烧风的 Markdown 进阶教程](p/advanced-use-of-markdown.md)
@@ -29,7 +29,7 @@ Echats 是一个开源的 Web 可视化框架，借助它你可以可视化流�
 Markdown 虽然只能简单的排版，但是借助 HTML 和 Markdown 扩展可以实现更多样化的排版
 :::
 
----
+
 
 ::: tip 技术教程
 ### [使用 Markdown 排版文章](p/how-to-use-markdown.md)
