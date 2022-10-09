@@ -5,7 +5,7 @@ footer: Copyright © 2021-2022 HK-SHAO
 # 使用 Echarts 图表
 
 ::: info
-Echats 是一个开源的，几乎万能的 Web 可视化框架，借助它你可以可视化流程、关系和数据
+Echats 是一个开源的的 Web 可视化框架，借助它你可以可视化流程、关系和数据
 
 更多使用方法，请参考 [Echarts 官网](https://echarts.apache.org/zh/index.html) ，下面仅举出部分例子
 :::

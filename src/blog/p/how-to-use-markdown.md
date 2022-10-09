@@ -1,6 +1,7 @@
 ---
 footer: Copyright © 2021-2022 HK-SHAO
 description: Markdown 基础教程
+next: advanced-use-of-markdown.md
 ---
 
 # 使用 Markdown 排版文章

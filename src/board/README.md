@@ -2,6 +2,8 @@
 footer: Copyright © 2021-2022 HK-SHAO
 editLink: false
 sidebar: false
+lastUpdated: false
+contributors: false
 ---
 
 
