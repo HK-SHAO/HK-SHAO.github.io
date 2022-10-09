@@ -1,5 +1,5 @@
 ---
-footer: MIT Licensed | Copyright © 2021-2022 HK-SHAO
+footer: Copyright © 2021-2022 HK-SHAO
 ---
 
 # 关于烧风
@@ -51,7 +51,3 @@ footer: MIT Licensed | Copyright © 2021-2022 HK-SHAO
 ::: warning
 本站所有内容均使用 MIT 协议，并署名 [`shaofun`](//shao.fun)，请遵守 [此协议](/LICENSE.md) ，转载请标明出处
 :::
-
-## 发条消息
-
-<CommentService />

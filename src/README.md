@@ -10,7 +10,7 @@ actions:
   - text: 个人简历
     link: /resume/
     type: secondary
-footer: MIT Licensed | Copyright © 2021-2022 HK-SHAO
+footer: Copyright © 2021-2022 HK-SHAO
 ---
 
 > 你好，我是烧风，不是风烧，英文写作 shaofun

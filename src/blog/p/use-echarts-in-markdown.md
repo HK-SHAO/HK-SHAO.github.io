@@ -1,5 +1,5 @@
 ---
-footer: MIT Licensed | Copyright © 2021-2022 HK-SHAO
+footer: Copyright © 2021-2022 HK-SHAO
 ---
 
 # 使用 Echarts 图表
@@ -369,7 +369,3 @@ Echats 是一个开源的，几乎万能的 Web 可视化框架，借助它你�
 ::: warning
 本站所有内容均使用 MIT 协议，并署名 [`shaofun`](//shao.fun)，请遵守 [此协议](/LICENSE.md) ，转载请标明出处
 :::
-
-## 评论
-
-<CommentService />

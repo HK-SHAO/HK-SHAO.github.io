@@ -1,5 +1,5 @@
 ---
-footer: MIT Licensed | Copyright © 2021-2022 HK-SHAO
+footer: Copyright © 2021-2022 HK-SHAO
 description: 进阶使用 Markdown 排版
 ---
 
@@ -822,7 +822,6 @@ frameborder="0"
 scrolling="No"
 leftmargin="0"
 topmargin="0"
-id="markmap-iframe"
 />
 ```
 
@@ -862,7 +861,6 @@ markmap:
   - $x = {-b \pm \sqrt{b^2-4ac} \over 2a}$
   - [More Katex Examples](#?d=gist:af76a4c245b302206b16aec503dbe07b:katex.md)
 - Now we can wrap very very very very long text based on `maxWidth` option
-
 `````
 ::::
 
@@ -1050,7 +1048,7 @@ $$
 ::: info
 在页面内独立出一个渲染 Web 的容器，支持纯 `HTML, JS, CSS` ，还支持 `Vue` 和 `React  `
 
-下面是一个例子，更多信息，请查看 Vuepress Theme Hope 的 [代码演示](https://vuepress-theme-hope.github.io/v2/zh/guide/markdown/demo.html)
+下面是一个例子，更多信息，请查看 VuePress Theme Hope 的 [代码演示](https://vuepress-theme-hope.github.io/v2/zh/guide/markdown/demo.html)
 :::
 
 ::: normal-demo Demo 演示
@@ -1102,7 +1100,7 @@ span {
 ## 组件
 
 ::: info
-在 Markdown 中嵌入 Vue 组件，可以实现为页面插入视频、PDF文档和其他 Web 程序。详细信息请查看 vuepress-theme-hope 的 [组件](https://vuepress-theme-hope.github.io/v2/zh/guide/markdown/components.html)
+在 Markdown 中嵌入 Vue 组件，可以实现为页面插入视频、 PDF 文档和其他 Web 程序。详细信息请查看 vuepress-theme-hope 的 [组件](https://vuepress-theme-hope.github.io/v2/zh/guide/markdown/components.html)
 :::
 
 
@@ -1118,7 +1116,3 @@ Markdown 的进阶使用方法，大多数并不是标准语法，不一定受�
 ::: warning
 本站所有内容均使用 MIT 协议，并署名 [`shaofun`](//shao.fun)，请遵守 [此协议](/LICENSE.md) ，转载请标明出处
 :::
-
-## 评论
-
-<CommentService />
