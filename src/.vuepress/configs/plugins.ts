@@ -14,6 +14,12 @@ export const plugins: PluginConfig = [
         skipWaiting: true,
     }),
     pwaPopupPlugin({
+        locales: {
+            '/': {
+                message: '发现新内容可用',
+                buttonText: '刷新',
+            },
+        },
     }),
     registerComponentsPlugin({
         componentsDir: path.resolve(__dirname, './components'),
