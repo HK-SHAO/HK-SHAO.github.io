@@ -1,7 +1,7 @@
 import { Theme } from "vuepress";
-import { defaultTheme } from 'vuepress'
-import { navbar } from './navbar'
-import { locales } from './locales'
+import { defaultTheme } from 'vuepress';
+import { navbar } from './navbar';
+import { locales } from './locales';
 
 export const theme: Theme = defaultTheme({
     logo: '/images/logo.png',

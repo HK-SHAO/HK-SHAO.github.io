@@ -1101,8 +1101,20 @@ span {
 ## 组件
 
 ::: info
-在 Markdown 中嵌入 Vue 组件，可以实现为页面插入视频、 PDF 文档和其他 Web 程序。详细信息请查看 vuepress-theme-hope 的 [组件](https://vuepress-theme-hope.github.io/v2/zh/guide/markdown/components.html)
+在 Markdown 中嵌入 Vue 组件，可以实现为页面插入视频（Bilibili、YouTube、视频文件）、 PDF 文档和其他 Web 程序。详细信息请查看 VuePress Theme Hope 的 [vuepress-plugin-components](https://vuepress-theme-hope.github.io/v2/components/zh/)
 :::
+
+### PDF
+
+<br/>
+
+<PDF url="/bin/pdf/pdf-demo.pdf" />
+
+::::: details 查看 Markdown 代码
+`````md
+<PDF url="/bin/pdf/pdf-demo.pdf" />
+`````
+:::::
 
 
 ## 尾声

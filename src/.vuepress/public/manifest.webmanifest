@@ -4,7 +4,8 @@
     "description": "shaofun's website",
     "start_url": "/index.html",
     "display": "standalone",
-    "background_color": "#fff",
+    "background_color": "#ffffff",
+    "theme_color": "#ffffff",
     "icons": [
         {
             "src": "/android-chrome-192x192.png",

@@ -1,4 +1,4 @@
-import { LocaleConfig } from "vuepress"
+import { LocaleConfig } from "vuepress";
 
 
 export const locales: LocaleConfig = {
