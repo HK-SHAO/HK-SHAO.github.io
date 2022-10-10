@@ -4,7 +4,7 @@ footer: Copyright © 2021-2022 HK-SHAO
 
 # 个人简历
 
-## 关于我
+## 关于烧风
 ::::: info 详情
 
 :::: tip 头像
@@ -30,16 +30,11 @@ footer: Copyright © 2021-2022 HK-SHAO
 
 ::: info
 
-- **语言**
-  - <Badge :text="i" v-for="i in 'ECMAScript, TypeScript, HTML, CSS, Python, C, C#, Java, Lua, GLSL'.split(',')" />
-- **框架**
-  - <Badge :text="i" v-for="i in 'Web, Google Android, Jupyter, Vue, Electron, Manim, Cocos, Unity, Godot'.split(',')" />
-- **数据**
-  - <Badge :text="i" v-for="i in 'SQL, XLSX, CSV, JSON, YAML, XML, INI'.split(',')" />
-- **工作**
-  - <Badge :text="i" v-for="i in 'Office, Markdown, Pandoc, LaTeX, Git, GitHub, SVN'.split(',')" />
-- **媒体**
-  - <Badge :text="i" v-for="i in 'FFmpeg, Adobe Photoshop, Adobe Premium, Adobe Audition, DaVinci Resolve'.split(',')" />
+- **语言** <Badge :text="i" v-for="i in 'ECMAScript, TypeScript, HTML, CSS, Python, C, C#, Java, Lua, GLSL'.split(',')" />
+- **框架** <Badge :text="i" v-for="i in 'Web, Google Android, Jupyter, Vue, Electron, Manim, Cocos, Unity, Godot'.split(',')" />
+- **数据** <Badge :text="i" v-for="i in 'SQL, XLSX, CSV, JSON, YAML, XML, INI'.split(',')" />
+- **工作** <Badge :text="i" v-for="i in 'Office, Markdown, Pandoc, LaTeX, Git, GitHub, SVN'.split(',')" />
+- **媒体** <Badge :text="i" v-for="i in 'FFmpeg, Adobe Photoshop, Adobe Premium, Adobe Audition, DaVinci Resolve'.split(',')" />
 
 :::
 
