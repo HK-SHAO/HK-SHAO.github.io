@@ -123,7 +123,7 @@ prev: how-to-use-markdown.md
 ### 嵌入 Web 程序
 
 ::: info
-要完整的嵌入 HTML 和其他前端代码，请查看 [前端演示](#前端演示)
+要完整的嵌入 HTML 和其它前端代码，请查看 [前端演示](#前端演示)
 :::
 
 ## 转义语法
@@ -975,7 +975,7 @@ Orange
 ::: info
 基于 [reveal.js](https://revealjs.com/) ，使用 Markdown 语法来创建 Slides
 
-除此之外，你还有其他选择来创建 Slides ，例如 [Marp](https://marp.app/) 和 [Slidev](https://sli.dev/) 等
+除此之外，你还有其它选择来创建 Slides ，例如 [Marp](https://marp.app/) 和 [Slidev](https://sli.dev/) 等
 :::
 
 @slidestart auto
@@ -1101,7 +1101,7 @@ span {
 ## 组件
 
 ::: info
-在 Markdown 中嵌入 Vue 组件，可以实现为页面插入视频（Bilibili、YouTube、视频文件）、 PDF 文档和其他 Web 程序。详细信息请查看 VuePress Theme Hope 的 [vuepress-plugin-components](https://vuepress-theme-hope.github.io/v2/components/zh/)
+在 Markdown 中嵌入 Vue 组件，可以实现为页面插入视频（Bilibili、YouTube、视频文件）、 PDF 文档和其它 Web 程序。详细信息请查看 VuePress Theme Hope 的 [vuepress-plugin-components](https://vuepress-theme-hope.github.io/v2/components/zh/)
 :::
 
 ### PDF
