@@ -10,8 +10,12 @@ import { commentPlugin } from "vuepress-plugin-comment2";
 import { componentsPlugin } from "vuepress-plugin-components";
 import { sitemapPlugin } from "vuepress-plugin-sitemap2";
 import { seoPlugin } from "vuepress-plugin-seo2";
+import { googleAnalyticsPlugin } from '@vuepress/plugin-google-analytics'
 
 export const plugins: PluginConfig = [
+    googleAnalyticsPlugin({
+        id: 'G-BV3YSXZYJX'
+    }),
     componentsPlugin({
         components: [
             "BiliBili",
