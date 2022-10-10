@@ -28,10 +28,10 @@ export const plugins: PluginConfig = [
         iconAssets: "iconfont",
     }),
     sitemapPlugin({
-        hostname: 'shao.fun'
+        hostname: 'https://shao.fun/'
     }),
     seoPlugin({
-        hostname: 'shao.fun'
+        hostname: 'https://shao.fun/'
     }),
     pwaPlugin({
         skipWaiting: true,
