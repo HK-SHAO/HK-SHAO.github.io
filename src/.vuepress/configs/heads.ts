@@ -8,4 +8,6 @@ export const heads: HeadConfig[] = [
     ['link', { rel: "mask-icon", href: "/safari-pinned-tab.svg", color: "#3eaf7c" }],
     ['meta', { name: "msapplication-TileColor", content: "#3eaf7c" }],
     ['meta', { name: "theme-color", content: "#ffffff" }],
+    ['meta', { name: "keywords", content: "烧风, shaofun, hk-shao, hk_shao, HK-SHAO" }],
+    ['meta', { name: "description", content: "烧风的个人网站，分享一些技术文章" }],
 ]
