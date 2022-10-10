@@ -59,7 +59,7 @@ footer: Copyright © 2021-2022 HK-SHAO
 ## 联系方式
 
 - **GitHub 账号** [https://github.com/HK-SHAO](https://github.com/HK-SHAO)
-- **电子邮箱** [hk-shao@foxmail.com](mailto:hk-shao@foxmail.com)
+- **电子邮箱** [hk-shao@outlook.com](mailto:hk-shao@outlook.com)
 - **B 站账号** [https://space.bilibili.com/24046148](https://space.bilibili.com/24046148)
 
 ## 一些奖项
