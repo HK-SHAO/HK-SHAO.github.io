@@ -7,3 +7,17 @@
 ```shell
 yarn install
 ```
+
+## 调试
+
+```shell
+yarn dev
+```
+
+## 部署
+
+GitHub Actions 自动部署到 gh-pages 仓库，然后部署到 GitHub Pages
+
+```shell
+git push
+```
