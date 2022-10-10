@@ -28,6 +28,14 @@ footer: Copyright © 2021-2022 HK-SHAO
 
 ## 技能概要
 
+<style>
+
+.badge {
+  vertical-align: middle;
+}
+
+</style>
+
 ::: info
 
 - **语言** <Badge :text="i" v-for="i in 'ECMAScript, TypeScript, HTML, CSS, Python, C, C#, Java, Lua, GLSL'.split(',')" />
