@@ -4619,6 +4619,22 @@ vuepress-plugin-comment2@^2.0.0-beta.108:
     vuepress-plugin-sass-palette "2.0.0-beta.108"
     vuepress-shared "2.0.0-beta.108"
 
+vuepress-plugin-components@^2.0.0-beta.108:
+  version "2.0.0-beta.108"
+  resolved "https://registry.npmjs.org/vuepress-plugin-components/-/vuepress-plugin-components-2.0.0-beta.108.tgz#2f98b4a602d1f81a12840d88fb739d35c208b316"
+  integrity sha512-uPneKagZSc0ECwEkFRq2RdhXE3DBg2edhVkljlC/eHfG7unUXs6iIZhK9RLOgivIpC7hYcQFiimkfhL5UqPlYA==
+  dependencies:
+    "@vuepress/client" "2.0.0-beta.51"
+    "@vuepress/shared" "2.0.0-beta.51"
+    "@vuepress/utils" "2.0.0-beta.51"
+    "@vueuse/core" "^9.3.0"
+    balloon-css "^1.2.0"
+    vue "^3.2.40"
+    vue-router "^4.1.5"
+    vuepress-plugin-reading-time2 "2.0.0-beta.108"
+    vuepress-plugin-sass-palette "2.0.0-beta.108"
+    vuepress-shared "2.0.0-beta.108"
+
 vuepress-plugin-md-enhance@^2.0.0-beta.108:
   version "2.0.0-beta.108"
   resolved "https://registry.npmmirror.com/vuepress-plugin-md-enhance/-/vuepress-plugin-md-enhance-2.0.0-beta.108.tgz#c4b71993b503b1add6fa35d1e56cb1ea6132fd37"
@@ -4646,6 +4662,13 @@ vuepress-plugin-md-enhance@^2.0.0-beta.108:
     vue "^3.2.40"
     vue-router "^4.1.5"
     vuepress-plugin-sass-palette "2.0.0-beta.108"
+    vuepress-shared "2.0.0-beta.108"
+
+vuepress-plugin-reading-time2@2.0.0-beta.108:
+  version "2.0.0-beta.108"
+  resolved "https://registry.npmjs.org/vuepress-plugin-reading-time2/-/vuepress-plugin-reading-time2-2.0.0-beta.108.tgz#2e8d56cd741816f5b6ff576a58cee84431afdb8e"
+  integrity sha512-zA6VANuu0VO0AStC7SHXkTG0vxBwpJmEnt6PpA3zK//UTYIMQT7u8IyqRhYuv2JZFOZ7aQ1aBHL4b/fUACz/Eg==
+  dependencies:
     vuepress-shared "2.0.0-beta.108"
 
 vuepress-plugin-sass-palette@2.0.0-beta.108:

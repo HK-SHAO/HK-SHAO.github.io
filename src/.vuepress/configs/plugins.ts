@@ -1,15 +1,27 @@
-import { PluginConfig } from "vuepress"
-import { searchPlugin } from '@vuepress/plugin-search'
-import { pwaPlugin } from '@vuepress/plugin-pwa'
-import { pwaPopupPlugin } from '@vuepress/plugin-pwa-popup'
-import { registerComponentsPlugin } from '@vuepress/plugin-register-components'
-import { path } from '@vuepress/utils'
+import { PluginConfig } from "vuepress";
+import { searchPlugin } from '@vuepress/plugin-search';
+import { pwaPlugin } from '@vuepress/plugin-pwa';
+import { pwaPopupPlugin } from '@vuepress/plugin-pwa-popup';
+import { registerComponentsPlugin } from '@vuepress/plugin-register-components';
+import { path } from '@vuepress/utils';
 import { mdEnhancePlugin } from "vuepress-plugin-md-enhance";
-import { gitPlugin } from '@vuepress/plugin-git'
+import { gitPlugin } from '@vuepress/plugin-git';
 import { commentPlugin } from "vuepress-plugin-comment2";
-
+import { componentsPlugin } from "vuepress-plugin-components";
 
 export const plugins: PluginConfig = [
+    componentsPlugin({
+        components: [
+            "Badge",
+            "BiliBili",
+            "FontIcon",
+            "PDF",
+            "StackBlitz",
+            "VideoPlayer",
+            "YouTube",
+        ],
+        iconAssets: "iconfont",
+    }),
     pwaPlugin({
         skipWaiting: true,
     }),
@@ -22,7 +34,7 @@ export const plugins: PluginConfig = [
         },
     }),
     registerComponentsPlugin({
-        componentsDir: path.resolve(__dirname, './components'),
+        componentsDir: path.resolve(__dirname, '../components'),
     }),
     mdEnhancePlugin({
         gfm: true,

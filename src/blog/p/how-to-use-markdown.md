@@ -19,7 +19,7 @@ Markdown 是简单高效的文章排版标记方式，同样所见即所得，�
 :::
 
 ::: warning
-一些包含代码的例子，仅仅只是演示 Markdown 排版和展示代码的能力，你并不需要理解代码的含义。在学习过程中，**你只需要关注 Markdown 的标记语法起到的排版、布局和改变样式的作用**
+一些包含代码、公式和框图等例子，仅仅只是演示 Markdown 排版和展示内容的能力，**你只需要关注 Markdown 的标记语法起到的排版、布局和改变样式的作用**
 :::
 
 ## 多级标题
@@ -529,19 +529,24 @@ class Program {
 ### 代码区块
 
 ::: info 语法
-多行整体一个 <kbd>Tap</kbd> 缩进，或使用 4 个空格
+整体一个 <kbd>Tap</kbd> 缩进，或使用 4 个空格
 :::
 
-```
+
+
+
+<pre><code style="color: inherit">console.log('shaofun is a newbie')
 console.log('shaofun is a newbie')
-console.log('shaofun is a newbie')
-```
+</code></pre>
+
 
 ::: details 查看 Markdown 代码
+
 ```markdown
     console.log('shaofun is a newbie')
-	console.log('shaofun is a newbie')
+    console.log('shaofun is a newbie')
 ```
+
 :::
 
 ## 链接
