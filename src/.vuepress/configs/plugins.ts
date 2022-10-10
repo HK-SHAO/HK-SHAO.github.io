@@ -8,11 +8,12 @@ import { mdEnhancePlugin } from "vuepress-plugin-md-enhance";
 import { gitPlugin } from '@vuepress/plugin-git';
 import { commentPlugin } from "vuepress-plugin-comment2";
 import { componentsPlugin } from "vuepress-plugin-components";
+import { sitemapPlugin } from "vuepress-plugin-sitemap2";
+import { seoPlugin } from "vuepress-plugin-seo2";
 
 export const plugins: PluginConfig = [
     componentsPlugin({
         components: [
-            "Badge",
             "BiliBili",
             "FontIcon",
             "PDF",
@@ -21,6 +22,12 @@ export const plugins: PluginConfig = [
             "YouTube",
         ],
         iconAssets: "iconfont",
+    }),
+    sitemapPlugin({
+        hostname: 'shao.fun'
+    }),
+    seoPlugin({
+        hostname: 'shao.fun'
     }),
     pwaPlugin({
         skipWaiting: true,
