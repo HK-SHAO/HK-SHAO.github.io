@@ -331,7 +331,7 @@ _ _ _
 ### 混合列表
 
 ::: tip
-列表可以任意混合，嵌套使用，当然也可以嵌套其他语法
+列表可以任意混合，嵌套使用，当然也可以嵌套其它语法
 :::
 
 1. 第一项：
@@ -553,11 +553,19 @@ console.log('shaofun is a newbie')
 
 ### 超链接
 
-[链接到烧风的视频主页](https://space.bilibili.com/24046148)
+::: tip
+
+在有些环境下，直接放置 URL 文本，它也会被转换成超链接。如果你不想让它变成链接，可以使用行内代码块 ``` `` ``` 将 URL 包裹起来
+
+:::
+
+[链接到烧风的视频主页](https://space.bilibili.com/24046148)  
+<https://space.bilibili.com/24046148>
 
 ::: details 查看 Markdown 代码
 ```markdown
-[链接到烧风的视频主页](https://space.bilibili.com/24046148)
+[链接到烧风的视频主页](https://space.bilibili.com/24046148)  
+<https://space.bilibili.com/24046148>
 ```
 :::
 

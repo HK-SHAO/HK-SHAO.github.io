@@ -10,7 +10,7 @@ prev: advanced-use-of-markdown.md
 :::
 
 ::: info
-通过 Mermaid ，你可以在 Markdown 中用文本和代码创建框图和其他可视化效果
+通过 Mermaid ，你可以在 Markdown 中用文本和代码创建框图和其它可视化效果
 
 更多使用方法，请参考 [Mermaid 官网](https://mermaid-js.github.io/mermaid/) ，下面仅举出部分例子
 :::
