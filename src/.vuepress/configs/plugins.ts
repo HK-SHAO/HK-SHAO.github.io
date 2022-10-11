@@ -5,7 +5,6 @@ import { pwaPopupPlugin } from '@vuepress/plugin-pwa-popup';
 import { registerComponentsPlugin } from '@vuepress/plugin-register-components';
 import { path } from '@vuepress/utils';
 import { mdEnhancePlugin } from "vuepress-plugin-md-enhance";
-import { gitPlugin } from '@vuepress/plugin-git';
 import { commentPlugin } from "vuepress-plugin-comment2";
 import { componentsPlugin } from "vuepress-plugin-components";
 import { sitemapPlugin } from "vuepress-plugin-sitemap2";
@@ -80,11 +79,6 @@ export const plugins: PluginConfig = [
                 placeholder: '搜索',
             },
         },
-    }),
-    gitPlugin({
-        createdTime: true,
-        updatedTime: true,
-        contributors: true,
     }),
     commentPlugin({
         provider: "Giscus",
