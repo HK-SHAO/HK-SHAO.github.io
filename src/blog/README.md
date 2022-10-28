@@ -6,12 +6,28 @@ sidebarDepth: 4
 
 # 我的博文
 
-::: tip 随便写写
+:::: tip 随便写写
 ### [一些使用 Godot 引擎的小技巧](w/some-godot-tips.md)
 
-如题，一些我使用 Godot 引擎的小技巧，我的个人记录
+一些我使用 Godot 引擎的个人记录，可能包含了一些有用的方法和代码
+
+::: info 子内容
+
+#### [四维空间里的超立方体](w/godot-cube-4d.md)
+
+用 fragment shader 绘制一个超立方体，并且将 shader 中的摄像机与 Godot 中的摄像机关联
 
 :::
+
+::: info 子内容
+
+#### [基于动力学模型的画笔去抖动](w/godot-smooth-brush.md)
+
+去除画笔的抖动，补足原本的连续性，以及进一步平滑化线条
+
+:::
+
+::::
 
 ::: tip 随便写写
 ### [扩散模型是如何工作的](w/how-diffusion-models-work.md)
