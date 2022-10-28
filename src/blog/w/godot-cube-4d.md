@@ -26,6 +26,7 @@ prev: some-godot-tips.md
 
 - iq 佬的源代码：https://www.shadertoy.com/view/4tVyWw
 - 在 fragment shader 里使用摄像机：[some-godot-tips.md](some-godot-tips.md#在-fragment-shader-里使用摄像机)
+- 近距离观察超立方体：https://www.bilibili.com/video/BV1HG4y1b7wW/
 
 ### 关键代码
 
