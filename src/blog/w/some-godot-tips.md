@@ -55,8 +55,8 @@ func _process(delta: float) -> void:
 		"camera_rotation", camera_rotation)
 ```
 
-- 修复 fragment shader 中的 uv
-- uniform float ratio 是此画布的长宽比
+- 修复 fragment shader 中的 UV
+- `uniform float ratio` 是此画布的长宽比
 
 ```glsl
 uniform float ratio = 1.0;
@@ -89,7 +89,7 @@ vec3 rd = ca * normalize(-vec3(UV, 1.0));
 
 ## 修复 shader 中的 UV
 
-- 使得坐标从屏幕中心开始，且从 `UV.x` 左到右为 $[-1, 1]$ ，`UV.y` 从下到上为 $[-1, 1]$
+- 使得坐标从屏幕中心开始，且 `UV.x` 从左到右介于 $[-1, 1]$ 之间，`UV.y` 从下到上介于 $[-1, 1]$ 之间
 - 保证视觉上的长宽比，使得图形不被压缩或拉伸
 
 ### 相关知识
