@@ -12,7 +12,7 @@ comment: false
 
 ::: info The MIT License
 
-<div style="font-family: serif">
+<div style="font-family: var(--font-family-serif)">
 
 Copyright © 2022 shaofun <hk-shao@outlook.com>
 
