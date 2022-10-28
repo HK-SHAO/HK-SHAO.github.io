@@ -97,7 +97,7 @@ vec3 rd = ca * normalize(-vec3(UV, 1.0));
 在 shadertoy 中，fragment shader 通常开头会先计算 UV
 
 ```glsl
-vec2 uv = (2. * fragCoord - iResolution.xy) / min(iResolution.x, iResolution.y);
+vec2 uv = (2. * fragCoord - resolution.xy) / min(resolution.x, resolution.y);
 ```
 
 ### 相关链接
