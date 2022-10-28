@@ -106,6 +106,8 @@ vec2 uv = (2. * fragCoord - iResolution.xy) / min(iResolution.x, iResolution.y);
 
 ### 关键代码
 
+repo: https://github.com/HK-SHAO/Plotter
+
 - 使用工具脚本同步 shader 中画布的长宽比 `ratio`
 
 ```gdscript
@@ -126,8 +128,7 @@ func _ready() -> void:
 
 func action() -> void:
 	var ratio := control.size.y / control.size.x
-	material.set_shader_parameter(
-		"ratio", ratio)
+	material.set_shader_parameter("ratio", ratio)
 
 
 func on_size_changed() -> void:
