@@ -10,7 +10,11 @@ prev: some-godot-tips.md
 
 ## 前言
 
-在物理世界，由人类手部肌肉控制的画笔笔尖做的是连续运动，然而数位板、鼠标等电子设备所采集的信号是离散的，不同的回报率、采样率以及干扰因素会使得计算机得到的一系列点出现抖动，如何去除这种抖动，补足原本的连续性，以及进一步平滑化线条，是一个值得研究的问题。
+- 在物理世界，由人类手部肌肉控制的画笔笔尖做的是连续运动，然而数位板、鼠标等电子设备所采集的信号是离散的
+
+- 它们不同的回报率、采样率以及其它干扰因素会使得采集设备得到的一系列点出现抖动
+
+- 如何去除这种抖动，补足原本的连续性，以及进一步平滑化线条，是一个值得研究的问题
 
 ## 关键代码
 
@@ -18,12 +22,12 @@ repo: https://github.com/HK-SHAO/Plotter
 
 - 一个基于物理的简单追逐模型
 
-```gdscript
+```gdscript{7-8,16-18,69-79,81-85,87-90}
 class_name DrawBoard
 
 extends Control
 
-@export var line: Line2D
+@export var default_line: Line2D
 
 @export_range(0, 2) var smooth: float = 0.2
 @export_range(0, 100000) var sensitivity: float = 5000
@@ -74,8 +78,8 @@ func _input_event_key(event: InputEventKey) -> void:
 				line.queue_free()
 
 func add_line2d() -> Line2D:
-	var line2d := line.duplicate()		\
-			if is_instance_valid(line)	\
+	var line2d := default_line.duplicate()		\
+			if is_instance_valid(default_line)	\
 			else Line2D.new()
 
 	lines.add_child(line2d)
