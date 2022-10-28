@@ -46,9 +46,9 @@ Markdown 是简洁高效的标记语言，被互联网广泛使用，用少许�
 ## 随笔写写
 
 ::: tip 随便写写
-### [Pigs and Cats](w/pigs-and-cats.md)
+### [扩散模型是如何工作的：从零开始的数学原理](w/how-diffusion-models-work.md)
 
-<br/>
+Novel AI 于 2022 年 10 月初发布的，能够画各种精致二次元美少女的 NovelAI Diffusion  (基于 Stable Diffusion) 一下子把 AI 绘画推向风口浪尖。本文从技术角度和数学原理上简要介绍 Diffusion Model 的数学原理。
 
 :::
 
