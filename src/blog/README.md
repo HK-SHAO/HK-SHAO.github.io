@@ -7,7 +7,7 @@ sidebarDepth: 4
 # 我的博文
 
 ::: tip 随便写写
-### [一些我使用 Godot 引擎的小技巧](w/some-godot-tips.md)
+### [一些使用 Godot 引擎的小技巧](w/some-godot-tips.md)
 
 如题，一些我使用 Godot 引擎的小技巧，我的个人记录
 
