@@ -7,8 +7,8 @@ actions:
   - text: 查看博文
     link: /blog/
     type: primary
-  - text: 个人简历
-    link: /resume/
+  - text: 关于烧风
+    link: /about/
     type: secondary
 footer: Copyright © 2021-2022 HK-SHAO
 ---

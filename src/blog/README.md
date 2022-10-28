@@ -6,7 +6,19 @@ sidebarDepth: 4
 
 # 我的博文
 
-## 技术文档
+::: tip 随便写写
+### [一些我使用 Godot 引擎的小技巧](w/some-godot-tips.md)
+
+如题，一些我使用 Godot 引擎的小技巧，我的个人记录
+
+:::
+
+::: tip 随便写写
+### [扩散模型是如何工作的](w/how-diffusion-models-work.md)
+
+Novel AI 于 2022 年 10 月初发布的，能够画各种精致二次元美少女的 NovelAI Diffusion  (基于 Stable Diffusion) 一下子把 AI 绘画推向风口浪尖。本文从技术角度和数学原理上简要介绍 Diffusion Model 的数学原理
+
+:::
 
 ::::: tip 技术文档
 ### [烧风的 Markdown 进阶教程](p/advanced-use-of-markdown.md)
@@ -19,8 +31,6 @@ sidebarDepth: 4
 Echats 是一个开源的 Web 可视化框架，借助它你可以可视化流程、关系和数据
 :::
 
-
-
 ::: info 子内容
 #### [使用 Mermaid 框图可视化](p/use-mermaid-in-markdwon.md)
 
@@ -29,33 +39,11 @@ Echats 是一个开源的 Web 可视化框架，借助它你可以可视化流�
 
 :::::
 
-
-
 ::: tip 技术文档
 ### [使用 Markdown 排版文章](p/how-to-use-markdown.md)
 
 Markdown 是简洁高效的标记语言，被互联网广泛使用，用少许符号就可以轻松排版文章。本文简单介绍它的基础使用方法，适合新手了解和入门 Markdown
 :::
-
-## 个人作品
-
-::: tip
-还没上传呢
-:::
-
-## 随笔写写
-
-::: tip 随便写写
-### [扩散模型是如何工作的：从零开始的数学原理](w/how-diffusion-models-work.md)
-
-Novel AI 于 2022 年 10 月初发布的，能够画各种精致二次元美少女的 NovelAI Diffusion  (基于 Stable Diffusion) 一下子把 AI 绘画推向风口浪尖。本文从技术角度和数学原理上简要介绍 Diffusion Model 的数学原理。
-
-:::
-
-::: tip
-还没上传呢
-:::
-
 
 ---
 ::: warning
