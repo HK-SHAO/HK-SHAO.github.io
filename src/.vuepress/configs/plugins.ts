@@ -27,10 +27,16 @@ export const plugins: PluginConfig = [
         iconAssets: "iconfont",
     }),
     sitemapPlugin({
-        hostname: 'https://shao.fun/'
+        hostname: 'https://shao.fun/',
+        changefreq: 'always',
     }),
     seoPlugin({
-        hostname: 'https://shao.fun/'
+        hostname: 'https://shao.fun/',
+        author: {
+            name: 'HK-SHAO',
+            url: 'https://shao.fun/',
+        },
+        twitterID: 'HKSHA0',
     }),
     pwaPlugin({
         skipWaiting: true,
