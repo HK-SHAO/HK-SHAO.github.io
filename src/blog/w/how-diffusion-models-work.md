@@ -8,6 +8,12 @@
 
 ![](./images/diffusion-models.png)
 
+::: details 目录
+
+[[TOC]]
+
+:::
+
 ## 译者前言
 
 基于生成对抗网络 GANs 的 AI 生成图像往年在互联网不温不热，但就在最近这几个月， Open AI 于 2022 年 4 月初发布的 DALL-E 2 (基于 GPT Model) ，以及 stability.ai 于 2022 年 8 月底发布的 Stable Diffusion (基于 Diffusion Model)  ，其生成的照片、画作的效果让人乍舌，随即引发了一股新的互联网 AI 创作热潮。
