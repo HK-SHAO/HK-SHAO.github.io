@@ -12,7 +12,7 @@
 
 [[TOC]]
 
-## 前言
+## 译者前言
 
 基于生成对抗网络 GANs 的 AI 生成图像往年在互联网不温不热，但就在最近这几个月， Open AI 于 2022 年 4 月初发布的 DALL-E 2 (基于 GPT Model) ，以及 stability.ai 于 2022 年 8 月底发布的 Stable Diffusion (基于 Diffusion Model)  ，其生成的照片、画作的效果让人乍舌，随即引发了一股新的互联网 AI 创作热潮.  
 
@@ -295,7 +295,7 @@ The U-Net architecture. Source: [Ronneberger et al.](https://arxiv.org/abs/1505.
 
 ## 总结
 
-## 引用标签
+## 引用
 
 ```bibtex
 @article{karagiannakos2022diffusionmodels,
@@ -307,7 +307,7 @@ The U-Net architecture. Source: [Ronneberger et al.](https://arxiv.org/abs/1505.
   }
 ```
 
-## 引用
+## 参考文献
 ::: info
 
 - [1] Sohl-Dickstein, Jascha, et al. Deep Unsupervised Learning Using Nonequilibrium Thermodynamics. arXiv:1503.03585, arXiv, 18 Nov. 2015  
