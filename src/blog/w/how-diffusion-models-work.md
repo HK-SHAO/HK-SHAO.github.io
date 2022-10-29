@@ -1,34 +1,28 @@
 # 扩散模型是如何工作的：从零开始的数学原理
 
-::: warning
+::: info
 
-由于某些原因，本文暂未完成
+本文翻译自 AI Summer 的工作人员 Sergios Karagiannakos, Nikolas Adaloglou 等几人发布的一篇文章，原文是 [How diffusion models work: the math from scratch | AI Summer (theaisummer.com)](https://theaisummer.com/diffusion-models/)
 
 :::
 
 ![](./images/diffusion-models.png)
 
-## 目录
-
-[[TOC]]
-
 ## 译者前言
 
-基于生成对抗网络 GANs 的 AI 生成图像往年在互联网不温不热，但就在最近这几个月， Open AI 于 2022 年 4 月初发布的 DALL-E 2 (基于 GPT Model) ，以及 stability.ai 于 2022 年 8 月底发布的 Stable Diffusion (基于 Diffusion Model)  ，其生成的照片、画作的效果让人乍舌，随即引发了一股新的互联网 AI 创作热潮.  
+基于生成对抗网络 GANs 的 AI 生成图像往年在互联网不温不热，但就在最近这几个月， Open AI 于 2022 年 4 月初发布的 DALL-E 2 (基于 GPT Model) ，以及 stability.ai 于 2022 年 8 月底发布的 Stable Diffusion (基于 Diffusion Model)  ，其生成的照片、画作的效果让人乍舌，随即引发了一股新的互联网 AI 创作热潮
 
-而真正引发一系列热潮的，是 Novel AI 于 2022 年 10 月初发布的，能够画各种精致二次元美少女的 NovelAI Diffusion  (基于 Stable Diffusion) 一下子把 AI 绘画推向风口浪尖.  无数乐子人蜂拥而至，甚至有黑客把 Novel AI 的官网源码和模型全部扒了下来.  AI 创作数量极快，乍一看都很精致，而这些 “AI Based” 作品正在以一种极快的速度挤压创作者的空间，随即引发的便是关于伦理道德和法律的一系列疑问.  
+而真正引发一系列热潮的，是 [Novel AI](https://novelai.net/) 于 2022 年 10 月初发布的，能够画各种精致二次元风格图片的 NovelAI Diffusion  (基于 Stable Diffusion) 一下子把 AI 绘画推向风口浪尖。无数乐子人蜂拥而至，甚至有黑客把 Novel AI 的官网源码和模型全部扒了下来。 AI 创作数量极快，乍一看都很精致，而这些 “AI Based” 作品正在以一种极快的速度挤压创作者的空间，随即引发的便是关于伦理道德和法律的一系列疑问
 
-但是本文暂不讨论伦理道德等方面的问题（也许之后会另发一篇文章讨论），仅仅先从技术角度和数学原理上简要介绍效果出众、“秒杀” GANs 的，改变了人们对原本 AI 绘画认知的 Diffusion Model 的数学原理.  
-
-**本文翻译自 AI Summer 的工作人员 Sergios Karagiannakos, Nikolas Adaloglou 等几人发布的一篇科普文章 [How diffusion models work: the math from scratch | AI Summer (theaisummer.com)](https://theaisummer.com/diffusion-models/)**
+但是本文暂不讨论伦理道德等方面的问题（也许之后会另发一篇文章讨论），仅仅先从技术角度和数学原理上简要介绍效果出众、“秒杀” GANs 、改变了人们对原本 AI 绘画认知的 Diffusion Model 的数学原理
 
 ## 扩散模型是什么？
 
-扩散模型 (Diffusion Model) 是一种新型的、先进的生成模型，可以生成各种高分辨率图像.  在 OpenAI, Nvidia 和 Google 成功地训练了大规模的模型后，扩散模型已经吸引了很多人的注意.  基于扩散模型的架构有 GLIDE, DALLE-2, Imagen 和 完全开源的 stable diffusion
+扩散模型 (Diffusion Model) 是一种新型的、先进的生成模型，可以生成各种高分辨率图像。在 OpenAI, Nvidia 和 Google 成功地训练了大规模的模型后，扩散模型已经吸引了很多人的注意。基于扩散模型的架构有 GLIDE, DALLE-2, Imagen 和 完全开源的 stable diffusion
 
-它们背后的原理是什么呢？
+其背后的原理是什么？
 
-在这篇文章，我们将从基本原理开始挖掘.  目前已经有许多不同的基于扩散模型的架构，我们将重点讨论其中最突出的一个，即由 [Sohl-Dickstein et al](https://arxiv.org/abs/1503.03585) 最初提出的去噪扩散概率模型 (DDPM, denoising diffusion probabilistic model) ，然后由 [Ho. et al 2020](https://arxiv.org/abs/2006.11239) 提出。其它各种方法将不会具体讨论，如 stable diffusion 和 score-based models
+在这篇文章，我们将从基本原理开始挖掘。目前已经有许多不同的基于扩散模型的架构，我们将重点讨论其中最突出的一个，即由 [Sohl-Dickstein et al](https://arxiv.org/abs/1503.03585) 和 [Ho. et al 2020](https://arxiv.org/abs/2006.11239) 提出的去噪扩散概率模型 (DDPM, denoising diffusion probabilistic model) 。其它各种方法将不会具体讨论，如 stable diffusion 和 score-based models
 
 ::: info
 
@@ -36,21 +30,22 @@
 
 :::
 
-直观点说，模型可以在这些小的步骤中自我修正，并逐渐产生一个好的样本。在某种程度上，这种完善表征的想法已经在 [alphafold](https://youtu.be/nGVFbPKrRWQ?t=1148) 等模型中得到了应用。但是，没有什么是零成本的。这种迭代过程使得它们的采样速度很慢，至少与 [GANs](https://theaisummer.com/gan-computer-vision/) 相比是如此
+直观点说，模型可以在这些小的步骤中自我修正，并逐渐产生一个更好的样本。在某种程度上，这种完善表征的想法已经在 [alphafold](https://youtu.be/nGVFbPKrRWQ?t=1148) 等模型中得到了应用。但是，这种迭代过程使其采样速度很慢，至少与 [GANs](https://theaisummer.com/gan-computer-vision/) 相比
 
 ## 扩散过程
 
-扩散模型的基本思想是相当简单的。他们把输入图像 $\mathbf{x}_0$ 并通过一系列的 $T$ 步骤，逐渐向其添加高斯噪声，我们将此称为正向过程。值得注意的是，这与神经网络的前向传递无关。如果你愿意，这部分对于为我们的神经网络生成目标（应用 $t \lt T$ 噪声步骤后的图像）是必要的
+扩散模型的基本思想是相当简单的。把输入图像 $\mathbf{x}_0$ 并通过一系列的 $T$ 步骤，逐渐向其添加高斯噪声，我们将此称为正向过程。值得注意的是，这与神经网络的前向传递无关。如果你愿意，这部分对于为我们的神经网络生成目标（应用 $t \lt T$ 噪声步骤后的图像）是必要的
 
-之后，神经网络被训练为通过逆转噪声过程来恢复原始数据。通过能够对反向过程进行建模，我们可以生成新的数据。这就是所谓的反向扩散过程，或者一般来说，生成式模型的采样过程
+之后，神经网络被训练为通过逆转噪声过程来恢复原始数据。通过对反向过程进行建模，我们可以生成新的数据。这就是所谓的反向扩散过程，或者说是生成式模型的采样过程
 
-具体是怎样的？让我们深入研究一下其中的数学，让它变得清晰
+具体是怎样的？让我们深入其中的数学，让一切变得清晰起来
 
 ## 前向过程
 
 扩散模型可以被看作是潜在变量模型。“潜在”意味着我们指的是一个隐藏的连续特征空间。以这种方式，它们可能看起来类似于 [变分自动编码器 (VAEs)](https://theaisummer.com/latent-variable-models/)
 
 在实践中，它们是用一个马尔科夫链的 $T$ 步骤来制定的。这里，马尔可夫链意味着每一步只取决于前一步，这是一个很自然的假设。重要的是，与基于流量的模型不同，我们不受限制地使用特定类型的神经网络
+
 给定一个数据点 $\mathbf{x}_0$ ，从真实数据分布 $q(\mathbf{x})$ （ $\mathbf{x}_0 \sim q(\mathbf{x})$ ） 中采样，我们可以通过添加噪声来定义一个前向扩散过程。具体来说，在马尔科夫链的每一步，我们添加方差为 $\beta_t$ 到 $\mathbf{x}_{t-1}$ 的高斯噪声，产生一个新的潜在变量 $\mathbf{x}_{t}$ ，其分布为 $q(\mathbf{x}_t|\mathbf{x}_{t-1})$ 。这个扩散过程可以表述如下：
 
 $$
@@ -66,6 +61,7 @@ Forward diffusion process. Image modified by [Ho et al. 2020](https://arxiv.org/
 :::
 
 由于我们处于多维情况下， $\textbf{I}$ 是身份矩阵，表明每个维度有相同的标准偏差 $\beta_t$ 。注意到， $q(\mathbf{x}_t \vert \mathbf{x}_{t-1})$ 是一个正态分布，其均值是 $\boldsymbol{\mu}_t =\sqrt{1 - \beta_t} \mathbf{x}_{t-1}$​​ ，方差为 $\boldsymbol{\Sigma}_t=\beta_t\mathbf{I}$ ，其中 $\boldsymbol{\Sigma}$ 是一个对角矩阵的方差（这里就是 $\beta_t$ ）
+
 因此，我们可以自 $\mathbf{x}_0$ 到 $\mathbf{x}_t$ 以一种可操作的方式来近似输入。在数学上，这种后验概率定义如下：
 
 $$
@@ -97,7 +93,7 @@ $$
 \end{aligned}
 $$
 
-::: tip
+::: note
 
 由于所有时间段都有相同的高斯噪声，我们从现在开始只使用符号 $ϵ$
 
@@ -113,7 +109,7 @@ $$
 
 ### 方差表
 
-方差参数 $\beta_t$ 可以固定为一个常数，也可以选择作为 $T$ 时间段的一个时间表。事实上，人们可以定义一个方差表，它可以是线性的、二次的、余弦的等等。最初的DDPM作者利用了一个从 $\beta_1= 10^{-4}$ 到 $\beta_T = 0.02$ 增加的线性时间表。 [Nichol et al. 2021](https://arxiv.org/abs/2102.09672) 的研究表明，采用余弦时间表效果更好
+方差参数 $\beta_t$ 可以固定为一个常数，也可以选择作为 $T$ 时间段的一个时间表。事实上，人们可以定义一个方差表，它可以是线性的、二次的、余弦的等等。最初的 DDPM 作者利用了一个从 $\beta_1= 10^{-4}$ 到 $\beta_T = 0.02$ 增加的线性时间表。 [Nichol et al. 2021](https://arxiv.org/abs/2102.09672) 的研究表明，采用余弦时间表效果更好
 
 ![](./images/variance-schedule.png)
 
@@ -156,7 +152,7 @@ $$
 
 ## 训练一个扩散模型
 
-如果我们退一步讲，我们可以注意到， $q$ 和 $p$ 的组合与变异自动编码器（VAE）非常相似。因此，我们可以通过优化训练数据的负对数似然来训练它。经过一系列的计算（我们在此不做分析），我们可以把证据下限（ELBO）写成如下：
+如果我们退一步讲，我们可以注意到， $q$ 和 $p$ 的组合与变异自动编码器 (VAE) 非常相似。因此，我们可以通过优化训练数据的负对数似然来训练它。经过一系列的计算（我们在此不做分析），我们可以把证据下限 (ELBO) 写成如下：
 
 $$
 \begin{aligned}
@@ -179,7 +175,7 @@ $$
 3. 最后的第三项 $\sum_{t=2}^T L_{t-1}$ 也表示为 $L_t$ ，描述了期望的去噪步骤 $p_{\theta}(\mathbf{x}_{t-1} \vert \mathbf{x}_t))$ 与近似项 $q(\mathbf{x}_{t-1} \vert \mathbf{x}_t, \mathbf{x}_0)$ 之间的差异
 很明显，通过 ELBO ，最大化的可能性可以归结为学习去噪步骤 $L_t$
 
-::: tip
+::: note
 
 尽管 $q(\mathbf{x}_{t-1} \vert \mathbf{x}_{t})$ 是难以解决的，但 [Sohl-Dickstein et al](https://arxiv.org/abs/1503.03585) 说明，通过对 $\textbf{x}_0$ 的附加条件，可以使它变得容易解决
 
@@ -200,7 +196,7 @@ q(\mathbf{x}_{t-1} \vert \mathbf{x}_t, \mathbf{x}_0) &= \mathcal{N}(\mathbf{x}_{
 \end{aligned}
 $$
 
-::: tip
+::: note
 
 $\alpha_t$ 和 $\bar{\alpha}_t$ 只取决于​ $\beta_t$ ，所以它们可以被预先计算出来
 
@@ -231,9 +227,9 @@ $$
 $$
 \begin{aligned}
 
-L_t &= \mathbb{E}_{\mathbf{x}_0,t,\boldsymbol{\epsilon}}\Big[\frac{1}{2||\boldsymbol{\Sigma}_\theta (x_t,t)||_2^2} ||\tilde{\boldsymbol{\mu}}_t - \boldsymbol{\mu}_\theta(\mathbf{x}_t, t)||_2^2 \Big] \\
+L_t &= \mathbb{E}_{\mathbf{x}_0,t,\boldsymbol{\epsilon}}\left[\frac{1}{2||\boldsymbol{\Sigma}_\theta (x_t,t)||_2^2} ||\tilde{\boldsymbol{\mu}}_t - \boldsymbol{\mu}_\theta(\mathbf{x}_t, t)||_2^2 \right] \\
 
-&= \mathbb{E}_{\mathbf{x}_0,t,\boldsymbol{\epsilon}}\Big[\frac{\beta_t^2}{2\alpha_t (1 - \bar{\alpha}_t) ||\boldsymbol{\Sigma}_\theta||^2_2} \| \boldsymbol{\epsilon}_{t}-  \boldsymbol{\epsilon}_{\theta}(\sqrt{\bar{a}_t} \mathbf{x}_0 + \sqrt{1-\bar{a}_t}\boldsymbol{\epsilon}, t ) ||^2 \Big]
+&= \mathbb{E}_{\mathbf{x}_0,t,\boldsymbol{\epsilon}}\left[\frac{\beta_t^2}{2\alpha_t (1 - \bar{\alpha}_t) ||\boldsymbol{\Sigma}_\theta||^2_2} \| \boldsymbol{\epsilon}_{t}-  \boldsymbol{\epsilon}_{\theta}(\sqrt{\bar{a}_t} \mathbf{x}_0 + \sqrt{1-\bar{a}_t}\boldsymbol{\epsilon}, t ) ||^2 \right]
 
 \end{aligned}
 $$
@@ -243,7 +239,7 @@ $$
 [Ho et.al 2020](https://arxiv.org/abs/2006.11239) 对实际损失项做了一些简化，因为他们忽略了一个加权项。简化后的版本优于完整的目标：
 
 $$
-L_t^\text{simple} = \mathbb{E}_{\mathbf{x}_0, t, \boldsymbol{\epsilon}} \Big[\|\boldsymbol{\epsilon}- \boldsymbol{\epsilon}_{\theta}(\sqrt{\bar{a}_t} \mathbf{x}_0 + \sqrt{1-\bar{a}_t} \boldsymbol{\epsilon}, t ) ||^2 \Big]
+L_t^\text{simple} = \mathbb{E}_{\mathbf{x}_0, t, \boldsymbol{\epsilon}} \left[\|\boldsymbol{\epsilon}- \boldsymbol{\epsilon}_{\theta}(\sqrt{\bar{a}_t} \mathbf{x}_0 + \sqrt{1-\bar{a}_t} \boldsymbol{\epsilon}, t ) ||^2 \right]
 $$
 
 作者发现，优化上述目标比优化原始 ELBO 效果更好。这两个方程的证明可以在 [Lillian Weng](https://lilianweng.github.io/posts/2021-07-11-diffusion-models/#reverse-diffusion-process) 的这篇优秀文章或 [Luo et al. 2022](https://arxiv.org/abs/2208.11970) 中找到
@@ -277,23 +273,291 @@ The U-Net architecture. Source: [Ronneberger et al.](https://arxiv.org/abs/1505.
 
 ## 条件性图像生成：引导扩散
 
+图像生成的一个关键方面是调节采样过程，以操纵生成的样本。在这里，这也被称为引导性扩散
+
+甚至有一些方法将图像嵌入到扩散中，以便“引导”生成。从数学上讲，引导指的是用一个条件 $y$ ，即类别标签或图像/文本嵌入来调节先验数据分布 $p(\textbf{x})$ ，导致 $p(\textbf{x}|y)$ 为了把扩散模型 $p_\theta$ 变成一个条件扩散模型，我们可以在每个扩散步骤中加入条件信息 $y$ :
+
+$$
+p_\theta(\mathbf{x}_{0:T} \vert y) = p_\theta(\mathbf{x}_T) \prod^T_{t=1} p_\theta(\mathbf{x}_{t-1} \vert \mathbf{x}_t, y)
+$$
+
+在每个时间点都能看到调节的事实，这可能是文字提示的优秀样本的一个很好的理由
+
+一般来说，引导扩散模型的目的是学习 $\nabla \log p_\theta( \mathbf{x}_t \vert y)$ ，所以使用贝叶斯规则，我们可以写出：
+
+$$
+\begin{aligned}
+
+\nabla_{\textbf{x}_{t}} \log p_\theta(\mathbf{x}_t \vert y) &= \nabla_{\textbf{x}_{t}} \log (\frac{p_\theta(y \vert \mathbf{x}_t) p_\theta(\mathbf{x}_t) }{p_\theta(y)}) \\
+
+&= \nabla_{\textbf{x}_{t}} log p_\theta(\mathbf{x}_t) + \nabla_{\textbf{x}_{t}} log (p_\theta( y \vert\mathbf{x}_t ))
+
+\end{aligned}
+$$
+
+因为梯度算子 $\nabla_{\textbf{x}_{t}}$ 只代表 $\textbf{x}_{t}$ ， $p_\theta(y)$ 被移除，所以 $y$ 没有梯度。此外请记住 $\log(a b)= \log(a) + \log(b)$
+
+再加上一个指导性的标量项 $s$ ，我们就有：
+
+$$
+\nabla \log p_\theta(\mathbf{x}_t \vert y) =  \nabla \log p_\theta(\mathbf{x}_t) +  s \cdot \nabla \log (p_\theta( y \vert\mathbf{x}_t ))
+$$
+
+利用这一表述，让我们对分类器和无分类器的引导进行区分。接下来，我们将介绍两个旨在注入标签信息的方法系列
+
 ### 分类指导
+
+[Sohl-Dickstein et al.](https://arxiv.org/abs/1503.03585) 以及后来的 [Dhariwal 和 Nichol](https://arxiv.org/abs/2105.05233) 表明，我们可以使用第二个模型，即分类器 $f_\phi(y \vert \mathbf{x}_t, t)$ ，在训练过程中引导向目标类 $y$ 的扩散。为了达到这个目的，我们可以在噪声图像 $\mathbf{x}_t$ 上训练一个分类器 $f_\phi(y \vert \mathbf{x}_t, t)$ ，以预测其类别 $y$ 。然后我们可以使用梯度 $\nabla \log (f_\phi( y \vert\mathbf{x}_t ))$ 来引导扩散。具体怎么办呢？
+
+我们可以建立一个具有均值 $\mu_\theta(\mathbf{x}_t|y)$ 和方差 $\boldsymbol{\Sigma}_\theta(\mathbf{x}_t |y)$ 的类条件扩散模型
+
+由于 $p_\theta \sim \mathcal{N}(\mu_{\theta}, \Sigma_{\theta})$ ，我们可以用上一节的引导公式表明，均值被 $y$ 类的 $\log f_\phi(y|\mathbf{x}_t)$ 的梯度所扰动，结果是：
+
+$$
+\hat{\mu}(\mathbf{x}_t |y) =\mu_\theta(\mathbf{x}_t |y) + s \cdot \boldsymbol{\Sigma}_\theta(\mathbf{x}_t |y) \nabla_{\mathbf{x}_t} logf_\phi(y \vert \mathbf{x}_t, t)
+$$
+
+在 [Nichol et al. 著名的 GLIDE 论文](https://arxiv.org/abs/2112.10741) 中，作者扩展了这个想法，并使用 [CLIP 嵌入](https://theaisummer.com/vision-language-models/#clip) 来指导扩散。 [Saharia et al.](https://arxiv.org/abs/2205.11487) 提出的 CLIP 由一个图像编码器 $g$ 和一个文本编码器 $h$ 组成。它分别产生一个图像和文本嵌入 $g(\mathbf{x}_t)$ 和 $h(c)$ ，其中 $c$ 是文本标题
+
+因此，我们可以用它们的点积来扰动梯度：
+
+$$
+\hat{\mu}(\mathbf{x}_t |c) =\mu(\mathbf{x}_t |c) + s \cdot \boldsymbol{\Sigma}_\theta(\mathbf{x}_t |c) \nabla_{\mathbf{x}_t} g(\mathbf{x}_t) \cdot h(c)
+$$
+
+结果是，它们设法将生成过程“引向”用户定义的文本标题
+
+![](./images/classifier-guidance.png)
+
+::: center
+
+Algorithm of classifier guided diffusion sampling. Source: [Dhariwal & Nichol 2021](https://arxiv.org/abs/2105.05233)
+
+:::
 
 ### 无分类指导
 
+使用与之前相同的表述，我们可以将无分类器的引导扩散模型定义为：
+
+$$
+\nabla \log p(\mathbf{x}_t \vert y)  =s \cdot \nabla log(p(\mathbf{x}_t \vert y)) + (1-s) \cdot \nabla log p(\mathbf{x}_t) 
+$$
+
+正如 [Ho & Salimans](https://openreview.net/forum?id=qw8AKxfYbI) 所提议的那样，不需要第二个分类器模型就可以实现指导作用。事实上，他们使用的是完全相同的神经网络，而不是训练一个单独的分类器，作者将条件性扩散模型 $\boldsymbol{\epsilon}_\theta (\mathbf{x}_t|y)$ 与无条件性模型 $\boldsymbol{\epsilon}_\theta (\mathbf{x}_t |0)$ 一起训练。在训练过程中，他们随机地将类 $y$ 设置为 $0$ ，这样模型就同时接触到了有条件和无条件的设置：
+
+$$
+\begin{aligned}
+
+\hat{\boldsymbol{\epsilon}}_\theta(\mathbf{x}_t |y) & = s \cdot \boldsymbol{\epsilon}_\theta(\mathbf{x}_t |y) + (1-s) \cdot \boldsymbol{\epsilon}_\theta(\mathbf{x}_t |0) \\
+
+ &=  \boldsymbol{\epsilon}_\theta(\mathbf{x}_t |0) + s \cdot (\boldsymbol{\epsilon}_\theta(\mathbf{x}_t |y) -\boldsymbol{\epsilon}_\theta(\mathbf{x}_t |0) )
+
+\end{aligned}
+$$
+
+::: note
+
+请注意，这也可以用来“注入”文本嵌入，正如我们在分类器指导中显示的那样
+
+:::
+
+这个公认的“怪异”过程有两个主要优点
+
+1. 它只使用一个单一的模型来指导扩散
+2. 当对难以用分类器预测的信息（如文本嵌入）进行调节时，它简化了指导
+
+[Saharia et al.](https://arxiv.org/abs/2205.11487) 提出的 Imagen 在很大程度上依赖于无分类器的引导，因为他们发现这是一个关键因素去产生具有强大图像-文本对准的生成样本。关于 Imagen 方法的更多信息，请看 AI Coffee Break 与 Letitia 的这段视频
+
+<YouTube id="xqDeAz0U-R4" />
+
 ## 扩大扩散模型的规模
+
+你可能会问这些模型的问题是什么。好吧，将这些 U-Net 扩展到高分辨率的图像中，在计算上是非常昂贵的。这给我们带来了两种将扩散模型扩展到高分辨率的方法：级联扩散模型和潜伏扩散模型
 
 ### 级联扩散模型
 
+[Ho et al. 2021](https://arxiv.org/abs/2106.15282) 引入了级联扩散模型，以努力产生高保真的图像。级联扩散模型包括一个由许多连续扩散模型组成的管道，生成分辨率越来越高的图像。每个模型通过连续地对图像进行上采样并增加更高分辨率的细节，生成一个比前一个质量更好的样本。为了生成一个图像，我们从每个扩散模型中依次取样
+
+![](./images/cascade-diffusion.png)
+
+::: center
+
+Cascade diffusion model pipeline. Source: Ho & Saharia et al.
+
+:::
+
+为了获得级联架构的良好效果，对每个超级分辨率模型的输入进行强有力的数据增强是至关重要的。为什么呢？因为它可以减轻之前级联模型的复合误差，以及由于训练-测试不匹配造成的误差
+
+研究发现，高斯模糊是实现高保真度的一个关键转变。他们把这种技术称为调节增强
+
 ### 稳定的扩散（Stable diffusion）：潜在扩散模型
+
+潜在扩散模型是基于一个相当简单的想法：我们不是直接在高维输入上应用扩散过程，而是将输入投射到一个较小的潜伏空间，并在那里应用扩散
+
+更详细地说， [https://arxiv.org/abs/2112.10752]() 建议使用编码器网络将输入编码为潜伏表示，即 $\mathbf{z}_t = g(\mathbf{x}_t)$ 。这一决定背后的直觉是通过在低维空间处理输入来降低训练扩散模型的计算需求。之后，一个标准的扩散模型（U-Net）被应用于生成新的数据，这些数据被一个解码器网络放大
+
+如果一个典型的扩散模型 (DM) 的损失被表述为：
+
+$$
+L _{DM} = \mathbb{E}_{\mathbf{x}, t, \boldsymbol{\epsilon}} \left[\| \boldsymbol{\epsilon}-  \boldsymbol{\epsilon}_{\theta}( \mathbf{x}_t, t ) ||^2 \right]
+$$
+
+然后，给定编码器 $\mathcal{E}$ 和一个潜在表示 $z$ ，那么一个潜在扩散模型 (LDM) 的损失函数可以表示为：
+
+$$
+L _{LDM} = \mathbb{E}_{ \mathcal{E}(\mathbf{x}), t,  \boldsymbol{\epsilon}} \left[\|  \boldsymbol{\epsilon}-  \boldsymbol{\epsilon}_{\theta}( \mathbf{z}_t, t ) ||^2 \right]
+$$
+
+![](./images/stable-diffusion.png)
+
+::: center
+
+Latent diffusion models. Source: [Rombach et al](https://arxiv.org/abs/2112.10752)
+
+:::
+
+
+欲了解更多信息，请看这个视频：
+
+<YouTube id="ltLNYA3lWAQ" />
 
 ## 基于分数的生成模型
 
+在 DDPM 论文发表的同时， [Song and Ermon](https://arxiv.org/abs/1907.05600) 提出了一种不同类型的生成模型，似乎与扩散模型有许多相似之处。基于分数的模型利用分数匹配和 Langevin 动力学来解决生成式学习
+
+::: info
+
+[分数匹配 (Score-matching)](https://www.jmlr.org/papers/v6/hyvarinen05a.html) 指的是对数概率密度函数梯度的建模过程，也被称为分数函数。 [朗格文动力学 (Langevin dynamics)](https://en.wikipedia.org/wiki/Langevin_dynamics) 是一个迭代过程，可以从一个分布中只使用其分数函数来抽取样本
+
+:::
+
+$$
+\mathbf{x}_t=\mathbf{x}_{t-1}+\frac{\delta}{2} \nabla_{\mathbf{x}} \log p\left(\mathbf{x}_{t-1}\right)+\sqrt{\delta} \boldsymbol{\epsilon}, \quad \text { where } \boldsymbol{\epsilon} \sim \mathcal{N}(\mathbf{0}, \mathbf{I})
+$$
+
+其中 $\delta$ 是步长大小
+
+假设我们有一个概率密度 $p(x)$ ，并且我们定义分数函数为 $\nabla_x \log p(x)$ 。然后我们可以训练一个神经网络 $s_{\theta}$ 来估计 $\nabla_x \log p(x)$ ，而不用先估计 $p(x)$ 。训练目标可以表述如下：
+
+$$
+\mathbb{E}_{p(\mathbf{x})}[\| \nabla_\mathbf{x} \log p(\mathbf{x}) - \mathbf{s}_\theta(\mathbf{x})  \|_2^2] = \int p(\mathbf{x}) \| \nabla_\mathbf{x} \log p(\mathbf{x}) - \mathbf{s}_\theta(\mathbf{x})  \|_2^2 \mathrm{d}\mathbf{x}
+$$
+
+然后通过使用 Langevin 动力学，我们可以使用近似的分数函数直接从 $p(x)$ 中采样
+
+::: tip
+
+如果你错过了，引导式扩散模型使用这种基于分数的模型的表述，因为它们直接学习 $\nabla_x \log p(x)$ 。当然，他们并不依赖 Langevin 动力学
+
+:::
+
 ### 为基于分数的模型添加噪音：噪声条件得分网络(NCSN)
 
-### 通过随机微分方程（SDE）进行基于分数的生成性建模
+::: tip
+
+到目前为止的问题是：在低密度地区，估计的分数函数通常是不准确的，因为那里的数据点很少。因此，**使用 Langevin 动力学采样的数据质量并不好**
+
+:::
+
+他们的解决方案是对数据点进行噪声扰动，然后在噪声数据点上训练基于分数的模型。事实上，他们使用了多种规模的高斯噪声扰动
+
+因此，添加噪声是使 DDPM 和基于分数的模型都能工作的关键
+
+![](./images/score-based.png)
+
+::: center
+
+Score-based generative modeling with score matching + Langevin dynamics. Source: [Generative Modeling by Estimating Gradients of the Data Distribution](https://yang-song.github.io/blog/2021/score/)
+
+:::
+
+在数学上，给定数据分布 $p(x)$ ，我们用高斯噪声进行扰动 $\mathcal{N}(\textbf{0}, \sigma_i^2 I)$ 其中 $i=1,2,\cdots,L$ 得到一个噪声扰动的分布：
+
+$$
+p_{\sigma_i}(\mathbf{x}) = \int p(\mathbf{y}) \mathcal{N}(\mathbf{x}; \mathbf{y}, \sigma_i^2 I) \mathrm{d} \mathbf{y}
+$$
+
+然后我们训练一个网络 $s_\theta(\mathbf{x},i)$ ，称为基于噪声条件的评分网络 (NCSN) 来估计评分函数 $\nabla_\mathbf{x} \log d_{\sigma_i}(\mathbf{x})$ 。训练目标是所有噪声尺度的 [Fisher 散度](https://en.wikipedia.org/wiki/Fisher_information_metric) 的加权和：
+
+$$
+\sum_{i=1}^L \lambda(i) \mathbb{E}_{p_{\sigma_i}(\mathbf{x})}[\| \nabla_\mathbf{x} \log p_{\sigma_i}(\mathbf{x}) - \mathbf{s}_\theta(\mathbf{x}, i)  \|_2^2]
+$$
+
+### 通过随机微分方程 (SDE) 进行基于分数的生成性建模
+
+[Song et al. 2021](https://arxiv.org/abs/2011.13456) 探讨了基于分数的模型与扩散模型的联系。为了将 NSCNs 和 DDPMs 都囊括在同一伞下，他们提出了以下建议
+
+我们不使用有限数量的噪声分布来扰动数据，而是使用连续的分布，这些分布根据扩散过程随时间演变。这个过程由一个规定的随机微分方程 (SDE) 来模拟，它不依赖于数据，也没有可训练的参数。通过逆转这个过程，我们可以生成新的样本
+
+![](./images/score-sde.png)
+
+::: center
+
+Score-based generative modeling through stochastic differential equations (SDE). Source: [Song et al. 2021](https://arxiv.org/abs/2011.13456)
+
+:::
+
+我们可以把扩散过程 $\{ \mathbf{x}(t) \}_{t\in [0, T]}$ 定义为以下形式的 SDE:
+
+$$
+\mathrm{d}\mathbf{x} = \mathbf{f}(\mathbf{x}, t) \mathrm{d}t + g(t) \mathrm{d} \mathbf{w}
+$$
+
+其中，$\mathbf{w}$ 是维纳过程（又称布朗运动）。 $\mathbf{f}(\cdot, t)$ 是一个矢量值函数，称为 $\mathbf{x}(t)$ 的漂移系数， $g(\cdot)$ 是一个标度函数，称为 $\mathbf{x}(t)$ 的扩散系数。请注意， SDE 通常有一个唯一的强解
+
+::: tip
+
+为了理解我们为什么使用 SDE ，这里有一个提示： SDE 的灵感来自于布朗运动，在布朗运动中，一些粒子在介质内随机移动。粒子运动的这种随机性模拟了数据上的连续噪声扰动
+
+:::
+
+在对原始数据分布进行足够长时间的扰动后，被扰动的分布会变得接近于一个可操作的噪声分布
+
+为了产生新的样本，我们需要逆转扩散过程。该 SDE 被选择为有一个相应的封闭形式的反向 SDE:
+
+$$
+\mathrm{d}\mathbf{x} = [\mathbf{f}(\mathbf{x}, t) - g^2(t) \nabla_\mathbf{x} \log p_t(\mathbf{x})]\mathrm{d}t + g(t) \mathrm{d} \mathbf{w}
+$$
+
+为了计算反向 SDE ，我们需要估计分数函数 $\nabla_\mathbf{x} \log p_t(\mathbf{x})$ 。这是用基于分数的模型 $s_\theta(\mathbf{x},i)$ 和 Langevin 动力学完成的。训练目标是 Fisher 分歧的连续组合：
+
+$$
+\mathbb{E}_{t \in \mathcal{U}(0, T)}\mathbb{E}_{p_t(\mathbf{x})}[\lambda(t) \| \nabla_\mathbf{x} \log p_t(\mathbf{x}) - \mathbf{s}_\theta(\mathbf{x}, t) \|_2^2]
+$$
+
+
+其中 $\mathcal{U}(0, T)$ 表示时间间隔上的均匀分布， $\lambda$ 是一个正的加权函数。一旦我们有了分数函数，我们就可以把它放入反向 SDE 并求解，以便从原始数据分布 $p_0(\mathbf{x})$ 中采样 $\mathbf{x}(0)$ 
+
+::: tip
+
+有许多解决反向 SDE 的方案，我们在此不作分析。请务必查看原始论文或作者的 [这篇优秀博文](https://yang-song.github.io/blog/2021/score/)
+
+:::
+
+![](./images/score-based-sde-overview.png)
+
+::: center
+
+Overview of score-based generative modeling through SDEs. Source: [Song et al. 2021](https://arxiv.org/abs/2011.13456)
+
+:::
 
 ## 总结
+
+让我们对这篇博文中所学到的主要内容做一个简单的总结
+
+- 扩散模型的工作原理是通过一系列的 TT 步骤将高斯噪声逐渐添加到原始图像中，这个过程被称为扩散
+- 为了对新数据进行采样，我们使用神经网络对反向扩散过程进行近似
+- 模型的训练是基于证据下限 (ELBO) 的最大化
+- 我们可以将扩散模型置于图像标签或文本嵌入的条件下，以便“指导”扩散过程
+- 级联扩散和潜伏扩散是两种将模型扩展到高分辨率的方法
+- 级联扩散模型是连续的扩散模型，可以生成分辨率越来越高的图像
+- 潜伏扩散模型（像稳定扩散）在较小的潜伏空间上应用扩散过程，以提高计算效率，使用变异自动编码器进行向上和向下取样
+- 基于分数的模型也将一连串的噪声扰动应用到原始图像上。但它们是用分数匹配和 Langevin 动力学来训练的。尽管如此，它们最终的目标是相似的
+- 扩散过程可以被表述为一个 SDE 。解决反向 SDE 使我们能够生成新的样本
+
+
+最后，对于 [扩散模型](https://angusturner.github.io/generative_models/2021/06/29/diffusion-probabilistic-models-I.html) 和 VAE 或 AE 之间的更多联系，请查看 [这些很棒的文章](https://benanne.github.io/2022/01/31/diffusion.html)
 
 ## 引用
 
