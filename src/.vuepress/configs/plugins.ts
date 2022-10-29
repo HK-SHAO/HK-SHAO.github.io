@@ -36,7 +36,7 @@ export const plugins: PluginConfig = [
             name: 'HK-SHAO',
             url: 'https://shao.fun/',
         },
-        twitterID: 'HKSHA0',
+        twitterID: 'HKSHAO',
     }),
     pwaPlugin({
         skipWaiting: true,
