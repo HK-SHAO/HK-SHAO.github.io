@@ -62,7 +62,8 @@ $$
 
 ::: center
 
-前向扩散过程。图片修改自 [Ho et al. 2020](https://arxiv.org/abs/2006.11239)
+前向扩散过程  
+图片修改自 [Ho et al. 2020](https://arxiv.org/abs/2006.11239)
 
 :::
 
@@ -121,7 +122,8 @@ $$
 
 ::: center
 
-分别来自线性（上面）和余弦时间表（下面）的潜伏样本。图片来自 [Nichol & Dhariwal 2021](https://arxiv.org/abs/2102.09672)
+分别来自线性（上面）和余弦时间表（下面）的潜伏样本  
+图片来自 [Nichol & Dhariwal 2021](https://arxiv.org/abs/2102.09672)
 
 :::
 
@@ -146,7 +148,8 @@ $$
 
 ::: center
 
-反向扩散过程。图片修改自 [Ho et al. 2020](https://arxiv.org/abs/2006.11239)
+反向扩散过程  
+图片修改自 [Ho et al. 2020](https://arxiv.org/abs/2006.11239)
 
 :::
 
@@ -260,7 +263,8 @@ $$
 
 ::: center
 
-DDPMs 的训练和采样算法。图片来自 [Ho et al. 2020](https://arxiv.org/abs/2006.11239)
+DDPMs 的训练和采样算法  
+图片来自 [Ho et al. 2020](https://arxiv.org/abs/2006.11239)
 
 :::
 
@@ -279,7 +283,8 @@ DDPMs 的训练和采样算法。图片来自 [Ho et al. 2020](https://arxiv.org
 
 ::: center
 
-U-Net 的架构。图片来自 [Ronneberger et al.](https://arxiv.org/abs/1505.04597)
+U-Net 的架构  
+图片来自 [Ronneberger et al.](https://arxiv.org/abs/1505.04597)
 
 :::
 
@@ -343,7 +348,8 @@ $$
 
 ::: center
 
-分类器引导的扩散采样算法。图片来自 [Dhariwal & Nichol 2021](https://arxiv.org/abs/2105.05233)
+分类器引导的扩散采样算法  
+图片来自 [Dhariwal & Nichol 2021](https://arxiv.org/abs/2105.05233)
 
 :::
 
@@ -394,7 +400,8 @@ $$
 
 ::: center
 
-级联扩散模型管道。图片来自 Ho & Saharia et al.
+级联扩散模型管道  
+图片来自 Ho & Saharia et al.
 
 :::
 
@@ -424,7 +431,8 @@ $$
 
 ::: center
 
-潜伏的扩散模型。图片来自 [Rombach et al](https://arxiv.org/abs/2112.10752)
+潜伏的扩散模型  
+图片来自 [Rombach et al](https://arxiv.org/abs/2112.10752)
 
 :::
 
@@ -433,14 +441,14 @@ $$
 
 <YouTube id="ltLNYA3lWAQ" />
 
-## 基于分数的生成模型
+## 基于评分的生成模型
 
-在 DDPM 论文发表的同时， [Song and Ermon](https://arxiv.org/abs/1907.05600) 提出了一种不同类型的生成模型，似乎与扩散模型有许多相似之处。基于分数的模型利用分数匹配和 Langevin 动力学来解决生成式学习。
+在 DDPM 论文发表的同时， [Song and Ermon](https://arxiv.org/abs/1907.05600) 提出了一种不同类型的生成模型，似乎与扩散模型有许多相似之处。基于评分的模型利用评分匹配和 Langevin 动力学来解决生成式学习。
 
 ::: info
 
-- [分数匹配 (Score-matching)](https://www.jmlr.org/papers/v6/hyvarinen05a.html) 指的是对数概率密度函数梯度的建模过程，也被称为分数函数。
-- [Langevin 动力学 (Langevin dynamics)](https://en.wikipedia.org/wiki/Langevin_dynamics) 是一个迭代过程，可以从一个分布中只使用其分数函数来抽取样本
+- [评分匹配 (Score-matching)](https://www.jmlr.org/papers/v6/hyvarinen05a.html) 指的是对数概率密度函数梯度的建模过程，也被称为评分函数。
+- [Langevin 动力学 (Langevin dynamics)](https://en.wikipedia.org/wiki/Langevin_dynamics) 是一个迭代过程，可以从一个分布中只使用其评分函数来抽取样本
 
 :::
 
@@ -450,37 +458,38 @@ $$
 
 其中 $\delta$ 是步长大小。
 
-假设我们有一个概率密度 $p(x)$ ，并且我们定义分数函数为 $\nabla_x \log p(x)$ 。然后我们可以训练一个神经网络 $s_{\theta}$ 来估计 $\nabla_x \log p(x)$ ，而不用先估计 $p(x)$ 。训练目标可以表述如下：
+假设我们有一个概率密度 $p(x)$ ，并且我们定义评分函数为 $\nabla_x \log p(x)$ 。然后我们可以训练一个神经网络 $s_{\theta}$ 来估计 $\nabla_x \log p(x)$ ，而不用先估计 $p(x)$ 。训练目标可以表述如下：
 
 $$
 \mathbb{E}_{p(\mathbf{x})}[\| \nabla_\mathbf{x} \log p(\mathbf{x}) - \mathbf{s}_\theta(\mathbf{x})  \|_2^2] = \int p(\mathbf{x}) \| \nabla_\mathbf{x} \log p(\mathbf{x}) - \mathbf{s}_\theta(\mathbf{x})  \|_2^2 \mathrm{d}\mathbf{x}
 $$
 
-然后通过使用 Langevin 动力学，我们可以使用近似的分数函数直接从 $p(x)$ 中采样。
+然后通过使用 Langevin 动力学，我们可以使用近似的评分函数直接从 $p(x)$ 中采样。
 
 ::: tip
 
-如果你错过了，引导式扩散模型使用这种基于分数的模型的表述，因为它们直接学习 $\nabla_x \log p(x)$ 。当然，他们并不依赖 Langevin 动力学
+如果你错过了，引导式扩散模型使用这种基于评分的模型的表述，因为它们直接学习 $\nabla_x \log p(x)$ 。当然，他们并不依赖 Langevin 动力学
 
 :::
 
-### 为基于分数的模型添加噪音：噪声条件得分网络(NCSN)
+### 为基于评分的模型添加噪音：噪声条件得分网络(NCSN)
 
 ::: tip
 
-到目前为止的问题是：在低密度地区，估计的分数函数通常是不准确的，因为那里的数据点很少。因此，**使用 Langevin 动力学采样的数据质量并不好**
+到目前为止的问题是：在低密度地区，估计的评分函数通常是不准确的，因为那里的数据点很少。因此，**使用 Langevin 动力学采样的数据质量并不好**
 
 :::
 
-他们的解决方案是对数据点进行噪声扰动，然后在噪声数据点上训练基于分数的模型。事实上，他们使用了多种规模的高斯噪声扰动。
+他们的解决方案是对数据点进行噪声扰动，然后在噪声数据点上训练基于评分的模型。事实上，他们使用了多种规模的高斯噪声扰动。
 
-因此，添加噪声是使 DDPM 和基于分数的模型都能工作的关键。
+因此，添加噪声是使 DDPM 和基于评分的模型都能工作的关键。
 
 ![](./images/score-based.png)
 
 ::: center
 
-基于分数的生成模型与分数匹配以及 Langevin 动力学。图片来自 [Generative Modeling by Estimating Gradients of the Data Distribution](https://yang-song.github.io/blog/2021/score/)
+基于评分的生成模型与评分匹配以及 Langevin 动力学  
+图片来自 [Generative Modeling by Estimating Gradients of the Data Distribution](https://yang-song.github.io/blog/2021/score/)
 
 :::
 
@@ -496,9 +505,9 @@ $$
 \sum_{i=1}^L \lambda(i) \mathbb{E}_{p_{\sigma_i}(\mathbf{x})}[\| \nabla_\mathbf{x} \log p_{\sigma_i}(\mathbf{x}) - \mathbf{s}_\theta(\mathbf{x}, i)  \|_2^2]
 $$
 
-### 通过随机微分方程 (SDE) 进行基于分数的生成性建模
+### 通过随机微分方程 (SDE) 进行基于评分的生成性建模
 
-[Song et al. 2021](https://arxiv.org/abs/2011.13456) 探讨了基于分数的模型与扩散模型的联系。为了将 NSCNs 和 DDPMs 都囊括在同一伞下，他们提出了以下建议。
+[Song et al. 2021](https://arxiv.org/abs/2011.13456) 探讨了基于评分的模型与扩散模型的联系。为了将 NSCNs 和 DDPMs 都囊括在同一伞下，他们提出了以下建议。
 
 我们不使用有限数量的噪声分布来扰动数据，而是使用连续的分布，这些分布根据扩散过程随时间演变。这个过程由一个规定的随机微分方程 (SDE) 来模拟，它不依赖于数据，也没有可训练的参数。通过逆转这个过程，我们可以生成新的样本。
 
@@ -506,7 +515,8 @@ $$
 
 ::: center
 
-通过随机微分方程（SDE）进行基于分数的生成性建模。图片来自 [Song et al. 2021](https://arxiv.org/abs/2011.13456)
+通过随机微分方程（SDE）进行基于评分的生成性建模  
+图片来自 [Song et al. 2021](https://arxiv.org/abs/2011.13456)
 
 :::
 
@@ -532,14 +542,14 @@ $$
 \mathrm{d}\mathbf{x} = [\mathbf{f}(\mathbf{x}, t) - g^2(t) \nabla_\mathbf{x} \log p_t(\mathbf{x})]\mathrm{d}t + g(t) \mathrm{d} \mathbf{w}
 $$
 
-为了计算反向 SDE ，我们需要估计分数函数 $\nabla_\mathbf{x} \log p_t(\mathbf{x})$ 。这是用基于分数的模型 $s_\theta(\mathbf{x},i)$ 和 Langevin 动力学完成的。训练目标是 Fisher 分歧的连续组合：
+为了计算反向 SDE ，我们需要估计评分函数 $\nabla_\mathbf{x} \log p_t(\mathbf{x})$ 。这是用基于评分的模型 $s_\theta(\mathbf{x},i)$ 和 Langevin 动力学完成的。训练目标是 Fisher 分歧的连续组合：
 
 $$
 \mathbb{E}_{t \in \mathcal{U}(0, T)}\mathbb{E}_{p_t(\mathbf{x})}[\lambda(t) \| \nabla_\mathbf{x} \log p_t(\mathbf{x}) - \mathbf{s}_\theta(\mathbf{x}, t) \|_2^2]
 $$
 
 
-其中 $\mathcal{U}(0, T)$ 表示时间间隔上的均匀分布， $\lambda$ 是一个正的加权函数。一旦我们有了分数函数，我们就可以把它放入反向 SDE 并求解，以便从原始数据分布 $p_0(\mathbf{x})$ 中采样 $\mathbf{x}(0)$ 。
+其中 $\mathcal{U}(0, T)$ 表示时间间隔上的均匀分布， $\lambda$ 是一个正的加权函数。一旦我们有了评分函数，我们就可以把它放入反向 SDE 并求解，以便从原始数据分布 $p_0(\mathbf{x})$ 中采样 $\mathbf{x}(0)$ 。
 
 ::: tip
 
@@ -551,7 +561,8 @@ $$
 
 ::: center
 
-通过 SDEs 进行基于分数的生成性建模的概述。图片来自 [Song et al. 2021](https://arxiv.org/abs/2011.13456)
+通过 SDEs 进行基于评分的生成性建模的概述  
+图片来自 [Song et al. 2021](https://arxiv.org/abs/2011.13456)
 
 :::
 
@@ -566,7 +577,7 @@ $$
 - 级联扩散和潜伏扩散是两种将模型扩展到高分辨率的方法
 - 级联扩散模型是连续的扩散模型，可以生成分辨率越来越高的图像。
 - 潜伏扩散模型（像稳定扩散）在较小的潜伏空间上应用扩散过程，以提高计算效率，使用变分自编码器进行向上和向下取样。
-- 基于分数的模型也将一连串的噪声扰动应用到原始图像上。但它们是用分数匹配和 Langevin 动力学来训练的。尽管如此，它们最终的目标是相似的。
+- 基于评分的模型也将一连串的噪声扰动应用到原始图像上。但它们是用评分匹配和 Langevin 动力学来训练的。尽管如此，它们最终的目标是相似的。
 - 扩散过程可以被表述为一个 SDE 。解决反向 SDE 使我们能够生成新的样本。
 
 
@@ -587,25 +598,33 @@ $$
 ## 参考文献
 ::: info
 
-- [1] Sohl-Dickstein, Jascha, et al. Deep Unsupervised Learning Using Nonequilibrium Thermodynamics. arXiv:1503.03585, arXiv, 18 Nov. 2015  
-- [2] Ho, Jonathan, et al. Denoising Diffusion Probabilistic Models. arXiv:2006.11239, arXiv, 16 Dec. 2020  
-- [3] Nichol, Alex, and Prafulla Dhariwal. Improved Denoising Diffusion Probabilistic Models. arXiv:2102.09672, arXiv, 18 Feb. 2021  
-- [4] Dhariwal, Prafulla, and Alex Nichol. Diffusion Models Beat GANs on Image Synthesis. arXiv:2105.05233, arXiv, 1 June 2021  
-- [5] Nichol, Alex, et al. GLIDE: Towards Photorealistic Image Generation and Editing with Text-Guided Diffusion Models. arXiv:2112.10741, arXiv, 8 Mar. 2022  
-- [6] Ho, Jonathan, and Tim Salimans. Classifier-Free Diffusion Guidance. 2021. openreview.net  
-- [7] Ramesh, Aditya, et al. Hierarchical Text-Conditional Image Generation with CLIP Latents. arXiv:2204.06125, arXiv, 12 Apr. 2022  
-- [8] Saharia, Chitwan, et al. Photorealistic Text-to-Image Diffusion Models with Deep Language Understanding. arXiv:2205.11487, arXiv, 23 May 2022  
-- [9] Rombach, Robin, et al. High-Resolution Image Synthesis with Latent Diffusion Models. arXiv:2112.10752, arXiv, 13 Apr. 2022  
-- [10] Ho, Jonathan, et al. Cascaded Diffusion Models for High Fidelity Image Generation. arXiv:2106.15282, arXiv, 17 Dec. 2021  
-- [11] Weng, Lilian. What Are Diffusion Models? 11 July 2021  
-- [12] O'Connor, Ryan. Introduction to Diffusion Models for Machine Learning AssemblyAI Blog, 12 May 2022  
-- [13] Rogge, Niels and Rasul, Kashif. The Annotated Diffusion Model . Hugging Face Blog, 7 June 2022  
-- [14] Das, Ayan. “An Introduction to Diffusion Probabilistic Models.” Ayan Das, 4 Dec. 2021  
-- [15] Song, Yang, and Stefano Ermon. Generative Modeling by Estimating Gradients of the Data Distribution. arXiv:1907.05600, arXiv, 10 Oct. 2020  
-- [16] Song, Yang, and Stefano Ermon. Improved Techniques for Training Score-Based Generative Models. arXiv:2006.09011, arXiv, 23 Oct. 2020  
-- [17] Song, Yang, et al. Score-Based Generative Modeling through Stochastic Differential Equations. arXiv:2011.13456, arXiv, 10 Feb. 2021  
-- [18] Song, Yang. Generative Modeling by Estimating Gradients of the Data Distribution, 5 May 2021  
-- [19] Luo, Calvin. Understanding Diffusion Models: A Unified Perspective. 25 Aug. 2022
+<div style="width: 100%;overflow-x: auto">
+
+<nobr>
+
+- [1] Sohl-Dickstein, Jascha, et al. [Deep Unsupervised Learning Using Nonequilibrium Thermodynamics](https://arxiv.org/abs/1503.03585). arXiv:1503.03585, arXiv, 18 Nov. 2015  
+- [2] Ho, Jonathan, et al. [Denoising Diffusion Probabilistic Models](https://arxiv.org/abs/2006.11239). arXiv:2006.11239, arXiv, 16 Dec. 2020  
+- [3] Nichol, Alex, and Prafulla Dhariwal. [Improved Denoising Diffusion Probabilistic Models](https://arxiv.org/abs/2102.09672). arXiv:2102.09672, arXiv, 18 Feb. 2021  
+- [4] Dhariwal, Prafulla, and Alex Nichol. [Diffusion Models Beat GANs on Image Synthesis](https://arxiv.org/abs/2105.05233). arXiv:2105.05233, arXiv, 1 June 2021  
+- [5] Nichol, Alex, et al. [GLIDE: Towards Photorealistic Image Generation and Editing with Text-Guided Diffusion Models](https://arxiv.org/abs/2112.10741). arXiv:2112.10741, arXiv, 8 Mar. 2022  
+- [6] Ho, Jonathan, and Tim Salimans. [Classifier-Free Diffusion Guidance](https://openreview.net/forum?id=qw8AKxfYbI). 2021. openreview.net  
+- [7] Ramesh, Aditya, et al. [Hierarchical Text-Conditional Image Generation with CLIP Latents](https://arxiv.org/abs/2204.06125). arXiv:2204.06125, arXiv, 12 Apr. 2022  
+- [8] Saharia, Chitwan, et al. [Photorealistic Text-to-Image Diffusion Models with Deep Language Understanding](https://arxiv.org/abs/2205.11487). arXiv:2205.11487, arXiv, 23 May 2022  
+- [9] Rombach, Robin, et al. [High-Resolution Image Synthesis with Latent Diffusion Models](https://arxiv.org/abs/2112.10752). arXiv:2112.10752, arXiv, 13 Apr. 2022  
+- [10] Ho, Jonathan, et al. [Cascaded Diffusion Models for High Fidelity Image Generation](https://arxiv.org/abs/2106.15282). arXiv:2106.15282, arXiv, 17 Dec. 2021  
+- [11] Weng, Lilian. [What Are Diffusion Models?](https://lilianweng.github.io/posts/2021-07-11-diffusion-models/) 11 July 2021  
+- [12] O'Connor, Ryan. [Introduction to Diffusion Models for Machine Learning](https://www.assemblyai.com/blog/diffusion-models-for-machine-learning-introduction/) AssemblyAI Blog, 12 May 2022  
+- [13] Rogge, Niels and Rasul, Kashif. [The Annotated Diffusion Model](https://huggingface.co/blog/annotated-diffusion). Hugging Face Blog, 7 June 2022  
+- [14] Das, Ayan. [An Introduction to Diffusion Probabilistic Models](https://ayandas.me/blog-tut/2021/12/04/diffusion-prob-models.html). Ayan Das, 4 Dec. 2021  
+- [15] Song, Yang, and Stefano Ermon. [Generative Modeling by Estimating Gradients of the Data Distribution](https://arxiv.org/abs/1907.05600). arXiv:1907.05600, arXiv, 10 Oct. 2020  
+- [16] Song, Yang, and Stefano Ermon. [Improved Techniques for Training Score-Based Generative Models](https://arxiv.org/abs/2006.09011). arXiv:2006.09011, arXiv, 23 Oct. 2020  
+- [17] Song, Yang, et al. [Score-Based Generative Modeling through Stochastic Differential Equations](https://arxiv.org/abs/2011.13456). arXiv:2011.13456, arXiv, 10 Feb. 2021  
+- [18] Song, Yang. [Generative Modeling by Estimating Gradients of the Data Distribution](https://yang-song.github.io/blog/2021/score/). 5 May 2021  
+- [19] Luo, Calvin. [Understanding Diffusion Models: A Unified Perspective](https://doi.org/10.48550/arXiv.2208.11970). 25 Aug. 2022
+
+</nobr>
+
+</div>
 
 :::
 
