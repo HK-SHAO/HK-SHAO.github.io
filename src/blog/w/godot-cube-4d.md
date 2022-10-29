@@ -298,8 +298,6 @@ void fragment() {
     // gamma
     col.rgb = pow( col.rgb, vec3(0.4545) );
 
-	// tot += Grid(ro, rd);
-
 	tot = col;
 
     // cheap dither to remove banding from background
