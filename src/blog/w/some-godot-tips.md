@@ -23,7 +23,7 @@
 - iq 佬：https://www.iquilezles.org/www/articles/normalsSDF/normalsSDF.htm
 - 推荐 pdcxs 佬的 shader 教程：https://space.bilibili.com/10707223
 - shadertoy 教程 08 - 3D 摄像机设置：https://www.bilibili.com/video/BV1PS4y1j7Xg/
-- 将 GLSL 转换为 Godot 着色器：[将 GLSL 转换为 Godot 着色器](https://docs.godotengine.org/zh_CN/stable/tutorials/shaders/converting_glsl_to_godot_shaders.html)
+- Godot docs：：[将 GLSL 转换为 Godot 着色器](https://docs.godotengine.org/zh_CN/stable/tutorials/shaders/converting_glsl_to_godot_shaders.html)
 
 ### 关键代码
 
@@ -89,8 +89,9 @@ vec3 rd = ca * normalize(-vec3(UV, 1.0));
 
 ## 修复 shader 中的 UV
 
-- 使得坐标从屏幕中心开始，且 `UV.x` 从左到右介于 $[-1, 1]$ 之间，`UV.y` 从下到上介于 $[-1, 1]$ 之间
+- 坐标原点从屏幕中心开始，且 `UV.x` 或 `UV.y` 介于 $[-1, 1]$ 之间
 - 保证视觉上的长宽比，使得图形不被压缩或拉伸
+- Godot docs：[CanvasItem 着色器](https://docs.godotengine.org/zh_CN/latest/tutorials/shaders/shader_reference/canvas_item_shader.html)
 
 ### 相关知识
 
@@ -135,7 +136,7 @@ func on_size_changed() -> void:
 	action()
 ```
 
-- 如果是全屏，也可这样计算 `ratio`
+- 如果是全屏，可以在 shader 中这样计算 `ratio`
 
 ```glsl
 float ratio = SCREEN_PIXEL_SIZE.x / SCREEN_PIXEL_SIZE.y;
