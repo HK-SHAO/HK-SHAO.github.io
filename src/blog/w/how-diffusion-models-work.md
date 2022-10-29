@@ -24,7 +24,7 @@
 
 在这篇文章，我们将从基本原理开始挖掘。目前已经有许多不同的基于扩散模型的架构，我们将重点讨论其中最突出的一个，即由 [Sohl-Dickstein et al](https://arxiv.org/abs/1503.03585) 和 [Ho. et al 2020](https://arxiv.org/abs/2006.11239) 提出的去噪扩散概率模型 (DDPM, denoising diffusion probabilistic model) 。其它各种方法将不会具体讨论，如 stable diffusion 和 score-based models
 
-::: info
+::: tip
 
 扩散模型与之前所有的生成方法有着本质的区别。直观地说，它们旨在将图像生成过程（采样）分解为许多小的“去噪”步骤
 
@@ -56,11 +56,11 @@ $$
 
 ::: center
 
-Forward diffusion process. Image modified by [Ho et al. 2020](https://arxiv.org/abs/2006.11239)
+前向扩散过程。图片修改自 [Ho et al. 2020](https://arxiv.org/abs/2006.11239)
 
 :::
 
-由于我们处于多维情况下， $\textbf{I}$ 是身份矩阵，表明每个维度有相同的标准偏差 $\beta_t$ 。注意到， $q(\mathbf{x}_t \vert \mathbf{x}_{t-1})$ 是一个正态分布，其均值是 $\boldsymbol{\mu}_t =\sqrt{1 - \beta_t} \mathbf{x}_{t-1}$​​ ，方差为 $\boldsymbol{\Sigma}_t=\beta_t\mathbf{I}$ ，其中 $\boldsymbol{\Sigma}$ 是一个对角矩阵的方差（这里就是 $\beta_t$ ）
+由于我们处于多维情况下， $\textbf{I}$ 是单位矩阵，表明每个维度有相同的标准偏差 $\beta_t$ 。注意到， $q(\mathbf{x}_t \vert \mathbf{x}_{t-1})$ 是一个正态分布，其均值是 $\boldsymbol{\mu}_t =\sqrt{1 - \beta_t} \mathbf{x}_{t-1}$​​ ，方差为 $\boldsymbol{\Sigma}_t=\beta_t\mathbf{I}$ ，其中 $\boldsymbol{\Sigma}$ 是一个对角矩阵的方差（这里就是 $\beta_t$ ）
 
 因此，我们可以自 $\mathbf{x}_0$ 到 $\mathbf{x}_t$ 以一种可操作的方式来近似输入。在数学上，这种后验概率定义如下：
 
@@ -70,12 +70,12 @@ $$
 
 其中，$q(\mathbf{x}_{1:T})$ 意味着我们从时间 $1$ 到 $T$ 重复应用 $q$
 
-到目前为止，看起来还不错？并不！对于时间步长 $t=500<T$ 我们需要应用 $q$ 500 次为了样品 $\mathbf{x}_t$ 。难道就没有更好的方式吗？
+到目前为止，看起来还不错？并不！对于时间步长 $t=500<T$ 我们需要为了样品 $\mathbf{x}_t$ 应用 $q$ 函数 500 次。难道就没有更好的方式吗？
 
-[重参数化 (reparametrization trick)](https://theaisummer.com/latent-variable-models/#reparameterization-trick) 对此提供了一个魔法般的补救办法
-### 重新参数化的技巧：在任何时间步长的可操作的闭式采样
+[重参数化技巧 (Reparametrization Trick)](https://theaisummer.com/latent-variable-models/#reparameterization-trick) 对此提供了一个魔法般的补救办法
+### 重参数化技巧：可操作的闭式采样在任何时间步长上
 
-如果我们定义 $\alpha_t= 1- \beta_t$, $\bar{\alpha}_t = \prod_{s=0}^t \alpha_s$ ，其中 $\boldsymbol{\epsilon}_{0},..., \epsilon_{t-2}, \epsilon_{t-1} \sim \mathcal{N}(\textbf{0},\mathbf{I})$ ，那么我们可以使用重新参数化的技巧证明：
+如果我们定义 $\alpha_t= 1- \beta_t$, $\bar{\alpha}_t = \prod_{s=0}^t \alpha_s$ ，其中 $\boldsymbol{\epsilon}_{0},..., \epsilon_{t-2}, \epsilon_{t-1} \sim \mathcal{N}(\textbf{0},\mathbf{I})$ ，那么我们可以使用重参数化技巧证明：
 
 $$
 \begin{aligned}
@@ -115,7 +115,7 @@ $$
 
 ::: center
 
-Latent samples from linear (top) and cosine (bottom) schedules respectively. Source: [Nichol & Dhariwal 2021](https://arxiv.org/abs/2102.09672)
+分别来自线性（上面）和余弦时间表（下面）的潜伏样本。图片来自 [Nichol & Dhariwal 2021](https://arxiv.org/abs/2102.09672)
 
 :::
 
@@ -138,7 +138,7 @@ $$
 
 ::: center
 
-Reverse diffusion process. Image modified by [Ho et al. 2020](https://arxiv.org/abs/2006.11239)
+反向扩散过程。图片修改自 [Ho et al. 2020](https://arxiv.org/abs/2006.11239)
 
 :::
 
@@ -250,7 +250,7 @@ $$
 
 ::: center
 
-Training and sampling algorithms of DDPMs. Source: [Ho et al. 2020](https://arxiv.org/abs/2006.11239)
+DDPMs 的训练和采样算法。图片来自 [Ho et al. 2020](https://arxiv.org/abs/2006.11239)
 
 :::
 
@@ -267,7 +267,7 @@ Training and sampling algorithms of DDPMs. Source: [Ho et al. 2020](https://arxi
 
 ::: center
 
-The U-Net architecture. Source: [Ronneberger et al.](https://arxiv.org/abs/1505.04597)
+U-Net 的架构。图片来自 [Ronneberger et al.](https://arxiv.org/abs/1505.04597)
 
 :::
 
@@ -331,7 +331,7 @@ $$
 
 ::: center
 
-Algorithm of classifier guided diffusion sampling. Source: [Dhariwal & Nichol 2021](https://arxiv.org/abs/2105.05233)
+分类器引导的扩散采样算法。图片来自 [Dhariwal & Nichol 2021](https://arxiv.org/abs/2105.05233)
 
 :::
 
@@ -366,7 +366,7 @@ $$
 1. 它只使用一个单一的模型来指导扩散
 2. 当对难以用分类器预测的信息（如文本嵌入）进行调节时，它简化了指导
 
-[Saharia et al.](https://arxiv.org/abs/2205.11487) 提出的 Imagen 在很大程度上依赖于无分类器的引导，因为他们发现这是一个关键因素去产生具有强大图像-文本对准的生成样本。关于 Imagen 方法的更多信息，请看 AI Coffee Break 与 Letitia 的这段视频
+[Saharia et al.](https://arxiv.org/abs/2205.11487) 提出的 Imagen 在很大程度上依赖于无分类器的引导，因为他们发现这是一个关键因素去产生具有强大图像-文本对准的生成样本。关于 Imagen 方法的更多信息，请看 AI Coffee Break 与 Letitia 的这段 YouTube 视频
 
 <YouTube id="xqDeAz0U-R4" />
 
@@ -382,7 +382,7 @@ $$
 
 ::: center
 
-Cascade diffusion model pipeline. Source: Ho & Saharia et al.
+级联扩散模型管道。图片来自 Ho & Saharia et al.
 
 :::
 
@@ -412,12 +412,12 @@ $$
 
 ::: center
 
-Latent diffusion models. Source: [Rombach et al](https://arxiv.org/abs/2112.10752)
+潜伏的扩散模型。图片来自 [Rombach et al](https://arxiv.org/abs/2112.10752)
 
 :::
 
 
-欲了解更多信息，请看这个视频：
+欲了解更多信息，请看这个 YouTube 视频：
 
 <YouTube id="ltLNYA3lWAQ" />
 
@@ -467,7 +467,7 @@ $$
 
 ::: center
 
-Score-based generative modeling with score matching + Langevin dynamics. Source: [Generative Modeling by Estimating Gradients of the Data Distribution](https://yang-song.github.io/blog/2021/score/)
+基于分数的生成模型与分数匹配以及 Langevin 动力学。图片来自 [Generative Modeling by Estimating Gradients of the Data Distribution](https://yang-song.github.io/blog/2021/score/)
 
 :::
 
@@ -493,7 +493,7 @@ $$
 
 ::: center
 
-Score-based generative modeling through stochastic differential equations (SDE). Source: [Song et al. 2021](https://arxiv.org/abs/2011.13456)
+通过随机微分方程（SDE）进行基于分数的生成性建模。图片来自 [Song et al. 2021](https://arxiv.org/abs/2011.13456)
 
 :::
 
@@ -538,7 +538,7 @@ $$
 
 ::: center
 
-Overview of score-based generative modeling through SDEs. Source: [Song et al. 2021](https://arxiv.org/abs/2011.13456)
+通过 SDEs 进行基于分数的生成性建模的概述。图片来自 [Song et al. 2021](https://arxiv.org/abs/2011.13456)
 
 :::
 

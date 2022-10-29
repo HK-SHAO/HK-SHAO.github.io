@@ -10,3 +10,14 @@
     width: 100%;
     overflow-x: auto
 }
+
+html.dark {
+    // img{
+    //     filter: invert(0.93) hue-rotate(180deg) !important;
+    // }
+
+    // 图片自动反色适应黑暗
+    .dark-filter {
+        filter: invert(1) hue-rotate(180deg) !important;
+    }
+}
