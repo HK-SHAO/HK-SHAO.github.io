@@ -602,3 +602,8 @@ $$
 - [19] Luo, Calvin. Understanding Diffusion Models: A Unified Perspective. 25 Aug. 2022
 
 :::
+
+---
+::: warning
+本站所有内容均使用 MIT 协议，并署名 [`shaofun`](//shao.fun)，请遵守 [此协议](/LICENSE.md) ，转载请标明出处
+:::
