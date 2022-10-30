@@ -1,5 +1,6 @@
 ---
 footer: Copyright © 2021-2022 HK-SHAO
+description: 烧风的友链
 ---
 
 # 一些链接

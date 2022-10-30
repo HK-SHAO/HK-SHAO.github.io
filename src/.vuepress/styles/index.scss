@@ -1,9 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro&family=Source+Sans+Pro&family=Source+Serif+Pro&display=swap');
 
 :root {
-    --font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+    --font-family: '思源黑体', 'Source Sans Pro', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
     --font-family-code: 'Source Code Pro', Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace;
-    --font-family-serif: 'Source Serif Pro', serif;
+    --font-family-serif: '思源宋体', 'Source Serif Pro', serif;
 }
 
 .MathJax {
@@ -23,7 +23,7 @@ html.dark {
 }
 
 a {
-    font-weight: bold;
+    font-weight: 500;
 }
 
 .navbar .site-name {

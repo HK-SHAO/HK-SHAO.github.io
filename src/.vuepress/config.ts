@@ -6,15 +6,8 @@ import { theme } from './configs/theme';
 export default defineUserConfig({
   lang: 'zh-CN',
   title: 'HK-SHAO',
-  description: '烧风的个人网站',
+  description: '烧风的个人主页',
   head: heads,
   plugins: plugins,
-  locales: {
-    '/': {
-      lang: 'zh-CN',
-      title: 'HK-SHAO',
-      description: '烧风的个人网站',
-    },
-  },
   theme: theme,
 })

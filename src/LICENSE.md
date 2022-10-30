@@ -1,8 +1,11 @@
 ---
 footer: Copyright © 2021-2022 HK-SHAO
 description: MIT License
-sidebar: false
 comment: false
+editLink: false
+sidebar: false
+lastUpdated: false
+contributors: false
 ---
 
 # MIT 许可证书

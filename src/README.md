@@ -10,5 +10,11 @@ actions:
   - text: 关于烧风
     link: /about/
     type: secondary
-footer: Copyright © 2021-2022 HK-SHAO
 ---
+
+
+::: center
+
+<footer class="footer" style="letter-spacing: 0.05rem;">Copyright © 2019-{{new Date().getFullYear()}} HK-SHAO</footer>
+
+:::

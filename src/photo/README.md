@@ -1,5 +1,7 @@
 ---
 footer: Copyright © 2021-2022 HK-SHAO
+description: 一些我拍摄的照片
+comment: false
 ---
 
 # 一些照片

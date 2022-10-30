@@ -9,12 +9,12 @@ export const navbar: NavbarConfig = [
         text: '博文',
         link: '/blog/',
     },
+    // {
+    //     text: '照片',
+    //     link: '/photo/',
+    // },
     {
-        text: '照片',
-        link: '/photo/',
-    },
-    {
-        text: '链接',
+        text: '友链',
         link: '/links/',
     },
     {
