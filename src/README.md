@@ -12,13 +12,21 @@ actions:
     type: secondary
 ---
 
+<style>
+.hero {
+  padding-top: 3.5rem;
+}
+
+.footer {
+  letter-spacing: 0.05rem;
+  padding-right: 0 !important;
+  padding-left: 0 !important;
+}
+</style>
+
 
 ::: center
 
-<nobr>
-  <footer class="footer" style="letter-spacing: 0.05rem;">
-  Copyright © 2019-{{new Date().getFullYear()}} HK-SHAO
-  </footer>
-</nobr>
+<footer class="footer">Copyright © 2019-{{new Date().getFullYear()}} HK-SHAO</footer>
 
 :::

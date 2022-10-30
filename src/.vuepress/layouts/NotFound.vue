@@ -30,20 +30,18 @@ onMounted(() => {
         attributes: true,
     });
 
-    if (typeof document && typeof window) {
-        document.title = "页面不存在 | HK-SHAO";
-        
-        const foo = function () {
-            const sidebar = document.querySelector(".theme-container") as HTMLElement;
-            sidebar.classList.add('no-sidebar');
-            return foo;
-        }
+    document.title = "页面不存在 | HK-SHAO";
 
-        const content = document.querySelector('.theme-default-content') as HTMLElement;
-        content.style.display = 'none';
-
-        window.addEventListener('resize', foo());
+    const foo = function () {
+        const sidebar = document.querySelector(".theme-container") as HTMLElement;
+        sidebar.classList.add('no-sidebar');
+        return foo;
     }
+
+    const content = document.querySelector('.theme-default-content') as HTMLElement;
+    content.style.display = 'none';
+
+    window.addEventListener('resize', foo());
 
 });
 
