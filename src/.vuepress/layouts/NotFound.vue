@@ -49,7 +49,7 @@ document.title = "页面不存在 | HK-SHAO";
 </script>
 
 <style>
-.theme-default-content {
+/* .theme-default-content {
     display: none;
-}
+} */
 </style>
