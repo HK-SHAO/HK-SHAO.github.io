@@ -3,6 +3,7 @@
         <template #page-bottom>
 
             <h1 style="text-align: center;">这个页面不存在哦</h1>
+            <hr/>
             <p style="text-align: center;">在这里留言告诉我你想获取什么内容 :)</p>
             <CommentService :darkmode="isDarkMode" />
         </template>
