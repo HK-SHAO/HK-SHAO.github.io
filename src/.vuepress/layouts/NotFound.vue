@@ -3,7 +3,7 @@
         <template #page-bottom>
 
             <h1 style="text-align: center;">这个页面不存在哦</h1>
-            <hr/>
+            <hr />
             <p style="text-align: center;">在这里留言告诉我你想获取什么内容 :)</p>
             <CommentService :darkmode="isDarkMode" />
         </template>
@@ -30,24 +30,26 @@ onMounted(() => {
         attributes: true,
     });
 
-    const foo = function () {
-        const sidebar = document.querySelector(".theme-container") as HTMLElement;
-        sidebar.classList.add('no-sidebar');
-        return foo;
+    if (typeof document && typeof window) {
+        document.title = "页面不存在 | HK-SHAO";
+        
+        const foo = function () {
+            const sidebar = document.querySelector(".theme-container") as HTMLElement;
+            sidebar.classList.add('no-sidebar');
+            return foo;
+        }
+
+        const content = document.querySelector('.theme-default-content') as HTMLElement;
+        content.style.display = 'none';
+
+        window.addEventListener('resize', foo());
     }
-
-    const content = document.querySelector('.theme-default-content') as HTMLElement;
-    content.style.display = 'none';
-
-    window.addEventListener('resize', foo());
 
 });
 
 onBeforeUnmount(() => {
     observer.disconnect();
 });
-
-document.title = "页面不存在 | HK-SHAO";
 
 </script>
 
