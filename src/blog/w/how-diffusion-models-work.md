@@ -247,7 +247,7 @@ L_t &= \mathbb{E}_{\mathbf{x}_0,t,\boldsymbol{\epsilon}}\left[\frac{1}{2||\bolds
 \end{aligned}
 $$
 
-这有效地告诉我们，该模型不是预测分布的平均值，而是预测每个时间点 $t$ 的噪声 $\boldsymbol{\epsilon}$
+这实际上告诉我们，该模型不是预测分布的平均值，而是预测每个时间点 $t$ 的噪声 $\boldsymbol{\epsilon}$
 
 [Ho et.al 2020](https://arxiv.org/abs/2006.11239) 对实际损失项做了一些简化，因为他们忽略了一个加权项。简化后的版本优于完整的目标：
 
