@@ -28,28 +28,30 @@ onMounted(() => {
         attributeFilter: ["class"],
         attributes: true,
     });
-});
 
-onBeforeUnmount(() => {
-    observer.disconnect();
-});
-
-setTimeout(() => {
     const foo = function () {
         const sidebar = document.querySelector(".theme-container") as HTMLElement;
         sidebar.classList.add('no-sidebar');
         return foo;
     }
 
+    const content = document.querySelector('.theme-default-content') as HTMLElement;
+    content.style.display = 'none';
+
     window.addEventListener('resize', foo());
-}, 0);
+
+});
+
+onBeforeUnmount(() => {
+    observer.disconnect();
+});
 
 document.title = "页面不存在 | HK-SHAO";
 
 </script>
 
-<style>
-/* .theme-default-content {
+<style scoped>
+.theme-default-content {
     display: none;
-} */
+}
 </style>
