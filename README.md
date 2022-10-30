@@ -5,13 +5,13 @@
 ## 安装
 
 ```shell
-yarn install
+npm install
 ```
 
 ## 调试
 
 ```shell
-yarn dev
+npm run dev
 ```
 
 ## 部署

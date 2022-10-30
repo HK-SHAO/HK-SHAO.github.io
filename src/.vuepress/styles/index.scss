@@ -33,3 +33,7 @@ a {
 .custom-container {
     overflow: hidden;
 }
+
+#message-container .message {
+    box-shadow: 0 0 10px 0 #20212266 !important;
+}

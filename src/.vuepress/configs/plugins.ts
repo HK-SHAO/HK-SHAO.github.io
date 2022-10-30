@@ -10,6 +10,7 @@ import { componentsPlugin } from "vuepress-plugin-components";
 import { sitemapPlugin } from "vuepress-plugin-sitemap2";
 import { seoPlugin } from "vuepress-plugin-seo2";
 import { googleAnalyticsPlugin } from '@vuepress/plugin-google-analytics'
+import copyCode from "vuepress-plugin-copy-code2";
 
 export const plugins: PluginConfig = [
     googleAnalyticsPlugin({
@@ -64,7 +65,6 @@ export const plugins: PluginConfig = [
         sup: true,
         sub: true,
         footnote: true,
-        lazyLoad: true,
         mark: true,
         imageSize: true,
         imageMark: true,
@@ -93,4 +93,5 @@ export const plugins: PluginConfig = [
         category: "General",
         categoryId: "DIC_kwDOCfkTS84CR31L",
     }),
+    copyCode({}),
 ]

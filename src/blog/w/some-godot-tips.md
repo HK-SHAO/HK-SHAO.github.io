@@ -97,8 +97,8 @@ vec3 rd = ca * normalize(-vec3(UV, 1.0));
 
 在 shadertoy 中，fragment shader 通常开头会先计算 UV
 
-```glsl
-vec2 uv = (2. * fragCoord - resolution.xy) / min(resolution.x, resolution.y);
+```glsl:no-line-numbers
+vec2 uv = (2.0*fragCoord - resolution.xy) / min(resolution.x, resolution.y);
 ```
 
 ### 相关链接
@@ -136,9 +136,9 @@ func on_size_changed() -> void:
 	action()
 ```
 
-- 如果是全屏，可以在 shader 中这样计算 `ratio`
+- 如果画布占满窗口，可以在 shader 中这样计算 `ratio`
 
-```glsl
+```glsl:no-line-numbers
 float ratio = SCREEN_PIXEL_SIZE.x / SCREEN_PIXEL_SIZE.y;
 ```
 
@@ -153,6 +153,14 @@ vec2 fixedUV(vec2 uv, float r) {
 	p = r>1.0?vec2(p.x, p.y*r):vec2(p.x/r, p.y);
 	return p;
 }
+```
+
+- 另一种已知 shadertoy 代码计算 `uv` 的方法
+
+```glsl
+vec2 fragCoord = FRAGCOORD.xy;
+vec2 resolution = 1. / SCREEN_PIXEL_SIZE.xy;
+vec2 uv = (2. * fragCoord - resolution.xy) / min(resolution.x, resolution.y);
 ```
 
 ---
