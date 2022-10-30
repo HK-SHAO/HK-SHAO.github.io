@@ -16,19 +16,19 @@
 
 ## 译者前言
 
-基于生成对抗网络 GANs 的 AI 生成图像往年在互联网不温不热，但就在最近这几个月， Open AI 于 2022 年 4 月初发布的 DALL-E 2 (基于 GPT Model) ，以及 stability.ai 于 2022 年 8 月底发布的 Stable Diffusion (基于 Diffusion Model)  ，其生成的照片、画作的效果让人乍舌，随即引发了一股新的互联网 AI 创作热潮。
+基于生成对抗网络 GANs 的 AI 生成图像往年在互联网不温不热，但就在最近这几个月， Open AI 于 2022 年 4 月初发布的 DALL-E 2 (基于 GPT Model) ，以及 stability.ai 于 2022 年 8 月底发布的 Stable Diffusion (基于 Diffusion Models)  ，其生成的照片、画作的效果让人乍舌，随即引发了一股新的互联网 AI 创作热潮。
 
-引发这一系列热潮的便是 [Novel AI](https://novelai.net/) 于 2022 年 10 月初发布的，能够画各种精致二次元风格图片的 NovelAI Diffusion  (基于 Stable Diffusion) 一下子把 AI 绘画推向风口浪尖。无数乐子人蜂拥而至，甚至有黑客把 Novel AI 的官网源码和模型全部扒了下来。 AI 创作数量极快，乍一看都很精致，而这些 “AI Based” 作品正在以一种极快的速度挤压创作者的空间，随即引发的便是关于伦理道德和法律的一系列疑问。
+引发这一系列热潮的便是 [Novel AI](https://novelai.net/) 于 2022 年 10 月初发布的，能够画各种精致二次元风格图片的 NovelAI Diffusion (基于 Stable Diffusion) 一下子把 AI 绘画推向风口浪尖。无数乐子人蜂拥而至，甚至有黑客把 Novel AI 的官网源码和模型全部扒了下来。 AI 创作数量极快，乍一看都很精致，而这些 “AI Based” 作品正在以一种极快的速度挤压创作者的空间，随即引发的便是关于伦理道德和法律的一系列疑问。
 
-但是本文暂不讨论伦理道德等方面的问题（也许之后会另发一篇文章讨论），仅仅先从技术角度和数学原理上简要介绍效果出众、“秒杀” GANs 、改变了人们对原本 AI 绘画认知的 Diffusion Model 的数学原理。
+但是本文暂不讨论伦理道德等方面的问题（也许之后会写一篇文章讨论），仅仅先从技术角度和数学原理上简要介绍效果出众、“秒杀” GANs 且改变了人们对原本 AI 绘画认知的 Diffusion Models 的数学原理。
 
 ## 扩散模型是什么？
 
-扩散模型 (Diffusion Model) 是一种新型的、先进的生成模型，可以生成各种高分辨率图像。在 OpenAI, Nvidia 和 Google 成功地训练了大规模的模型后，扩散模型已经吸引了很多人的注意。基于扩散模型的架构有 GLIDE, DALLE-2, Imagen 和 完全开源的 stable diffusion 。
+扩散模型 (Diffusion Models) 是一种新型的、先进的生成模型，可以生成各种高分辨率图像。在 OpenAI, Nvidia 和 Google 成功地训练了大规模的模型后，扩散模型已经吸引了很多人的注意。基于扩散模型的架构有 GLIDE, DALLE-2, Imagen 和 完全开源的 Stable Diffusion 。
 
 其背后的原理是什么？
 
-在这篇文章，我们将从基本原理开始挖掘。目前已经有许多不同的基于扩散模型的架构，我们将重点讨论其中最突出的一个，即由 [Sohl-Dickstein et al](https://arxiv.org/abs/1503.03585) 和 [Ho. et al 2020](https://arxiv.org/abs/2006.11239) 提出的去噪扩散概率模型 (DDPM, denoising diffusion probabilistic model) 。其它各种方法将不会具体讨论，如 stable diffusion 和 score-based models 。
+在这篇文章，我们将从基本原理开始挖掘。目前已经有许多不同的基于扩散模型的架构，我们将重点讨论其中最突出的一个，即由 [Sohl-Dickstein et al](https://arxiv.org/abs/1503.03585) 和 [Ho. et al 2020](https://arxiv.org/abs/2006.11239) 提出的去噪扩散概率模型 (DDPM, denoising diffusion probabilistic model) 。其它各种方法将不会具体讨论，如 Stable Diffusion 和 score-based models 。
 
 ::: tip
 
@@ -52,7 +52,7 @@
 
 在实践中，它们是用一个马尔科夫链的 $T$ 步骤来制定的。这里，马尔可夫链意味着每一步只取决于前一步，这是一个很自然的假设。重要的是，与基于流量的模型不同，我们不受限制地使用特定类型的神经网络。
 
-给定一个数据点 $\mathbf{x}_0$ ，从真实数据分布 $q(\mathbf{x})$ （ $\mathbf{x}_0 \sim q(\mathbf{x})$ ） 中采样，我们可以通过添加噪声来定义一个前向扩散过程。具体来说，在马尔科夫链的每一步，我们添加方差为 $\beta_t$ 到 $\mathbf{x}_{t-1}$ 的高斯噪声，产生一个新的潜在变量 $\mathbf{x}_{t}$ ，其分布为 $q(\mathbf{x}_t|\mathbf{x}_{t-1})$ 。这个扩散过程可以表述如下：
+给定一个数据点 $\mathbf{x}_0$ ，从真实数据分布 $q(\mathbf{x})$ ($\mathbf{x}_0 \sim q(\mathbf{x})$) 中采样，我们可以通过添加噪声来定义一个前向扩散过程。具体来说，在马尔科夫链的每一步，我们添加方差为 $\beta_t$ 到 $\mathbf{x}_{t-1}$ 的高斯噪声，产生一个新的潜在变量 $\mathbf{x}_{t}$ ，其分布为 $q(\mathbf{x}_t|\mathbf{x}_{t-1})$ 。这个扩散过程可以表述如下：
 
 $$
 q(\mathbf{x}_t \vert \mathbf{x}_{t-1}) = \mathcal{N}(\mathbf{x}_t; \boldsymbol{\mu}_t=\sqrt{1 - \beta_t} \mathbf{x}_{t-1}, \boldsymbol{\Sigma}_t = \beta_t\mathbf{I})
@@ -129,7 +129,7 @@ $$
 
 ## 反向扩散
 
-当 $T \to \infty$ 时，潜在的 $\mathbf{x}_T$ 几乎是一个 [各向同性 (isotropic)](https://math.stackexchange.com/questions/1991961/gaussian-distribution-is-isotropic#:~:text=TLDR%3A%20An%20isotropic%20gaussian%20is,%CE%A3%20is%20the%20covariance%20matrix.) 的高斯分布。因此，如果我们设法学习反向分布 $q(\mathbf{x}_{t-1} \vert \mathbf{x}_{t})$ ，我们可以对 $\mathbf{x}_t$ 进行采样，从 $\mathcal{N}(0,\mathbf{I})$ 中获取样本，运行反向过程并从 $q(\mathbf{x}_0)$ ，从原始数据分布中产生一个新的数据点。
+当 $T \to \infty$ 时，潜在的 $\mathbf{x}_T$ 几乎是一个 [各向同性 (isotropic)](https://math.stackexchange.com/questions/1991961/gaussian-distribution-is-isotropic#:~:text=TLDR%3A%20An%20isotropic%20gaussian%20is,%CE%A3%20is%20the%20covariance%20matrix.) 的高斯分布。因此，如果我们设法学习反向分布 $q(\mathbf{x}_{t-1} \vert \mathbf{x}_{t})$ ，我们可以对 $\mathbf{x}_t$ 进行采样，从 $\mathcal{N}(\textbf{0},\mathbf{I})$ 中获取样本，运行反向过程并从 $q(\mathbf{x}_0)$ ，从原始数据分布中产生一个新的数据点。
 
 
 问题是我们如何对反向扩散过程进行建模。
@@ -413,7 +413,7 @@ $$
 
 潜在扩散模型是基于一个相当简单的想法：我们不是直接在高维输入上应用扩散过程，而是将输入投射到一个较小的潜伏空间，并在那里应用扩散。
 
-更详细地说， [Rombach et al.](https://arxiv.org/abs/2112.10752) 建议使用编码器网络将输入编码为潜伏表示，即 $\mathbf{z}_t = g(\mathbf{x}_t)$ 。这一决定背后的直觉是通过在低维空间处理输入来降低训练扩散模型的计算需求。之后，一个标准的扩散模型（U-Net）被应用于生成新的数据，这些数据被一个解码器网络放大。
+更详细地说， [Rombach et al.](https://arxiv.org/abs/2112.10752) 建议使用编码器网络将输入编码为潜伏表示，即 $\mathbf{z}_t = g(\mathbf{x}_t)$ 。这一决定背后的直觉是通过在低维空间处理输入来降低训练扩散模型的计算需求。之后，一个标准的扩散模型 (U-Net) 应用于生成新的数据，这些数据被一个解码器网络放大。
 
 如果一个典型的扩散模型 (DM) 的损失被表述为：
 
@@ -515,7 +515,7 @@ $$
 
 ::: center
 
-通过随机微分方程（SDE）进行基于评分的生成性建模  
+通过随机微分方程 (SDE) 进行基于评分的生成性建模  
 图片来自 [Song et al. 2021](https://arxiv.org/abs/2011.13456)
 
 :::
@@ -576,7 +576,7 @@ $$
 - 我们可以将扩散模型置于图像标签或文本嵌入的条件下，以便“指导”扩散过程。
 - 级联扩散和潜伏扩散是两种将模型扩展到高分辨率的方法
 - 级联扩散模型是连续的扩散模型，可以生成分辨率越来越高的图像。
-- 潜伏扩散模型（像稳定扩散）在较小的潜伏空间上应用扩散过程，以提高计算效率，使用变分自编码器进行向上和向下取样。
+- 潜伏扩散模型（像 Stable Diffusion ）在较小的潜伏空间上应用扩散过程，以提高计算效率，使用变分自编码器进行向上和向下取样。
 - 基于评分的模型也将一连串的噪声扰动应用到原始图像上。但它们是用评分匹配和 Langevin 动力学来训练的。尽管如此，它们最终的目标是相似的。
 - 扩散过程可以被表述为一个 SDE 。解决反向 SDE 使我们能够生成新的样本。
 
@@ -615,7 +615,7 @@ $$
 [10] Ho, Jonathan, et al. [Cascaded Diffusion Models for High Fidelity Image Generation](https://arxiv.org/abs/2106.15282). arXiv:2106.15282, arXiv, 17 Dec. 2021  
 [11] Weng, Lilian. [What Are Diffusion Models?](https://lilianweng.github.io/posts/2021-07-11-diffusion-models/) 11 July 2021  
 [12] O'Connor, Ryan. [Introduction to Diffusion Models for Machine Learning](https://www.assemblyai.com/blog/diffusion-models-for-machine-learning-introduction/) AssemblyAI Blog, 12 May 2022  
-[13] Rogge, Niels and Rasul, Kashif. [The Annotated Diffusion Model](https://huggingface.co/blog/annotated-diffusion). Hugging Face Blog, 7 June 2022  
+[13] Rogge, Niels and Rasul, Kashif. [The Annotated Diffusion Models](https://huggingface.co/blog/annotated-diffusion). Hugging Face Blog, 7 June 2022  
 [14] Das, Ayan. [An Introduction to Diffusion Probabilistic Models](https://ayandas.me/blog-tut/2021/12/04/diffusion-prob-models.html). Ayan Das, 4 Dec. 2021  
 [15] Song, Yang, and Stefano Ermon. [Generative Modeling by Estimating Gradients of the Data Distribution](https://arxiv.org/abs/1907.05600). arXiv:1907.05600, arXiv, 10 Oct. 2020  
 [16] Song, Yang, and Stefano Ermon. [Improved Techniques for Training Score-Based Generative Models](https://arxiv.org/abs/2006.09011). arXiv:2006.09011, arXiv, 23 Oct. 2020  
