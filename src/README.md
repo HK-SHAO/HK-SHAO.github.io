@@ -15,6 +15,10 @@ actions:
 
 ::: center
 
-<footer class="footer" style="letter-spacing: 0.05rem;">Copyright © 2019-{{new Date().getFullYear()}} HK-SHAO</footer>
+<nobr>
+  <footer class="footer" style="letter-spacing: 0.05rem;">
+  Copyright © 2019-{{new Date().getFullYear()}} HK-SHAO
+  </footer>
+</nobr>
 
 :::
