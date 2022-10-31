@@ -56,7 +56,7 @@ description: 关于烧风
 - 欢迎你在 [留言板](/board/) 为本站留言，或在 [GitHub Discussions](https://github.com/HK-SHAO/HK-SHAO.github.io/discussions) 发帖
 :::
 
-### 本站使用 [MIT 许可证](/LICENSE.md)
+## 本站使用 [MIT 许可证](/LICENSE.md)
 
 ::: warning
 本站所有内容均使用 MIT 协议，并署名 [`shaofun`](//shao.fun)，请遵守 [此协议](/LICENSE.md) ，转载请标明出处

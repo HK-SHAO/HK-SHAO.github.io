@@ -21,6 +21,7 @@ actions:
   letter-spacing: 0.05rem;
   padding-right: 0 !important;
   padding-left: 0 !important;
+  font-weight: 500;
 }
 </style>
 

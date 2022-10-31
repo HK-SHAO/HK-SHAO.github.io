@@ -22,12 +22,24 @@ html.dark {
     }
 }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+nav {
+    a {
+        font-weight: 600;
+    }
+}
+
 a {
     font-weight: 500;
 }
 
 .navbar .site-name {
-    font-weight: bolder;
+    font-weight: 800 !important;
 }
 
 .custom-container {
@@ -40,4 +52,14 @@ a {
 
 .page-meta {
     display: inherit !important;
+}
+
+.search-box input:focus {
+    height: auto !important;
+    border: 2px solid var(--search-accent-color) !important;
+}
+
+.search-box input {
+    height: auto !important;
+    border: 2px solid var(--search-border-color) !important;
 }
