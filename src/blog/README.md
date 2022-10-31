@@ -1,10 +1,9 @@
 ---
-footer: Copyright © 2021-2022 HK-SHAO
-description: 文章时间线
+description: 一些文章
 comment: false
 ---
 
-# 我的博文
+# 一些博文
 
 :::: tip 随便写写
 ### [一些 Godot 引擎的小技巧](w/some-godot-tips.md)
