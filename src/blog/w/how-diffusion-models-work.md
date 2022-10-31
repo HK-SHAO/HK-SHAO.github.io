@@ -307,7 +307,7 @@ $$
 
 \nabla_{\textbf{x}_{t}} \log p_\theta(\mathbf{x}_t \vert y) &= \nabla_{\textbf{x}_{t}} \log (\frac{p_\theta(y \vert \mathbf{x}_t) p_\theta(\mathbf{x}_t) }{p_\theta(y)}) \\
 
-&= \nabla_{\textbf{x}_{t}} log p_\theta(\mathbf{x}_t) + \nabla_{\textbf{x}_{t}} log (p_\theta( y \vert\mathbf{x}_t ))
+&= \nabla_{\textbf{x}_{t}} \log p_\theta(\mathbf{x}_t) + \nabla_{\textbf{x}_{t}} \log (p_\theta( y \vert\mathbf{x}_t ))
 
 \end{aligned}
 $$
@@ -331,7 +331,7 @@ $$
 由于 $p_\theta \sim \mathcal{N}(\mu_{\theta}, \Sigma_{\theta})$ ，我们可以用上一节的引导公式表明，均值受到了 $y$ 类的 $\log f_\phi(y|\mathbf{x}_t)$ 的梯度扰动，而结果是：
 
 $$
-\hat{\mu}(\mathbf{x}_t |y) =\mu_\theta(\mathbf{x}_t |y) + s \cdot \boldsymbol{\Sigma}_\theta(\mathbf{x}_t |y) \nabla_{\mathbf{x}_t} logf_\phi(y \vert \mathbf{x}_t, t)
+\hat{\mu}(\mathbf{x}_t |y) =\mu_\theta(\mathbf{x}_t |y) + s \cdot \boldsymbol{\Sigma}_\theta(\mathbf{x}_t |y) \nabla_{\mathbf{x}_t} \log f_\phi(y \vert \mathbf{x}_t, t)
 $$
 
 在 [Nichol et al. 著名的 GLIDE 论文](https://arxiv.org/abs/2112.10741) 中，作者扩展了这个想法，并使用 [CLIP 嵌入](https://theaisummer.com/vision-language-models/#clip) 来指导扩散。 [Saharia et al.](https://arxiv.org/abs/2205.11487) 提出的 CLIP 由一个图像编码器 $g$ 和一个文本编码器 $h$ 组成。它分别产生一个图像和文本嵌入 $g(\mathbf{x}_t)$ 和 $h(c)$ ，其中 $c$ 是文本标题。
@@ -358,7 +358,7 @@ $$
 使用与之前相同的表述，我们可以将无分类器的引导扩散模型定义为：
 
 $$
-\nabla \log p(\mathbf{x}_t \vert y)  =s \cdot \nabla log(p(\mathbf{x}_t \vert y)) + (1-s) \cdot \nabla log p(\mathbf{x}_t) 
+\nabla \log p(\mathbf{x}_t \vert y)  =s \cdot \nabla \log(p(\mathbf{x}_t \vert y)) + (1-s) \cdot \nabla \log p(\mathbf{x}_t) 
 $$
 
 正如 [Ho & Salimans](https://openreview.net/forum?id=qw8AKxfYbI) 所提议的那样，不需要第二个分类器模型就可以实现指导作用。事实上，他们使用的是完全相同的神经网络，而不是训练一个单独的分类器，作者将条件性扩散模型 $\boldsymbol{\epsilon}_\theta (\mathbf{x}_t|y)$ 与无条件性模型 $\boldsymbol{\epsilon}_\theta (\mathbf{x}_t |0)$ 一起训练。在训练过程中，他们随机地将类 $y$ 设置为 $0$ ，这样模型就同时接触到了有条件和无条件的设置：
