@@ -25,6 +25,22 @@ onMounted(() => {
         attributeFilter: ["class"],
         attributes: true,
     });
+
+    // function createScript(src: string, callback?: () => void) {
+    //     if (document) {
+    //         const oScript = document.createElement('script');
+    //         oScript.type = 'text/javascript';
+    //         oScript.src = src;
+    //         document.body.appendChild(oScript);
+    //         callback && oScript.addEventListener('load', callback);
+    //     }
+    // }
+
+    // createScript('//unpkg.com/heti/umd/heti-addon.min.js', () => {
+    //     // @ts-ignore
+    //     new Heti('.heti').autoSpacing();
+    // });
+
 });
 
 onBeforeUnmount(() => {

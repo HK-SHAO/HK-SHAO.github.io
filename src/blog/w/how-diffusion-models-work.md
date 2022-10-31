@@ -601,7 +601,7 @@ $$
 
 <div style="overflow-x: auto; font-size: 0.9rem">
 
-<nobr>
+<div style="white-space: nowrap">
   
 [1] Sohl-Dickstein, Jascha, et al. [Deep Unsupervised Learning Using Nonequilibrium Thermodynamics](https://arxiv.org/abs/1503.03585). arXiv:1503.03585, arXiv, 18 Nov. 2015  
 [2] Ho, Jonathan, et al. [Denoising Diffusion Probabilistic Models](https://arxiv.org/abs/2006.11239). arXiv:2006.11239, arXiv, 16 Dec. 2020  
@@ -623,7 +623,7 @@ $$
 [18] Song, Yang. [Generative Modeling by Estimating Gradients of the Data Distribution](https://yang-song.github.io/blog/2021/score/). 5 May 2021  
 [19] Luo, Calvin. [Understanding Diffusion Models: A Unified Perspective](https://doi.org/10.48550/arXiv.2208.11970). 25 Aug. 2022
 
-</nobr>
+</div>
 
 </div>
 
