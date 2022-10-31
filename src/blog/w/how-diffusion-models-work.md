@@ -183,7 +183,7 @@ $$
 
 1. $\mathbb{E}_{q(x_1 \vert x_0)} [log p_{\theta} (\mathbf{x}_0 \vert \mathbf{x}_1)]$ 可以当作是一个重建项 (reconstruction term) ，类似于变量自动编码器 ELBO 中的那个。在 [Ho et al 2020](https://arxiv.org/abs/2006.11239) 的研究中，这一项是用一个单独的解码器学习的。
 2. $D_{KL}(q(\mathbf{x}_T \vert \mathbf{x}_0) \vert\vert p(\mathbf{x}_T))$ 显示了 $\mathbf{x}_T$ 与标准高斯是多么的相似。注意到，整个项都没有可训练的参数，因此，训练过程这个项会被忽略。
-3. 最后的第三项 $\sum_{t=2}^T L_{t-1}$ 也表示为 $L_t$ ，描述了期望的去噪步骤 $p_{\theta}(\mathbf{x}_{t-1} \vert \mathbf{x}_t))$ 与近似项 $q(\mathbf{x}_{t-1} \vert \mathbf{x}_t, \mathbf{x}_0)$ 之间的差异。
+3. 最后的第三项 $\sum_{t=2}^T L_{t-1}$ 也表示为 $L_t$ ，描述了期望的去噪步骤 $p_{\theta}(\mathbf{x}_{t-1} \vert \mathbf{x}_t)$ 与近似项 $q(\mathbf{x}_{t-1} \vert \mathbf{x}_t, \mathbf{x}_0)$ 之间的差异。
 
 很明显，通过 ELBO ，最大化的可能性可以归结为学习去噪步骤 $L_t$ 。
 
