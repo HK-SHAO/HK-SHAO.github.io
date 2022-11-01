@@ -17,6 +17,15 @@ actions:
   padding-top: 3.5rem;
 }
 
+img {
+  transition: all 0.3s ease;
+}
+
+img:hover {
+  transform: scale(1.2, 1.2);
+  transition: all 0.3s ease;
+}
+
 .footer {
   letter-spacing: 0.05rem;
   padding-right: 0 !important;
