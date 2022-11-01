@@ -9,7 +9,7 @@ next: how-to-use-markdown.md
 
 ::: warning
 
-如果你需要 Markdown 的基本语法教程，请直接前往：[使用 Markdown 排版文章](how-to-use-markdown.md)
+如果你需要 Markdown 的基本语法教程，请直接前往：[Markdown 的基本用法](#markdown-的基本用法)
 
 :::
 
@@ -79,8 +79,8 @@ Markdown 文档是纯文本编码（通常是 [Unicode](https://home.unicode.org
 ## Markdown 的优点
 
 - 语法带来的好处：简单快捷、非常易学。
-- 格式带来的好处：易于 [编辑](#markdown-的格式) 、 易于 [版本控制和管理](#markdown-的版本控制) 。
-- 生态带来的好处：有非常多 [工具](#支持-markdown-的工具) 可以使用、能够 [转换为多种其它文档格式](#markdown-转换器) 、有更多 [用武之地](#markdown-的用处) 。
+- 格式带来的好处：易于[编辑](#markdown-的格式)、 易于[版本控制和管理](#markdown-的版本控制)。
+- 生态带来的好处：有很多[工具](#支持-markdown-的工具)使用、能够[转换为多种其它文档格式](#markdown-转换器)、有许多[用武之地](#markdown-的用处)。
 - 标准、规范同时不失扩展性和排版自由度。
 
 ## 支持 Markdown 的工具
