@@ -1,6 +1,6 @@
 ---
-footer: Copyright © 2021-2022 HK-SHAO
 description: 关于烧风
+next: ../resume/
 ---
 
 # 关于烧风

@@ -1,5 +1,4 @@
 ---
-footer: Copyright © 2021-2022 HK-SHAO
 description: 进阶使用 Markdown 排版
 prev: how-to-use-markdown.md
 ---

@@ -64,12 +64,8 @@ uniform vec3 camera_position;
 uniform mat3 camera_rotation;
 
 vec2 fixedUV(vec2 uv, float r) {
-	vec2 p = 2.0*vec2(1. - uv.x, uv.y) - 1.0;
-	if (r > 1.0){
-		p = vec2(p.x, p.y*r);
-	} else {
-		p = vec2(p.x/r, p.y);
-	}
+	vec2 p = 2.0 * vec2(1. - uv.x, uv.y) - 1.0;
+	p = r>1.0?vec2(p.x, p.y*r):vec2(p.x/r, p.y);
 	return p;
 }
 
@@ -98,7 +94,7 @@ vec3 rd = ca * normalize(-vec3(UV, 1.0));
 在 shadertoy 中，fragment shader 通常开头会先计算 UV
 
 ```glsl:no-line-numbers
-vec2 uv = (2.0*fragCoord - resolution.xy) / min(resolution.x, resolution.y);
+vec2 uv = (2.0 * fragCoord - iResolution.xy) / min(iResolution.x, iResolution.y);
 ```
 
 ### 相关链接
