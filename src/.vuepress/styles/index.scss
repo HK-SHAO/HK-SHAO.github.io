@@ -63,3 +63,7 @@ a {
     height: auto !important;
     border: 2px solid var(--search-border-color) !important;
 }
+
+.theme-default-content pre code, .theme-default-content pre[class*=language-] code{
+    color: inherit;
+}

@@ -30,7 +30,9 @@ let observer;
 
 onMounted(() => {
 
-    pathname.value = decodeURIComponent(window.location.pathname).slice(1);
+    window.setTimeout(() => {
+        pathname.value = decodeURIComponent(window.location.pathname).slice(1);
+    });
 
     // if (window.location.pathname !== "/404.html") {
     //     window.location.pathname = "/404.html";

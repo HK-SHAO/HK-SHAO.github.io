@@ -1,6 +1,7 @@
 ---
-description: Markdown 基础教程
+description: 如何基础使用 Markdown
 next: advanced-use-of-markdown.md
+prev: basic-tutorial-for-markdown.md
 ---
 
 # 使用 Markdown 排版文章
@@ -528,15 +529,15 @@ class Program {
 ### 代码区块
 
 ::: info 语法
-整体一个 <kbd>Tap</kbd> 缩进，或使用 4 个空格
+整体两个 <kbd>Tap</kbd> 缩进，或使用 4 个空格
 :::
 
 
 
 
-<pre><code style="color: inherit">console.log('shaofun is a newbie')
-console.log('shaofun is a newbie')
-</code></pre>
+	console.log('shaofun is a newbie')
+	console.log('shaofun is a newbie')
+
 
 
 ::: details 查看 Markdown 代码

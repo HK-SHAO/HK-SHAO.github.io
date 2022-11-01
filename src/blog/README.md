@@ -54,11 +54,19 @@ Echats 是一个开源的 Web 可视化框架，借助它你可以可视化流�
 
 :::::
 
-::: tip 技术文档
+:::: tip 技术文档
+### [烧风的 Markdown 基础教程](p/basic-tutorial-for-markdown.md)
+
+Markdown 是简洁高效的标记语言，被互联网广泛使用，用少许符号就可以轻松排版文章
+
+::: info 子内容
 ### [使用 Markdown 排版文章](p/how-to-use-markdown.md)
 
-Markdown 是简洁高效的标记语言，被互联网广泛使用，用少许符号就可以轻松排版文章。本文简单介绍它的基础使用方法，适合新手了解和入门 Markdown
+本文简单介绍它的基础使用方法，适合新手了解和入门使用 Markdown
 :::
+
+
+::::
 
 ---
 ::: warning

@@ -1,0 +1,137 @@
+---
+description: 烧风的 Markdown 基础教程
+next: how-to-use-markdown.md
+---
+
+# 烧风的 Markdown 基础教程
+
+> <p style="text-align: right">——是的， Markdown 是互联网行业从事者的基本技能之一。</p>
+
+::: warning
+
+如果你需要使用教程，请直接前往：[使用 Markdown 排版文章](how-to-use-markdown.md)
+
+:::
+
+::: note
+
+记录文字是我们的基本能力之一。小时候我们常使用笔和纸来写字，这种方式非常自由，因为本质上来说我们记录的一切内容是“画”出来的，我们可以在任意位置书写和绘图。后来我们使用计算机软件来记录和处理文字，但是操纵软件仍然需要技巧（有时需要耐心和创意）。
+
+:::
+
+::: info
+
+如何使用软件，既能够高效的产出一份排版规范、易读性好的文档，又能够在一定程度上保留自由度？标准的 Markdown 做到了第一点，而经过扩展的 Markdown 与 HTML 结合则能做到第二点。
+
+:::
+
+
+## Markdown 的用处
+
+在许多需要文字排版的场合，Markdown 都能够发挥作用。例如：
+
+
+- 记录自己的内容、发布可打印的文档、写博客、写论文、写邮件、写书等。
+- 创建幻灯片、思维导图、框图、流程图、以及其它数据可视化后的图。
+- MkDocs, VuePress, Jekyll, Hexo 等生成网站的工具。
+- GitHub, Gitee, Gitlab 等平台的文字书写区域。
+- Discord, Mattermost, Slack 等聊天工具。
+- WordPress, Typecho, Ghost 等博客系统。
+- 知乎, CSDN, 简书, 掘金等写作平台。
+- 简单网站排版、微信公众号排版等。
+- 以及其它非常多用武之地。
+
+
+## 什么是 Markdown
+
+Markdown 是一种轻量简单的标记语言，它允许你在纯文本中通过特定的符号来排版文字，之后通过软件转换为常见的文档格式。例如你所看到的本页面就是由纯 Markdown 编写的。
+
+### 常见的文档格式
+
+::: tip
+文档格式特别多，这里只列出常见的几种
+:::
+
+- 文件扩展名（扩展名并不影响文件本身数据，只是用来标记它的文件格式）
+  - `.txt` `.md` `.markdown`
+  - `.pdf`
+  - `.htm` `.html` `.xhtml`
+  - `.tex`
+  - `.doc` `.docx` `.odt`
+
+- 文件编码格式
+    - 纯文本编码（可以用文本编辑器直接编辑）
+    - 二进制编码（不能用文本编辑器直接编辑）
+
+::: info
+一个有趣的事实是 `.docx` `.odt` 其实是一个 zip 压缩包，解压缩后得到的 `.xml` 文件可以用文本编辑器直接编辑。当然你能否读懂它的语义并且正确修改就是另外一回事了
+:::
+
+### Markdown 的格式
+Markdown 文档是纯文本编码 (UTF-8) ，文件扩展名为 `.md` 或 `.markdown` 。
+
+由于 Markdown 的格式是纯文本，因此你可以使用任何文本编辑器来编辑它。但是，如果你想要更好的编辑体验（更多提示、快捷键、所见即所得等），你可以使用专门的 Markdown 编辑器，或者使用支持 Markdown 插件的编辑器。
+
+## Markdown 的优点
+
+- 语法带来的好处：简单快捷、非常易学。
+- 格式带来的好处：易于编辑、易于版本控制和管理。
+- 生态带来的好处：有 [非常多工具](#支持-markdown-的工具) 可以使用、能够转换为多种其它文档格式、 [用武之地](#markdown-的用处) 非常多。
+
+## 支持 Markdown 的工具
+
+### Markdown 编辑器
+
+::: tip
+支持 Markdown 的编辑器特别多，这里只列出常见的几种。
+
+- 如果你无从下手，那么请从 [VS Code 编辑器](https://code.visualstudio.com/) 或在线编辑器开始
+:::
+
+- 现代编辑器
+    - [VS Code](https://code.visualstudio.com/) / Atom
+- 传统编辑器
+    - Vim / Emacs / Sublime Text / Notepad++
+- IDE 自带编辑器
+    - IntelliJ IDEA / Android Studio / WebStorm
+- 专用编辑器
+    - Ulysses / Mou / Typora / Markpad
+- 在线编辑器
+    - [Milkdown](https://milkdown.dev/online-demo)
+    - 本页面底下的评论区是支持 Markdown 的在线编辑器
+    - 网页搜索在线 Markdown 编辑器试试
+
+### Markdown 转换器
+
+[Pandoc](https://pandoc.org/) 是一个支持多种文档格式的转换器，它可以将 Markdown 转换为其它格式，也可以将其它格式转换为 Markdown。
+
+常用 Pandoc 将 Markdown 转换为 HTML, PDF, Word, $\TeX$ 和图片等格式。
+
+::: details Pandoc 支持的文档转换格式
+
+![](https://pandoc.org/diagram.svg)
+
+:::
+
+## Markdown 的版本控制
+
+我们修改一份文档时，需要保证之前历史的文档也能够保留下来，有时需要了解每一次修改到底修改了哪些内容，这就需要版本控制。
+
+你应该不想这样吧：
+- 文档.docx
+- 文档(1).docx
+- 最新文档.docx
+- 最新文档v2.docx
+- 最新文档v3.docx
+
+由于 Markdown 是纯文本，因此可以使用版本控制工具来管理文档的版本。通过这种方式，你能够保留所有历史版本的文档，也能够查看每一次修改的具体内容。
+
+常见的版本控制工具有 [Git](https://git-scm.com/) 和 SVN。推荐使用 Git 仓库托管平台 [GitHub](https://github.com/)
+
+## Markdown 的基本用法
+
+::: info
+
+请前往：[使用 Markdown 排版文章](how-to-use-markdown.md)
+
+:::
