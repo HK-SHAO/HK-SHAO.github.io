@@ -17,12 +17,12 @@ actions:
   padding-top: 3.5rem;
 }
 
-img {
+.hero img {
   transition: all 0.3s ease;
 }
 
-img:hover {
-  transform: scale(1.2, 1.2);
+.hero img:hover {
+  transform: scale(1.1, 1.1);
   transition: all 0.3s ease;
 }
 
