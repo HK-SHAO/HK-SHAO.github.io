@@ -115,7 +115,7 @@ Markdown 文档是纯文本编码（通常是 [Unicode](https://home.unicode.org
 
 [Pandoc](https://pandoc.org/) 是一个支持多种文档格式的转换器，它可以将 Markdown 转换为其它格式，也可以将其它格式转换为 Markdown。
 
-常用 Pandoc 将 Markdown 转换为 $\TeX$, HTML, PDF, Word 和图片等格式。
+常用 Pandoc 将 Markdown 转换为 $\TeX$, HTML, PDF, Word 等格式。
 
 ::: details Pandoc 支持的文档转换格式
 
