@@ -8,7 +8,7 @@ prev: how-to-use-markdown.md
 > <p style="text-align: right">——没想到，Markdown 远比想象的要精彩。</p>
 
 ::: warning
-如果你还没看过 Markdown 基础教程，请先阅读 [使用 Markdown 排版文章](how-to-use-markdown.md)
+如果你还没看过 Markdown 基础教程，请先阅读 [烧风的 Markdown 基础教程](basic-tutorial-for-markdown.md)
 :::
 
 ::: info
@@ -1126,5 +1126,5 @@ Markdown 的进阶使用方法，大多数并不是标准语法，不一定受�
 
 ---
 ::: warning
-本站所有内容均使用 MIT 协议，并署名 [`shaofun`](//shao.fun)，请遵守 [此协议](/LICENSE.md) ，转载请标明出处
+本站所有内容均使用 MIT 协议，并署名 [`shaofun`](//shao.fun) ，请遵守 [此协议](/LICENSE.md) ，转载请标明出处
 :::

@@ -372,5 +372,5 @@ Echats 是一个开源的的 Web 可视化框架，借助它你可以可视化�
 
 ---
 ::: warning
-本站所有内容均使用 MIT 协议，并署名 [`shaofun`](//shao.fun)，请遵守 [此协议](/LICENSE.md) ，转载请标明出处
+本站所有内容均使用 MIT 协议，并署名 [`shaofun`](//shao.fun) ，请遵守 [此协议](/LICENSE.md) ，转载请标明出处
 :::
