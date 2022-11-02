@@ -10,6 +10,7 @@ export const heads: HeadConfig[] = [
     ['meta', { name: "theme-color", content: "#ffffff" }],
     ['meta', { name: "keywords", content: "烧风, shaofun, hk-shao, hk_shao, HK-SHAO" }],
     ['meta', { name: "description", content: "烧风(HK-SHAO, shaofun)的个人网站/主页，分享一些技术文档/文章和我的作品" }],
+    ['meta', { name: "baidu-site-verification", content: "code-9JVoVoLVMg" }],
     // ['link', { rel: "stylesheet", href: "//unpkg.com/heti/umd/heti.min.css" }],
     // https://github.com/sivan/heti
     // 弃用之
