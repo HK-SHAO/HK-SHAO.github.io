@@ -119,7 +119,7 @@ Markdown 文档是纯文本编码（通常是 [Unicode](https://home.unicode.org
 
 ::: details Pandoc 支持的文档转换格式
 
-![](https://pandoc.org/diagram.svg)
+![Pandoc 支持的文档转换格式](https://pandoc.org/diagram.svg)
 
 :::
 
