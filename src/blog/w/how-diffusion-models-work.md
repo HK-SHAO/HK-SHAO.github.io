@@ -6,7 +6,7 @@
 
 :::
 
-![](./images/diffusion-models.png)
+![diffusion-models.png](./images/diffusion-models.png)
 
 ::: details 目录
 
@@ -58,7 +58,7 @@ $$
 q(\mathbf{x}_t \vert \mathbf{x}_{t-1}) = \mathcal{N}(\mathbf{x}_t; \boldsymbol{\mu}_t=\sqrt{1 - \beta_t} \mathbf{x}_{t-1}, \boldsymbol{\Sigma}_t = \beta_t\mathbf{I})
 $$
 
-![](./images/forward-diffusion.png)
+![forward-diffusion.png](./images/forward-diffusion.png)
 
 ::: center
 
@@ -118,7 +118,7 @@ $$
 
 方差参数 $\beta_t$ 可以固定为一个常数，也可以选择作为 $T$ 时间段的一个时间表。事实上，人们可以定义一个方差表，它可以是线性的、二次的、余弦的等等。最初的 DDPM 作者利用了一个从 $\beta_1= 10^{-4}$ 到 $\beta_T = 0.02$ 增加的线性时间表。 [Nichol et al. 2021](https://arxiv.org/abs/2102.09672) 的研究表明，采用余弦时间表效果更好。
 
-![](./images/variance-schedule.png)
+![variance-schedule.png](./images/variance-schedule.png)
 
 ::: center
 
@@ -144,7 +144,7 @@ $$
 p_\theta(\mathbf{x}_{t-1} \vert \mathbf{x}_t) = \mathcal{N}(\mathbf{x}_{t-1}; \boldsymbol{\mu}_\theta(\mathbf{x}_t, t), \boldsymbol{\Sigma}_\theta(\mathbf{x}_t, t))
 $$
 
-![](./images/reverse-diffusion.png)
+![reverse-diffusion.png](./images/reverse-diffusion.png)
 
 ::: center
 
@@ -259,7 +259,7 @@ $$
 
 此外，[Ho et. al 2020](https://arxiv.org/abs/2006.11239) 决定保持方差固定，让网络只学习均值。后来 [Nichol et al. 2021](https://arxiv.org/abs/2102.09672) 对此进行了改进，他们让网络学习协方差矩阵 $(\boldsymbol{\Sigma})$ （通过修改 $L_t^\text{simple}$ ），取得了更好的结果。
 
-![](./images/training-sampling-ddpm.png)
+![training-sampling-ddpm.png](./images/training-sampling-ddpm.png)
 
 ::: center
 
@@ -279,7 +279,7 @@ DDPMs 的训练和采样算法
 扩散时间段 $t$ 是通过在每个残差块中加入一个正弦的 [位置嵌入](https://theaisummer.com/positional-embeddings/) 来指定的。欲了解更多细节，请随时访问 [官方 GitHub 仓库](https://github.com/hojonathanho/diffusion)  。关于扩散模型的详细实现，请查看 [Hugging Face 的这篇精彩文章](https://huggingface.co/blog/annotated-diffusion) 。
 
 
-![](./images/unet.png)
+![unet.png](./images/unet.png)
 
 ::: center
 
@@ -344,7 +344,7 @@ $$
 
 结果是，它们设法将生成过程“引向”用户定义的文本标题。
 
-![](./images/classifier-guidance.png)
+![classifier-guidance.png](./images/classifier-guidance.png)
 
 ::: center
 
@@ -406,7 +406,7 @@ $$
 
 [Ho et al. 2021](https://arxiv.org/abs/2106.15282) 引入了级联扩散模型，以努力产生高保真的图像。级联扩散模型包括一个由许多连续扩散模型组成的管道，生成分辨率越来越高的图像。每个模型通过连续地对图像进行上采样并增加更高分辨率的细节，生成一个比前一个质量更好的样本。为了生成一个图像，我们从每个扩散模型中依次取样。
 
-![](./images/cascade-diffusion.png)
+![cascade-diffusion.png](./images/cascade-diffusion.png)
 
 ::: center
 
@@ -437,7 +437,7 @@ $$
 L _{LDM} = \mathbb{E}_{ \mathcal{E}(\mathbf{x}), t,  \boldsymbol{\epsilon}} \left[\|  \boldsymbol{\epsilon}-  \boldsymbol{\epsilon}_{\theta}( \mathbf{z}_t, t ) ||^2 \right]
 $$
 
-![](./images/stable-diffusion.png)
+![stable-diffusion.png](./images/stable-diffusion.png)
 
 ::: center
 
@@ -504,7 +504,7 @@ $$
 
 因此，添加噪声是使 DDPM 和基于评分的模型都能工作的关键。
 
-![](./images/score-based.png)
+![score-based.png](./images/score-based.png)
 
 ::: center
 
@@ -531,7 +531,7 @@ $$
 
 我们不使用有限数量的噪声分布来扰动数据，而是使用连续的分布，这些分布根据扩散过程随时间演变。这个过程由一个规定的随机微分方程 (SDE) 来模拟，它不依赖于数据，也没有可训练的参数。通过逆转这个过程，我们可以生成新的样本。
 
-![](./images/score-sde.png)
+![score-sde.png](./images/score-sde.png)
 
 ::: center
 
@@ -577,7 +577,7 @@ $$
 
 :::
 
-![](./images/score-based-sde-overview.png)
+![score-based-sde-overview.png](./images/score-based-sde-overview.png)
 
 ::: center
 
