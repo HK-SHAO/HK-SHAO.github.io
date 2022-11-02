@@ -11,6 +11,7 @@ import { sitemapPlugin } from "vuepress-plugin-sitemap2";
 import { seoPlugin } from "vuepress-plugin-seo2";
 import { googleAnalyticsPlugin } from '@vuepress/plugin-google-analytics'
 import copyCode from "vuepress-plugin-copy-code2";
+import  { SITE_URL } from "../constant";
 
 export const plugins: PluginConfig = [
     googleAnalyticsPlugin({
@@ -28,14 +29,14 @@ export const plugins: PluginConfig = [
         iconAssets: "iconfont",
     }),
     sitemapPlugin({
-        hostname: 'https://shao.fun/',
+        hostname: SITE_URL,
         changefreq: 'always',
     }),
     seoPlugin({
-        hostname: 'https://shao.fun/',
+        hostname: SITE_URL,
         author: {
             name: 'HK-SHAO',
-            url: 'https://shao.fun/',
+            url: SITE_URL,
         },
         twitterID: 'HKSHAO',
     }),

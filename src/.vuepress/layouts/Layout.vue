@@ -12,7 +12,7 @@ import { onBeforeUnmount, onMounted, ref } from "vue";
 import ParentLayout from "@vuepress/theme-default/layouts/Layout.vue";
 
 const isDarkMode = ref(false);
-let observer;
+let observer: MutationObserver;
 
 onMounted(() => {
     const html = document.querySelector("html") as HTMLElement;

@@ -73,3 +73,13 @@ a {
     height: 1.5rem !important;
     left: -4px !important;
 }
+
+.url-table-container table {
+    margin: auto !important;
+    width: max-content !important;
+}
+
+.url-table-container th,
+.url-table-container td {
+    padding: 0.3em 1em !important;
+}
