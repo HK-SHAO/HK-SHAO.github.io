@@ -150,3 +150,8 @@ Markdown 文档是纯文本编码（通常是 [Unicode](https://home.unicode.org
 请前往：[使用 Markdown 排版文章](how-to-use-markdown.md)
 
 :::
+
+---
+::: warning
+本站所有内容均使用 MIT 协议，并署名 [`shaofun`](//shao.fun) ，请遵守 [此协议](/LICENSE.md) ，转载请标明出处
+:::
