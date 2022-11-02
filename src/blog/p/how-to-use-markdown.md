@@ -701,7 +701,4 @@ class Program {
 快试试 Markdown 吧！在本文末尾的评论区 ，你就可以立即开始用 Markdown 实践了，发条评论试试！如果你想进阶学习 Markdown 的扩展用法，请看这篇文章：[烧风的 Markdown 进阶教程](advanced-use-of-markdown.md)
 :::
 
----
-::: warning
-本站所有内容均使用 MIT 协议，并署名 [`shaofun`](//shao.fun) ，请遵守 [此协议](/LICENSE.md) ，转载请标明出处
-:::
+@include(@src/shared/license.md)

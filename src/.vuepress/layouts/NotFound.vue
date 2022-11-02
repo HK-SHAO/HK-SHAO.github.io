@@ -32,6 +32,7 @@ onMounted(() => {
 
     window.setTimeout(() => {
         pathname.value = decodeURIComponent(window.location.pathname).slice(1);
+        document.title = "页面不存在 | HK-SHAO";
     });
 
     // if (window.location.pathname !== "/404.html") {
@@ -48,8 +49,6 @@ onMounted(() => {
         attributeFilter: ["class"],
         attributes: true,
     });
-
-    document.title = "页面不存在 | HK-SHAO";
 
     const foo = function () {
         const sidebar = document.querySelector(".theme-container") as HTMLElement;

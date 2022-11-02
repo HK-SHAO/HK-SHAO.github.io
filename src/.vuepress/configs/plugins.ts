@@ -69,7 +69,13 @@ export const plugins: PluginConfig = [
         imageSize: true,
         imageMark: true,
         tasklist: true,
-        include: true,
+        include: {
+            getPath: (file) => {
+                if (file.startsWith("@src"))
+                    return file.replace("@src", path.resolve(__dirname, "../.."));
+                return file;
+            },
+        },
         mathjax: true,
         echarts: true,
         flowchart: true,
