@@ -67,3 +67,9 @@ a {
 .theme-default-content pre code, .theme-default-content pre[class*=language-] code{
     color: inherit;
 }
+
+.custom-container-title::before{
+    width: 100% !important;
+    height: 100% !important;
+    left: -4px !important;
+}

@@ -58,6 +58,4 @@ next: ../resume/
 
 ## 本站使用 [MIT 许可证](/LICENSE.md)
 
-::: warning
-本站所有内容均使用 MIT 协议，并署名 [`shaofun`](//shao.fun) ，请遵守 [此协议](/LICENSE.md) ，转载请标明出处
-:::
+@include(@src/shared/license.md{2-})
