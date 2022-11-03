@@ -67,7 +67,7 @@ onMounted(() => {
             for (let i = 0; i < links.length; i++) {
                 const link = links[i];
 
-                let link_name = link.url.replace(SITE_URL, '');
+                let link_name = link.url.replace(SITE_URL + '/', '');
                 if (link_name.length !== 0) {
                     html += `
                         <tr>
@@ -198,7 +198,7 @@ function LevenshteinDistance(a: string, b: string): number {
 
 async function FetchSiteMap() {
     try {
-        const text: string = await (await fetch("//shao.fun/sitemap.xml")).text();
+        const text: string = await (await fetch(`${SITE_URL}/sitemap.xml`)).text();
         const document: Document = (new window.DOMParser()).parseFromString(text, "text/xml");
         return document;
     } catch (e) {
