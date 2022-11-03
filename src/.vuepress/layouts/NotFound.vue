@@ -36,23 +36,25 @@ import { SITE_URL } from "../constant";
 
 const pathname = ref('');
 const isDarkMode = ref(false);
-let observer: MutationObserver;
+
+let observer: MutationObserver | null = null;
+let hack_title_interval: NodeJS.Timeout | null = null;
 
 onMounted(() => {
 
+    pathname.value = decodeURIComponent(window.location.pathname).slice(1);
+
+    //  hack document title
+
+    ((title: string) => {
+        hack_title_interval = setInterval(() => {
+            if (document.title !== title) {
+                document.title = title;
+            }
+        });
+    })("页面不存在 | HK-SHAO");
+
     window.setTimeout(async () => {
-
-        //  hack document title
-
-        ((title: string) => {
-            setInterval(() => {
-                if (document.title !== title) {
-                    document.title = title;
-                }
-            });
-        })("页面不存在 | HK-SHAO");
-
-        pathname.value = decodeURIComponent(window.location.pathname).slice(1);
 
         const links = await GetSortedPageLinks();
 
@@ -61,8 +63,12 @@ onMounted(() => {
         const table_container = document.querySelector('.url-table-container');
 
         if (table_container) {
-            let html = `<table>`;
-            html += `<thead><tr><th>距离</th><th>链接</th><th>上次修改时间</th></thead>`;
+            let html = `<table style="padding-top: 0.5rem">`;
+            html += `<thead>
+                            <th>距离</th>
+                            <th>链接</th>
+                            <th>上次修改时间</th>
+                    </thead>`;
             html += `<tbody>`;
             for (let i = 0; i < links.length; i++) {
                 const link = links[i];
@@ -135,7 +141,8 @@ onMounted(() => {
 });
 
 onBeforeUnmount(() => {
-    observer.disconnect();
+    observer && observer.disconnect();
+    hack_title_interval && clearInterval(hack_title_interval);
 });
 
 async function GetLinkTitle(url: string) {
