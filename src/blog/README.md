@@ -6,6 +6,13 @@ comment: false
 # 一些博文
 
 :::: tip 随便写写
+### [从零开始的光线追踪渲染器](w/godot-ray-tracing.md)
+
+用片段着色器，从零开始实现一个光线追踪渲染器（此文还未完成哦）
+
+::::
+
+:::: tip 随便写写
 ### [一些 Godot 引擎的小技巧](w/some-godot-tips.md)
 
 一些我使用 Godot 引擎的个人记录，可能包含了一些有用的方法和代码
@@ -14,7 +21,7 @@ comment: false
 
 #### [四维空间里的超立方体](w/godot-cube-4d.md)
 
-用 fragment shader 绘制一个超立方体，并且将 shader 中的摄像机与 Godot 中的摄像机关联
+用片段着色器绘制一个超立方体，并且将其摄像机与 Godot 中的摄像机关联
 
 :::
 

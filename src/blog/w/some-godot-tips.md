@@ -23,7 +23,7 @@
 - iq 佬：https://www.iquilezles.org/www/articles/normalsSDF/normalsSDF.htm
 - 推荐 pdcxs 佬的 shader 教程：https://space.bilibili.com/10707223
 - shadertoy 教程 08 - 3D 摄像机设置：https://www.bilibili.com/video/BV1PS4y1j7Xg/
-- Godot docs：：[将 GLSL 转换为 Godot 着色器](https://docs.godotengine.org/zh_CN/stable/tutorials/shaders/converting_glsl_to_godot_shaders.html)
+- Godot docs：[将 GLSL 转换为 Godot 着色器](https://docs.godotengine.org/zh_CN/stable/tutorials/shaders/converting_glsl_to_godot_shaders.html)
 
 ### 关键代码
 
