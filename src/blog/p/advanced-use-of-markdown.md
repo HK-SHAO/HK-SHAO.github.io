@@ -32,7 +32,7 @@ prev: how-to-use-markdown.md
 :::
 
 ::: details 查看 Markdown 代码
-```md
+```markdown
 [[TOC]]
 ```
 :::
@@ -258,7 +258,7 @@ export default defineUserConfig({
 ```
 
 ::: details 查看 Markdown 代码
-````md
+````markdown
 ```ts{1,6-8}
 import { defaultTheme, defineUserConfig } from 'vuepress'
 
@@ -279,7 +279,7 @@ export default defineUserConfig({
 print('你好烧风')
 ```
 
-````md
+````markdown
 ```python:no-line-numbers
 print('你好烧风')
 ```
@@ -336,7 +336,7 @@ npm i -D vuepress-plugin-md-enhance@next
 :::
 
 :::::details 查看 Markdown 代码
-`````md
+`````markdown
 安装 VuePress Theme Hope
 
 ::: code-tabs#shell
@@ -412,7 +412,7 @@ npm i -D vuepress-plugin-md-enhance@next
 要右对齐的段落
 :::
 
-```md
+```markdown
 ::: left
 要左对齐的段落
 :::
@@ -435,7 +435,7 @@ npm i -D vuepress-plugin-md-enhance@next
 | `![image](image.png =50x)` | `![image](image.png =50x100)` | `![image](image.png =x100)` |
 
 
-```md
+```markdown
 |  ![image](image.png =50x)  |  ![image](image.png =50x100)  |  ![image](image.png =x100)  |
 | :------------------------: | :---------------------------: | :-------------------------: |
 | `![image](image.png =50x)` | `![image](image.png =50x100)` | `![image](image.png =x100)` |
@@ -446,7 +446,7 @@ npm i -D vuepress-plugin-md-enhance@next
 
 ::: info
 一种特殊情况，使用 `#` 用为图像设置以下 ID ，可以使得这张图片尽在特定模式下显示
-```md
+```markdown
 #gh-dark-mode-only
 #gh-light-mode-only
 #dark
@@ -463,7 +463,7 @@ npm i -D vuepress-plugin-md-enhance@next
 ![shaofun](/images/logo.png#light =200x100)
 :::
 
-```md
+```markdown
 ::: center
 ![shaofun](/images/logo.png#dark =400x100)
 :::
@@ -477,7 +477,7 @@ npm i -D vuepress-plugin-md-enhance@next
 
 哈喽！很高兴认识你，我的 ==昵称== 叫烧风!
 
-```md
+```markdown
 哈喽！很高兴认识你，我的 ==昵称== 叫烧风!
 ```
 
@@ -584,7 +584,7 @@ const a = 1;
 
 :::: details 查看 Markdown 代码
 
-`````md
+`````markdown
 ::: info
 信息容器
 :::
@@ -718,7 +718,7 @@ graph TB
 
 ::: details 查看 Markdown 代码
 
-````md
+````markdown
 ```mermaid
 graph TB
     sq[Square shape] --> ci((Circle shape))
@@ -779,7 +779,7 @@ graph TB
 :::
 
 :::: details 查看 Markdown 代码
-````md
+````markdown
 ::: echarts 一个柱状图案例
 
 ```json
@@ -828,7 +828,7 @@ topmargin="0"
 ::::
 
 :::: details 查看 Markdown 代码
-`````md
+`````markdown
 ---
 markmap:
   colorFreezeLevel: 2
@@ -885,7 +885,7 @@ Orange
 :::
 
 :::: details 查看 Markdown 代码
-```md
+```markdown
 ::: tabs
 
 @tab apple
@@ -937,7 +937,7 @@ Orange
 
 
 :::: details 查看 Markdown 代码
-```md
+```markdown
 ::: tabs#fruit
 
 @tab apple#apple
@@ -973,7 +973,9 @@ Orange
 
 ::: info
 基于 [reveal.js](https://revealjs.com/) ，使用 Markdown 语法来创建 Slides
+:::
 
+::: tip
 除此之外，你还有其它选择来创建 Slides ，例如 [Marp](https://marp.app/) 和 [Slidev](https://sli.dev/) 等
 :::
 
@@ -1009,7 +1011,7 @@ $$
 @slideend
 
 ::: details 查看 Markdown 代码
-````md
+````markdown
 @slidestart
 
 ## 幻灯片 1
@@ -1047,8 +1049,10 @@ $$
 
 ::: info
 在页面内独立出一个渲染 Web 的容器，支持纯 `HTML/JS/CSS` ，还支持 `Vue` 和 `React  `
+:::
 
-下面是一个例子，更多信息，请查看 VuePress Theme Hope 的 [代码演示](https://vuepress-theme-hope.github.io/v2/zh/guide/markdown/demo.html)
+::: tip
+下面是一个例子，更多信息请查看 VuePress Theme Hope 的 [代码演示](https://vuepress-theme-hope.github.io/v2/zh/guide/markdown/demo.html)
 :::
 
 ::: normal-demo Demo 演示
@@ -1073,7 +1077,7 @@ span {
 :::
 
 ::::: details 查看 Markdown 代码
-`````md
+`````markdown
 ::: normal-demo Demo 演示
 
 ```html
@@ -1100,7 +1104,11 @@ span {
 ## 组件
 
 ::: info
-在 Markdown 中嵌入 Vue 组件，可以实现为页面插入视频（Bilibili、YouTube、视频文件）、 PDF 文档和其它 Web 程序。详细信息请查看 VuePress Theme Hope 的 [vuepress-plugin-components](https://vuepress-theme-hope.github.io/v2/components/zh/)
+在 Markdown 中嵌入 Vue 组件，可以实现为页面插入视频（Bilibili、YouTube、视频文件）、 PDF 文档和其它 Web 程序。
+:::
+
+::: tip
+详细信息请查看 VuePress Theme Hope 的 [vuepress-plugin-components](https://vuepress-theme-hope.github.io/v2/components/zh/)
 :::
 
 ### PDF
@@ -1110,7 +1118,7 @@ span {
 <PDF url="/bin/pdf/pdf-demo.pdf" />
 
 ::::: details 查看 Markdown 代码
-`````md
+`````markdown
 <PDF url="/bin/pdf/pdf-demo.pdf" />
 `````
 :::::

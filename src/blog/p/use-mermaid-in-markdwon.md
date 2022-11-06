@@ -12,7 +12,7 @@ prev: advanced-use-of-markdown.md
 ::: info
 通过 Mermaid ，你可以在 Markdown 中用文本和代码创建框图和其它可视化效果
 
-更多使用方法，请参考 [Mermaid 官网](https://mermaid-js.github.io/mermaid/) ，下面仅举出部分例子
+- 更多使用方法，请参考 [Mermaid 官网](https://mermaid-js.github.io/mermaid/) ，下面仅举出部分例子
 :::
 
 ## 流程图
@@ -36,7 +36,7 @@ flowchart TB
 
 ::: details 查看 Markdown 代码
 
-````md
+````markdown
 ```mermaid
 flowchart TB
     c1-->a2
@@ -72,7 +72,7 @@ Alice->John: Yes... John, how are you?
 
 ::: details 查看 Markdown 代码
 
-````md
+````markdown
 ```sequence
 Alice ->> Bob: Hello Bob, how are you?
 Bob-->>John: How about you John?
@@ -104,7 +104,7 @@ Square : +getMessages() List~string~
 
 ::: details 查看 Markdown 代码
 
-````md
+````markdown
 ```class
 class Square~Shape~{
     int id
@@ -143,7 +143,7 @@ state Active {
 
 ::: details 查看 Markdown 代码
 
-````md
+````markdown
 ```state
 [*] --> Active
 
@@ -184,7 +184,7 @@ PERSON {
 
 ::: details 查看 Markdown 代码
 
-````md
+````markdown
 ```er
 CAR ||--o{ NAMED-DRIVER : allows
 CAR {
@@ -218,7 +218,7 @@ section Go home
 
 ::: details 查看 Markdown 代码
 
-````md
+````markdown
 ```journey
 title My working day
 section Go to work
@@ -268,7 +268,7 @@ Add another diagram to demo page    :48h
 
 ::: details 查看 Markdown 代码
 
-````md
+````markdown
 ```gantt
 dateFormat  YYYY-MM-DD
 title       Adding GANTT diagram functionality to mermaid
@@ -314,7 +314,7 @@ title What Voldemort doesn’t have?
 
 ::: details 查看 Markdown 代码
 
-````md
+````markdown
 ```pie
 title What Voldemort doesn’t have?
   "FRIENDS" : 2
@@ -373,7 +373,7 @@ merge release
 
 ::: details 查看 Markdown 代码
 
-````md
+````markdown
 ```git-graph
 commit
 branch hotfix
@@ -459,7 +459,7 @@ Rel(SystemC, customerA, "Sends e-mails to")
 
 ::: details 查看 Markdown 代码
 
-````md
+````markdown
 ```c4c
 title System Context diagram for Internet Banking System
 

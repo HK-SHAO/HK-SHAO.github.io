@@ -83,3 +83,8 @@ a {
 .url-table-container td {
     padding: 0.3em 1em !important;
 }
+
+.mermaid-wrapper .content svg {
+    max-width: 100%;
+    height: auto;
+}
