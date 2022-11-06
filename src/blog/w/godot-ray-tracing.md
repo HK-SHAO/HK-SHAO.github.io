@@ -35,11 +35,14 @@ prev: some-godot-tips.md
 
 - GitHub: https://github.com/RayTracing
 - Book: [Ray Tracing in One Weekend](https://raytracing.github.io/books/RayTracingInOneWeekend.html)
-- ShaderToy shader: https://www.shadertoy.com/view/XlycWh
+- ShaderToy: https://www.shadertoy.com/view/XlycWh
+- PlotterApp 演示 Demo: https://github.com/HK-SHAO/Plotter/releases/tag/v0.0.0.2-pre-demo
 
 ## 关键代码
 
 暂未完成
+
+repo: https://github.com/HK-SHAO/Plotter/
 
 :::: details
 
