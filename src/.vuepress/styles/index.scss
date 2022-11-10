@@ -92,3 +92,7 @@ a {
     max-width: 100%;
     height: auto;
 }
+
+.CodeMirror-cursor {
+    border-left: 2px solid #3aa675 !important;
+}
