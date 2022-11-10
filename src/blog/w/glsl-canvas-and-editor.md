@@ -17,15 +17,25 @@
 :::
 
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
-import GlslCanvas from "glslCanvas";
+import { onMounted } from "vue";
+
+function createScript(src: string, callback?: () => void) {
+    if (document) {
+        const oScript = document.createElement('script');
+        oScript.type = 'text/javascript';
+        oScript.src = src;
+        document.body.appendChild(oScript);
+        callback && oScript.addEventListener('load', callback);
+    }
+}
 
 onMounted(() => {
-    let canvas = document.querySelector(".glslCanvas");
-    let sandbox = new GlslCanvas(canvas);
+    createScript('//cdn.jsdelivr.net/npm/glslCanvas@0.2.5/dist/GlslCanvas.min.js', () => {
+        let canvas = document.querySelector(".glslCanvas");
+        let sandbox = new GlslCanvas(canvas);
 
-    // Load only the Fragment Shader
-    let string_frag_code = `
+        // Load only the Fragment Shader
+        let string_frag_code = `
 #ifdef GL_ES
 precision mediump float;
 #endif
@@ -52,7 +62,8 @@ void main() {
     gl_FragColor = mix(b, c, smoothstep(0.01, 0.014, length(m - st) - 0.2));
 }
 `;
-    sandbox.load(string_frag_code);
+        sandbox.load(string_frag_code);
+    });
 });
 
 </script>
