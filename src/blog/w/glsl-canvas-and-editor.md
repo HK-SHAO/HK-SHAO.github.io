@@ -80,10 +80,10 @@ function createCanvas() {
 ## GLSL Editor
 
 ::: info
-请点击前往：[GLSL Editor](/tool/glsl-editor.md)
+请点击前往：[GLSL Editor](/tool/glsl-editor)
 :::
 
-:::: normal-demo
+:::: normal-demo {id=abcd}
 
 ```html
 <div id="glslEditor"></div>
@@ -119,11 +119,12 @@ function createCSS(href, callback) {
                 // canvas_width: 200,
                 // canvas_height: 200,
                 // canvas_draggable: true,
+                canvas_follow: true,
                 multipleBuffers: true,
                 watchHash: true,
                 fileDrops: true,
                 menu: false,
-                lineWrapping: true,
+                lineWrapping: false,
             });
         
         document.querySelectorAll('.CodeMirror-gutters').forEach((item) => {
@@ -136,19 +137,26 @@ function createCSS(href, callback) {
             item.style.color = 'inherit';
             item.style.marginTop = '0';
             item.style.fontWeight = "bold";
+            item.style.zIndex = "inherit";
         });
 
         document.querySelectorAll('.ge_editor').forEach((item) => {
             item.style.backgroundColor = 'inherit';
         });
-    }
 
-    if (typeof GlslEditor !== 'undefined') {
-        createEditor();
-        return;
+         document.querySelectorAll('.ge_canvas_container').forEach((item) => {
+            item.style.position = 'absolute';
+            item.style.zIndex = '1';
+        });
+
+        document.host.style.padding = 'inherit';
     }
 
     createCSS('https://cdn.jsdelivr.net/npm/glslEditor@0.0.23/build/glslEditor.css', () => {
+        if (typeof GlslEditor !== 'undefined') {
+            createEditor();
+            return;
+        }
         createScript('https://cdn.jsdelivr.net/npm/glslEditor@0.0.23/build/glslEditor.min.js', () => {
             createEditor();
         });
