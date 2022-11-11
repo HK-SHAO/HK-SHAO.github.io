@@ -6,6 +6,13 @@ comment: false
 # 一些博文
 
 :::: tip 随便写写
+### [WebGL 画布和编辑器](w/glsl-canvas-and-editor.md)
+
+一个使用 GLSL Canvas 和 Editor 的案例，其中包含一个 GLSL Editor 工具页面
+
+::::
+
+:::: tip 随便写写
 ### [从零开始的光线追踪渲染器](w/godot-ray-tracing.md)
 
 用片段着色器，从零开始实现一个光线追踪渲染器（此文还未完成哦）

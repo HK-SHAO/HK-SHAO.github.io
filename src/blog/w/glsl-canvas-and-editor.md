@@ -116,7 +116,6 @@ function createCanvas() {
 ```
 
 ```html
-<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/glslEditor@0.0.23/build/glslEditor.css"/>
 <div id="glslEditor"></div>
 ```
 
@@ -160,11 +159,15 @@ function createCSS(href, callback) {
         document.host.style.padding = 'inherit';
     }
 
-    if (typeof GlslEditor !== 'undefined') {
-        createEditor();
-        return;
-    }
-    createScript('https://cdn.jsdelivr.net/npm/glslEditor@0.0.23/build/glslEditor.min.js', createEditor);
+    createCSS('https://cdn.jsdelivr.net/npm/glslEditor@0.0.23/build/glslEditor.css', () => {
+        if (typeof GlslEditor !== 'undefined') {
+            createEditor();
+            return;
+        }
+        createScript('https://cdn.jsdelivr.net/npm/glslEditor@0.0.23/build/glslEditor.min.js', () => {
+            createEditor();
+        });
+    });
 })();
 ```
 
