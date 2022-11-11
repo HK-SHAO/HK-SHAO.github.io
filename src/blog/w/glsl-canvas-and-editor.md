@@ -180,3 +180,33 @@ function createCSS(href, callback) {
 ```
 
 ::::
+
+<script setup lang="ts">
+import { onBeforeUnmount, onMounted } from "vue";
+
+let elementList: HTMLElement[] = [];
+
+onMounted(() => {
+    createStyle(`
+        .ge_picker_modal {
+            display: none !important;
+        }
+    `);
+});
+
+onBeforeUnmount(() => {
+    elementList.forEach((element) => {
+        element.remove();
+    });
+});
+
+function createStyle(css) {
+    if (document) {
+        const o = document.createElement('style');
+        o.innerHTML = css;
+        document.body.appendChild(o);
+        elementList.push(o);
+    }
+}
+
+</script>
