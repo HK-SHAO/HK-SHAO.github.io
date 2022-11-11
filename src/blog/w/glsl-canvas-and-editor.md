@@ -86,7 +86,7 @@ function createCanvas() {
 ## GLSL Editor
 
 ::: info
-请点击前往：[GLSL Editor](/tool/glsl-editor)
+你也可以点击前往使用这个简单的编辑器：[GLSL Editor](/tool/glsl-editor)
 :::
 
 ::: warning
