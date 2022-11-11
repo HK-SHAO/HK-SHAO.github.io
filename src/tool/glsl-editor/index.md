@@ -99,18 +99,19 @@ onMounted(() => {
         .ge_canvas_container {
             position: absolute !important;
             z-index: 1 !important;
+            padding-top: var(--navbar-height) !important;
         }
         .CodeMirror-cursor {
             border-left: 2px solid #3aa675 !important;
         }
     `);
 
-    createCSS('https://cdn.jsdelivr.net/npm/glslEditor@0.0.23/build/glslEditor.css', () => {
+    createCSS('/thirdparty/glsl-editor/glslEditor.css', () => {
         if (typeof GlslEditor !== 'undefined') {
             createEditor();
             return;
         }
-        createScript('https://cdn.jsdelivr.net/npm/glslEditor@0.0.23/build/glslEditor.min.js', () => {
+        createScript('/thirdparty/glsl-editor/glslEditor.min.js', () => {
             createEditor();
         });
     });

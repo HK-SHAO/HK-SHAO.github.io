@@ -164,14 +164,15 @@ function createCSS(href, callback) {
             });
 
         document.host.style.padding = 'inherit';
+        document.host.style.overflow = 'hidden';
     }
 
-    createCSS('https://cdn.jsdelivr.net/npm/glslEditor@0.0.23/build/glslEditor.css', () => {
+    createCSS('/thirdparty/glsl-editor/glslEditor.css', () => {
         if (typeof GlslEditor !== 'undefined') {
             createEditor();
             return;
         }
-        createScript('https://cdn.jsdelivr.net/npm/glslEditor@0.0.23/build/glslEditor.min.js', () => {
+        createScript('/thirdparty/glsl-editor/glslEditor.min.js', () => {
             createEditor();
         });
     });
