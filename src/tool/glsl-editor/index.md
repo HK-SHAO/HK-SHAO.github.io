@@ -5,22 +5,27 @@ lastUpdated: false
 contributors: false
 description: GLSL 编辑器
 comment: false
+prev: /blog/w/glsl-canvas-and-editor.md
 ---
 
 # GLSL 编辑器
 
+::: info
+
+[GLSL Canvas and Editor](/blog/w/glsl-canvas-and-editor.md)
+
+:::
 
 ::: warning
 
-由于本页面需要，请使用更宽的屏幕查看本页面哦
+由于本页面需要，请使用更宽的屏幕（横向像素大于 719 ）查看本页面哦
 
 :::
 
 <script setup lang="ts">
 import { onBeforeUnmount, onMounted } from "vue";
 
-let scriptList: HTMLScriptElement[] = [];
-let cssList: HTMLLinkElement[] = [];
+let elementList: HTMLElement[] = [];
 
 function createScript(src: string, callback?: () => void) {
     if (document) {
@@ -29,7 +34,7 @@ function createScript(src: string, callback?: () => void) {
         oScript.src = src;
         document.body.appendChild(oScript);
         callback && oScript.addEventListener('load', callback);
-        scriptList.push(oScript);
+        elementList.push(oScript);
     }
 }
 
@@ -41,7 +46,16 @@ function createCSS(href: string, callback?: () => void) {
         oLink.href = href;
         document.body.appendChild(oLink);
         callback && oLink.addEventListener('load', callback);
-        cssList.push(oLink);
+        elementList.push(oLink);
+    }
+}
+
+function createStyle(css) {
+    if (window.document) {
+        const o = window.document.createElement('style');
+        o.innerHTML = css;
+        document.body.appendChild(o);
+        elementList.push(o);
     }
 }
 
@@ -53,41 +67,43 @@ onMounted(() => {
 
     function createEditor() {
         const glslEditor = new GlslEditor('.page', {
-                canvas_width: min_page_size * 2 / 3,
-                canvas_height: min_page_size * (2 / 3)**2,
-                // canvas_draggable: true,
-                canvas_follow: true,
-                canvas_draggable: true,
-                multipleBuffers: true,
-                watchHash: true,
-                fileDrops: true,
-                menu: false,
-                lineWrapping: true,
-            });
-
-            document.querySelectorAll('.CodeMirror-gutters').forEach((item) => {
-                item.style.backgroundColor = 'inherit';
-                item.style.borderRight = "1px solid var(--c-border)";
-            });
-
-            document.querySelectorAll('.CodeMirror').forEach((item) => {
-                item.style.backgroundColor = 'inherit';
-                item.style.color = 'inherit';
-                item.style.marginTop = '0';
-                item.style.fontWeight = "bold";
-                item.style.zIndex = "inherit";
-            });
-
-            document.querySelectorAll('.ge_editor').forEach((item) => {
-                item.style.backgroundColor = 'inherit';
-            });
-
-            document.querySelectorAll('.ge_canvas_container').forEach((item) => {
-                item.style.position = 'absolute';
-                item.style.zIndex = '1';
-            });
+            canvas_width: min_page_size * 2 / 3,
+            canvas_height: min_page_size * (2 / 3)**2,
+            canvas_draggable: false,
+            canvas_follow: true,
+            multipleBuffers: false,
+            watchHash: true,
+            fileDrops: true,
+            menu: false,
+            lineWrapping: true,
+        });
     }
+
     document.querySelector(".page")!.innerHTML = '';
+
+    createStyle(`
+        .ge_editor {
+            background-color: inherit !important;
+        }
+        .CodeMirror-gutters {
+            background-color: inherit !important;
+            border-right: 1px solid var(--c-border) !important;
+        }
+        .CodeMirror {
+            background-color: inherit !important;
+            color: inherit !important;
+            margin-top: 0 !important;
+            font-weight: bold !important;
+            z-index: inherit !important;
+        }
+        .ge_canvas_container {
+            position: absolute !important;
+            z-index: 1 !important;
+        }
+        .CodeMirror-cursor {
+            border-left: 2px solid #3aa675 !important;
+        }
+    `);
 
     createCSS('https://cdn.jsdelivr.net/npm/glslEditor@0.0.23/build/glslEditor.css', () => {
         if (typeof GlslEditor !== 'undefined') {
@@ -101,10 +117,7 @@ onMounted(() => {
 });
 
 onBeforeUnmount(() => {
-    scriptList.forEach((item) => {
-        document.body.removeChild(item);
-    });
-    cssList.forEach((item) => {
+    elementList.forEach((item) => {
         document.body.removeChild(item);
     });
 

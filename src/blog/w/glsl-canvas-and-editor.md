@@ -83,6 +83,12 @@ function createCanvas() {
 请点击前往：[GLSL Editor](/tool/glsl-editor)
 :::
 
+::: warning
+
+由于并未对窄屏做适配，所以一些宽度不够的设备显示效果不佳
+
+:::
+
 :::: normal-demo {id=abcd}
 
 ```html
@@ -111,6 +117,13 @@ function createCSS(href, callback) {
     }
 }
 
+function createStyle(css) {
+    if (window.document) {
+        const o = window.document.createElement('style');
+        o.innerHTML = css;
+        document.appendChild(o);
+    }
+}
 
 (function() {
     function createEditor() {
@@ -118,39 +131,63 @@ function createCSS(href, callback) {
             document.querySelector("#glslEditor"), {
                 // canvas_width: 200,
                 // canvas_height: 200,
-                // canvas_draggable: true,
+                canvas_draggable: false,
                 canvas_follow: true,
-                multipleBuffers: true,
+                multipleBuffers: false,
                 watchHash: true,
                 fileDrops: true,
                 menu: false,
                 lineWrapping: false,
             });
         
-        document.querySelectorAll('.CodeMirror-gutters').forEach((item) => {
-            item.style.backgroundColor = 'inherit';
-            item.style.borderRight = "1px solid var(--c-border)";
-        });
+        // document.querySelectorAll('.CodeMirror-gutters').forEach((item) => {
+        //     item.style.backgroundColor = 'inherit';
+        //     item.style.borderRight = "1px solid var(--c-border)";
+        // });
 
-        document.querySelectorAll('.CodeMirror').forEach((item) => {
-            item.style.backgroundColor = 'inherit';
-            item.style.color = 'inherit';
-            item.style.marginTop = '0';
-            item.style.fontWeight = "bold";
-            item.style.zIndex = "inherit";
-        });
+        // document.querySelectorAll('.CodeMirror').forEach((item) => {
+        //     item.style.backgroundColor = 'inherit';
+        //     item.style.color = 'inherit';
+        //     item.style.marginTop = '0';
+        //     item.style.fontWeight = "bold";
+        //     item.style.zIndex = "inherit";
+        // });
 
-        document.querySelectorAll('.ge_editor').forEach((item) => {
-            item.style.backgroundColor = 'inherit';
-        });
+        // document.querySelectorAll('.ge_editor').forEach((item) => {
+        //     item.style.backgroundColor = 'inherit';
+        // });
 
-         document.querySelectorAll('.ge_canvas_container').forEach((item) => {
-            item.style.position = 'absolute';
-            item.style.zIndex = '1';
-        });
+        //  document.querySelectorAll('.ge_canvas_container').forEach((item) => {
+        //     item.style.position = 'absolute';
+        //     item.style.zIndex = '1';
+        // });
 
         document.host.style.padding = 'inherit';
     }
+
+    createStyle(`
+        .ge_editor {
+            background-color: inherit !important;
+        }
+        .CodeMirror-gutters {
+            background-color: inherit !important;
+            border-right: 1px solid var(--c-border) !important;
+        }
+        .CodeMirror {
+            background-color: inherit !important;
+            color: inherit !important;
+            margin-top: 0 !important;
+            font-weight: bold !important;
+            z-index: inherit !important;
+        }
+        .ge_canvas_container {
+            position: absolute !important;
+            z-index: 1 !important;
+        }
+        .CodeMirror-cursor {
+            border-left: 2px solid #3aa675 !important;
+        }
+    `);
 
     createCSS('https://cdn.jsdelivr.net/npm/glslEditor@0.0.23/build/glslEditor.css', () => {
         if (typeof GlslEditor !== 'undefined') {
