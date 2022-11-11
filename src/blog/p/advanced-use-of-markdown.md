@@ -1058,13 +1058,13 @@ $$
 ::: normal-demo Demo 演示
 
 ```html
-<h1>VuePress Theme <span>Hope</span></h1>
-<p><button id="very">非常强大!</button></p>
+<h1>你好，我是<span>烧风</span></h1>
+<p><button id="button">一个按钮</button></p>
 ```
 
 ```js
-document.querySelector("#very").addEventListener("click", () => {
-  alert("非常强大");
+document.querySelector("#button").addEventListener("click", () => {
+  alert("Hello World!");
 });
 ```
 
