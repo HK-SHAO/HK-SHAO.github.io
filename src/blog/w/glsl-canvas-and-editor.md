@@ -4,11 +4,17 @@
 
 ::: info
 
-测试 GLSL Canvas 和 Editor 的页面
+这是测试 GLSL Canvas 和 Editor 的页面，使用了以下开源仓库中的代码
 
 - https://github.com/patriciogonzalezvivo/glslCanvas
 - https://github.com/patriciogonzalezvivo/glslEditor
 
+:::
+
+::: tip
+- GLSL 是 OpenGL Shading Language 的缩写，一种用于编写 GPU 着色器的语言
+- GLSL Canvas 和 Editor 是一个用于在浏览器中显示和编写 GLSL 的工具
+- 这里的 GLSL fragment shader 会被迅速编译为在 GPU 中执行的机器码
 :::
 
 ## GLSL Canvas
@@ -154,6 +160,7 @@ function createCSS(href, callback) {
                 fileDrops: true,
                 menu: false,
                 lineWrapping: false,
+                autofocus: false,
             });
 
         document.host.style.padding = 'inherit';
