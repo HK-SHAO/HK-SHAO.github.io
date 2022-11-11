@@ -12,7 +12,7 @@
 :::
 
 ::: tip
-- GLSL 是 OpenGL Shading Language 的缩写，一种用于编写 GPU 着色器的语言
+- GLSL 是 [OpenGL Shading Language](https://registry.khronos.org/OpenGL/specs/es/3.2/GLSL_ES_Specification_3.20.html) 的缩写，一种用于编写 GPU 着色器的语言
 - GLSL Canvas 和 Editor 是一个用于在浏览器中显示和编写 GLSL 的工具
 - 这里的 GLSL fragment shader 会被迅速编译为在 GPU 中执行的机器码
 :::
