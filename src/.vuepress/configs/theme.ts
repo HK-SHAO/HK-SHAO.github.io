@@ -16,4 +16,7 @@ export const theme: Theme = defaultTheme({
     locales: locales,
     navbar: navbar,
     sidebarDepth: 3,
+    themePlugins: {
+        activeHeaderLinks: false,
+    }
 })
