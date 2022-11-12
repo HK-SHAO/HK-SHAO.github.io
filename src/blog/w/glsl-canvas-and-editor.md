@@ -122,6 +122,10 @@ function createCanvas() {
 .cm-s-monokai span.cm-variable {
     color: inherit !important;
 }
+
+.cm-s-monokai .CodeMirror-matchingbracket {
+    color: #3aa675 !important;
+}
 ```
 
 ```html
