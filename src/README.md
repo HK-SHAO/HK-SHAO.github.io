@@ -37,6 +37,9 @@ actions:
 
 ::: center
 
-<footer class="footer">Copyright © 2019-{{new Date().getFullYear()}} HK-SHAO</footer>
+<footer class="footer">
+<p>Copyright © 2019-{{new Date().getFullYear()}} HK-SHAO</p>
+<a href="https://icp.gov.moe/?keyword=20222718" target="_blank">萌ICP备20222718号</a>
+</footer>
 
 :::
