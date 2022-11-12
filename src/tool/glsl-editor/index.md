@@ -70,6 +70,7 @@ onMounted(() => {
             canvas_width: min_page_size * 2 / 3,
             canvas_height: min_page_size * (2 / 3)**2,
             canvas_draggable: false,
+            theme: 'monokai',
             canvas_follow: true,
             multipleBuffers: false,
             watchHash: true,
@@ -103,6 +104,12 @@ onMounted(() => {
         }
         .CodeMirror-cursor {
             border-left: 2px solid #3aa675 !important;
+        }
+        .ge_picker_modal {
+            display: none !important;
+        }
+        .cm-s-monokai span.cm-variable {
+            color: inherit !important;
         }
     `);
 
