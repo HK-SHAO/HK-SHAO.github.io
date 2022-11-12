@@ -126,6 +126,10 @@ function createCanvas() {
 .cm-s-monokai .CodeMirror-matchingbracket {
     color: #3aa675 !important;
 }
+
+.CodeMirror-selected {
+    background: #3aa675aa !important;
+}
 ```
 
 ```html

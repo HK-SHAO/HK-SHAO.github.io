@@ -114,6 +114,9 @@ onMounted(() => {
         .cm-s-monokai .CodeMirror-matchingbracket {
             color: #3aa675 !important;
         }
+        .CodeMirror-selected {
+            background: #3aa675aa !important;
+        }
     `);
 
     createCSS('/thirdparty/glsl-editor/glslEditor.css', () => {
