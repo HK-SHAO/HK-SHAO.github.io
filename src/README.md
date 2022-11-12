@@ -38,8 +38,10 @@ actions:
 ::: center
 
 <footer class="footer">
-<p>Copyright © 2019-{{new Date().getFullYear()}} HK-SHAO</p>
-<a href="https://icp.gov.moe/?keyword=20222718" target="_blank">萌ICP备20222718号</a>
+Copyright © 2019-{{ new Date().getFullYear() }} HK-SHAO
+<p>
+  <a href="https://icp.gov.moe/?keyword=20222718" target="_blank">萌ICP备20222718号</a>
+</p>
 </footer>
 
 :::

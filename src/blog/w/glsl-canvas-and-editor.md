@@ -119,6 +119,9 @@ function createCanvas() {
 .CodeMirror-cursor {
     border-left: 2px solid #3aa675 !important;
 }
+.cm-s-monokai span.cm-variable {
+    color: inherit !important;
+}
 ```
 
 ```html
@@ -153,6 +156,7 @@ function createCSS(href, callback) {
             document.querySelector("#glslEditor"), {
                 // canvas_width: 200,
                 // canvas_height: 200,
+                theme: 'monokai',
                 canvas_draggable: false,
                 canvas_follow: true,
                 multipleBuffers: false,
