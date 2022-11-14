@@ -44,370 +44,460 @@ prev: some-godot-tips.md
 
 repo: https://github.com/HK-SHAO/Plotter/
 
-:::: details
+### 修正坐标系
+
+左手系
+
+### 赋予每个像素颜色
 
 ```glsl
 shader_type canvas_item;
 
-uniform vec3 camera_position;
-uniform mat3 camera_rotation;
-
-uniform float camera_fov = 50.;
-uniform float camera_lens_radius = 0.1;
-uniform float camera_focus_dist = 10.;
-
-// Raytracing in one weekend, chapter 12: Where next? Created by Reinder Nijhoff 2018
-// @reindernijhoff
-//
-// https://www.shadertoy.com/view/XlycWh
-//
-// These shaders are my implementation of the raytracer described in the (excellent) 
-// book "Raytracing in one weekend" [1] by Peter Shirley (@Peter_shirley). I have tried 
-// to follow the code from his book as much as possible.
-//
-// [1] http://in1weekend.blogspot.com/2016/01/ray-tracing-in-one-weekend.html
-//
-
-#define MAX_FLOAT 1e10
-#define MAX_RECURSION (12)
-
-#define LAMBERTIAN 0
-#define METAL 1
-#define DIELECTRIC 2
-
-//
-// Hash functions by Nimitz:
-// https://www.shadertoy.com/view/Xt3cDn
-//
-
-uint base_hash(uvec2 p) {
-    p = 1103515245U*((p >> 1U)^(p.yx));
-    uint h32 = 1103515245U*((p.x)^(p.y>>3U));
-    return h32 ^ (h32 >> 16U);
-}
-
-float hash1(in float seed) {
-    uint n = base_hash(floatBitsToUint(vec2(seed+=.1,seed+=.1)));
-    return float(n)/intBitsToFloat(-1);
-}
-
-vec2 hash2(inout float seed) {
-    uint n = base_hash(floatBitsToUint(vec2(seed+=.1,seed+=.1)));
-    uvec2 rz = uvec2(n, n*48271U);
-    return vec2(rz.xy & uvec2(0x7fffffff))/float(0x7fffffff);
-}
-
-vec3 hash3(inout float seed) {
-    uint n = base_hash(floatBitsToUint(vec2(seed+=.1,seed+=.1)));
-    uvec3 rz = uvec3(n, n*16807U, n*48271U);
-    return vec3(rz & uvec3(0x7fffffff))/float(0x7fffffff);
-}
-
-//
-// Ray trace helper functions
-//
-
-float schlick(float cosine, float ior) {
-    float r0 = (1.-ior)/(1.+ior);
-    r0 = r0*r0;
-    return r0 + (1.-r0)*pow((1.-cosine),5.);
-}
-
-bool modified_refract(const in vec3 v, const in vec3 n, const in float ni_over_nt, 
-                      out vec3 refracted) {
-    float dt = dot(v, n);
-    float discriminant = 1. - ni_over_nt*ni_over_nt*(1.-dt*dt);
-    if (discriminant > 0.) {
-        refracted = ni_over_nt*(v - n*dt) - n*sqrt(discriminant);
-        return true;
-    } else { 
-        return false;
-    }
-}
-
-vec3 random_in_unit_sphere(in float seed) {
-    vec3 h = hash3(seed) * vec3(2.,6.28318530718,1.)-vec3(1,0,0);
-    float phi = h.y;
-    float r = pow(h.z, 1./3.);
-	return r * vec3(sqrt(1.-h.x*h.x)*vec2(sin(phi),cos(phi)),h.x);
-}
-
-vec2 random_in_unit_disk(inout float seed) {
-    vec2 h = hash2(seed) * vec2(1.,6.28318530718);
-    float phi = h.y;
-    float r = sqrt(h.x);
-	return r * vec2(sin(phi),cos(phi));
-}
-
-//
-// Ray
-//
-
-struct ray {
-    vec3 origin, direction;
-};
-
-//
-// Material
-//
-
-struct material {
-    int type;
-    vec3 albedo;
-    float v;
-};
-
-//
-// Hit record
-//
-
-struct hit_record {
-    float t;
-    vec3 p, normal;
-    material mat;
-};
-
-bool material_scatter(const in ray r_in, const in hit_record rec, out vec3 attenuation, 
-                      out ray scattered, float g_seed) {
-	switch (rec.mat.type) {
-		case LAMBERTIAN: 
-			vec3 rd = normalize(rec.normal + random_in_unit_sphere(g_seed));
-	        scattered = ray(rec.p, rd);
-	        attenuation = rec.mat.albedo;
-	        return true;
-		case METAL: 
-			vec3 rd = reflect(r_in.direction, rec.normal);
-	        scattered = ray(rec.p, normalize(rd + rec.mat.v*random_in_unit_sphere(g_seed)));
-	        attenuation = rec.mat.albedo;
-	        return true;
-		case DIELECTRIC: 
-	        vec3 outward_normal, refracted, 
-	             reflected = reflect(r_in.direction, rec.normal);
-	        float ni_over_nt, reflect_prob, cosine;
-	        
-	        attenuation = vec3(1);
-	        if (dot(r_in.direction, rec.normal) > 0.) {
-	            outward_normal = -rec.normal;
-	            ni_over_nt = rec.mat.v;
-	            cosine = dot(r_in.direction, rec.normal);
-	            cosine = sqrt(1. - rec.mat.v*rec.mat.v*(1.-cosine*cosine));
-	        } else {
-	            outward_normal = rec.normal;
-	            ni_over_nt = 1. / rec.mat.v;
-	            cosine = -dot(r_in.direction, rec.normal);
-	        }
-	        
-	        if (modified_refract(r_in.direction, outward_normal, ni_over_nt, refracted)) {
-		        reflect_prob = schlick(cosine, rec.mat.v);
-	        } else {
-	            reflect_prob = 1.;
-	        }
-	        
-	        if (hash1(g_seed) < reflect_prob) {
-	            scattered = ray(rec.p, reflected);
-	        } else {
-	            scattered = ray(rec.p, refracted);
-	        }
-	        return true;
-		default:
-			return false;
-	}
-}
-
-//
-// Hitable, for now this is always a sphere
-//
-
-struct hitable {
-    vec3 center;
-    float radius;
-};
-
-bool hitable_hit(const in hitable hb, const in ray r, const in float t_min, 
-                 const in float t_max, inout hit_record rec) {
-    // always a sphere
-    vec3 oc = r.origin - hb.center;
-    float b = dot(oc, r.direction);
-    float c = dot(oc, oc) - hb.radius * hb.radius;
-    float discriminant = b * b - c;
-    if (discriminant < 0.0) return false;
-
-	float s = sqrt(discriminant);
-	float t1 = -b - s;
-	float t2 = -b + s;
-	
-	float t = t1 < t_min ? t2 : t1;
-    if (t < t_max && t > t_min) {
-        rec.t = t;
-        rec.p = r.origin + t*r.direction;
-        rec.normal = (rec.p - hb.center) / hb.radius;
-	    return true;
-    } else {
-        return false;
-    }
-}
-
-//
-// Color & Scene
-//
-
-bool world_hit(const in ray r, const in float t_min, 
-               const in float t_max, out hit_record rec) {
-    rec.t = t_max;
-    bool hit = false;
-
-  	if (hitable_hit(hitable(vec3(0,-1000,-1),1000.),r,t_min,rec.t,rec)) {
-		hit=true;rec.mat=material(LAMBERTIAN,vec3(.5),0.);
-	}
-
-  	if (hitable_hit(hitable(vec3( 0,1,0),1.),r,t_min,rec.t,rec)) {
-		hit=true;rec.mat=material(DIELECTRIC,vec3(0),1.5);
-	}
-    if (hitable_hit(hitable(vec3(-4,1,0),1.),r,t_min,rec.t,rec)) {
-		hit=true;rec.mat=material(LAMBERTIAN,vec3(.4,.2,.1),0.);
-	}
-	if (hitable_hit(hitable(vec3( 4,1,0),1.),r,t_min,rec.t,rec)) {
-		hit=true;rec.mat=material(METAL     ,vec3(.7,.6,.5),0.);
-	}
-    
-    for (int a = -3; a < 3; a++) {
-        for (int b = -3; b < 3; b++) {
-            float m_seed = float(a) + float(b)/1000.;
-            vec3 rand1 = hash3(m_seed);            
-            vec3 center = vec3(float(a)+.9*rand1.x,.2,float(b)+.9*rand1.y); 
-            float choose_mat = rand1.z;
-            
-            if (distance(center,vec3(0,1,0)) > 1.1) {
-                if (choose_mat < .8) { // diffuse
-                    if (hitable_hit(hitable(center,.2),r,t_min,rec.t,rec)) {
-                        hit=true;
-						rec.mat=material(LAMBERTIAN, hash3(m_seed)* hash3(m_seed),0.);
-                    }
-                } else if (choose_mat < 0.95) { // metal
-                    if (hitable_hit(hitable(center,.2),r,t_min,rec.t,rec)) {
-                        hit=true;
-						rec.mat=material(METAL, vec3(.7,.6,.5),0.);
-                    }
-                } else { // glass
-                    if (hitable_hit(hitable(center,.2),r,t_min,rec.t,rec)) {
-                        hit=true;
-						rec.mat=material(DIELECTRIC, vec3(0),1.5);
-                    }
-                }
-            }
-        }
-    }
-    
-    return hit;
-}
-
-vec3 color(in ray r, float g_seed) {
-    vec3 col = vec3(1);  
-	hit_record rec;
-    
-    for (int i=0; i<MAX_RECURSION; i++) {
-    	if (world_hit(r, 0.001, MAX_FLOAT, rec)) {
-            ray scattered;
-            vec3 attenuation;
-            if (material_scatter(r, rec, attenuation, scattered, g_seed)) {
-                col *= attenuation;
-                r = scattered;
-            } else {
-                return vec3(0);
-            }
-	    } else {
-            float t = .5*r.direction.y + .5;
-            col *= mix(vec3(1),vec3(.5,.7,1), t);
-            return col;
-    	}
-    }
-    return vec3(0);
-}
-
-//
-// Camera
-//
-
-struct camera {
-    vec3 origin, lower_left_corner, horizontal, vertical, u, v, w;
-    float lens_radius;
-};
-
-camera camera_const(const in vec3 lookfrom, const in vec3 lookat, const in vec3 vup, 
-                    const in float vfov, const in float aspect, const in float aperture, 
-                    const in float focus_dist) {
-    camera cam;    
-    cam.lens_radius = aperture / 2.;
-    float theta = vfov*3.14159265359/180.;
-    float half_height = tan(theta/2.);
-    float half_width = aspect * half_height;
-    cam.origin = lookfrom;
-    cam.w = normalize(lookfrom - lookat);
-    cam.u = normalize(cross(vup, cam.w));
-    cam.v = cross(cam.w, cam.u);
-    cam.lower_left_corner = cam.origin  - half_width*focus_dist*cam.u -half_height*focus_dist*cam.v - focus_dist*cam.w;
-    cam.horizontal = 2.*half_width*focus_dist*cam.u;
-    cam.vertical = 2.*half_height*focus_dist*cam.v;
-    return cam;
-}
-    
-ray camera_get_ray(camera c, vec2 uv, float g_seed) {
-    vec2 rd = c.lens_radius*random_in_unit_disk(g_seed);
-    vec3 offset = c.u * rd.x + c.v * rd.y;
-    return ray(c.origin + offset, 
-               normalize(c.lower_left_corner + uv.x*c.horizontal + uv.y*c.vertical - c.origin - offset));
-}
-
-//
-// Main
-//
-
-
 void fragment() {
-	vec2 fragCoord = FRAGCOORD.xy;
-	vec2 resolution = 1. / SCREEN_PIXEL_SIZE.xy;
-	
-	float g_seed = TIME + float(base_hash(floatBitsToUint(fragCoord)))/float(0xffffffff);
-	
-	// camera
-	float lens_radius = camera_lens_radius;
-	float fov = camera_fov;
-	float focus_dist = camera_focus_dist;
-	
-	vec3 ro = camera_position;
-	mat3 ca = camera_rotation;
-
-	vec3 lookfrom = ro;
-	vec3 lookat = ro + ca * vec3(0., 0., -1.);
-	
-	float aspect = resolution.x/resolution.y;
-	camera cam = camera_const(lookfrom,
-		lookat, vec3(0,-1,0), fov, aspect, lens_radius, focus_dist);
-	
-	vec2 uv = (fragCoord + hash2(g_seed))/resolution.xy;
-	uv.x = 1. - uv.x;
-	
-	ray r = camera_get_ray(cam, uv, g_seed);
-	vec3 col = color(r, g_seed);
-	
-//	const float N = 100.;
-//	for (float i = 1.111; i < N; i++){
-//		g_seed += 10.0*i + sin(i);
-//		uv = (fragCoord + hash2(g_seed))/resolution.xy;
-//		uv.x = 1. - uv.x;
-//		r = camera_get_ray(cam, uv, g_seed);
-//		col += color(r, g_seed);
-//	}
-//	col = col / N;
-
-	vec4 tot = vec4(0.0);
-
-	tot = vec4(col, 1.0);
-	
-	COLOR = tot;
+	vec2 uv = FRAGCOORD.xy * SCREEN_PIXEL_SIZE;
+	COLOR = vec4(vec3(uv, 0.2), 1.0);
 }
 ```
 
-::::
+### 画一片蓝天
+
+```glsl
+shader_type canvas_item;
+
+//// 光线
+struct ray {
+	vec3 origin, direction;
+};
+
+vec3 at(ray r, float t) {
+	return r.origin + t * r.direction;
+}
+
+//// 渲染
+vec3 render(ray r) {
+	//// 天空的颜色
+	float t = (r.direction.y + 1.0) / 2.0;
+	vec3 bottom = vec3(1.0, 1.0, 1.0);
+	vec3 top = vec3(0.5, 0.7, 1.0);
+	return mix(top, bottom, t);
+}
+
+//// 片段着色器程序入口
+void fragment() {
+	vec2 uv = FRAGCOORD.xy * SCREEN_PIXEL_SIZE;
+	
+	vec3 lower_left_corner = vec3(-2.0, -1.0, -1.0);
+	vec3 horizontal = vec3(4.0, 0.0, 0.0);
+	vec3 vertical = vec3(0.0, 2.0, 0.0);
+	vec3 origin = vec3(0.0, 0.0, 0.0);
+	
+	ray r = ray(origin, normalize(lower_left_corner + uv.x*horizontal + uv.y*vertical));
+	
+	COLOR = vec4(render(r), 1.0);
+}
+```
+
+### 放置一个球
+
+```glsl
+shader_type canvas_item;
+
+#define TMIN 0.001
+#define TMAX 20.0
+#define RAYMARCH_TIME 128
+#define PRECISION 0.001
+
+//// 光线
+struct ray {
+	vec3 origin, direction;
+};
+
+vec3 at(ray r, float t) {
+	return r.origin + t * r.direction;
+}
+
+//// 光线击中的记录
+struct hit_record {
+	float t;
+	vec3 p, normal;
+};
+
+//// SDF 球
+float sdSphere(vec3 p, float s) {
+    return length(p) - s;
+}
+
+//// 地图
+float map(vec3 p) {
+	return sdSphere(p, 0.5);
+}
+
+//// 计算地图法线
+vec3 calcNormal(in vec3 p)
+{
+    const float eps = 0.0001;
+    const vec2 h = vec2(eps, 0);
+    return normalize(vec3(map(p+h.xyy) - map(p-h.xyy),
+                          map(p+h.yxy) - map(p-h.yxy),
+                          map(p+h.yyx) - map(p-h.yyx)));
+}
+
+//// 光线步进
+float raycast(ray r) {
+	float t = TMIN;
+	for(int i = 0; i < RAYMARCH_TIME && t < TMAX; i++) {
+		float d = map(at(r, t));
+		if(d < PRECISION) return t;
+		t += d;
+	}
+	//// 没有击中物体
+	return -1.0;
+}
+
+//// 天空
+vec3 sky(ray r) {
+	float t = (r.direction.y + 1.0) / 2.0;
+	vec3 bottom = vec3(1.0, 1.0, 1.0);
+	vec3 top = vec3(0.5, 0.7, 1.0);
+	return mix(top, bottom, t);
+}
+
+//// 渲染
+vec3 render(ray r) {
+	float t = raycast(r);
+	if (t < 0.0) {
+		return sky(r);
+	}
+	vec3 p = at(r, t);
+	vec3 n = calcNormal(p);
+	vec3 c = (n + 1.0) / 2.0;
+	return c;
+}
+
+//// 片段着色器程序入口
+void fragment() {
+	//// 计算 UV
+	// vec2 uv = FRAGCOORD.xy * SCREEN_PIXEL_SIZE;
+	vec2 uv = UV;
+	
+	vec3 lower_left_corner = vec3(-2.0, -1.0, 0.0);
+	vec3 horizontal = vec3(4.0, 0.0, 0.0);
+	vec3 vertical = vec3(0.0, 2.0, 0.0);
+	vec3 origin = vec3(0.0, 0.0, -1.0);
+	
+	vec3 ro = origin;
+	vec3 po = lower_left_corner + uv.x*horizontal + uv.y*vertical;
+	vec3 rd = normalize(po - ro);
+	
+	ray r = ray(ro, rd);
+	vec3 color = render(r);
+	
+	COLOR = vec4(color, 1.0);
+}
+```
+
+### 加入一个地面
+
+```glsl
+shader_type canvas_item;
+
+#define TMIN 0.001
+#define TMAX 20.0
+#define RAYMARCH_TIME 128
+#define PRECISION 0.001
+#define MAP_SIZE 10000.0
+
+//// 光线
+struct ray {
+	vec3 origin, direction;
+};
+
+vec3 at(ray r, float t) {
+	return r.origin + t * r.direction;
+}
+
+//// 光线击中的记录
+struct record {
+	float t;
+	vec3 p, normal;
+};
+
+//// SDF 球
+float sdSphere(vec3 p, float s) {
+    return length(p) - s;
+}
+
+//// SDF 地图
+float map(vec3 p) {
+	float res = MAP_SIZE;
+	res = min(res, sdSphere(p - vec3(0, 0, 0), 0.5));
+	res = min(res, sdSphere(p - vec3(0, -100.5, 0), 100));
+	return res;
+}
+
+//// 计算地图法线
+vec3 calcNormal(vec3 p)
+{
+    const float eps = 0.0001;
+    const vec2 h = vec2(eps, 0);
+    return normalize(vec3(map(p+h.xyy) - map(p-h.xyy),
+                          map(p+h.yxy) - map(p-h.yxy),
+                          map(p+h.yyx) - map(p-h.yyx)));
+}
+
+//// 光线步进
+float raycast(ray r) {
+	float t = TMIN;
+	for(int i = 0; i < RAYMARCH_TIME && t < TMAX; i++) {
+		float d = map(at(r, t));
+		if(d < PRECISION) return t;
+		t += d;
+	}
+	//// 没有击中物体
+	return -1.0;
+}
+
+//// 天空
+vec3 sky(ray r) {
+	float t = (r.direction.y + 1.0) / 2.0;
+	vec3 bottom = vec3(1.0, 1.0, 1.0);
+	vec3 top = vec3(0.5, 0.7, 1.0);
+	return mix(top, bottom, t);
+}
+
+//// 渲染
+vec3 render(ray r) {
+	float t = raycast(r);
+	if (t < 0.0) {
+		return sky(r);
+	}
+	vec3 p = at(r, t);
+	vec3 n = calcNormal(p);
+	vec3 c = (n + 1.0) / 2.0;
+	return c;
+}
+
+//// 片段着色器程序入口
+void fragment() {
+	//// 计算 UV
+	// vec2 uv = FRAGCOORD.xy * SCREEN_PIXEL_SIZE;
+	vec2 uv = vec2(UV.x, 1.0 - UV.y);
+	
+	vec3 lower_left_corner = vec3(-2.0, -1.0, 0.0);
+	vec3 horizontal = vec3(4.0, 0.0, 0.0);
+	vec3 vertical = vec3(0.0, 2.0, 0.0);
+	vec3 origin = vec3(0.0, 0.0, -1.0);
+	
+	vec3 ro = origin;
+	vec3 po = lower_left_corner + uv.x*horizontal + uv.y*vertical;
+	vec3 rd = normalize(po - ro);
+	
+	ray r = ray(ro, rd);
+	vec3 color = render(r);
+	
+	COLOR = vec4(color, 1.0);
+}
+```
+
+### 漫反射
+
+```glsl
+shader_type canvas_item;
+
+//// 配置常量
+const float TMIN = 0.001;
+const float TMAX = 20.0;
+const float PRECISION = 0.0001; // 必须要小于 TMIN，否则光线会自相交产生阴影痤疮
+const float MAP_SIZE = 100000.0;
+
+const uint MAX_RAYMARCH = 512U;
+const uint MAX_RAYTRACE = 512U;
+
+const float PHI = 1.61803398874989484820459;
+
+//// 光线（射线）
+struct ray {
+	vec3 origin;
+	vec3 direction;
+	vec4 color;
+};
+
+struct material {
+	vec3 albedo;
+};
+
+//// 光子击中的记录
+struct record {
+	float t; // 沿射线前进的距离，为负代表没有击中
+	vec3 position;
+	vec3 normal;
+	material mat;
+};
+
+//// 摄像机
+struct camera {
+	////  图像平面位置
+	vec3 lower_left_corner;
+	vec3 horizontal;
+	vec3 vertical;
+	//// 视点位置
+	vec3 origin;
+};
+
+struct random {
+	vec2 uv;
+	float seed;
+	float value;
+};
+
+//// 生成归一化随机数（uv 和 seed 均必须归一化）
+float noise(inout random r) {
+	r.seed += 0.1;
+	vec2 xy = (r.uv + 1.0) * 3333.3;
+	return fract(tan(distance(xy*PHI, xy)*r.seed)*xy.x);
+}
+
+//// 光子在射线所在的位置
+vec3 at(ray r, float t) {
+	return r.origin + t * r.direction;
+}
+
+//// 从摄像机获取光线
+ray get_ray(camera c, vec2 uv, vec4 color) {
+	//// 视点位置
+	vec3 ro = c.origin;
+	//// 像素位置
+	vec3 po = c.lower_left_corner
+			+ c.horizontal * uv.x
+			+ c.vertical   * uv.y;
+	//// 光线方向
+	vec3 rd = normalize(po - ro);
+	return ray(ro, rd, color);
+}
+
+//// SDF 球体
+float sphere(vec3 p, float s) {
+    return length(p) - s;
+}
+
+//// SDF 地图
+float map(vec3 p) {
+	float res = MAP_SIZE;
+	res = min(res, sphere(p - vec3(0, 0, 0), 0.5));
+	res = min(res, sphere(p - vec3(0, -100.5, 0), 100));
+	return res;
+}
+
+//// 计算地图法线
+vec3 normal(vec3 p)
+{
+    const float eps = 0.0001;
+    const vec2 h = vec2(eps, 0);
+    return normalize(vec3(map(p+h.xyy) - map(p-h.xyy),
+                          map(p+h.yxy) - map(p-h.yxy),
+                          map(p+h.yyx) - map(p-h.yyx)));
+}
+
+//// 光线步进
+record raycast(ray r) {
+	record rec; rec.t = TMIN;
+	for(uint i = 0U; i < MAX_RAYMARCH && rec.t < TMAX; i++) {
+		rec.position = at(r, rec.t);
+		float dis = map(rec.position);
+		if(dis < PRECISION) return rec;
+		rec.t += dis;
+	}
+	//// 没有击中物体
+	rec.t = -1.0; // 设置为负值标记
+	return rec;
+}
+
+//// 天空
+vec4 sky(ray r) {
+	float t = (r.direction.y + 1.0) / 2.0;
+	vec4 bottom = vec4(1.0, 1.0, 1.0, 1.0);
+	vec4 top = vec4(0.5, 0.7, 1.0, 1.0);
+	return mix(top, bottom, t);
+}
+
+//// 产生随机单位向量
+vec3 random_unit_vector(inout random rand) {
+	float a = mix(0.0, TAU, noise(rand));
+	float z = mix(-1.0, 1.0, noise(rand));
+	float r = sqrt(1.0 - z*z);
+	return vec3(r*cos(a), r*sin(a), z);
+}
+
+//// 光线散射
+ray scatter(ray r, record rec, random rand) {
+	rec.normal = normal(rec.position);
+	
+	r.origin = rec.position;
+	r.direction = normalize(rec.normal + random_unit_vector(rand));
+	
+	// rec.mat.color = (rec.normal + 1.0) / 2.0;
+	rec.mat.albedo = vec3(0.5);
+	
+	r.color *= vec4(rec.mat.albedo, 1.0);
+	return r;
+}
+
+//// 光线追踪
+ray raytrace(ray r, inout random rand) {
+	record rec;
+	
+	for (uint i = 0U; i < MAX_RAYTRACE; i++) {
+		record rec = raycast(r);
+		if (rec.t < 0.0) {
+			r.color *= sky(r);
+			break;
+		}
+		
+		r = scatter(r, rec, rand);
+	}
+	
+	return r;
+}
+
+//// 片段着色器程序入口
+void fragment() {
+	//// 计算并修正 UV 坐标系
+	vec2 uv = vec2(UV.x, 1.0 - UV.y);
+	
+	//// 初始化摄像机
+	camera cam;
+	cam.lower_left_corner = vec3(-2.0, -1.0, 0.0);
+	cam.horizontal = vec3(4.0, 0.0, 0.0);
+	cam.vertical = vec3(0.0, 2.0, 0.0);
+	cam.origin = vec3(0.0, 0.0, -1.0);
+	
+	//// 初始化随机数发生器
+	random rand;
+	rand.seed = fract(TIME);
+	rand.uv = uv;
+	
+	//// 获取光线并逆向追踪光线
+	ray r = get_ray(cam, uv, vec4(1.0));
+		r = raytrace(r, rand);
+	
+	//// 对光的颜色进行后处理得到像素颜色
+	vec3 color = r.color.rgb;
+	vec3 back = vec3(0.0);
+	color = mix(back, color, r.color.a);
+	
+	//// 伽马矫正
+	color = pow(color, vec3(0.5));
+	// color = vec3(noise(rand));
+	COLOR = vec4(color, 1.0);
+}
+```
+
+::: tip
+着色器中产生随机数的想法：
+
+- 利用混沌作为随机数种子
+- 使用 backbuffer 和混沌映射逐渐更新随机数
+- 利用 alpha 通道和 backbuffer 产生随机数
+:::
 
 @include(@src/shared/license.md)
