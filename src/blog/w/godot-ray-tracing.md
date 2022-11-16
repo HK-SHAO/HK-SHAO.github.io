@@ -765,4 +765,7 @@ void fragment() {
 }
 ```
 
+- https://www.shadertoy.com/view/MsXfz4
+- https://erichlof.github.io/THREE.js-PathTracing-Renderer/
+
 @include(@src/shared/license.md)
