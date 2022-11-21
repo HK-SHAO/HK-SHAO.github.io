@@ -768,4 +768,24 @@ void fragment() {
 - https://www.shadertoy.com/view/MsXfz4
 - https://erichlof.github.io/THREE.js-PathTracing-Renderer/
 
+
+### 一些优化方案
+
+```glsl
+r.color.a *= (sign(dot(L, N)) + 1.0) * 0.5;
+L = -L * sign(dot(L, N));
+```
+
+等价于
+
+```glsl
+if (dot(L, N) < 0.0) {
+	r.color.a = 0.0;
+}
+
+if (dot(L, N) > 0.0) {
+	L = -L;
+}
+```
+
 @include(@src/shared/license.md)
