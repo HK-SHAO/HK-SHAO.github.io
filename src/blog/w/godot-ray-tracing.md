@@ -10,6 +10,16 @@ prev: some-godot-tips.md
 
 :::
 
+A shader-based PBR ray tracing demo. Real-time denoise and you can freely adjust the camera's transforms, lens aperture, fov and focal length.
+
+## Demo
+
+- [raytracing.shao.fun](raytracing.shao.fun)
+- https://shaofun.itch.io/godot-raytracing  
+
+- Hope you can contribute to this repo : )
+  - https://github.com/HK-SHAO/Godot-RayTracing-Demo/
+
 ![](./images/ray-tracing-demo.png)
 
 ## 相关知识
