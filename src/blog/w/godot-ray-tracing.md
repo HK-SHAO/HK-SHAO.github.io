@@ -1354,4 +1354,9 @@ void fragment() {
 }
 ```
 
+### 猜想
+
+- 改进 raycast/raymarch 算法，用物体的大小来选择合适的 precision，这样可以提高精度，同时也可以提高性能。
+- 包围盒
+
 @include(@src/shared/license.md)
