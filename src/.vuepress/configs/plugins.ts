@@ -10,8 +10,8 @@ import { componentsPlugin } from "vuepress-plugin-components";
 import { sitemapPlugin } from "vuepress-plugin-sitemap2";
 import { seoPlugin } from "vuepress-plugin-seo2";
 import { googleAnalyticsPlugin } from '@vuepress/plugin-google-analytics'
-import copyCode from "vuepress-plugin-copy-code2";
-import  { SITE_URL } from "../constant";
+import { copyCodePlugin  } from "vuepress-plugin-copy-code2";
+import { SITE_URL } from "../constant";
 
 export const plugins: PluginConfig = [
     googleAnalyticsPlugin({
@@ -59,7 +59,6 @@ export const plugins: PluginConfig = [
         linkCheck: 'dev',
         container: true,
         tabs: true,
-        vpre: true,
         codetabs: true,
         align: true,
         attrs: true,
@@ -100,5 +99,5 @@ export const plugins: PluginConfig = [
         category: "General",
         categoryId: "DIC_kwDOCfkTS84CR31L",
     }),
-    copyCode({}),
+    copyCodePlugin({}),
 ]
