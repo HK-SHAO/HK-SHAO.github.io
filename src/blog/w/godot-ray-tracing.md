@@ -512,6 +512,9 @@ void fragment() {
 
 ###
 
+- https://www.shadertoy.com/view/MsXfz4
+- https://erichlof.github.io/THREE.js-PathTracing-Renderer/
+
 ```glsl
 shader_type canvas_item;
 
@@ -774,10 +777,6 @@ void fragment() {
     COLOR = vec4(color, 1.0);
 }
 ```
-
-- https://www.shadertoy.com/view/MsXfz4
-- https://erichlof.github.io/THREE.js-PathTracing-Renderer/
-
 
 ### 一些优化方案
 
