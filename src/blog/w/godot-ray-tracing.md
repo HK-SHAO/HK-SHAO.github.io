@@ -510,12 +510,12 @@ void fragment() {
 - 利用 alpha 通道和 backbuffer 产生随机数
 :::
 
-###
+### 一次更新
 
 - https://www.shadertoy.com/view/MsXfz4
 - https://erichlof.github.io/THREE.js-PathTracing-Renderer/
 
-```glsl
+````glsl
 shader_type canvas_item;
 
 uniform vec3 camera_position = vec3(0.0, 0.0, 4.0); // 传入摄像机的位置
@@ -776,7 +776,7 @@ void fragment() {
     // color = vec3(noise(rand), noise(rand), noise(rand));
     COLOR = vec4(color, 1.0);
 }
-```
+````
 
 ### 一些优化方案
 
