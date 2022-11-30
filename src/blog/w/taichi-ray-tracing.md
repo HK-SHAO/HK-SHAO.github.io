@@ -70,11 +70,6 @@ ti gallery
 你现在可能并不需要清楚它们每一个背后的意义。在后面的教程中，你会逐渐了解它们的一部分，然后完成一个光线追踪渲染器
 :::
 
-::: details 点击查看速查表
-
-<PDF url="https://cdn.jsdelivr.net/gh/taichi-dev/cheatsheet/cheatsheet.pdf"/>
-
-:::
 
 ### 运行 Taichi 程序
 
@@ -431,6 +426,121 @@ origin = vec3(0, 0, 0)      # 视点
 
 ## 创建摄像机类
 
-现实中，摄像机除了有位置 (`lookfrom`) 、朝向 (`lookat`, `vup`) 之外，还有视野 (`vfov`)、传感器（画布）长宽比 (`aspect`)、光圈大小 (`aperture`)、合焦距离 (`focus`) 等。
+我们的目标是传入 `uv` 坐标，从摄像机类获取光线的起点 `ro` 和方向 `rd` 。
+
+现实中，摄像机除了有位置 (`lookfrom`) 、朝向 (`lookat`, `vup`) 之外，还有视野 (`vfov`)、传感器（画布）长宽比 (`aspect`)、光圈直径 (`aperture`)、合焦距离 (`focus`) 等。
+
+### 视野 FOV
+
+当摄像机传感器的长宽比与显示长宽比一致时，画面才不会出现不自然的拉伸。 视场 (Field of View, FOV) 指的是摄像机能够观测的范围。`vfov` 表示的是摄像机在纵向能够看到的角度，通常人眼的极限 `vfov` 为 135 度，30 度是一个较为舒适的感知范围。如果你了解摄影，50 mm 全画幅镜头的 `vfov` 大约为 30 度 [^50mmvfov] 。
+
+由于我们的窗口可以调整长宽比，因此横向视野 `hfov` 可以取决于窗口长宽比和 `vfov` ，我们只需要设置 `vfov` 即可。
+
+::: center
+![](./images/taichi/13.webp =500x)
+:::
+
+::: center
+人眼纵向的视野，出处见图片左下角
+:::
+
+[^50mmvfov]: Field-of-view of lenses by focal length. https://www.nikonians.org/reviews/fov-tables
+
+### 光圈与焦平面
+
+为简化模型，我们将画布平面视为焦平面，因此摄像机到画布中心的距离为合焦距离 `focus` ，然后以 `lookat` 为原点，`normalize(lookfrom - lookat)` 为 z 轴正方向，建立左手系。
+
+对光圈的表示简化为光线从光圈内任意一点 `ro` 出发，向焦平面上某一点前进，因此我们只需要利用已有的量，建立从 uv 坐标系到世界空间坐标系下焦平面上的点 `rp` 的映射，就可以表示出光线的方向 `normalize(rp - ro)` 。
+
+光线应该从光圈的哪个位置出发？在现实中，进入光圈的光线在光圈内的分布应该是均匀的，按照光路可逆原理，我们也应该在光圈内均匀的选取位置发射光线，但在我们的程序中，我们无法一次采样光圈内的所有点，因此我们只能使用 [蒙特卡洛方法 (Monte Carlo method)](https://en.wikipedia.org/wiki/Monte_Carlo_method) 在光圈内随机采样一个点。
+
+在单位圆内均匀的随机采样一个点
+
+$$
+x \in [0, 1], \theta \in [0, 2\pi], r=\sqrt x
+$$
+
+$$
+\vec{\mathbf{p}} = (r \cos \theta, r \sin \theta)
+$$
+
+```python
+@ti.func
+def random_in_unit_disk():  # 单位圆内随机取一点
+    x = ti.random()
+    a = ti.random() * 2 * pi
+    return sqrt(x) * vec2(sin(a), cos(a))
+```
+
+### 代码实现
+
+![](./images/taichi/12.svg)
+
+::: center
+我为这个摄像机模型总结了一幅图，根据这幅图可以直观的写出代码
+:::
+
+我们的摄像机类代码如下
+
+```python
+@ti.dataclass
+class Camera:           # 相机类
+    lookfrom: vec3      # 视点位置
+    lookat: vec3        # 目标位置
+    vup: vec3           # 向上的方向
+    vfov: float         # 纵向视野
+    aspect: float       # 传感器长宽比
+    aperture: float     # 光圈大小
+    focus: float        # 对焦距离
+
+    @ti.func
+    def get_ray(c, uv: vec2, color: vec4) -> Ray:
+        # 根据 vfov 和画布长宽比计算出半高和半宽
+        theta = radians(c.vfov) # 角度转弧度
+        half_height = tan(theta * 0.5)
+        half_width = c.aspect * half_height
+
+        # 以目标位置到摄像机位置为 Z 轴正方向
+        z = normalize(c.lookfrom - c.lookat)
+        # 计算出摄像机传感器的 XY 轴正方向
+        x = normalize(cross(c.vup, z))
+        y = cross(z, x)
+
+        # 计算出画布左下角
+        lower_left_corner = c.lookfrom  - half_width  * c.focus*x \
+                                        - half_height * c.focus*y \
+                                        -               c.focus*z
+
+        horizontal = 2.0 * half_width  * c.focus * x
+        vertical   = 2.0 * half_height * c.focus * y
+
+        # 模拟光进入镜头光圈
+        lens_radius = c.aperture * 0.5
+        rud = lens_radius * random_in_unit_disk()
+        offset = x * rud.x + y * rud.y
+
+        # 计算光线起点和方向 
+        ro = c.lookfrom + offset
+        rp = lower_left_corner  + uv.x*horizontal \
+                                + uv.y*vertical
+        rd = normalize(rp - ro)
+    
+        return Ray(ro, rd, color)
+```
+
+之后在 `render` 函数中初始化摄像机并获取光线
+
+```python
+camera = Camera()
+camera.lookfrom = vec3(0, 0, 4)     # 设置摄像机位置
+camera.lookat = vec3(0, 0, 2)       # 设置目标位置
+camera.vup = vec3(0, 1, 0)          # 设置向上的方向
+camera.aspect = aspect_ratio        # 设置长宽比
+camera.vfov = 30                    # 设置视野
+camera.aperture = 0.01              # 设置光圈大小
+camera.focus = 4                    # 设置对焦距离
+
+ray = camera.get_ray(uv, vec4(1.0)) # 生成光线
+```
 
 @include(@src/shared/license.md)
