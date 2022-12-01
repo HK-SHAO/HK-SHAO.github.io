@@ -2,8 +2,7 @@
 
 ::: info
 
-这是一个 SVG 格式（矢量图）的 Taichi Language Cheatsheet
-
+- 这是一个 SVG 格式（矢量图）的 Taichi Language Cheatsheet
 - 仓库地址：https://github.com/HK-SHAO/taichi-cheatsheet-svg
 
 :::
