@@ -6,6 +6,13 @@ comment: false
 # 一些博文
 
 :::: tip 随便写写
+### [Taichi Lang Cheatsheet SVG](p/taichi-lang-cheatsheet-svg.md)
+
+这是一个 SVG 格式（矢量图）的 Taichi Language Cheatsheet
+
+::::
+
+:::: tip 随便写写
 ### [WebGL 画布和编辑器](w/glsl-canvas-and-editor.md)
 
 一个使用 GLSL Canvas 和 Editor 的案例，其中包含一个 GLSL Editor 工具页面
