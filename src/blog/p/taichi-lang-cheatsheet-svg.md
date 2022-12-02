@@ -9,11 +9,9 @@
 
 ## Preview
 
-<div align="center">
-
+::: center
 ![cheatsheet](https://shao.fun/taichi-cheatsheet-svg/svg/cheatsheet.min.svg)
-
-</div>
+:::
 
 ## Why
 
@@ -21,11 +19,12 @@
 
 ## What
 
-- 这个矢量图保证了在任何设备上字体显示的一致性（但作为代价，文本将不能直接被复制），并且 `DOC` 按钮仍然可以超链接到官方文档
+- 这个矢量图保证了在任何设备上字体显示的一致性（但作为代价，文本将不能直接被复制）
+  - 并且 <kbd>DOC</kbd> 按钮仍然可以超链接到官方文档
 - 它能够被自由的嵌入到网页，例如：https://shao.fun/taichi-cheatsheet-svg/
 - 与原版不同，左上角的 Taichi Lang LOGO 链接到了 Taichi Lang 官网 :)
 
-## How to build&dev
+## How to dev&build
 
 - 如何构建 $\TeX$ 版本的 PDF 文件，请查看原仓库
   - https://github.com/taichi-dev/cheatsheet

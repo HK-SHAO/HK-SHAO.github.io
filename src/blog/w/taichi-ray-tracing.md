@@ -63,13 +63,20 @@ ti gallery
 
 ### Taichi 速查表
 
-这份速查表来自 Taichi 开发团队的 GitHub 仓库，它可以帮助你快速了解 Taichi 的基本语法。
+::: info
+- 这份速查表来自 Taichi 开发团队的 GitHub 仓库，它可以帮助你快速了解 Taichi 的基本语法。
 - https://github.com/taichi-dev/cheatsheet
-
-::: tip
-你现在可能并不需要清楚它们每一个背后的意义。在后面的教程中，你会逐渐了解它们的一部分，然后完成一个光线追踪渲染器
+- 你可以在这里获取它的 SVG 版本
+- [Taichi Lang Cheatsheet SVG](/blog/p/taichi-lang-cheatsheet-svg.md)
 :::
 
+::: center
+![cheatsheet](https://shao.fun/taichi-cheatsheet-svg/svg/cheatsheet.min.svg)
+:::
+
+::: tip
+你现在可能并不需要清楚每一个函数背后的意义。在后面的教程中，你会逐渐了解它们的一部分，然后完成一个光线追踪渲染器
+:::
 
 ### 运行 Taichi 程序
 
@@ -424,6 +431,11 @@ vertical = vec3(0, 2, 0)    # 视野垂直方向
 origin = vec3(0, 0, 0)      # 视点
 ```
 
+::: tip
+- 到这一步的完整代码在 GitHub
+- https://github.com/HK-SHAO/RayTracingPBR/blob/taichi/taichi/RT01/04.py
+:::
+
 ## 创建摄像机类
 
 我们的目标是传入 `uv` 坐标，从摄像机类获取光线的起点 `ro` 和方向 `rd` 。
@@ -454,7 +466,39 @@ origin = vec3(0, 0, 0)      # 视点
 
 光线应该从光圈的哪个位置出发？在现实中，进入光圈的光线在光圈内的分布应该是均匀的，按照光路可逆原理，我们也应该在光圈内均匀的选取位置发射光线，但在我们的程序中，我们无法一次采样光圈内的所有点，因此我们只能使用 [蒙特卡洛方法 (Monte Carlo method)](https://en.wikipedia.org/wiki/Monte_Carlo_method) 在光圈内随机采样一个点。
 
-在单位圆内均匀的随机采样一个点
+::: center
+![](./images/taichi/14.svg =200x)
+:::
+
+如何在在单位圆内均匀的随机采样一个点呢？想象我们往单位圆内随机撒豆子，一个豆子落到半径为 $r$ ，角度为 $\theta$ 的扇形的概率是扇形的面积 $\theta r^2/2$ 比上单位圆面积 $\pi$ ，这就是它的概率分布函数 $F_1(r,\theta)$
+
+$$
+F_1(r,\theta) = \frac{\theta r^2}{2\pi}
+$$
+
+我们希望分布是均匀的，也就是概率分布函数的导数——概率密度函数 $f_1(r,\theta)$ 是常数，但是
+
+$$
+f_1(r,\theta) = \frac{\mathrm{d}^2 F_1(r,\theta)}{\mathrm{d}r\mathrm{d}\theta} = \frac{r}{\pi}
+$$
+
+是一个关于 $r$ 的函数，并不是一个常数，因此如果让 $r$ 在 $[0,1]$取值的话采样并不均匀，如下图所示
+
+::: center
+![](./images/taichi/15.png =200x)
+:::
+
+如果令 $x=r^2$ ，那么概率密度函数 $f_2(r,\theta)$ 就是一个常数了
+
+$$
+F_2(x,\theta) = \frac{\theta x}{2\pi}
+$$
+
+$$
+f_2(x,\theta) = \frac{\mathrm{d}^2 F_2(x,\theta)}{\mathrm{d}x\mathrm{d}\theta} = \frac{1}{2\pi}
+$$
+
+因此我们只需要使用随机变量 $x$ 和 $\theta$ ，就可以得到在单位圆内均匀的随机采样一个点的坐标
 
 $$
 x \in [0, 1], \theta \in [0, 2\pi], r=\sqrt x
@@ -463,6 +507,10 @@ $$
 $$
 \vec{\mathbf{p}} = (r \cos \theta, r \sin \theta)
 $$
+
+::: center
+![](./images/taichi/16.png =200x)
+:::
 
 ```python
 @ti.func
@@ -542,5 +590,193 @@ camera.focus = 4                    # 设置对焦距离
 
 ray = camera.get_ray(uv, vec4(1.0)) # 生成光线
 ```
+
+现在让我们看看运行的效果。很好，我们终于看到了一个完美的圆
+
+::: center
+![](./images/taichi/17.png)
+:::
+
+::: tip
+- 到这一步的完整代码在 GitHub
+- https://github.com/HK-SHAO/RayTracingPBR/blob/taichi/taichi/RT01/05.py
+:::
+
+## 计算物体法线
+
+计算物体表面法线对光线追踪渲染非常重要，因为我们要根据物体表面法线决定光碰撞到物体表面时如何与之发生反应，也就是光的颜色、强弱和方向如何改变，之后才能进行下一步追踪。
+
+法线是垂直于物体表面某点的单位向量，利用 SDF 函数表示的物体表面，可以比较容易的计算出法线。为什么呢？
+
+我们直到 SDF 函数在某点的值表示的是该点到物体表面的距离，而函数某点的梯度表示的是函数增长最快的方向。对于 SDF 函数来说，梯度方向就是远离物体表面的方向，如果该点在物体表面，那么梯度方向刚好是物体表面法线 $\vec{\mathbf n}$ 的方向，也就是
+
+$$
+\vec{\mathbf n}=\mathrm{normalize}\left(\nabla f\left(\vec{\mathbf{p}}\right)\right)
+$$
+
+而梯度的定义是
+
+$$
+\nabla f\left(\vec{\mathbf{p}}\right)=\left(\frac{\partial f}{\partial x},\frac{\partial f}{\partial y},\frac{\partial f}{\partial z}\right)
+$$
+
+::: tip
+taichi 支持 [可微编程](https://docs.taichi-lang.org/zh-Hans/docs/master/differentiable_programming) ，拥有一个强大的自动微分系统，可以很方便的自动计算梯度。但是这里我仍然先采用传统的办法，即利用数值微分计算梯度
+:::
+
+$$
+\nabla f\left(\vec{\mathbf{p}}\right)=\left(\frac{f\left(\vec{\mathbf{p}}+\vec{\mathbf{e}}_{x}\right)-f\left(\vec{\mathbf{p}}\right)}{\epsilon},\frac{f\left(\vec{\mathbf{p}}+\vec{\mathbf{e}}_{y}\right)-f\left(\vec{\mathbf{p}}\right)}{\epsilon},\frac{f\left(\vec{\mathbf{p}}+\vec{\mathbf{e}}_{z}\right)-f\left(\vec{\mathbf{p}}\right)}{\epsilon}\right)
+$$
+
+因为计算法线只需要知道梯度方向，并不需要知道大小，所以求法线可以进一步化简为
+
+$$
+\vec{\mathbf n}=\mathrm{normalize}\left(f\left(\vec{\mathbf{p}}+\vec{\mathbf{e}}_{x}\right)-f\left(\vec{\mathbf{p}}\right),f\left(\vec{\mathbf{p}}+\vec{\mathbf{e}}_{y}\right)-f\left(\vec{\mathbf{p}}\right),f\left(\vec{\mathbf{p}}+\vec{\mathbf{e}}_{z}\right)-f\left(\vec{\mathbf{p}}\right)\right)
+$$
+
+它的 Taichi 代码看起来很简洁
+
+```python
+@ti.func
+def calcNormal(p: vec3):
+    eps = 0.0001
+    h = vec2(eps, 0)
+    return normalize( vec3( f(p+h.xyy) - f(p-h.xyy), \
+                            f(p+h.yxy) - f(p-h.yxy), \
+                            f(p+h.yyx) - f(p-h.yyx) ) )
+```
+
+### 优化求法线的效率
+
+在 [iq 的这篇文章](https://iquilezles.org/articles/normalsSDF/) 中，有一种四面体技术可以很好的减少计算量，所以我在这里改用为这种方法。此外，如果我们想在地图中放入若干不同的物体，不同的物体有不同位置和材质，因此在求法线时我们要传入具体是哪个物体
+
+```python
+@ti.func
+def calc_normal(obj, p: vec3) -> vec3:  # 计算物体法线
+    e = vec2(1, -1) * 0.5773 * 0.0005
+    return normalize(   e.xyy*signed_distance(obj, p + e.xyy) + \
+                        e.yyx*signed_distance(obj, p + e.yyx) + \
+                        e.yxy*signed_distance(obj, p + e.yxy) + \
+                        e.xxx*signed_distance(obj, p + e.xxx)   )
+```
+
+### 可视化法线
+
+由于法线是一个单位向量，每个分量都可以在 $[-1,1]$ 之间，如果我们要可视化法线，需要先将其每个分量映射到 $[0,1]$ 之间，然后将其作为颜色值赋予像素。与前面映射 $\sin(x)$ 函数到 $[0,1]$ 的方法一样，这也是将物体表面法线储存为一张图片（法线贴图）的方法。
+
+```python
+normal = calc_normal(record.obj, record.position)   # 计算法线
+ray.color.rgb = 0.5 + 0.5 * normal  # 设置为法线颜色
+```
+
+让我们欣赏一下这个五彩斑斓的球体，它看起来很漂亮
+
+::: center
+![](./images/taichi/18.png)
+:::
+
+## 基础变换和材质
+
+在这一章，我们会为物体赋予最简单的材质——反照率 (albedo) 以及一个最基础的变换——位置 (position) 。为方便读者理解，这里先放上 taichi 结构体类的定义代码
+
+```python
+@ti.dataclass
+class Material:
+    albedo: vec3    # 材质颜色
+
+@ti.dataclass
+class Transform:
+    position: vec3  # 物体位置
+
+@ti.dataclass
+class Object:
+    sd: float       # 到物体表面的符号距离
+    mtl: Material   # 物体材质
+    trs: Transform  # 物体变换
+```
+
+### 基础反照率
+
+反照率可以粗略表示为光线入射物体表面后，物体出射光的颜色与物体入射光之比。因此在光线追踪时，出射光的颜色就是
+
+```python:no-line-numbers
+ray.color.rgb *= record.obj.mtl.albedo
+```
+
+### 位移物体
+
+位移物体相当于对物体的 SDF 函数进行平移，在求 SDF 距离值阶段对传入的点减去物体位置
+
+```python
+@ti.func
+def signed_distance(obj, pos: vec3) -> float:
+    p = pos - obj.trs.position  # 计算物体位移后的点
+    r = 0.5 # 球体半径
+    sd = sd_sphere(p, r) # 计算 SDF 值
+    return sd
+```
+
+::: tip
+- 到这一步的完整代码在 GitHub
+- https://github.com/HK-SHAO/RayTracingPBR/blob/taichi/taichi/RT01/06.py
+:::
+
+## 移动摄像机
+
+在之前的章节，我们已经为我们的 taichi 程序创建了一个摄像机类。为了方便我们在不同位置和角度观察物体，这一章我们会利用 taichi 内置的 `ti.ui.Camera()` 来创建一个 freelook 摄像机，并将它与我们渲染程序中的摄像机类进行绑定。
+
+创建摄像机很简单，在初始化画布后实例化一个摄像机，然后为其设置初始位置
+
+```python
+window = ti.ui.Window("Taichi Renderer", image_resolution)  # 创建窗口
+canvas = window.get_canvas()    # 获取画布
+camera = ti.ui.Camera()         # 创建摄像机
+camera.position(0, 0, 4)        # 设置摄像机初始位置
+```
+
+然后在运行的循环中，每帧根据用户输入更新摄像机
+
+```python
+while window.running:
+    # 从用户输入更新摄像机，设置移动速度为 0.03 ，按住鼠标左键旋转视角
+    camera.track_user_inputs(window, movement_speed=0.03, hold_key=ti.ui.LMB)
+```
+
+然后分别为 `render` 函数声明形参并传入实参
+
+```python
+@ti.kernel
+def render(
+    time: float, 
+    camera_position: vec3, 
+    camera_lookat: vec3, 
+    camera_up: vec3):   # 渲染函数
+    ...
+```
+
+循环内每帧传入摄像机的位置、朝向和上方向
+
+```python
+while window.running:
+    # 从用户输入更新摄像机，设置移动速度为 0.03 ，按住鼠标左键旋转视角
+    camera.track_user_inputs(window, movement_speed=0.03, hold_key=ti.ui.LMB)
+    delta_time = time.time() - start_time   # 计算时间差
+    render(
+        delta_time, 
+        camera.curr_position, 
+        camera.curr_lookat, 
+        camera.curr_up) # 调用渲染函数
+    canvas.set_image(image_pixels)  # 为画布设置图像
+    window.show()   # 显示窗口
+```
+
+这样我们就可以以 FPS 游戏的方式，按住鼠标左键和 <kbd>W</kbd> <kbd>A</kbd> <kbd>S</kbd> <kbd>D</kbd> <kbd>Q</kbd> <kbd>E</kbd> 来自由移动摄像机。
+
+
+
+::: tip
+- 到这一步的完整代码在 GitHub
+- https://github.com/HK-SHAO/RayTracingPBR/blob/taichi/taichi/RT01/07.py
+:::
 
 @include(@src/shared/license.md)
