@@ -116,3 +116,13 @@ a {
 .theme-default-content img, .medium-zoom-overlay ~ img {
     border-radius: 6px !important;
 }
+
+.footnote-item {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+    font-size: 0.9rem !important;
+}
+
+.footnote-item > p {
+    margin-top: 0 !important;
+}

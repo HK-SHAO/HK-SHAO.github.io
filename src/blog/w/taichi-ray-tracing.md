@@ -12,7 +12,7 @@
 
 ## 前言
 
-这篇文章会分若干章节，教你使用并行计算框架 Taichi 来从零开始、一步一步地实现一个基于物理的 (Physically Based Rendering) 光线追踪渲染器，然后用它构建一个场景，渲染出有真实感的画面。
+这篇文章会分若干章节，教你使用并行计算框架 Taichi 来从零开始、一步一步地实现一个基于物理 (Physically Based Rendering, PBR) 的光线追踪渲染器，然后用它构建一个场景，渲染出有真实感的画面。这篇文章基于实践，但是仍然会尽可能的用更多自然语言、图和公式讲解其中的物理和数学原理。
 
 ### 什么是并行计算
 
@@ -68,14 +68,16 @@ ti gallery
 ### Taichi 速查表
 
 ::: info
-- 这份速查表来自 Taichi 开发团队的 GitHub 仓库，它可以帮助你快速了解 Taichi 的基本语法。
-- https://github.com/taichi-dev/cheatsheet
-- 你可以在这里获取它的 SVG 版本
+- 这份速查表[^cheatsheet]来自 Taichi 开发团队的 GitHub 仓库，它可以帮助你快速了解 Taichi 的基本语法。
+- 我为它创建了一个可在线查看的 SVG 版本，你可以在这里获取
 - [Taichi Lang Cheatsheet SVG](/blog/p/taichi-lang-cheatsheet-svg.md)
 :::
 
+[^cheatsheet]: Taichi Language Cheatsheet. https://github.com/taichi-dev/cheatsheet
+
 ::: center
-![cheatsheet](https://shao.fun/taichi-cheatsheet-svg/svg/cheatsheet.min.svg)
+![cheatsheet](https://shao.fun/taichi-cheatsheet-svg/svg/cheatsheet.min.svg)  
+Taichi 语言速查表
 :::
 
 ::: tip
@@ -119,13 +121,13 @@ while window.running:
 
 在当前路径下，使用终端命令 `ti 00.py` 运行这个 Taichi 程序，你便可以看到一个紫色的窗口。
 
-![](./images/taichi/03.png)
 
 ::: center
+![](./images/taichi/03.png)  
 你的第一个 Taichi 图形程序：紫色的窗口
 :::
 
-::: tip
+::: info
 - 到这一步的完整代码在 GitHub
 - https://github.com/HK-SHAO/RayTracingPBR/blob/taichi/taichi/RT01/00.py
 :::
@@ -140,9 +142,8 @@ while window.running:
 
 之后，我们将红色强度设置为 u ，绿色强度设置为 v ，蓝色强度设置为 0 ，这样我们就可以看到一个渐变的彩色图像，并且沿着 u 轴从左到右红色强度上升，沿着 v 轴从下到上绿色强度上升。
 
-![](./images/taichi/04.png)
-
 ::: center
+![](./images/taichi/04.png)  
 彩色的画布，沿着 u 轴从左到右红色强度上升，沿着 v 轴从下到上绿色强度上升
 :::
 
@@ -176,7 +177,7 @@ while window.running:
 
 在当前路径下，使用终端命令 `ti 01.py` 运行这个 Taichi 程序，你便可以看到一个彩色的窗口。
 
-::: tip
+::: info
 - 到这一步的完整代码在 GitHub
 - https://github.com/HK-SHAO/RayTracingPBR/blob/taichi/taichi/RT01/01.py
 :::
@@ -223,13 +224,12 @@ while window.running:
 
 在当前路径下，使用终端命令 `ti 02.py` 运行这个 Taichi 程序，可以看到一个不断变化色彩的窗口。
 
-![](./images/taichi/05.png)
-
 ::: center
+![](./images/taichi/05.png)  
 这副画面的色调会随着时间周期性变化
 :::
 
-::: tip
+::: info
 - 到这一步的完整代码在 GitHub
 - https://github.com/HK-SHAO/RayTracingPBR/blob/taichi/taichi/RT01/02.py
 :::
@@ -238,7 +238,7 @@ while window.running:
 
 光线追踪渲染利用了光路可逆的原理，我们将光的传播逆向表达，从每个像素发出光线，光击中材质表面后改变了自身的强度、颜色和方向，然后继续传播，直到光线被完全吸收或者到达了光源。最后我们将累积的颜色显示在这个像素上，便渲染出了场景。
 
-接下来，我们来到了光线追踪最基础的一步——定义光线。光线是光子沿射线传播的路径，在基于光线追踪的渲染器中，我们假定光线仅沿着一条直线传播，因此光线可以用一个起点 $\vec{\mathbf{ro}}$ 和一个方向 $\vec{\mathbf{rd}}$ 来表示，其中 $\vec{\mathbf{rd}}$ 应是一个单位向量。这样，光子在三维空间中所在的位置可以用 $\mathbf{p}(t)=\vec{\mathbf{ro}} + t \cdot \vec{\mathbf{rd}}$ 表示，其中 $t$ 是光从起点开始传播的距离。
+接下来，我们来到了光线追踪最基础的一步——定义光线。光线是光子沿射线传播的路径，在基于光线追踪的渲染器中，我们假定光线仅沿着一条直线传播，因此光线可以用一个起点 $\vec{\mathbf{ro}}$ 和一个方向 $\vec{\mathbf{rd}}$ 来表示，其中 $\vec{\mathbf{rd}}$ 应是一个单位向量。这样，光子在三维空间中所在的位置可以用 $\vec{\mathbf{p}}(t)=\vec{\mathbf{ro}} + t \cdot \vec{\mathbf{rd}}$ 表示，其中 $t$ 是光从起点开始传播的距离。
 
 另外，用一个四维向量 `vec4` 表示光线的颜色和强度，这方便我们后面对光的处理。在这里，我们使用面向对象 (OOP) 的建模方法，利用 Taichi 的 `ti.dataclass` 装饰器写一个光线类，`at` 函数传入 `t` 计算光所在位置。
 
@@ -260,13 +260,16 @@ class Ray:  # 光线类
 
 因此，从屏幕向你眼睛的方向，z 轴分量是负的。我们将视点（好比眼睛的位置）放在原点 $(0,0,0)$ ，画布（相当于你的屏幕）的中心位置设置为 $(0,0,-1)$，然后从视点向画布中每个像素发射一条光线。
 
-![](./images/taichi/06.png)
-
 ::: center
+![](./images/taichi/06.svg)  
 建立左手系坐标系，将画布放到 z 负半轴方向
 :::
 
 在 `render` 函数中，初始化视点和画布的位置，然后创建一条光线。在这里，我们使用了 `normalize` 函数将向量化为仅表示方向的单位向量。
+
+$$
+\mathrm{normalize}(\vec{\mathbf{p}})=\frac{\vec{\mathbf{p}}}{\|\vec{\mathbf{p}}\|}
+$$
 
 ```python
 lower_left_corner = vec3(-2, -1, -1)    # 视野左下角
@@ -302,14 +305,12 @@ def sky_color(ray, time) -> vec3:
 ray.color.rgb = sky_color(ray, time)    # 获取天空颜色
 image_pixels[i, j] = ray.color.rgb  # 设置像素颜色
 ```
-
-![](./images/taichi/07.png)
-
 ::: center
+![](./images/taichi/07.png)  
 一片渐变的蓝天，随时间改变颜色
 :::
 
-::: tip
+::: info
 - 到这一步的完整代码在 GitHub
 - https://github.com/HK-SHAO/RayTracingPBR/blob/taichi/taichi/RT01/03.py
 :::
@@ -350,25 +351,20 @@ def sd_sphere(p: vec3, r: float) -> float:  # SDF 球体
 
 当光线偏离物体很远时，光线也很快就会传播到无穷远处，当光线步进的距离足够远而仍然没有到达物体表面，就认为这条光线没有击中任何物体，那我们就可以认为它击中了天空。
 
-下面是三维空间的一个二维切面，可视化这个算法中光线步进和与物体求交的过程
+下面是三维空间的一个二维切面，可视化这个算法中光线步进和与物体求交的过程。
 
 ::: center
 |![](./images/taichi/08.png)|![](./images/taichi/09.png)|
 |:-:|:-:|
 |较好的情况下很快到达物体表面|没有交点的情况很快就发散|
-:::
 
-::: center
 图片截取自 https://www.shadertoy.com/view/lslXD8
 :::
 
 一种比较差的情况是，光线刚好与物体擦肩而过，这个时候步进次数会急剧上升，不过好在光线总会离开物体表面附近，我们可以设置一个最大步进次数，当步进次数超过这个值时，也认为这条光线没有击中任何物体。
 
 ::: center
-![](./images/taichi/10.png =400x)
-:::
-
-::: center
+![](./images/taichi/10.png =400x)  
 图片截取自 https://www.shadertoy.com/view/lslXD8
 :::
 
@@ -424,7 +420,10 @@ else:
 
 好的！运行你的代码，你会看到我们成功地在屏幕上渲染出了一个形状。但似乎有点奇怪？为什么我们看到的球体不是圆形的，而是椭圆形的？
 
-![](./images/taichi/11.png)
+::: center
+![](./images/taichi/11.png)  
+我们看到场景中的球并不是一个标准的圆
+:::
 
 这是因为我们设置的窗口比例是 `1920:1080` 而我们在虚拟世界里定义的画布长宽并不是这个比例，而是 `2:1` （如下面代码所示），你注意到了吗？要更好的解决这个问题，下一节我们会创建一个摄像机类。
 
@@ -435,7 +434,7 @@ vertical = vec3(0, 2, 0)    # 视野垂直方向
 origin = vec3(0, 0, 0)      # 视点
 ```
 
-::: tip
+::: info
 - 到这一步的完整代码在 GitHub
 - https://github.com/HK-SHAO/RayTracingPBR/blob/taichi/taichi/RT01/04.py
 :::
@@ -453,10 +452,7 @@ origin = vec3(0, 0, 0)      # 视点
 由于我们的窗口可以调整长宽比，因此横向视野 `hfov` 可以取决于窗口长宽比和 `vfov` ，我们只需要设置 `vfov` 即可。
 
 ::: center
-![](./images/taichi/13.webp =500x)
-:::
-
-::: center
+![](./images/taichi/13.webp =500x)  
 人眼纵向的视野，出处见图片左下角
 :::
 
@@ -471,7 +467,8 @@ origin = vec3(0, 0, 0)      # 视点
 光线应该从光圈的哪个位置出发？在现实中，进入光圈的光线在光圈内的分布应该是均匀的，按照光路可逆原理，我们也应该在光圈内均匀的选取位置发射光线，但在我们的程序中，我们无法一次采样光圈内的所有点，因此我们只能使用 [蒙特卡洛方法 (Monte Carlo method)](https://en.wikipedia.org/wiki/Monte_Carlo_method) 在光圈内随机采样一个点。
 
 ::: center
-![](./images/taichi/14.svg =200x)
+![](./images/taichi/14.svg =200x)  
+在一个单位圆内随机撒豆子，豆子有一定概率落在扇形内
 :::
 
 如何在在单位圆内均匀的随机采样一个点呢？想象我们往单位圆内随机撒豆子，一个豆子落到半径为 $r$ ，角度为 $\theta$ 的扇形的概率是扇形的面积 $\theta r^2/2$ 比上单位圆面积 $\pi$ ，这就是它的概率分布函数 $F_1(r,\theta)$
@@ -489,7 +486,8 @@ $$
 是一个关于 $r$ 的函数，并不是一个常数，因此如果让 $r$ 在 $[0,1]$取值的话采样并不均匀，如下图所示
 
 ::: center
-![](./images/taichi/15.png =200x)
+![](./images/taichi/15.png =200x)  
+在单位圆的撒下的豆子并不是均匀分布的
 :::
 
 如果令 $x=r^2$ ，那么概率密度函数 $f_2(r,\theta)$ 就是一个常数了
@@ -502,18 +500,19 @@ $$
 f_2(x,\theta) = \frac{\mathrm{d}^2 F_2(x,\theta)}{\mathrm{d}x\mathrm{d}\theta} = \frac{1}{2\pi}
 $$
 
-因此我们只需要使用随机变量 $x$ 和 $\theta$ ，就可以得到在单位圆内均匀的随机采样一个点的坐标
+因此我们只需要使用随机变量 $x$ 和 $\theta$ ，就可以得到在单位圆内均匀的随机采样一个点，它的坐标 $\vec{\mathbf{p}}$ 如下
 
 $$
 x \in [0, 1], \theta \in [0, 2\pi], r=\sqrt x
 $$
 
 $$
-\vec{\mathbf{p}} = (r \cos \theta, r \sin \theta)
+\vec{\mathbf{p}} = \left(r \cos \theta, r \sin \theta\right)
 $$
 
 ::: center
-![](./images/taichi/16.png =200x)
+![](./images/taichi/16.png =200x)  
+现在，豆子均匀的分布在单位圆内
 :::
 
 ```python
@@ -526,9 +525,8 @@ def random_in_unit_disk():  # 单位圆内随机取一点
 
 ### 代码实现
 
-![](./images/taichi/12.svg)
-
 ::: center
+![](./images/taichi/12.svg)  
 我为这个摄像机模型总结了一幅图，根据这幅图可以直观的写出代码
 :::
 
@@ -536,7 +534,7 @@ def random_in_unit_disk():  # 单位圆内随机取一点
 
 ```python
 @ti.dataclass
-class Camera:           # 相机类
+class Camera:           # 摄像机类
     lookfrom: vec3      # 视点位置
     lookat: vec3        # 目标位置
     vup: vec3           # 向上的方向
@@ -598,10 +596,11 @@ ray = camera.get_ray(uv, vec4(1.0)) # 生成光线
 现在让我们看看运行的效果。很好，我们终于看到了一个完美的圆
 
 ::: center
-![](./images/taichi/17.png)
+![](./images/taichi/17.png)  
+一个完美的圆（实际上是球在平面上的投影）
 :::
 
-::: tip
+::: info
 - 到这一步的完整代码在 GitHub
 - https://github.com/HK-SHAO/RayTracingPBR/blob/taichi/taichi/RT01/05.py
 :::
@@ -612,7 +611,9 @@ ray = camera.get_ray(uv, vec4(1.0)) # 生成光线
 
 法线是垂直于物体表面某点的单位向量，利用 SDF 函数表示的物体表面，可以比较容易的计算出法线。为什么呢？
 
-我们直到 SDF 函数在某点的值表示的是该点到物体表面的距离，而函数某点的梯度表示的是函数增长最快的方向。对于 SDF 函数来说，梯度方向就是远离物体表面的方向，如果该点在物体表面，那么梯度方向刚好是物体表面法线 $\vec{\mathbf n}$ 的方向，也就是
+### 梯度与法线
+
+我们知道 SDF 函数在某点的值表示的是该点到物体表面的距离，而函数某点的梯度表示的是函数增长最快的方向。对于 SDF 函数来说，梯度方向就是远离物体表面的方向。如果某点在物体表面上，那么这一点的梯度方向刚好是物体表面法线 $\vec{\mathbf n}$ 的方向，也就是
 
 $$
 \vec{\mathbf n}=\mathrm{normalize}\left(\nabla f\left(\vec{\mathbf{p}}\right)\right)
@@ -625,8 +626,10 @@ $$
 $$
 
 ::: tip
-taichi 支持 [可微编程](https://docs.taichi-lang.org/zh-Hans/docs/master/differentiable_programming) ，拥有一个强大的自动微分系统，可以很方便的自动计算梯度。但是这里我仍然先采用传统的办法，即利用数值微分计算梯度
+taichi 支持可微编程[^diffp]，拥有一个强大的自动微分系统，可以很方便的自动计算梯度。但为了方便读者理解，这里我仍然先采用传统的办法，即利用数值微分计算梯度
 :::
+
+[^diffp]: Differentiable Programming. https://docs.taichi-lang.org/docs/differentiable_programming
 
 $$
 \nabla f\left(\vec{\mathbf{p}}\right)=\left(\frac{f\left(\vec{\mathbf{p}}+\vec{\mathbf{e}}_{x}\right)-f\left(\vec{\mathbf{p}}\right)}{\epsilon},\frac{f\left(\vec{\mathbf{p}}+\vec{\mathbf{e}}_{y}\right)-f\left(\vec{\mathbf{p}}\right)}{\epsilon},\frac{f\left(\vec{\mathbf{p}}+\vec{\mathbf{e}}_{z}\right)-f\left(\vec{\mathbf{p}}\right)}{\epsilon}\right)
@@ -652,7 +655,9 @@ def calcNormal(p: vec3):
 
 ### 优化求法线的效率
 
-在 [iq 的这篇文章](https://iquilezles.org/articles/normalsSDF/) 中，有一种四面体技术可以很好的减少计算量，所以我在这里改用为这种方法。此外，如果我们想在地图中放入若干不同的物体，不同的物体有不同位置和材质，因此在求法线时我们要传入具体是哪个物体
+在 [iq 的这篇文章](https://iquilezles.org/articles/normalsSDF/) 中，有一种四面体技术[^iq4]可以很好的减少计算量，所以我在这里改用为这种方法。此外，如果我们想在地图中放入若干不同的物体，不同的物体有不同位置和材质，因此在求法线时我们要传入具体是哪个物体
+
+[^iq4]: Normals for an SDF - 2015. https://iquilezles.org/articles/normalsSDF/
 
 ```python
 @ti.func
@@ -676,7 +681,8 @@ ray.color.rgb = 0.5 + 0.5 * normal  # 设置为法线颜色
 让我们欣赏一下这个五彩斑斓的球体，它看起来很漂亮
 
 ::: center
-![](./images/taichi/18.png)
+![](./images/taichi/18.png)  
+将法线映射为球表面的颜色
 :::
 
 ## 基础变换和材质
@@ -720,7 +726,7 @@ def signed_distance(obj, pos: vec3) -> float:
     return sd
 ```
 
-::: tip
+::: info
 - 到这一步的完整代码在 GitHub
 - https://github.com/HK-SHAO/RayTracingPBR/blob/taichi/taichi/RT01/06.py
 :::
@@ -776,14 +782,14 @@ while window.running:
 
 这样我们就可以以 FPS 游戏的方式，按住鼠标左键和 <kbd>W</kbd> <kbd>A</kbd> <kbd>S</kbd> <kbd>D</kbd> <kbd>Q</kbd> <kbd>E</kbd> 来自由移动摄像机啦。
 
-::: tip
+::: info
 - 到这一步的完整代码在 GitHub
 - https://github.com/HK-SHAO/RayTracingPBR/blob/taichi/taichi/RT01/07.py
 :::
 
 ## 更多形状和物体
 
-这一章，我们为 `Object` 类加入物体的形状属性，以支持物体拥有不同的形状（在本章，我们先添加一个简单的 BOX 形状）。在 `Transform` 类加入物体的缩放，以改变物体在各个轴上的大小。然后创建一个 `Object.field(shape=objects_num)` 场，在里面添加不同的物体。最后写一个 `nearest_object` 函数，为计算光线与场景中所有物体的最近的一个交点，利用 SDF 函数的特性，寻找距离点 $\vec{\mathbf{p}}$ 最近的物体。
+这一章，我们为 `Object` 类加入物体的形状属性，以支持物体拥有不同的形状（在本章，我们先添加一个简单的 Box 形状）。在 `Transform` 类加入物体的缩放，以改变物体在各个轴上的大小。然后创建一个 `Object.field(shape=objects_num)` 场，在里面添加不同的物体。最后写一个 `nearest_object` 函数，为计算光线与场景中所有物体最近的一个交点，利用 SDF 函数的特性，寻找距离点 $\vec{\mathbf{p}}$ 最近的物体。
 
 ```python
 # 举形状类型
@@ -806,9 +812,11 @@ class Object:
     sd: float
 ```
 
+### 选择物体形状
+
 由于物体有了不同形状和大小，所以物体的 SDF 函数需要根据类型进行选择，对 `signed_distance` 函数的更改如下
 
-```python
+```python{4,7-13}
 @ti.func
 def signed_distance(obj, pos: vec3) -> float:   # 对物体求 SDF 距离
     position = obj.trs.position # 位置空间变换（下一步再实现旋转变换）
@@ -826,7 +834,9 @@ def signed_distance(obj, pos: vec3) -> float:   # 对物体求 SDF 距离
     return obj.sd   # 返回符号距离
 ```
 
-其中 BOX 的 SDF 函数可以在 [iq 大佬的文章](https://iquilezles.org/articles/distfunctions/) 中查到如下
+其中 Box 的 SDF 函数[^boxsdf]可以在 [iq 大佬的文章](https://iquilezles.org/articles/distfunctions/) 中查到如下
+
+[^boxsdf]: Distance functions. https://iquilezles.org/articles/distfunctions/
 
 ```python
 @ti.func
@@ -835,9 +845,128 @@ def sd_box(p: vec3, b: vec3) -> float:  # SDF 盒子
     return length(max(q, 0)) + min(max(q.x, max(q.y, q.z)), 0)
 ```
 
+### 物体场
 
+接着，创建一个 `Object.field` 场，用于存储所有的物体。这里我在地图中多加了一个盒子，它在球体后面，被球挡住了，需要移动摄像机才能看到。
 
-::: tip
+```python
+objects_num = 2 # 地图中物体的数量
+objects = Object.field(shape=objects_num)
+
+# 存放物体形状的列表
+objects.type = [
+    SHAPE_SPHERE, 
+    SHAPE_BOX
+]
+
+# 存放物体变换的列表
+objects.trs = [
+    Transform(vec3(0, 0, -1), vec3(0.5)),
+    Transform(vec3(0, 0, -2), vec3(0.2, 0.3, 0.5))
+]
+
+# 存放物体材质的列表
+objects.mtl = [
+    Material(vec3(1, 0, 0)), 
+    Material(vec3(0, 1, 0))
+]
+```
+
+### 更改求交函数
+
+最后，在光线步进求交阶段，光线每步进一次，就寻找距离这一点最近的物体，如果距离最近的物体表面接近于 0 ，就判定为光线与物体表面相交了，改进的 `raycast` 函数如下
+
+```python{6}
+@ti.func
+def raycast(ray) -> HitRecord:  # 光线步进求交
+    record = HitRecord(ray.origin, TMIN, False) # 初始化光子碰撞记录
+    for _ in range(MAX_RAYMARCH):   # 光线步进
+        record.position = ray.at(record.distance)   # 计算光子所在位置
+        record.obj = nearest_object(record.position)    # 计算光子与球体的有向距离
+        dis = abs(record.obj.sd)    # 绝对值为无符号距离
+        if dis < PRECISION: # 如果光子与球体的距离小于精度即为击中
+            record.hit = True   # 设置击中状态
+            break
+        record.distance += dis  # 光子继续传播
+        if record.distance > TMAX:  # 如果光子传播距离大于最大传播距离
+            break
+    return record   # 返回光子碰撞记录
+```
+
+### 寻找最近物体
+
+那么如何寻找距离某点最近的物体呢？最简单粗暴和有效的方法是遍历所有的物体，计算所有物体的 SDF 值，然后返回 SDF 值最小的那个物体。这里我们使用了一个 `nearest_object` 函数，该函数的实现如下
+
+::: tip 思考
+读者可以思考一下，有没有更好的算法来寻找距离某点最近的物体，而不用遍历所有的物体呢？
+:::
+
+```python
+@ti.func
+def nearest_object(p: vec3) -> Object:  # 求最近的物体
+    o = Object(sd=MAP_SIZE) # 设置一个最大的 SDF 值，即地图边界
+    for i in ti.static(range(objects_num)):
+        oi = Object(objects.type[i], trs=objects.trs[i], mtl=objects.mtl[i])
+        oi.sd = signed_distance(oi, p)
+        if abs(oi.sd) < abs(o.sd): o = oi
+    return o
+```
+
+### 探索场景
+
+到这一步，我们就可以运行程序，然后自由移动摄像机看看场景中的两个颜色不同的物体。
+
+::: center
+![](./images/taichi/22.png)  
+两个不同的物体，一个红色球和一个绿色的盒子
+:::
+
+由于只进行了一次光线追踪，没有多次光线反弹之后的间接光和光强损耗，场景中的物体看起来非常的平面，没有影子和阴影。这在后面的章节会逐步完善。接下来我们继续测试一下法线
+
+::: center
+![](./images/taichi/19.png)  
+左：由于摄像机光圈和对焦距离的存在，产生了散景模糊  
+右：从另一个角度查看场景中的球和盒子
+:::
+
+摄像机可以进入物体内部吗？答案是肯定的。在前面物体求交阶段，我们对符号距离值做了绝对值处理，因此物体内部会被当作外部来处理，这样就可以进入物体内部了。
+
+如果物体是空心的（物体只有薄薄的一层表面），那物体内部的法线是怎样的呢？如何判断某点是在物体内部还是外部？我们控制摄像机进入盒子看看
+
+::: center
+![](./images/taichi/20.png)  
+盒子内部，将梯度当作法线，内表面法线仍然是朝向物体外面的
+:::
+
+从上图可以看到，物体内表面的法线仍然是朝向物体外面的，回顾 [计算物体法线](#计算物体法线) 这一章节，这是因为 SDF 函数的梯度方向永远是朝着 SDF 值增大的方向，而 SDF 物体内部的 SDF 函数值是负的。因此，如果要判断某点是在物体内部还是外部，只需要判断 SDF 值的符号即可。
+
+::: info
+- 到这一步的完整代码在 GitHub
+- https://github.com/HK-SHAO/RayTracingPBR/blob/taichi/taichi/RT01/08.py
+:::
+
+## 内外表面法线
+
+在处理透明的物体（例如玻璃、钻石、塑料等材质）时，物体内外有不同的折射率，光线会根据折射率之比改变方向。因此我们必须得知道光线正在进入物体内部，还是正在穿出物体。怎么做呢？如下图所示
+
+::: center
+![](./images/taichi/21.svg =400x)  
+光线穿入物体和穿出物体
+:::
+
+还记得向量的点乘吗？由于无论内表面还是外表面，法线方向永远都是朝物体外面，这带来的好处是当光线方向与法线方向点乘大于零时，光线正在从内表面穿出物体，当光线方向与法线方向点乘小于零时，光线正在从外表面穿入物体。
+
+$$
+\overrightarrow{\mathbf{ray}}\cdot \vec{\mathbf{n_1}} < 0
+$$
+
+$$
+\overrightarrow{\mathbf{ray}}\cdot \vec{\mathbf{n_2}} > 0
+$$
+
+## 加入阴影
+
+::: info
 - 到这一步的完整代码在 GitHub
 - https://github.com/HK-SHAO/RayTracingPBR/blob/taichi/taichi/RT01/09.py
 :::
