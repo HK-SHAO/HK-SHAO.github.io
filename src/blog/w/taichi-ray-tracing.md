@@ -1,5 +1,9 @@
 # Taichi: 从零开始的光线追踪
 
+::: danger
+这篇文章目前还没写完，正在更新中
+:::
+
 ![100万面镜子的渲染图](./images/taichi/banner.jpg)
 
 ::: center
@@ -8,7 +12,7 @@
 
 ## 前言
 
-这篇文章会分若干节，教你使用并行计算框架 Taichi 来从零开始、一步一步地实现一个基于物理的 (Physically Based Rendering) 光线追踪渲染器，然后用它构建一个场景，渲染出有真实感的画面。
+这篇文章会分若干章节，教你使用并行计算框架 Taichi 来从零开始、一步一步地实现一个基于物理的 (Physically Based Rendering) 光线追踪渲染器，然后用它构建一个场景，渲染出有真实感的画面。
 
 ### 什么是并行计算
 
@@ -727,7 +731,7 @@ def signed_distance(obj, pos: vec3) -> float:
 
 创建摄像机很简单，在初始化画布后实例化一个摄像机，然后为其设置初始位置
 
-```python
+```python{3-4}
 window = ti.ui.Window("Taichi Renderer", image_resolution)  # 创建窗口
 canvas = window.get_canvas()    # 获取画布
 camera = ti.ui.Camera()         # 创建摄像机
@@ -736,7 +740,7 @@ camera.position(0, 0, 4)        # 设置摄像机初始位置
 
 然后在运行的循环中，每帧根据用户输入更新摄像机
 
-```python
+```python{2-3}
 while window.running:
     # 从用户输入更新摄像机，设置移动速度为 0.03 ，按住鼠标左键旋转视角
     camera.track_user_inputs(window, movement_speed=0.03, hold_key=ti.ui.LMB)
@@ -744,7 +748,7 @@ while window.running:
 
 然后分别为 `render` 函数声明形参并传入实参
 
-```python
+```python{4-6}
 @ti.kernel
 def render(
     time: float, 
@@ -756,7 +760,7 @@ def render(
 
 循环内每帧传入摄像机的位置、朝向和上方向
 
-```python
+```python{7-9}
 while window.running:
     # 从用户输入更新摄像机，设置移动速度为 0.03 ，按住鼠标左键旋转视角
     camera.track_user_inputs(window, movement_speed=0.03, hold_key=ti.ui.LMB)
@@ -770,13 +774,72 @@ while window.running:
     window.show()   # 显示窗口
 ```
 
-这样我们就可以以 FPS 游戏的方式，按住鼠标左键和 <kbd>W</kbd> <kbd>A</kbd> <kbd>S</kbd> <kbd>D</kbd> <kbd>Q</kbd> <kbd>E</kbd> 来自由移动摄像机。
+这样我们就可以以 FPS 游戏的方式，按住鼠标左键和 <kbd>W</kbd> <kbd>A</kbd> <kbd>S</kbd> <kbd>D</kbd> <kbd>Q</kbd> <kbd>E</kbd> 来自由移动摄像机啦。
+
+::: tip
+- 到这一步的完整代码在 GitHub
+- https://github.com/HK-SHAO/RayTracingPBR/blob/taichi/taichi/RT01/07.py
+:::
+
+## 更多形状和物体
+
+这一章，我们为 `Object` 类加入物体的形状属性，以支持物体拥有不同的形状（在本章，我们先添加一个简单的 BOX 形状）。在 `Transform` 类加入物体的缩放，以改变物体在各个轴上的大小。然后创建一个 `Object.field(shape=objects_num)` 场，在里面添加不同的物体。最后写一个 `nearest_object` 函数，为计算光线与场景中所有物体的最近的一个交点，利用 SDF 函数的特性，寻找距离点 $\vec{\mathbf{p}}$ 最近的物体。
+
+```python
+# 举形状类型
+SHAPE_NONE      = 0 # 无形状
+SHAPE_SPHERE    = 1 # 球体
+SHAPE_BOX       = 2 # 箱体
+```
+
+```python{4,8}
+@ti.dataclass
+class Transform:
+    position: vec3
+    scale: vec3
+
+@ti.dataclass
+class Object:
+    type: ti.u32
+    trs: Transform
+    mtl: Material
+    sd: float
+```
+
+由于物体有了不同形状和大小，所以物体的 SDF 函数需要根据类型进行选择，对 `signed_distance` 函数的更改如下
+
+```python
+@ti.func
+def signed_distance(obj, pos: vec3) -> float:   # 对物体求 SDF 距离
+    position = obj.trs.position # 位置空间变换（下一步再实现旋转变换）
+    scale = obj.trs.scale   # 用缩放控制物体大小
+
+    p = pos - position
+    # 为不同形状选择不同的 SDF 函数
+    if obj.type == SHAPE_SPHERE:
+        obj.sd = sd_sphere(p, scale.x)
+    elif obj.type == SHAPE_BOX:
+        obj.sd = sd_box(p, scale)
+    else:
+        obj.sd = sd_sphere(p, scale.x)
+
+    return obj.sd   # 返回符号距离
+```
+
+其中 BOX 的 SDF 函数可以在 [iq 大佬的文章](https://iquilezles.org/articles/distfunctions/) 中查到如下
+
+```python
+@ti.func
+def sd_box(p: vec3, b: vec3) -> float:  # SDF 盒子
+    q = abs(p) - b
+    return length(max(q, 0)) + min(max(q.x, max(q.y, q.z)), 0)
+```
 
 
 
 ::: tip
 - 到这一步的完整代码在 GitHub
-- https://github.com/HK-SHAO/RayTracingPBR/blob/taichi/taichi/RT01/07.py
+- https://github.com/HK-SHAO/RayTracingPBR/blob/taichi/taichi/RT01/09.py
 :::
 
 @include(@src/shared/license.md)
