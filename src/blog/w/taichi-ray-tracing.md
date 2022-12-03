@@ -10,6 +10,10 @@
 用 Taichi 渲染 100 万面镜子
 :::
 
+::: details 查看目录
+[[toc]]
+:::
+
 ## 前言
 
 这篇文章会分若干章节，教你使用并行计算框架 Taichi 来从零开始、一步一步地实现一个基于物理 (Physically Based Rendering, PBR) 的光线追踪渲染器，然后用它构建一个场景，渲染出有真实感的画面。这篇文章基于实践，但是仍然会尽可能的用更多自然语言、图和公式讲解其中的物理和数学原理。
@@ -515,6 +519,8 @@ $$
 现在，豆子均匀的分布在单位圆内
 :::
 
+在 taichi 中，可以非常轻松的获取处于 $[0,1)$ 范围内均匀的随机数
+
 ```python
 @ti.func
 def random_in_unit_disk():  # 单位圆内随机取一点
@@ -523,7 +529,7 @@ def random_in_unit_disk():  # 单位圆内随机取一点
     return sqrt(x) * vec2(sin(a), cos(a))
 ```
 
-### 代码实现
+### 实现摄像机
 
 ::: center
 ![](./images/taichi/12.svg)  
@@ -598,6 +604,10 @@ ray = camera.get_ray(uv, vec4(1.0)) # 生成光线
 ::: center
 ![](./images/taichi/17.png)  
 一个完美的圆（实际上是球在平面上的投影）
+:::
+
+::: tip
+要移动摄像机，请查看 [移动摄像机](#移动摄像机)
 :::
 
 ::: info
@@ -686,6 +696,11 @@ ray.color.rgb = 0.5 + 0.5 * normal  # 设置为法线颜色
 :::
 
 ## 基础变换和材质
+
+::: tip
+- [物体的形状和缩放](#物体形状和缩放)
+- [物体的旋转](#物体的旋转)
+:::
 
 在这一章，我们会为物体赋予最简单的材质——反照率 (albedo) 以及一个最基础的变换——位置 (position) 。为方便读者理解，这里先放上 taichi 结构体类的定义代码
 
@@ -812,9 +827,9 @@ class Object:
     sd: float
 ```
 
-### 选择物体形状
+### 物体形状和缩放
 
-由于物体有了不同形状和大小，所以物体的 SDF 函数需要根据类型进行选择，对 `signed_distance` 函数的更改如下
+由于物体有了不同形状和大小，所以物体的 SDF 函数需要根据类型进行选择，还需要根据缩放来控制 SDF 物体的大小。对 `signed_distance` 函数的更改如下
 
 ```python{4,7-13}
 @ti.func
@@ -844,6 +859,25 @@ def sd_box(p: vec3, b: vec3) -> float:  # SDF 盒子
     q = abs(p) - b
     return length(max(q, 0)) + min(max(q.x, max(q.y, q.z)), 0)
 ```
+
+### 欧几里得空间
+
+为什么应用物体的变换，不使用一个包含缩放、旋转和剪切的 3x3 变换矩阵呢？iq 大佬在它的文章中指出，不同轴向非均匀的缩放会扭曲欧几里得空间[^boxsdf]，这使得 SDF 函数在求交阶段可能变得不可靠。
+
+> While rotations, uniform scaling and translations are exact operations, non-uniform scaling distorts the euclidean spaces and can only be bound.
+
+如果使用 $P'=T^{-1}(P-P_0)$ 的方式，将点 $P$ 从世界空间变换到物体空间，并左乘变换矩阵的逆，确实对 SDF 函数进行了正确的变换，但是这带来的问题是光线步进求交时，SDF 值并不是世界空间下的 SDF 值，因此求交的结果可能不正确。如下图所示，经过缩放变换的物体，在“窄”的那一侧会裂开，因为光线没能跟物体正确求交。
+
+::: center
+![](./images/taichi/27.png)  
+光线直接穿过了物体，没能跟物体表面相交，因此物体看起来裂开了  
+左图：物体没有进行缩放变换，正常求交  
+右图：物体进行了缩放变换，光线会在“窄”的一侧穿过物体
+:::
+
+::: info 思考
+是否有完备的解决方案，使得能够可靠的在非欧几里得空间中与 SDF 物体求交？笔者认为是有的，但是这里写不下（其实我也还没找到解决方案哭了）
+:::
 
 ### 物体场
 
@@ -947,18 +981,214 @@ def nearest_object(p: vec3) -> Object:  # 求最近的物体
 还记得向量的点乘吗？由于无论内表面还是外表面，法线方向永远都是朝物体外面，这带来的好处是当光线方向与法线方向点乘大于零时，光线正在从内表面穿出物体，当光线方向与法线方向点乘小于零时，光线正在从外表面穿入物体。
 
 $$
-\overrightarrow{\mathbf{ray}}\cdot \vec{\mathbf{n_1}} < 0
+\overrightarrow{\mathbf{ray}}\cdot \vec{\mathbf{n}_1} < 0
 $$
 
 $$
-\overrightarrow{\mathbf{ray}}\cdot \vec{\mathbf{n_2}} > 0
+\overrightarrow{\mathbf{ray}}\cdot \vec{\mathbf{n}_2} > 0
 $$
 
-## 加入阴影
+## 遮蔽与间接光
+
+在这一章，我们将继续靠近真正的路径追踪。当光线在场景的一个区域内不停的漫反射而难以逃出此区域击向光源（例如，靠近的两物体或狭缝处。在我们当前的场景，天空是我们唯一的光源），光强就会不停的损耗，因此这块区域看起来更暗（我将其称作遮蔽效应）。
+
+此外，当光线被一个物体表面过滤（相当于染色）后，再击到另外一个物体，就会在另外一个物体表面染上间接光颜色。通过路径追踪，我们可以用更接近物理世界规则的方式渲染场景，并拥有全局光照[^wikigi] (Global illumination, GI) 。
+
+[^wikigi]: Global illumination. https://en.wikipedia.org/wiki/Global_illumination
+
+### 路径追踪
+
+正如前面所说，光线追踪的核心算法很简单，就是光线与物体求交，然后与物体表面材质交互，即光线颜色、强度和方向改变，然后进行下一步追踪，直到光线到达光源。
+
+```mermaid
+graph LR
+    A[光线步进求交] --> B{击中光源?};
+    B -->|否| C[与物体表面材质交互];
+    C --> A;
+    B ---->|是| E[结束];
+```
+
+### 漫反射与切线空间
+
+接下来让我们实现一个最基本的材质，漫反射。漫反射是一种非常常见的现象，例如我们看到的表面粗糙的石头。漫反射的特点是光线在物体表面随机反射，不会带有明显的反射方向。漫反射的基本思路是半球采样，即在物体表面某点，以法线为 z 轴的处于物体表面外的单位半球（上半球）表面随机选取一个点，作为出射光方向。
+
+::: center
+![](./images/taichi/23.png)  
+切线空间与法线贴图[^lnm]
+:::
+
+[^lnm]: Normal Mapping. https://learnopengl.com/Advanced-Lighting/Normal-Mapping
+
+### 半球采样与TBN矩阵
+
+半球采样的第一步是建立物体表面切线空间坐标系，我们需要一个 TBN 矩阵将切线空间的出射方向映射到世界空间。在切线空间中，法线 $\vec{\mathbf N}$ 指向 Z 轴正方向，另外有与之两两正交的两个向量 $\vec{\mathbf T}$ 和 $\vec{\mathbf B}$。 Jeppe Revall Frisvad 的一篇论文[^obasis]介绍了一种快速求解这两个向量的方法，如下
+
+[^obasis]: Building an Orthonormal Basis from a 3D Unit Vector Without Normalization. https://doi.org/10.1080/2165347X.2012.689606
+
+```python
+@ti.func
+def TBN(N: vec3) -> mat3:   # 用世界坐标下的法线计算 TBN 矩阵
+    T = vec3(0)
+    B = vec3(0)
+    
+    if N.z < -0.99999:
+        T = vec3(0, -1, 0)
+        B = vec3(-1, 0, 0)
+    else:
+        a = 1.0 / (1.0 + N.z)
+        b = -N.x*N.y*a
+        
+        T = vec3(1.0 - N.x*N.x*a, b, -N.x)
+        B = vec3(b, 1.0 - N.y*N.y*a, -N.y)
+    
+    return mat3(T, B, N)
+```
+
+::: center
+![](./images/taichi/24.svg =300x)  
+在上半球内的点
+:::
+
+在上半球采样时我们只需要让 Z 轴坐标在 $[0,1]$ 之间取值。与前面的在单位圆圆内采样相似，为保证采样均匀，Z 轴坐标应为随机变量 $x\in [0,1]$ 取其平方根，而 $\theta \in [0,2\pi]$
+
+$$
+\begin{aligned}
+z &= \sqrt{x} \\
+\vec{xy} &= \sqrt{1-z^2} \cdot (\cos(\theta), \sin(\theta))\\
+\vec{\mathbf{p}}&=(xy, z)
+\end{aligned}
+$$
+
+在下面的代码中，我们使用了 taichi 的 `@` 运算符来进行矩阵乘法运算
+
+```python
+@ti.func
+def hemispheric_sampling(n: vec3) -> vec3:  # 以 n 为法线进行半球采样
+    ra = ti.random() * 2 * pi
+    rb = ti.random()
+    
+    rz = sqrt(rb)
+    v = vec2(cos(ra), sin(ra))
+    rxy = sqrt(1.0 - rb) * v
+    
+    return TBN(n) @ vec3(rxy, rz)   # 用 TBN 矩阵将切线空间方向转换到世界空间
+```
+
+::: warning
+在这篇文章，我们并不采取直接将半球采样的方向作为出射光方向的办法，而是用半球采样随机决定法线方向，然后再反射光线。这可以很好的模拟凹凸不平的表面，并且有益于后面的重要性采样 (Cosine-Weighted Hemisphere Sampling) 。如果你问如果光线反射到了物体内部怎么办？我们暂时处理方案是直接结束掉这条光线。
+:::
+
+```python{18-24}
+@ti.func
+def raytrace(ray, time: float) -> Ray:
+    for _ in range(MAX_RAYTRACE):
+        record = raycast(ray)   # 光线步进求交
+        
+        if not record.hit:
+            ray.color.rgb *= sky_color(ray, time)  # 获取天空颜色
+            break
+
+        visible = length(ray.color.rgb*ray.color.a)
+        if visible < 0.001:  # 如果光已经衰减到不可分辨程度了就不继续了
+            break
+        
+        # 这里的法线会始终指向物体外面
+        normal = calc_normal(record.obj, record.position) # 计算法线
+        # ray.color.rgb = 0.5 + 0.5 * normal  # 设置为法线颜色
+
+        N = hemispheric_sampling(normal)    # 半球采样
+        ray.direction = reflect(ray.direction, N)  # 反射光线
+        ray.origin = record.position    # 设置光线起点
+        ray.color.rgb *= record.obj.mtl.albedo   # 设置为材质颜色
+        ray.color.a *= 0.5  # 让强度衰减一些
+        if dot(normal, ray.direction) < 0: # 如果光线反射到了物体内部，也直接跳出循环
+            break
+
+    return ray
+```
+
+接下来让我们看看效果，可以看到这个方法可以表现完全粗糙的物体表面，但是画面有大量的噪点，并且放大可以观察到形状的边缘有明显的锯齿。下一章，我将会介绍简单的消除噪点和抗锯齿的办法。
+
+::: center
+![](./images/taichi/25.png)  
+漫反射材质光线追踪效果（有大量噪点）
+:::
 
 ::: info
 - 到这一步的完整代码在 GitHub
 - https://github.com/HK-SHAO/RayTracingPBR/blob/taichi/taichi/RT01/09.py
+:::
+
+## 基础降噪与抗锯齿
+
+### 基础降噪
+
+基础降噪的思路很简单，因为光线追踪是一个蒙特卡洛过程，所以我们可以在迭代中对多帧结果进行积累，当积累足够多步数后，总有一个临界点让我们无法观察到噪点。我们可以用变量 $\mathbf{C}_i$ 和 $\mathbf{C}_{i-1}$ 来表示当前帧和上一帧像素颜色，用 $\mathbf{S}_i$ 表示这帧采样到的颜色，用 $n$ 来表示当前的采样次数，那么我们可以用下面的公式来更新像素颜色
+
+$$
+\mathbf{C}_i = \mathrm{mix}\left(\mathbf{C}_{i-1}, \mathbf{S}_i, \frac{1}{n}\right)
+$$
+
+在实现上，我们需要引入 `denoise_frame` 来控制采样次数
+
+```python{2-5}
+color = ray.color.rgb * ray.color.a # 混合颜色与光强
+
+last_color = image_pixels[i, j] # 获取上一帧的颜色
+out_color = mix(last_color, color, 1.0 / denoise_frame) # 混合当前帧和上一帧的颜色
+
+image_pixels[i, j] = out_color  # 设置像素颜色
+```
+
+当按下空格键时，重新开始积累降噪帧，否则让 `denoise_frame` 自增
+
+```python{4-6}
+while window.running:
+    camera.track_user_inputs(window, movement_speed=0.03, hold_key=ti.ui.LMB)
+    delta_time = time.time() - start_time   # 计算时间差
+    if window.is_pressed(' '):
+        denoise_frame = 0
+    denoise_frame += 1
+    ...
+```
+
+### 超采样抗锯齿
+
+锯齿的产生是因为我们的像素是离散的，但是只要像素密度足够高，我们就难以察觉出锯齿。因此超采样抗锯齿的思路是在一个像素中虚拟出更多像素，然后对这些像素进行平均。在光线追踪中，我们可以在一个像素中对 uv 进行抖动，来模拟对像素内大量虚拟像素的采样。
+
+在蒙特卡洛过程使用超采样抗锯齿的办法很简单，在 taichi 中只需要一行代码就可以实现
+
+```python{3}
+SCREEN_PIXEL_SIZE = 1.0 / vec2(image_resolution)
+uv = vec2(i, j) * SCREEN_PIXEL_SIZE # 计算像素坐标
+uv += vec2(ti.random(), ti.random()) * SCREEN_PIXEL_SIZE    # 超采样
+```
+
+让我们看看累积帧降噪和抗锯齿的效果，可以看到图片变得非常干净，而且形状边缘过度也变得平滑
+
+::: center
+![](./images/taichi/26.png)  
+累积帧降噪和抗锯齿
+:::
+
+::: info
+- 到这一步的完整代码在 GitHub
+- https://github.com/HK-SHAO/RayTracingPBR/blob/taichi/taichi/RT01/10.py
+:::
+
+## 物体的旋转
+
+
+
+## PBR 材质渲染
+
+## IBL 基于图像照明
+
+## 色调映射
+
+::: info
+- 到这一步的完整代码在 GitHub
+- https://github.com/HK-SHAO/RayTracingPBR/blob/taichi/taichi/RT01/11.py
 :::
 
 @include(@src/shared/license.md)
