@@ -1008,6 +1008,40 @@ graph LR
     B ---->|是| E[结束];
 ```
 
+### 俄罗斯轮盘赌
+
+即使限制了最大的追踪次数，但是光线仍然有可能在两个表面不停来回反弹，这会使得单帧内的计算量陡然上升，帧数下降。为了提升帧率，将蒙特卡洛采样的计算量更均匀的分摊到每一帧，我们可以使用俄罗斯轮盘赌[^wikiroulette] (Russian roulette, RR) 算法。
+
+[^wikiroulette]: Russian roulette. https://en.wikipedia.org/wiki/Russian_roulette
+
+俄罗斯轮盘赌算法的核心是，在光线每一次反弹时，以一个概率决定光线是否继续传播。这个概率可以是一个固定的概率，但是一种比较好的做法是，将每次反弹看作独立事件，让停止光线继续传播的概率随着反弹次数增加而上升。
+
+```python{6-14,21}
+@ti.func
+def raytrace(ray, time: float) -> Ray:
+    for i in range(MAX_RAYTRACE):
+        record = raycast(ray)   # 光线步进求交
+
+        # 俄罗斯轮盘赌概率，防止光线过分的反复反射
+        light_quality = 1 / 50
+        inv_pdf = exp(float(i) * light_quality)
+        roulette_prob = 1.0 - (1.0 / inv_pdf)
+    
+        visible = length(ray.color.rgb*ray.color.a)
+        # 如果光已经衰减到不可分辨程度，或者光线毙掉就不继续了
+        if visible < 0.001 or ti.random() < roulette_prob:
+            break
+        
+        if not record.hit:
+            ray.color.rgb *= sky_color(ray, time)  # 获取天空颜色
+            break
+        ...
+
+        ray.color *= inv_pdf # 能量守恒
+
+    return ray
+```
+
 ### 漫反射与切线空间
 
 接下来让我们实现一个最基本的材质，漫反射。漫反射是一种非常常见的现象，例如我们看到的表面粗糙的石头。漫反射的特点是光线在物体表面随机反射，不会带有明显的反射方向。漫反射的基本思路是半球采样，即在物体表面某点，以法线为 z 轴的处于物体表面外的单位半球（上半球）表面随机选取一个点，作为出射光方向。
@@ -1021,7 +1055,7 @@ graph LR
 
 ### 半球采样与TBN矩阵
 
-半球采样的第一步是建立物体表面切线空间坐标系，我们需要一个 TBN 矩阵将切线空间的出射方向映射到世界空间。在切线空间中，法线 $\vec{\mathbf N}$ 指向 Z 轴正方向，另外有与之两两正交的两个向量 $\vec{\mathbf T}$ 和 $\vec{\mathbf B}$。 Jeppe Revall Frisvad 的一篇论文[^obasis]介绍了一种快速求解这两个向量的方法，如下
+半球采样的第一步是建立物体表面切线空间坐标系，我们需要一个旋转矩阵将切线空间的出射方向映射到世界空间，这个矩阵就是 TBN 矩阵。在切线空间中，法线 $\vec{\mathbf N}$ 指向 Z 轴正方向，另外有与之两两正交的两个向量 $\vec{\mathbf T}$ 和 $\vec{\mathbf B}$。 Jeppe Revall Frisvad 的一篇论文[^obasis]介绍了一种快速求解这两个向量的方法，如下
 
 [^obasis]: Building an Orthonormal Basis from a 3D Unit Vector Without Normalization. https://doi.org/10.1080/2165347X.2012.689606
 
@@ -1178,17 +1212,342 @@ uv += vec2(ti.random(), ti.random()) * SCREEN_PIXEL_SIZE    # 超采样
 
 ## 物体的旋转
 
+让我们暂时休息一会儿，实现一个简单但是有用的小功能。在前面的章节，我们已经为为物体实现了简单的位移和缩放，本章我们实现物体的旋转。
 
+### 旋转矩阵
+
+三维空间下的旋转矩阵是一个 3x3 的矩阵，它的每一行都是一个单位向量，这三个单位向量构成了一个正交基。我们可以通过将三维向量左乘旋转矩阵将它从一个坐标系旋转到另一个坐标系。
+
+$$
+\begin{bmatrix}
+x' \\
+y' \\
+z'
+\end{bmatrix}=\begin{bmatrix}
+ \cdot & \cdot & \cdot\\
+ \cdot & \cdot & \cdot\\
+  \cdot& \cdot &\cdot
+\end{bmatrix}
+\begin{bmatrix}
+x \\
+y \\
+z
+\end{bmatrix}
+$$
+
+### 欧拉角
+
+由于人们操控旋转矩阵或者四元数中的数值来表示旋转并不直观，因此我们使用欧拉角来表示旋转。欧拉角是一个三维向量，它的每个分量分别表示绕 X, Y, Z 轴的旋转角度。左手系下，绕三个轴的旋转矩阵分别为
+
+$$
+\mathcal{R}_{x}\left(\theta_{x}\right)=\left[\begin{array}{ccc}
+1 & 0 & 0 \\
+0 & \cos \theta_{x} & \sin \theta_{x} \\
+0 & -\sin \theta_{x} & \cos \theta_{x}
+\end{array}\right]
+$$
+
+$$
+\mathcal{R}_{y}\left(\theta_{y}\right)=\left[\begin{array}{ccc}
+\cos \theta_{y} & 0 & -\sin \theta_{y} \\
+0 & 1 & 0 \\
+\sin \theta_{y} & 0 & \cos \theta_{y}
+\end{array}\right]
+$$
+
+$$
+\mathcal{R}_{z}\left(\theta_{z}\right)=\left[\begin{array}{ccc}
+\cos \theta_{z} & \sin \theta_{z} & 0 \\
+-\sin \theta_{z} & \cos \theta_{z} & 0 \\
+0 & 0 & 1
+\end{array}\right]
+$$
+
+我们可以通过将三个旋转矩阵相乘来依次旋转得到一个总的旋转矩阵，矩阵乘法有先后区别，通常我们以 ZYX 的顺序来表示欧拉角的旋转矩阵
+
+$$
+\mathcal{M}(\alpha, \beta, \gamma)=\mathcal{R}_{z}(\alpha) \mathcal{R}_{y}(\beta) \mathcal{R}_{x}(\gamma)
+$$
+
+用 taichi 代码实现如下
+
+```python
+@ti.func
+def rotate(a: vec3) -> mat3: # 欧拉角到旋转矩阵
+    s = sin(a)
+    c = cos(a)
+    return  mat3(   vec3( c.z,  s.z,    0),
+                    vec3(-s.z,  c.z,    0),
+                    vec3(   0,    0,    1)) @\
+            mat3(   vec3( c.y,    0, -s.y),
+                    vec3(   0,    1,    0),
+                    vec3( s.y,    0,  c.y)) @\
+            mat3(   vec3(   1,    0,    0),
+                    vec3(   0,  c.x,  s.x),
+                    vec3(   0, -s.x,  c.x)  )
+```
+
+### 旋转物体
+
+在 taichi 结构体类中添加一个旋转向量（如果要更改物体的旋转，别忘了在物体场中修改物体的旋转）
+
+```python{4}
+@ti.dataclass
+class Transform:
+    position: vec3
+    rotation: vec3
+    scale: vec3
+```
+
+对物体进行旋转，只需要将 `pos - position` 左乘旋转矩阵即可
+
+```python{6}
+@ti.func
+def signed_distance(obj, pos: vec3) -> float:   # 对物体求 SDF 距离
+    position = obj.trs.position # 位置空间变换（下一步再实现旋转变换）
+    scale = obj.trs.scale   # 用缩放控制物体大小
+
+    p = rotate(obj.trs.rotation) @ (pos - position)
+    ...
+```
 
 ## PBR 材质渲染
 
-## IBL 基于图像照明
+::: info
+关于 PBR 渲染从理论到实现，可以查看这本在线书：https://www.pbr-book.org/
+:::
 
-## 色调映射
+PBR (Physically Based Rendering) ，即基于物理的渲染，它的渲染效果更加接近现实世界。满足 PBR 渲染的条件被认为是
+
+- 基于微表面模型 (Microfacet Model[^microfacet])
+- 能量守恒——出射光线的能量永远不能超过入射光线的能量（除自发光或者光源外）
+- 使用基于物理的 BRDF[^lopgl]
+
+[^lopgl]: Learn OpenGL PBR Theory. https://learnopengl.com/PBR/Theory
+
+[^microfacet]: Microfacet Models. https://www.pbr-book.org/3ed-2018/Reflection_Models/Microfacet_Models
+
+对于我们的光线追踪程序来说，PBR 仍然要解决的是光如何与物体表面发生作用的问题，即光 `ray.direction` 和 `ray.color` 如何改变的问题。
+
+我们将要实现的 PBR 模型是基于双向散射分布函数 (Bidirectional Scattering Distribution Function, BSDF) 的，它包含了反射 (BRDF) 和透射 (BTDF) 两部分。此外我们还允许材质的自发光属性，让这个光照模型类似于 Blender 的原理化 BSDF (Principled BSDF) 渲染。
+
+```python
+@ti.func
+def PBR(ray, record, normal: vec3) -> Ray:
+    roughness = record.obj.mtl.roughness        # 获取粗糙度
+    metallic = record.obj.mtl.metallic          # 获取金属度
+    transmission = record.obj.mtl.transmission  # 获取透明度
+    ior = record.obj.mtl.ior                    # 获取折射率
+
+    I = ray.direction   # 入射方向
+    V = -ray.direction  # 观察方向
+    # 将材质的切线空间法线转换到世界空间
+    N = TBN(record.obj.mtl.normal) @ normal   # 法线方向
+
+    NoV = dot(N, V)
+    ...
+```
+
+::: warning
+笔者实现的 BSDF 注重简洁且有效率，以及“看起来正确”，不能保证百分百物理正确。如果你发现了这个模型的问题，请在评论区告诉大家
+:::
+
+### 余弦重要性采样
+
+在这里，我们的余弦重要性采样 (Cosine weighted sampling) 结合了微表面模型的法线分布函数，使用归一化的粗糙度值 $\alpha$ 作为参数采样法线分布。
+
+与半球采样类似，是需要改变法线 Z 轴分布即可重要性采样，代码如下
+
+```python
+@ti.func
+def hemispheric_sampling_roughness(n: vec3, roughness: float) -> vec3:  # 用粗糙度采样沿向量 n 半球采样
+    ra = ti.random() * 2 * pi
+    rb = ti.random()
+
+    shiny = pow5(roughness) # 光感越大高光越锐利
+    
+    rz = sqrt((1.0 - rb) / (1.0 + (shiny - 1.0)*rb))    # 用粗糙度改变 Z 轴分布
+    v = vec2(cos(ra), sin(ra))
+    rxy = sqrt(abs(1 - rz*rz)) * v
+    
+    return TBN(n) @ vec3(rxy, rz)
+```
+
+### 菲涅尔方程
+
+菲涅尔现象是自然环境中很常见的光学现象，例如从更倾斜的角观察水面或者玻璃、光滑大理石会看到倒影，这是因为视角的不同会影响我们看到的反射的光的量。而菲涅尔方程描述了光线中被反射的部分与被折射的部分的占比，这个比率会随着我们观察的角度不同而改变。
+
+菲涅尔方程是一个复杂的方程式，但是我们可以用 Fresnel-Schlick 近似法快速求得近似解，其中 $\cos\theta$ 是法线与视线（也就是光线的反方向）方向夹角的余弦值。$F_0$ 是基础反射率，它可以由材质的折射指数 (IOR) 计算得出
+
+$$
+F_{Schlick}(\cos\theta, F_0) = 
+    F_0 + (1 - F_0) ( 1 - \cos\theta)^5
+$$
+
+```python
+@ti.func
+def fresnel_schlick(cosine: float, F0: float) -> float:   # 计算菲涅尔近似值
+    return F0 + (1 - F0) * pow5(abs(1 - cosine))
+
+@ti.func
+def fresnel_schlick_roughness(cosine: float, F0: float, roughness: float) -> float:  # 计算粗糙度下的菲涅尔近似值
+    return F0 + (max(1 - roughness, F0) - F0) * pow5(abs(1 - cosine))
+```
+
+### BRDF
+
+BRDF 部分通过粗糙度和 Fresnel-Schlick 近似法计算出一个反射率，并让金属度影响完全漫反射与混合粗糙度的半球采样。
+
+```python
+F = fresnel_schlick_roughness(NoV, 0.04, roughness)
+if ti.random() < F + metallic:  # 反射部分
+    N = hemispheric_sampling_roughness(N, roughness)
+    ray.direction = reflect(I, N)   # 平面反射
+else:   # 漫反射部分
+    ray.direction = hemispheric_sampling(N)  # 半球采样
+```
+
+### BTDF
+
+BTDF 部分，我们要先判断光线是正在传入物体还是穿出物体，然后来获取正确的法线方向和折射率比值 `eta` 。
+
+```python
+if ti.random() < transmission:  # 折射部分
+    # BTDF
+    eta = ENV_IOR / ior # 折射率之比
+    outer = sign(NoV)   # 大于零就是穿入物体，小于零是穿出物体
+    eta = pow(eta, outer)   # 更改折射率之比
+    N  *= outer   # 如果是穿出物体表面，就更改法线方向
+
+    NoI = -NoV
+    k = 1.0 - eta * eta * (1.0 - NoI * NoI) # 这个值如果小于 0 就说明全反射了
+
+    F0 = (eta - 1) / (eta + 1)  # 基础反射率
+    F0 *= F0
+    F = fresnel_schlick(NoV, F0)
+    N = hemispheric_sampling_roughness(N, roughness)    # 根据粗糙度抖动法线方向
+
+    # k < 0 为全反射
+    if ti.random() < F + metallic and outer > 0 or k < 0:
+        ray.direction = reflect(I, N)   # 反射
+    else:
+        # ray.direction = refract(I, N, eta)    # 折射
+        ray.direction = eta * I - (eta * NoI + sqrt(k)) * N
+else:
+    # BRDF
+    ...
+```
+
+### 自发光
+
+我们将自发光物体视为一个光源，它的光照强度由自发光颜色和自发光强度决定，因此 `emission` 是一个四维向量 `rgb` 代表颜色， `a` 代表光强。当光线与自发光物体相交时，我们改变光线颜色，并结束路径追踪。
+
+
+```python{1-4}
+# 处理自发光
+emission = record.obj.mtl.emission
+if abs(record.obj.mtl.emission.a) > 0.0:
+    ray.color.rgb *= emission.rgb*emission.a
+    break
+
+ray = PBR(ray, record, normal)  # 应用 PBR 材质
+```
 
 ::: info
 - 到这一步的完整代码在 GitHub
-- https://github.com/HK-SHAO/RayTracingPBR/blob/taichi/taichi/RT01/11.py
+- https://github.com/HK-SHAO/RayTracingPBR/blob/taichi/taichi/RT01/12.py
+:::
+
+## IBL 基于图像照明
+
+### 读取图片
+
+使用 taichi 的 `ti.tools.imread` 函数读取图片为 numpy 数组，然后将其转换为 taichi 的 `vec3.field` 。最后 `texture` 函数可以用归一化的 uv 坐标访问像素值。
+
+```python
+@ti.data_oriented
+class Image:
+    def __init__(self, path: str):
+        self.img = ti.tools.imread(path)
+        self.img = self.img.astype("float32")
+        self.img = self.img / 255.0
+        self.img = vec3.field(shape=self.img.shape)
+        self.img.from_numpy(self.img.to_numpy())
+
+    def texture(self, uv: vec2):
+        x = int(uv.x * self.img.shape[0])
+        y = int(uv.y * self.img.shape[1])
+        return self.img[x, y]
+```
+
+### 采样球面贴图
+
+```python
+inv_atan = vec2(0.1591, 0.3183)
+def sample_spherical_map(v: vec3) -> vec2:  # 球面坐标到笛卡尔坐标
+    uv = vec2(atan2(v.z, v.x), asin(v.y))
+    uv *= inv_atan
+    uv += 0.5
+    return uv
+
+@ti.func
+def IBL(ray, img) -> vec3:    # 采样球面光照
+    uv = sample_spherical_map(ray.direction)
+    return img.texture(uv)
+```
+
+::: info
+- 到这一步的完整代码在 GitHub
+- https://github.com/HK-SHAO/RayTracingPBR/blob/taichi/taichi/RT01/13.py
+:::
+
+## 色调映射
+
+为什么要色调映射？
+
+大多数显示器能够显示的色彩范围是 $[0,255]$ ，但是自然世界中的光强是 $[0,+\infty]$ ，为了能够让更广的动态范围被显示设备显示，需要一条曲线映射原本的光强，在保证阴影和高光细节的同时，呈现更真实的色彩。人眼感受到的光强并不是与物理世界的光强成线性增长，因此色调映射通常与 gamma 矫正一起使用。
+
+Matt Taylor 的这篇文章[^tomp]很好的总结了各种色调映射算法，我将其中的 ACES (Academy Color Encoding System) 算法实现如下
+
+[^tomp]: Tone Mapping. https://64.github.io/tonemapping/
+
+```python
+ACESInputMat = mat3(
+    vec3(0.59719, 0.35458, 0.04823),
+    vec3(0.07600, 0.90834, 0.01566),
+    vec3(0.02840, 0.13383, 0.83777)
+)
+
+# ODT_SAT => XYZ => D60_2_D65 => sRGB
+ACESOutputMat = mat3(
+    vec3( 1.60475, -0.53108, -0.07367),
+    vec3(-0.10208,  1.10813, -0.00605),
+    vec3(-0.00327, -0.07276,  1.07602)
+)
+
+@ti.func
+def RRTAndODTFit(v: vec3) -> vec3:
+    a = v * (v + 0.0245786) - 0.000090537
+    b = v * (0.983729 * v + 0.4329510) + 0.238081
+    return a / b
+
+@ti.func
+def ACESFitted(color: vec3) -> vec3:    # ACES 色调映射
+    color = ACESInputMat @ color
+    color = RRTAndODTFit(color) # Apply RRT and ODT
+    color = ACESOutputMat @ color
+    return color
+```
+
+::: info
+- 到这一步的完整代码在 GitHub
+- https://github.com/HK-SHAO/RayTracingPBR/blob/taichi/taichi/RT01/14.py
+:::
+
+## 进一步降噪
+
+::: tip
+未完待续
 :::
 
 @include(@src/shared/license.md)
