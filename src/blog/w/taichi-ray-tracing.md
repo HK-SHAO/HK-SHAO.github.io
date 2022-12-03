@@ -1,3 +1,7 @@
+---
+next: ray-tracing-denoise.md
+---
+
 # Taichi: 从零开始的光线追踪
 
 ::: info
@@ -1644,5 +1648,7 @@ color = ACESFitted(color)       # ACES 色调映射
 ::: info
 Intel 的这篇论文提出了一种效果极佳的光追降噪，[Temporally Stable Real-Time Joint Neural Denoising and Supersampling](https://www.intel.com/content/www/us/en/developer/articles/technical/temporally-stable-denoising-and-supersampling.html)
 :::
+
+请前往：[光线追踪实时渲染降噪](ray-tracing-denoise.md)
 
 @include(@src/shared/license.md)
