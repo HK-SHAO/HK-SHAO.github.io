@@ -1396,7 +1396,7 @@ def fresnel_schlick_roughness(cosine: float, F0: float, roughness: float) -> flo
 
 ### BRDF
 
-BRDF 部分通过粗糙度和 Fresnel-Schlick 近似法计算出一个反射率，并让金属度影响完全漫反射与混合粗糙度的半球采样。
+通过粗糙度和 Fresnel-Schlick 近似法计算出一个反射率，并让金属度影响完全漫反射与混合粗糙度的半球采样。
 
 ```python
 F = fresnel_schlick_roughness(NoV, 0.04, roughness)
@@ -1409,7 +1409,7 @@ else:   # 漫反射部分
 
 ### BTDF
 
-BTDF 部分，我们要先判断光线是正在传入物体还是穿出物体，然后来获取正确的法线方向和折射率比值 `eta` 。
+我们要先判断光线是正在传入物体还是穿出物体，然后来获取正确的法线方向和折射率比值 `eta` 。
 
 ```python
 if ti.random() < transmission:  # 折射部分
