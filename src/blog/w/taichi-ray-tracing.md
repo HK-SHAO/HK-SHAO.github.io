@@ -32,7 +32,7 @@
 
 正如我前面所说，Taichi 是一个并行计算框架，当前许多计算密集型任务（例如图像渲染、物理仿真和人工智能等任务）高度依托于并行计算。为什么呢，因为这些任务都可以被分解为可以被并行处理的最简单的数学运算，通常我们会把它们交给多核心的 CPU 或 GPU 来进行处理。
 
-如何区分 CPU 和 GPU ？形象点来说，CPU 的若干个大核心就像是几个博士为你处理任务，而 GPU 就像是有成百上千个小学生（英伟达的 4090 GPU 拥有超过一万个 CUDA 核心）为你同时处理任务。所以通常，我们会使用 GPU 来加速并行计算。
+如何区分 CPU 和 GPU ？形象点来说，CPU 的若干个大核心就像是几个“博士生”为你处理任务，而 GPU 就像是有成百上千个“小学生”（英伟达的 4090 GPU 拥有超过一万个 CUDA 核心）为你同时处理任务。所以通常，我们会使用 GPU 来加速并行计算。
 
 ::: center
 ![](./images/taichi/02.svg =300x)  
@@ -279,6 +279,11 @@ while window.running:
 
 接下来，我们来到了光线追踪最基础的一步——定义光线。光线是光子沿射线传播的路径，在基于光线追踪的渲染器中，我们假定光线仅沿着一条直线传播，因此光线可以用一个起点 $\vec{\mathbf{ro}}$ 和一个方向 $\vec{\mathbf{rd}}$ 来表示，其中 $\vec{\mathbf{rd}}$ 应是一个单位向量。这样，光子在三维空间中所在的位置可以用 $\vec{\mathbf{p}}(t)=\vec{\mathbf{ro}} + t \cdot \vec{\mathbf{rd}}$ 表示，其中 $t$ 是光从起点开始传播的距离。
 
+::: center
+![](./images/taichi/33.svg =400x)  
+光线的起点和方向
+:::
+
 另外，用一个四维向量 `vec4` 表示光线的颜色和强度，这方便我们后面对光的处理。在这里，我们使用面向对象 (OOP) 的建模方法，利用 Taichi 的 `ti.dataclass` 装饰器写一个光线类，`at` 函数传入 `t` 计算光所在位置。
 
 ```python
@@ -372,13 +377,21 @@ $$
 {\rm sphere}(\vec{\mathbf{p}}, r) = \left\|\vec{\mathbf{p}}\right\| - r
 $$
 
-使用 SDF 表示物体的好处是，我们可以很方便地计算出物体的表面法线，这在后面的光照计算中会用到。此外， SDF 函数不仅能够表达简单的集合物体，也可以表达复杂的物体，还可以使用简单的运算对多个物体进行变换、组合和重复等操作，这使得我们可以很方便地创建出复杂的场景。
-
 ```python
 @ti.func
 def sd_sphere(p: vec3, r: float) -> float:  # SDF 球体
     return length(p) - r
 ```
+
+使用 SDF 表示物体的好处是，我们可以很方便地计算出物体的表面法线，这在后面的光照计算中会用到。此外， SDF 函数不仅能够表达简单的集合物体，也可以表达复杂的物体，还可以使用简单的运算对多个物体进行变换、组合和重复等操作[^boxsdf]，这使得我们可以很方便地创建出复杂的场景，如下图所示
+
+::: center
+|![](./images/taichi/gfx16.png)|![](./images/taichi/gfx18.png)|![](./images/taichi/gfx45.png)|
+|:--:|:--:|:--:|
+|扭曲物体|重复物体|并集、差集、交集|
+
+图片来自 https://iquilezles.org/articles/distfunctions/
+:::
 
 ### 光线步进求交
 
@@ -554,7 +567,9 @@ $$
 现在，豆子均匀的分布在单位圆内
 :::
 
-在 taichi 中，可以非常轻松的获取处于 $[0,1)$ 范围内均匀的随机数
+在 taichi 中，可以用 `ti.random()` 非常轻松的获取处于 $[0,1)$ 范围内均匀的随机数[^tirand]
+
+[^tirand]: Random number generator. https://docs.taichi-lang.org/docs/operator#random-number-generator
 
 ```python
 @ti.func
@@ -690,7 +705,7 @@ $$
 
 ```python
 @ti.func
-def calcNormal(p: vec3):
+def calc_normal(p: vec3):
     eps = 0.0001
     h = vec2(eps, 0)
     return normalize( vec3( f(p+h.xyy) - f(p-h.xyy), \
@@ -1120,7 +1135,7 @@ def TBN(N: vec3) -> mat3:   # 用世界坐标下的法线计算 TBN 矩阵
 在上半球内的点
 :::
 
-在上半球采样时我们只需要让 Z 轴坐标在 $[0,1]$ 之间取值。与前面的在单位圆圆内采样相似，为保证采样均匀，Z 轴坐标应为随机变量 $x\in [0,1]$ 取其平方根，而 $\theta \in [0,2\pi]$
+在上半球采样时我们只需要让 Z 轴坐标在 $[0,1]$ 之间取值。与前面的在单位圆内采样相似，为保证采样均匀，Z 轴坐标应为随机变量 $x\in [0,1]$ 取其平方根，而 $\theta \in [0,2\pi]$
 
 $$
 \begin{aligned}
@@ -1351,6 +1366,10 @@ def signed_distance(obj, pos: vec3) -> float:   # 对物体求 SDF 距离
 
 ## PBR 材质渲染
 
+::: warning
+WIP: 本章节还需要补充大量细节
+:::
+
 ::: info
 关于 PBR 渲染从理论到实现，可以查看这本在线书：https://www.pbr-book.org/
 :::
@@ -1387,7 +1406,7 @@ def PBR(ray, record, normal: vec3) -> Ray:
 ```
 
 ::: warning
-笔者实现的 BSDF 注重简洁且有效率，以及“看起来正确”，不能保证百分百物理正确。如果你发现了这个模型的问题，请在评论区告诉大家
+笔者实现的 BSDF 注重简洁且有效率，以及“看起来正确”，不能保证百分百物理正确。如果你发现了这个模型可以优化的点，可以在评论区告诉大家
 :::
 
 ### 余弦重要性采样
@@ -1453,7 +1472,7 @@ else:   # 漫反射部分
 
 ### BTDF
 
-我们要先判断光线是正在传入物体还是穿出物体，然后来获取正确的法线方向和折射率比值 `eta` 。
+我们要先判断光线是正在穿入物体还是穿出物体，然后来获取正确的法线方向和折射率比值 `eta` 。
 
 ```python
 if ti.random() < transmission:  # 折射部分
@@ -1484,7 +1503,7 @@ else:
 
 ### 自发光
 
-我们将自发光物体视为一个光源，它的光照强度由自发光颜色和自发光强度决定，因此 `emission` 是一个四维向量 `rgb` 代表颜色， `a` 代表光强。当光线与自发光物体相交时，我们改变光线颜色，并结束路径追踪。
+我们将自发光物体视为一个光源，它的光照强度由自发光颜色和自发光强度决定，因此 `emission` 是一个四维向量， `rgb` 代表颜色， `a` 代表光强。当光线与自发光物体相交时，我们改变光线颜色，并结束路径追踪。
 
 
 ```python{1-4}
@@ -1522,7 +1541,7 @@ ray = PBR(ray, record, normal)  # 应用 PBR 材质
 
 第一步当然是读取图片啦。使用 taichi 的 `ti.tools.imread` 函数读取图片[^tiimr]为 numpy 数组，然后将其转换为 `vec3.field` 。下面的 `texture` 函数可以用归一化的 uv 坐标访问像素值。
 
-[^tiimr]: taichi.tools.image https://docs.taichi-lang.org/api/taichi/tools/image/
+[^tiimr]: taichi.tools.image. https://docs.taichi-lang.org/api/taichi/tools/image/
 
 ```python
 @ti.data_oriented
@@ -1567,7 +1586,7 @@ def IBL(ray, img) -> vec3:    # 采样球面光照
 
 为什么要色调映射？
 
-大多数显示器能够显示的色彩范围是 $[0,1]$ ，当 RGB 的某个分量大于 1 时，会被直接截断为 1 ，这带来的后果是大量高光信息丢失。自然世界中的光强取值是 $[0,+\infty]$ ，为了能够让更广的动态范围被显示设备显示，需要一条曲线映射原本的光强，在保证阴影和高光细节的同时，呈现更真实的色彩。人眼感受到的光强并不是与物理世界的光强成线性增长，因此色调映射通常与 gamma 矫正一起使用。
+大多数显示器能够显示的色彩范围是 $[0,1]$ ，当 RGB 的某个分量大于 1 时，会被直接截断为 1 ，这带来的后果是大量高光信息丢失。自然世界中的光强取值是 $[0,+\infty]$ ，为了能够让更广的动态范围被显示设备显示，需要一条曲线映射原本的光强，在保证阴影和高光细节的同时，呈现更真实的色彩。
 
 |![](./images/taichi/clamp.png)|![](./images/taichi/aces.png)|
 |:-:|:-:|
@@ -1603,6 +1622,16 @@ def ACESFitted(color: vec3) -> vec3:    # ACES 色调映射
     color = RRTAndODTFit(color) # Apply RRT and ODT
     color = ACESOutputMat @ color
     return color
+```
+
+### 曝光与 gamma 矫正
+
+人眼感受到的光强并不是与物理世界的光强成线性增长，因此色调映射通常与 gamma 矫正一起使用。下面我们应用 gamma 矫正和色调映射
+
+```python
+color = pow(color, vec3(gamma)) # 伽马矫正
+color *= exposure               # 更改曝光值
+color = ACESFitted(color)       # ACES 色调映射
 ```
 
 ::: info
