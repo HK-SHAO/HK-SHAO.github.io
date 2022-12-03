@@ -1,7 +1,7 @@
 # Taichi: 从零开始的光线追踪
 
-::: danger
-这篇文章目前还没写完，正在更新中
+::: info
+本文为 Taichi Hackathon 2022 所写
 :::
 
 ![100万面镜子的渲染图](./images/taichi/banner.jpg)
@@ -10,13 +10,17 @@
 用 Taichi 渲染 100 万面镜子
 :::
 
+::: details Bilibili 视频
+<BiliBili bvid="BV17v4y1o7GA" />
+:::
+## 前言
+
+这篇文章会分若干章节，教你使用并行计算框架 Taichi 来从零开始、一步一步地实现一个基于物理 (Physically Based Rendering, PBR) 的光线追踪渲染器，然后用它构建一个场景，渲染出有真实感的画面。这篇文章基于实践，但是仍然会尽可能的用更多自然语言、图和公式讲解其中的物理和数学原理。
+
 ::: details 查看目录
 [[toc]]
 :::
 
-## 前言
-
-这篇文章会分若干章节，教你使用并行计算框架 Taichi 来从零开始、一步一步地实现一个基于物理 (Physically Based Rendering, PBR) 的光线追踪渲染器，然后用它构建一个场景，渲染出有真实感的画面。这篇文章基于实践，但是仍然会尽可能的用更多自然语言、图和公式讲解其中的物理和数学原理。
 
 ### 什么是并行计算
 
@@ -24,9 +28,20 @@
 
 如何区分 CPU 和 GPU ？形象点来说，CPU 的若干个大核心就像是几个博士为你处理任务，而 GPU 就像是有成百上千个小学生（英伟达的 4090 GPU 拥有超过一万个 CUDA 核心）为你同时处理任务。所以通常，我们会使用 GPU 来加速并行计算。
 
+::: center
+![](./images/taichi/02.svg =300x)  
+GPU 拥有大量处理单元，可以同时处理大量任务[^tbos]
+:::
+
+[^tbos]: The Book of Shaders. https://thebookofshaders.com/
+
 ### 为什么用 Taichi
 
 我高三和大一的时候曾构想过一个专门进行数值计算和可视化的工具 Plotter ，它将循环和分支结构视为对矩阵的处理，并且当时使用 JavaScript 实现了这个工具的原型，创作了一些简单的数学可视化效果。
+
+|![](./images/taichi/28.png)|![](./images/taichi/01.png)|
+|:-:|:-:|
+|高中和大学的时候做的一些数学绘图小玩具|用我自己写的小工具画的 Julia 集|
 
 但是它的问题是效率非常低下。后来我接触了游戏开发，并入门了着色器，然后震惊于并行计算带来的极高计算效率，但是使用着色器任然存在许多桎梏，它的兼容性和灵活度并不是很好。
 
@@ -48,6 +63,12 @@
 ### 并行离我们远吗
 
 并不远！并行计算时时刻刻都在发生，包括我们每天在看的视频、玩的游戏都需要经过大量并行计算。而多媒体创作本身，例如我们在使用相机拍下照片的瞬间、用剪辑软件或特效软件处理视频、影视特效对物体的仿真和渲染、AI 模型的训练和使用（相信不少人已经了解了由 Novel AI 和 niji·journey 等 AI 模型创作的不少令人惊人的画作）等等也需要大量并行计算的任务。
+
+|![](./images/taichi/29.jpg)|![](./images/taichi/30.jpg)|
+|:-:|:-:|
+|你能一眼分辨出这是 AI 画的吗？|你能一眼分辨出这渲染的吗？[^pbrbook]|
+
+[^pbrbook]: Physically Based Rendering:From Theory To Implementation. https://www.pbr-book.org/
 
 ## 如何使用 Taichi
 
@@ -1109,7 +1130,7 @@ def hemispheric_sampling(n: vec3) -> vec3:  # 以 n 为法线进行半球采样
 ```
 
 ::: warning
-在这篇文章，我们并不采取直接将半球采样的方向作为出射光方向的办法，而是用半球采样随机决定法线方向，然后再反射光线。这可以很好的模拟凹凸不平的表面，并且有益于后面的重要性采样 (Cosine-Weighted Hemisphere Sampling) 。如果你问如果光线反射到了物体内部怎么办？我们暂时处理方案是直接结束掉这条光线。
+在这篇文章，我们并不采取直接将半球采样的方向作为出射光方向的办法，而是用半球采样随机决定法线方向，然后再反射光线。这可以很好的模拟凹凸不平的表面，并且有益于后面的重要性采样 (Cosine-Weighted Hemisphere Sampling) 。如果光线反射到了物体内部怎么办？我们暂时处理方案是直接结束掉这条光线。
 :::
 
 ```python{18-24}
@@ -1356,7 +1377,7 @@ def PBR(ray, record, normal: vec3) -> Ray:
 
 在这里，我们的余弦重要性采样 (Cosine weighted sampling) 结合了微表面模型的法线分布函数，使用归一化的粗糙度值 $\alpha$ 作为参数采样法线分布。
 
-与半球采样类似，是需要改变法线 Z 轴分布即可重要性采样，代码如下
+与半球采样类似，只需要改变法线 Z 轴分布即可重要性采样，代码如下
 
 ```python
 @ti.func
@@ -1376,6 +1397,12 @@ def hemispheric_sampling_roughness(n: vec3, roughness: float) -> vec3:  # 用粗
 ### 菲涅尔方程
 
 菲涅尔现象是自然环境中很常见的光学现象，例如从更倾斜的角观察水面或者玻璃、光滑大理石会看到倒影，这是因为视角的不同会影响我们看到的反射的光的量。而菲涅尔方程描述了光线中被反射的部分与被折射的部分的占比，这个比率会随着我们观察的角度不同而改变。
+
+::: center
+![](./images/taichi/31.png)  
+菲涅尔反射  
+图片来自 https://zhuanlan.zhihu.com/p/357190332
+:::
 
 菲涅尔方程是一个复杂的方程式，但是我们可以用 Fresnel-Schlick 近似法快速求得近似解，其中 $\cos\theta$ 是法线与视线（也就是光线的反方向）方向夹角的余弦值。$F_0$ 是基础反射率，它可以由材质的折射指数 (IOR) 计算得出
 
@@ -1453,6 +1480,11 @@ if abs(record.obj.mtl.emission.a) > 0.0:
 ray = PBR(ray, record, normal)  # 应用 PBR 材质
 ```
 
+::: center
+![](./images/taichi/32.png)  
+让我们看看玻璃球和自发光带来的简单焦散效果
+:::
+
 ::: info
 - 到这一步的完整代码在 GitHub
 - https://github.com/HK-SHAO/RayTracingPBR/blob/taichi/taichi/RT01/12.py
@@ -1460,9 +1492,18 @@ ray = PBR(ray, record, normal)  # 应用 PBR 材质
 
 ## IBL 基于图像照明
 
+基于图像的照明是将图片作为环境光源，这样可以大幅度提高光线追踪程序的真实感。之前的章节，我们一直使用一个简单的函数映射天空，接下来，我们将使用 taichi 读取像下面一样的一张图片作为天空光源。
+
+::: center
+![](./images/taichi/Tokyo_BigSight_3k.jpg)  
+东京国际展览中心的 IBL 图片[^sibl]
+:::
+
+[^sibl]: sIBL Archive. http://www.hdrlabs.com/sibl/archive.html
+
 ### 读取图片
 
-使用 taichi 的 `ti.tools.imread` 函数读取图片为 numpy 数组，然后将其转换为 taichi 的 `vec3.field` 。最后 `texture` 函数可以用归一化的 uv 坐标访问像素值。
+第一步当然是读取图片啦。使用 taichi 的 `ti.tools.imread` 函数读取图片为 numpy 数组，然后将其转换为 `vec3.field` 。下面的 `texture` 函数可以用归一化的 uv 坐标访问像素值。
 
 ```python
 @ti.data_oriented
@@ -1481,6 +1522,8 @@ class Image:
 ```
 
 ### 采样球面贴图
+
+接下来，我们需要将 HDRi 图片映射到单位球面上，然后就可以直接使用光线的方向作为 uv 坐标来采样天空贴图。
 
 ```python
 inv_atan = vec2(0.1591, 0.3183)
@@ -1505,7 +1548,11 @@ def IBL(ray, img) -> vec3:    # 采样球面光照
 
 为什么要色调映射？
 
-大多数显示器能够显示的色彩范围是 $[0,255]$ ，但是自然世界中的光强是 $[0,+\infty]$ ，为了能够让更广的动态范围被显示设备显示，需要一条曲线映射原本的光强，在保证阴影和高光细节的同时，呈现更真实的色彩。人眼感受到的光强并不是与物理世界的光强成线性增长，因此色调映射通常与 gamma 矫正一起使用。
+大多数显示器能够显示的色彩范围是 $[0,1]$ ，当 RGB 的某个分量大于 1 时，会被直接截断为 1 ，这带来的后果是大量高光信息被抛弃。自然世界中的光强取值是 $[0,+\infty]$ ，为了能够让更广的动态范围被显示设备显示，需要一条曲线映射原本的光强，在保证阴影和高光细节的同时，呈现更真实的色彩。人眼感受到的光强并不是与物理世界的光强成线性增长，因此色调映射通常与 gamma 矫正一起使用。
+
+|![](./images/taichi/clamp.png)|![](./images/taichi/aces.png)|
+|:-:|:-:|
+|Clamp|ACES|
 
 Matt Taylor 的这篇文章[^tomp]很好的总结了各种色调映射算法，我将其中的 ACES (Academy Color Encoding System) 算法实现如下
 
@@ -1546,8 +1593,8 @@ def ACESFitted(color: vec3) -> vec3:    # ACES 色调映射
 
 ## 进一步降噪
 
-::: tip
-未完待续
+::: info
+Intel 的这篇论文提出了一种效果极佳的光追降噪，[Temporally Stable Real-Time Joint Neural Denoising and Supersampling](https://www.intel.com/content/www/us/en/developer/articles/technical/temporally-stable-denoising-and-supersampling.html)
 :::
 
 @include(@src/shared/license.md)
