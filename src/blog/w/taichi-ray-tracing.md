@@ -532,7 +532,7 @@ $$
 我们希望分布是均匀的，也就是概率分布函数的导数——概率密度函数 $f_1(r,\theta)$ 是常数，但是
 
 $$
-f_1(r,\theta) = \frac{\mathrm{d}^2 F_1(r,\theta)}{\mathrm{d}r\mathrm{d}\theta} = \frac{r}{\pi}
+f_1(r,\theta) = \frac{\partial^2 F_1(r,\theta)}{\partial r\partial\theta} = \frac{r}{\pi}
 $$
 
 是一个关于 $r$ 的函数，并不是一个常数，因此如果让 $r$ 在 $[0,1]$取值的话采样并不均匀，如下图所示
@@ -542,20 +542,20 @@ $$
 在单位圆的撒下的豆子并不是均匀分布的
 :::
 
-如果令 $x=r^2$ ，那么概率密度函数 $f_2(r,\theta)$ 就是一个常数了
+如果令 $X=r^2$ ，那么概率密度函数 $f_2(r,\theta)$ 就是一个常数了
 
 $$
-F_2(x,\theta) = \frac{\theta x}{2\pi}
+F_2(X,\theta) = \frac{\theta X}{2\pi}
 $$
 
 $$
-f_2(x,\theta) = \frac{\mathrm{d}^2 F_2(x,\theta)}{\mathrm{d}x\mathrm{d}\theta} = \frac{1}{2\pi}
+f_2(X,\theta) = \frac{\partial^2 F_2(X,\theta)}{\partial X\partial\theta} = \frac{1}{2\pi}
 $$
 
-因此我们只需要使用随机变量 $x$ 和 $\theta$ ，就可以得到在单位圆内均匀的随机采样一个点，它的坐标 $\vec{\mathbf{p}}$ 如下
+因此我们只需要使用随机变量 $X$ 和 $\theta$ ，就可以得到在单位圆内均匀的随机采样一个点，它的坐标 $\vec{\mathbf{p}}$ 如下
 
 $$
-x \in [0, 1], \theta \in [0, 2\pi], r=\sqrt x
+X \in [0, 1], \theta \in [0, 2\pi], r=\sqrt X
 $$
 
 $$
@@ -1135,13 +1135,13 @@ def TBN(N: vec3) -> mat3:   # 用世界坐标下的法线计算 TBN 矩阵
 在上半球内的点
 :::
 
-在上半球采样时我们只需要让 Z 轴坐标在 $[0,1]$ 之间取值。与前面的在单位圆内采样相似，为保证采样均匀，Z 轴坐标应为随机变量 $x\in [0,1]$ 取其平方根，而 $\theta \in [0,2\pi]$
+在上半球采样时我们只需要让 Z 轴坐标在 $[0,1]$ 之间取值。与前面的在单位圆内采样相似，为保证采样均匀，Z 轴坐标应为随机变量 $X \in [0,1]$ 取其平方根，而 $\theta \in [0,2\pi]$
 
 $$
 \begin{aligned}
-z &= \sqrt{x} \\
-\vec{xy} &= \sqrt{1-z^2} \cdot (\cos(\theta), \sin(\theta))\\
-\vec{\mathbf{p}}&=(xy, z)
+z &= \sqrt{X} \\
+\overrightarrow{\mathbf{xy}} &= \sqrt{1-z^2} \cdot (\cos(\theta), \sin(\theta))\\
+\vec{\mathbf{p}}&=(\overrightarrow{\mathbf{xy}}, z)
 \end{aligned}
 $$
 
