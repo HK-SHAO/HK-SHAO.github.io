@@ -2,18 +2,20 @@
 prev: taichi-ray-tracing.md
 ---
 
-# 光线追踪实时渲染降噪
+# 光线追踪实时渲染降噪 (WIP)
 
 ::: info
 此文作者为 [Keyu Lu](https://www.keyulureels.com/)
 :::
 
 ::: warning
-本文暂未校验
+本文暂未完成
 :::
 
 ## 初始 approach
-对于实时渲染降噪处理的研究可以追溯到 2010 年的论文 Edge-Avoiding À-Trous Wavelet Transform for fast Global Illumination Filtering，此论文的可以概括为通过考虑到输入图像本身以及法线和位置缓冲器，将一个有噪声的蒙特卡洛路径追踪的全分辨率图像生成一个平滑的输出图像。
+对于实时渲染降噪处理的研究可以追溯到 2010 年的论文 Edge-Avoiding À-Trous Wavelet Transform for fast Global Illumination Filtering[^ea] ，此论文的可以概括为通过考虑到输入图像本身以及法线和位置缓冲器，将一个有噪声的蒙特卡洛路径追踪的全分辨率图像生成一个平滑的输出图像。
+
+[^ea]: THOMAS, MANU MATHEW, et al. Temporally Stable Real-Time Joint Neural Denoising and Supersampling, Intel, 2022, https://www.intel.com/content/www/us/en/developer/articles/technical/temporally-stable-denoising-and-supersampling.html
 
 使用光线追踪的图像，一个 normal buffer，一个 position buffer 作为输入并允许保留高频细节，如其他缓冲区中没有的尖锐阴影。由此产生的图像显示了几何体边界的锐利边缘，并在需要时成功地平滑了照明。使用一般的路径追踪算法可以实现各种不同的光传输效果，如光泽材料和不同的光源类型和形状（如简单的点光源、任意的（变形的）区域光源、基于图像的照明），而无需特殊处理。
 
@@ -62,7 +64,9 @@ void main(void) {
 
 ## 目前最先进的 approach
 
-在 2022 年英特尔团队发表的论文 Temporally Stable Real-Time Joint Neural Denoising and Supersampling 中，此团队介绍了一种新型的实时神经重建技术，该技术使用单个网络联合执行去噪和超采样。与最先进的分析或统计去噪器相比，此方法成功取得了明显更好的图像质量。论文中的帧-递归网络接受一个有噪声和混叠的低分辨率输入，并重建一个高分辨率、去噪和超采样的输出。
+在 2022 年英特尔团队发表的论文 Temporally Stable Real-Time Joint Neural Denoising and Supersampling[^eb] 中，此团队介绍了一种新型的实时神经重建技术，该技术使用单个网络联合执行去噪和超采样。与最先进的分析或统计去噪器相比，此方法成功取得了明显更好的图像质量。论文中的帧-递归网络接受一个有噪声和混叠的低分辨率输入，并重建一个高分辨率、去噪和超采样的输出。
+
+[^eb]: Dammertz, Holger, et al. Edge-Avoiding À-Trous Wavelet Transform for Fast Global Illumination Filtering. 2010, https://jo.dreggn.org/home/2010_atrous.pdf
 
 之前的工作将去噪和超采样作为单独的问题处理，而此论文成功将这些问题联合起来解决。这样的 approach 比起初始的降噪处理有更高的精确度，但同时也比传统的只用到实时神经重建技术进行图像优化的算法有了更低的总成本。
 

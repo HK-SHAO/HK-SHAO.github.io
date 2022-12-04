@@ -1037,11 +1037,11 @@ def nearest_object(p: vec3) -> Object:  # 求最近的物体
 还记得向量的点乘吗？由于无论内表面还是外表面，法线方向永远都是朝物体外面，这带来的好处是当光线方向与法线方向点乘大于零时，光线正在从内表面穿出物体，当光线方向与法线方向点乘小于零时，光线正在从外表面穿入物体。
 
 $$
-\overrightarrow{\mathbf{ray}}\cdot \vec{\mathbf{n}_1} < 0
+\overrightarrow{\mathbf{ray}}\cdot \vec{\mathbf{n}}_1 < 0
 $$
 
 $$
-\overrightarrow{\mathbf{ray}}\cdot \vec{\mathbf{n}_2} > 0
+\overrightarrow{\mathbf{ray}}\cdot \vec{\mathbf{n}}_2 > 0
 $$
 
 ## 遮蔽与间接光
@@ -1649,6 +1649,6 @@ color = ACESFitted(color)       # ACES 色调映射
 Intel 的这篇论文提出了一种效果极佳的光追降噪，[Temporally Stable Real-Time Joint Neural Denoising and Supersampling](https://www.intel.com/content/www/us/en/developer/articles/technical/temporally-stable-denoising-and-supersampling.html)
 :::
 
-请前往：[光线追踪实时渲染降噪](ray-tracing-denoise.md)
+- 请前往：[光线追踪实时渲染降噪 (WIP)](ray-tracing-denoise.md)
 
 @include(@src/shared/license.md)

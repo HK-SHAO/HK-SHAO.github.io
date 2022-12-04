@@ -8,7 +8,7 @@ comment: false
 :::: tip 随便写写
 ### [Taichi: 从零开始的光线追踪渲染](w/taichi-ray-tracing.md)
 
-用 Taichi ，从零开始实现一个光线追踪渲染器（此文还未完成哦）
+用 Taichi ，从零开始实现一个光线追踪渲染器 (WIP)
 
 ::::
 
