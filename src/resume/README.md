@@ -74,6 +74,7 @@ prev: ../about/
 - 国家级大创项目《基于 CNN 和 CapsNet 的多级多模态图像分类系统》结题
 - 中国大学生游戏开发创作大赛 (CUSGA) 决赛最佳玩法奖
 - 华为中国大学生 ICT 大赛创新赛全球三等奖
+- 太极图形 (Taichi Graphics) Taichi Hackathon 2022 一等奖
 :::
 
 ---
@@ -131,7 +132,7 @@ prev: ../about/
 ### 高一 
 
 ::: tip 概述
-  - 学习使用 Java 开发 Android APP ，在 CoolApk 上架多款 APP 并获得数万下载量，在 Github 的开源项目总共得到数百颗 Stars。学习了 Arduino ，之后接触了 STM32 和树莓派，做了数字闹钟、示波器和声音锁等硬件，在 CSDN 写了一些博文，获得十多万浏览量
+  - 学习使用 Java 开发 Android APP ，在 CoolApk 上架多款 APP 并获得数万下载量，在 Github 的开源项目总共得到数百颗 Stars。学习了 Arduino ，之后接触了 STM32 和树莓派，做了数字闹钟、示波器和声音锁等硬件，在 CSDN 写了一些博文，获得了不少浏览量
 :::
 
 ---
