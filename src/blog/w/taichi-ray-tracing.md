@@ -918,7 +918,7 @@ def sd_box(p: vec3, b: vec3) -> float:  # SDF 盒子
 
 ### 欧几里得空间
 
-为什么应用物体的变换，不使用一个包含缩放、旋转和剪切的 3x3 变换矩阵呢？iq 大佬在它的文章中指出，不同轴向非均匀的缩放会扭曲欧几里得空间[^boxsdf]，这使得 SDF 函数在求交阶段可能变得不可靠。
+为什么应用物体的变换，不使用一个包含缩放、旋转和剪切的 $3\times3$ 变换矩阵呢？iq 大佬在它的文章中指出，不同轴向非均匀的缩放会扭曲欧几里得空间[^boxsdf]，这使得 SDF 函数在求交阶段可能变得不可靠。
 
 > While rotations, uniform scaling and translations are exact operations, non-uniform scaling distorts the euclidean spaces and can only be bound.
 
@@ -1111,7 +1111,7 @@ def raytrace(ray, time: float) -> Ray:
 
 ### 半球采样与TBN矩阵
 
-半球采样的第一步是建立物体表面切线空间坐标系，我们需要一个旋转矩阵将切线空间的出射方向映射到世界空间，这个矩阵就是 TBN 矩阵。在切线空间中，法线 $\vec{\mathbf N}$ 指向 Z 轴正方向，另外有与之两两正交的两个向量 $\vec{\mathbf T}$ 和 $\vec{\mathbf B}$。 Jeppe Revall Frisvad 的一篇论文[^obasis]介绍了一种快速求解这两个向量的方法，如下
+半球采样的第一步是建立物体表面切线空间坐标系，我们需要一个旋转矩阵将切线空间的法线方向映射到世界空间，这个矩阵就是 TBN 矩阵。在切线空间中，法线 $\vec{\mathbf N}$ 指向 Z 轴正方向，另外有与之两两正交的两个向量 $\vec{\mathbf T}$ 和 $\vec{\mathbf B}$。 Jeppe Revall Frisvad 的一篇论文[^obasis]介绍了一种快速求解这两个向量的方法，如下
 
 [^obasis]: Building an Orthonormal Basis from a 3D Unit Vector Without Normalization. https://doi.org/10.1080/2165347X.2012.689606
 
@@ -1165,7 +1165,7 @@ def hemispheric_sampling(n: vec3) -> vec3:  # 以 n 为法线进行半球采样
 ```
 
 ::: warning
-在这篇文章，我们并不采取直接将半球采样的方向作为出射光方向的办法，而是用半球采样随机决定法线方向，然后再反射光线。这可以很好的模拟凹凸不平的表面，并且有益于后面的重要性采样 (Cosine-Weighted Hemisphere Sampling) 
+在这篇文章，我们并不采取直接将半球采样的方向作为出射光方向的办法，而是用半球采样随机决定法线方向，然后再反射光线。这可以很好的模拟凹凸不平的表面，并且有益于后面的余弦重要性采样 (Cosine-Weighted Hemisphere Sampling) 
 - 如果光线反射到了物体内部怎么办？我们暂时处理方案是直接结束掉这条光线
 :::
 
@@ -1259,7 +1259,7 @@ uv += vec2(ti.random(), ti.random()) * SCREEN_PIXEL_SIZE    # 超采样
 
 ::: center
 ![](./images/taichi/26.png)  
-累积帧降噪和抗锯齿
+累积帧降噪和抗锯齿，地面看出自然的阴影和间接光染色
 :::
 
 ::: info
@@ -1273,7 +1273,7 @@ uv += vec2(ti.random(), ti.random()) * SCREEN_PIXEL_SIZE    # 超采样
 
 ### 旋转矩阵
 
-三维空间下的旋转矩阵是一个 3x3 的矩阵，它的每一行都是一个单位向量，这三个单位向量构成了一个正交基。我们可以通过将三维向量左乘旋转矩阵将它从一个坐标系旋转到另一个坐标系。
+三维空间下的旋转矩阵是一个 $3\times3$ 的矩阵，它的每一行都是一个单位向量，这三个单位向量构成了一个正交基。我们可以通过将三维向量左乘旋转矩阵将它从一个坐标系旋转到另一个坐标系。
 
 $$
 \begin{bmatrix}
@@ -1294,7 +1294,7 @@ $$
 
 ### 欧拉角
 
-由于人们操控旋转矩阵或者四元数中的数值来表示旋转并不直观，因此我们使用欧拉角来表示旋转。欧拉角是一个三维向量，它的每个分量分别表示绕 X, Y, Z 轴的旋转角度。左手系下，绕三个轴的旋转矩阵分别为
+由于人们操控旋转矩阵或者四元数中的数值来表示旋转并不直观，因此我们使用欧拉角来表示旋转。欧拉角是一个三维向量，它的每个分量分别表示绕 XYZ 轴的旋转角度。左手系下，绕三个轴的旋转矩阵分别为
 
 $$
 \mathcal{R}_{x}\left(\theta_{x}\right)=\left[\begin{array}{ccc}
@@ -1392,6 +1392,22 @@ PBR (Physically Based Rendering) ，即基于物理的渲染，它的渲染效�
 
 我们将要实现的 PBR 模型是基于双向散射分布函数 (Bidirectional Scattering Distribution Function, BSDF) 的，它包含了反射 (BRDF) 和透射 (BTDF) 两部分。此外我们还允许材质的自发光属性，让这个光照模型类似于 Blender 的原理化 BSDF (Principled BSDF) 渲染。
 
+taihci 中的 PBR 材质类如下
+
+```python
+@ti.dataclass
+class Material:
+    albedo: vec3        # 材质颜色
+    roughness: float    # 材质粗糙度
+    metallic: float     # 材质金属度
+    transmission: float # 材质透明度
+    ior: float          # 材质折射率
+    emission: vec4      # 材质自发光
+    normal: vec3        # 切线空间法线
+```
+
+然后写一个 `PBR` taichi 函数，对已有的属性做预处理
+
 ```python
 @ti.func
 def PBR(ray, record, normal: vec3) -> Ray:
@@ -1432,6 +1448,18 @@ def hemispheric_sampling_roughness(n: vec3, roughness: float) -> vec3:  # 用粗
     rxy = sqrt(abs(1 - rz*rz)) * v
     
     return TBN(n) @ vec3(rxy, rz)
+```
+
+其中快速计算 5 次方的 `pow5` 函数如下，它使用了秦九诏算法[^qin]，也叫做霍纳规则
+
+[^qin]: Horner's method. https://en.wikipedia.org/wiki/Horner%27s_method
+
+```python
+@ti.func
+def pow5(x: float): # 快速计算 x 的 5 次方
+    t = x*x
+    t *= t
+    return t*x
 ```
 
 ### 菲涅尔方程
@@ -1501,8 +1529,7 @@ if ti.random() < transmission:  # 折射部分
         # ray.direction = refract(I, N, eta)    # 折射
         ray.direction = eta * I - (eta * NoI + sqrt(k)) * N
 else:
-    # BRDF
-    ...
+    ... # BRDF
 ```
 
 ### 自发光
@@ -1569,7 +1596,7 @@ class Image:
 接下来，我们需要将 HDRi 图片映射到单位球面上，然后就可以直接使用光线的方向作为 uv 坐标来采样天空贴图。
 
 ```python
-inv_atan = vec2(0.1591, 0.3183)
+inv_atan = vec2(0.5 / pi, 1 / pi)
 
 @ti.func
 def sample_spherical_map(v: vec3) -> vec2:  # 球面坐标到笛卡尔坐标
@@ -1633,7 +1660,7 @@ def ACESFitted(color: vec3) -> vec3:    # ACES 色调映射
 
 ### 曝光与 gamma 矫正
 
-人眼感受到的光强并不是与物理世界的光强成线性增长，因此色调映射通常与 gamma 矫正一起使用。下面我们应用 gamma 矫正和色调映射
+人眼感受到的光强并不是与物理世界的光强成线性增长，因此色调映射通常与 gamma 矫正一起使用。下面我们应用 gamma 矫正和色调映射，之所以先进行 gamma 矫正，是因为我希望让暗部更亮一些
 
 ```python
 color = pow(color, vec3(gamma)) # 伽马矫正
