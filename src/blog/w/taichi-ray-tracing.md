@@ -1433,7 +1433,7 @@ def PBR(ray, record, normal: vec3) -> Ray:
 
 在这里，我们的余弦重要性采样 (Cosine weighted sampling) 结合了微表面模型的法线分布函数，使用归一化的粗糙度值 $\alpha$ 作为参数采样法线分布。
 
-与半球采样类似，只需要改变法线 Z 轴分布即可重要性采样，代码如下
+与半球采样类似，只需要改变法线 Z 轴分布即可重要性采样，其中的 TBN 矩阵仍然是将切线空间法线旋转到世界坐标，代码如下
 
 ```python
 @ti.func
@@ -1497,14 +1497,24 @@ def fresnel_schlick_roughness(cosine: float, F0: float, roughness: float) -> flo
 F = fresnel_schlick_roughness(NoV, 0.04, roughness)
 if ti.random() < F + metallic:  # 反射部分
     N = hemispheric_sampling_roughness(N, roughness)
-    ray.direction = reflect(I, N)   # 平面反射
+    ray.direction = reflect(I, N)   # 镜面反射
 else:   # 漫反射部分
     ray.direction = hemispheric_sampling(N)  # 半球采样
 ```
 
 ### BTDF
 
-我们要先判断光线是正在穿入物体还是穿出物体，然后来获取正确的法线方向和折射率比值 `eta` 。
+我们要先用之前章节的方法（[内外表面法线](#内外表面法线)）判断光线是正在穿入物体还是穿出物体，然后来获取正确的法线方向和折射率比值 `eta` 。其中， `sign` 函数用来获取数值的符号，公式如下
+
+$$
+\mathrm{sign}(x) = \begin{cases}
+    +1 & x > 0 \\
+    0 & x = 0 \\
+    -1 & x < 0
+\end{cases}
+$$
+
+当光线穿出物体时，`outer` 小于 0 ，取相反数更改法线方向 `N` ，取倒数更改折射率比值 `eta` 。为什么用这种方式而不用 `if` 语句来更改呢？这是因为并行计算擅长大规模整齐的数学计算，而分支语句很容易影响并行计算的效率。
 
 ```python
 if ti.random() < transmission:  # 折射部分
