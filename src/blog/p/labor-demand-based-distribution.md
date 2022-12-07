@@ -20,3 +20,5 @@ S_i\sum S&=A_i+B_i\\
 &=A_i+\sum\nolimits_{j}B_{ij}
 \end{align}
 $$
+
+@include(@src/shared/license.md)
