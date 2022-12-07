@@ -1392,7 +1392,7 @@ PBR (Physically Based Rendering) ，即基于物理的渲染，它的渲染效�
 
 我们将要实现的 PBR 模型是基于双向散射分布函数 (Bidirectional Scattering Distribution Function, BSDF) 的，它包含了反射 (BRDF) 和透射 (BTDF) 两部分。此外我们还允许材质的自发光属性，让这个光照模型类似于 Blender 的原理化 BSDF (Principled BSDF) 渲染。
 
-taihci 中的 PBR 材质类如下
+taichi 中的 PBR 材质类如下
 
 ```python
 @ti.dataclass
@@ -1450,9 +1450,9 @@ def hemispheric_sampling_roughness(n: vec3, roughness: float) -> vec3:  # 用粗
     return TBN(n) @ vec3(rxy, rz)
 ```
 
-其中快速计算 5 次方的 `pow5` 函数如下，它使用了秦九诏算法[^qin]，也叫做霍纳规则
+其中快速计算 5 次方的 `pow5` 函数如下，它使用了快速幂 (Binary Exponentiation) 算法[^qin]
 
-[^qin]: Horner's method. https://en.wikipedia.org/wiki/Horner%27s_method
+[^qin]: Binary Exponentiation. https://oi-wiki.org/math/binary-exponentiation/
 
 ```python
 @ti.func
@@ -1578,11 +1578,9 @@ ray = PBR(ray, record, normal)  # 应用 PBR 材质
 @ti.data_oriented
 class Image:
     def __init__(self, path: str):
-        self.img = ti.tools.imread(path)
-        self.img = self.img.astype("float32")
-        self.img = self.img / 255.0
-        self.img = vec3.field(shape=self.img.shape)
-        self.img.from_numpy(self.img.to_numpy())
+        img = ti.tools.imread(path).astype('float32') / 255
+        self.img = vec3.field(shape=img.shape)
+        self.img.from_numpy(img.to_numpy())
 
     @ti.func
     def texture(self, uv: vec2):
