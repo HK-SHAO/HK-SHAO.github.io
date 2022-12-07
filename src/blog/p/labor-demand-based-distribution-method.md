@@ -15,4 +15,4 @@ S_i\sum S&=A_i+B_i\\
 \end{align}
 $$
 
-- 其中分配资源的总量为 $S_i\sum S$
+- 其中分配资源的总量为 $\sum S$
