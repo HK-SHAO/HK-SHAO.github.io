@@ -56,6 +56,6 @@ next: ../resume/
 - 欢迎你在 [留言板](/board/) 为本站留言，或在 [GitHub Discussions](https://github.com/HK-SHAO/HK-SHAO.github.io/discussions) 发帖
 :::
 
-## 本站使用 [MIT 许可证](/LICENSE.md)
+## [MIT 许可证](/LICENSE.md)
 
 @include(@src/shared/license.md{2-})
