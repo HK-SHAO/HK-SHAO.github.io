@@ -14,7 +14,7 @@ export const navbar: NavbarConfig = [
     //     link: '/photo/',
     // },
     {
-        text: '友链',
+        text: '链接',
         link: '/links/',
     },
     // {

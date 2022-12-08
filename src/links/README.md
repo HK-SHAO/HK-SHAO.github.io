@@ -47,7 +47,7 @@ description: 烧风的友链
 
 ::: info 将你加入我的友链
 
-在下面的评论区发消息就可以啦！
+点击下面的 [在 GitHub 上编辑此页](https://github.com/HK-SHAO/HK-SHAO.github.io/edit/main/src/links/README.md) ，或者在下面的评论区发消息告诉我！
 
 :::
 
