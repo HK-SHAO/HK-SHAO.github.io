@@ -1,4 +1,4 @@
-# 版权和开源协议
+## 许可协议
 
 :::: warning
 
@@ -16,13 +16,13 @@ import { onMounted, ref } from "vue";
 const names = ref('');
 
 onMounted(() => {
-  window.setTimeout(() => {
+  let int = window.setInterval(() => {
     const contributors = document.querySelectorAll('.contributor')
     if (contributors.length > 0) {
-        const _names = Array.from(contributors).map((contributor) => {
+        names.value = Array.from(contributors).map((contributor) => {
             return contributor.textContent;
-        });
-        names.value = _names.join(', ');
+        }).join(', ');
+        window.clearInterval(int);
     }
   });
 });
