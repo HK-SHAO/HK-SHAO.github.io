@@ -17,10 +17,10 @@ export const navbar: NavbarConfig = [
         text: '友链',
         link: '/links/',
     },
-    {
-        text: '留言',
-        link: '/board/',
-    },
+    // {
+    //     text: '留言',
+    //     link: '/board/',
+    // },
     {
         text: '关于',
         link: '/about/',
