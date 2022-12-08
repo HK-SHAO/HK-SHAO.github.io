@@ -41,7 +41,7 @@ description: 烧风的友链
   link: https://shao.fun/
   avatar:
     - full: https://shao.fun/images/logo.png
-      Gravatar: hk-shao@foxmail.com
+    - round: https://shao.fun/images/logo.svg
 ```
 :::
 
