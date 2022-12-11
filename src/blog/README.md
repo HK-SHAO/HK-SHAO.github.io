@@ -89,4 +89,4 @@ Markdown 是简洁高效的标记语言，被互联网广泛使用，用少许�
 
 ::::
 
-@include(@src/shared/license.md)
+@include(@src/shared/license.md{3-})

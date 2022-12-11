@@ -1690,4 +1690,4 @@ Intel 的这篇论文提出了一种效果极佳的光追降噪，[Temporally St
 
 - 请前往：[光线追踪实时渲染降噪 (WIP)](ray-tracing-denoise.md)
 
-@include(@src/shared/license.md)
+@include(@src/shared/license.md{3-})

@@ -11,4 +11,4 @@ comment: false
 
 :::
 
-@include(@src/shared/license.md)
+@include(@src/shared/license.md{3-})

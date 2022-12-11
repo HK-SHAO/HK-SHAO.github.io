@@ -39,4 +39,4 @@
 
 对于 SVG 的维护，目前并没有脚本自动化解决方案，因此需要手动维护。
 
-@include(@src/shared/license.md)
+@include(@src/shared/license.md{3-})

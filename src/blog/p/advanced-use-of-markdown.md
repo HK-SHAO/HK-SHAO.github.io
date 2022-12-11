@@ -1132,4 +1132,4 @@ Markdown 的进阶使用方法，大多数并不是标准语法，不一定受�
 
 :::
 
-@include(@src/shared/license.md)
+@include(@src/shared/license.md{3-})

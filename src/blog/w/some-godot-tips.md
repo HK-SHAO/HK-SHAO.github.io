@@ -159,4 +159,4 @@ vec2 resolution = 1. / SCREEN_PIXEL_SIZE.xy;
 vec2 uv = (2. * fragCoord - resolution.xy) / min(resolution.x, resolution.y);
 ```
 
-@include(@src/shared/license.md)
+@include(@src/shared/license.md{3-})

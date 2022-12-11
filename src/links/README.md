@@ -51,4 +51,4 @@ description: 烧风的友链
 
 :::
 
-@include(@src/shared/license.md)
+@include(@src/shared/license.md{3-})

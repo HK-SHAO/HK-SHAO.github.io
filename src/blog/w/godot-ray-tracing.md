@@ -56,4 +56,4 @@ WASD to move, SPACE to denoise
 - Book: [Taichi: 从零开始的光线追踪](https://shao.fun/blog/w/taichi-ray-tracing.html)
 - ShaderToy: https://www.shadertoy.com/view/ddSSWy
 
-@include(@src/shared/license.md)
+@include(@src/shared/license.md{3-})

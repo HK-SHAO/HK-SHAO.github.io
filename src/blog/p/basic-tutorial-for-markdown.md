@@ -151,4 +151,4 @@ Markdown 文档是纯文本编码（通常是 [Unicode](https://home.unicode.org
 
 :::
 
-@include(@src/shared/license.md)
+@include(@src/shared/license.md{3-})

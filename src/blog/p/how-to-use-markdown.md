@@ -701,4 +701,4 @@ class Program {
 快试试 Markdown 吧！在本文末尾的评论区 ，你就可以立即开始用 Markdown 实践了，发条评论试试！如果你想进阶学习 Markdown 的扩展用法，请看这篇文章：[烧风的 Markdown 进阶教程](advanced-use-of-markdown.md)
 :::
 
-@include(@src/shared/license.md)
+@include(@src/shared/license.md{3-})

@@ -116,4 +116,4 @@ func _process(delta: float) -> void:
 		update_point()
 ```
 
-@include(@src/shared/license.md)
+@include(@src/shared/license.md{3-})

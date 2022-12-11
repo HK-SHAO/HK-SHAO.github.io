@@ -370,4 +370,4 @@ Echats 是一个开源的的 Web 可视化框架，借助它你可以可视化�
 ````
 ::::
 
-@include(@src/shared/license.md)
+@include(@src/shared/license.md{3-})

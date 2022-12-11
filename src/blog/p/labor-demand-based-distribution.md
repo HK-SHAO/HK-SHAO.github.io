@@ -21,4 +21,4 @@ S_i\sum S&=A_i+B_i\\
 \end{align}
 $$
 
-@include(@src/shared/license.md)
+@include(@src/shared/license.md{3-})
