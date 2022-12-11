@@ -5,14 +5,14 @@ comment: false
 
 # 一些博文
 
-:::: tip 随便写写
+:::: tip 技术教程
 ### [Taichi: 从零开始的光线追踪渲染](w/taichi-ray-tracing.md)
 
 用 Taichi ，从零开始实现一个基于物理渲染的光线追踪渲染器 (WIP)
 
 ::::
 
-:::: tip 随便写写
+:::: tip 项目简介
 ### [Taichi Lang Cheatsheet SVG](p/taichi-lang-cheatsheet-svg.md)
 
 这是一个 SVG 格式（矢量图）的 Taichi Language Cheatsheet

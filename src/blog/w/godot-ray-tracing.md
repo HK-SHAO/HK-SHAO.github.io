@@ -38,7 +38,6 @@ WASD to move, SPACE to denoise
 
 - [raytracing.shao.fun](https://raytracing.shao.fun)
 - https://shaofun.itch.io/godot-raytracing  
-
 - Hope you can contribute to this repo : )
   - https://github.com/HK-SHAO/Godot-RayTracing-Demo/
 
