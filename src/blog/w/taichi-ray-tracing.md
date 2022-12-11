@@ -1,4 +1,5 @@
 ---
+prev: godot-ray-tracing.md
 next: ray-tracing-denoise.md
 ---
 

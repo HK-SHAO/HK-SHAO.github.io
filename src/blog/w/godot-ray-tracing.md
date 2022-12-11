@@ -11,7 +11,28 @@ next: taichi-ray-tracing.md
 
 :::
 
+::: info
 A shader-based PBR ray tracing demo. Real-time denoise and you can freely adjust the camera's transforms, lens aperture, fov and focal length.
+:::
+
+:::: normal-demo 演示
+```html
+<iframe src="https://www.shadertoy.com/embed/ddSSWy?gui=true&paused=true"
+width="100%"
+height="300px"
+frameborder="0"
+scrolling="No"
+leftmargin="0"
+topmargin="0"
+/>
+```
+::::
+
+::: tip
+
+WASD to move, SPACE to denoise
+
+:::
 
 ## Demo
 
@@ -20,19 +41,6 @@ A shader-based PBR ray tracing demo. Real-time denoise and you can freely adjust
 
 - Hope you can contribute to this repo : )
   - https://github.com/HK-SHAO/Godot-RayTracing-Demo/
-
-![](./images/ray-tracing-demo.png)
-
-## 相关知识
-
-光线追踪图像渲染
-
-- 图像图像
-  - 环境
-  - 光线
-  - 模型
-  - 材质
-  - 摄像机
 
 ## 演示视频
 
@@ -44,9 +52,8 @@ A shader-based PBR ray tracing demo. Real-time denoise and you can freely adjust
 
 ## 相关链接
 
-- GitHub: https://github.com/RayTracing
-- Book: [Ray Tracing in One Weekend](https://raytracing.github.io/books/RayTracingInOneWeekend.html)
-- ShaderToy: https://www.shadertoy.com/view/XlycWh
-- PlotterApp Demo: https://github.com/HK-SHAO/Plotter/releases/tag/v0.0.0.2-pre-demo
+- GitHub: https://github.com/HK-SHAO/Godot-RayTracing-Demo
+- Book: [Taichi: 从零开始的光线追踪](https://shao.fun/blog/w/taichi-ray-tracing.html)
+- ShaderToy: https://www.shadertoy.com/view/ddSSWy
 
 @include(@src/shared/license.md)
