@@ -30,7 +30,7 @@ topmargin="0"
 
 ::: tip
 
-WASD to move, SPACE to denoise
+WASDQE to move, SPACE to denoise
 
 :::
 
@@ -52,7 +52,7 @@ WASD to move, SPACE to denoise
 ## 相关链接
 
 - GitHub: https://github.com/HK-SHAO/Godot-RayTracing-Demo
-- Book: [Taichi: 从零开始的光线追踪](https://shao.fun/blog/w/taichi-ray-tracing.html)
+- Tutorial: [Taichi: 从零开始的光线追踪](https://shao.fun/blog/w/taichi-ray-tracing.html)
 - ShaderToy: https://www.shadertoy.com/view/ddSSWy
 
 @include(@src/shared/license.md{3-})
