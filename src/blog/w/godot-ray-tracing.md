@@ -24,6 +24,7 @@ frameborder="0"
 scrolling="No"
 leftmargin="0"
 topmargin="0"
+allow="autoplay; fullscreen *; geolocation; microphone; camera; midi; monetization; xr-spatial-tracking; gamepad; gyroscope; accelerometer; xr; cross-origin-isolated"
 />
 ```
 ::::
