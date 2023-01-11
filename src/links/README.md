@@ -16,6 +16,7 @@ description: 烧风的友链
 [![Cigar666](https://cigar666.github.io/media/cigar.png =50x)](https://cigar666.github.io/)
 [![widcardw](https://widcard.win/avatar/avatar-round.png =50x)](https://widcard.win/)
 [![范滇东](https://flwfdd.xyz/favicon.ico =50x)](https://flwfdd.xyz/)
+[![梦未](https://dreature.xyz/wp-content/uploads/2021/10/logo-mengwei.png =50x)](https://www.dreature.xyz/)
 :::
 
 ## 链接
