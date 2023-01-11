@@ -30,7 +30,7 @@ description: 烧风的友链
 [![SoCoding](https://socoding.cn/assets/favicon.fd06711d.svg =50x)](https://socoding.cn/)
 [![Manim Kindergarten](https://cdn.tonycrane.cc/mkhome/favicon.svg =50x)](https://manim.org.cn/)
 [![0xFFFF](https://cdn-0x4f.do3ob.cn/assets/favicon-gggj2dbz.png =50x)](https://0xffff.one/)
-
+[![TOHUNET](https://peering.tohunet.com/wp-content/uploads/2021/04/cropped-TOHUNET-ICO-1-192x192.png =50x)](https://tohunet.com/)
 :::
 
 ## 加入
