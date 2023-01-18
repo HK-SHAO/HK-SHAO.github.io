@@ -715,7 +715,7 @@ def calc_normal(p: vec3):
     h = vec2(eps, 0)
     return normalize( vec3( f(p+h.xyy) - f(p-h.xyy), \
                             f(p+h.yxy) - f(p-h.yxy), \
-                            f(p+h.yyx) - f(p-h.yyx) ) )
+                            f(p+h.yyx) - f(p-h.yyx)) )
 ```
 
 ### 优化求法线的效率
@@ -1438,7 +1438,8 @@ def PBR(ray, record, normal: vec3) -> Ray:
 
 ```python
 @ti.func
-def hemispheric_sampling_roughness(n: vec3, roughness: float) -> vec3:  # 用粗糙度采样沿向量 n 半球采样
+def hemispheric_sampling_roughness(n: vec3, roughness: float) -> vec3:
+    # 用粗糙度采样沿向量 n 半球采样
     ra = ti.random() * 2 * pi
     rb = ti.random()
 
@@ -1543,29 +1544,70 @@ else:
     ... # BRDF
 ```
 
+### BSDF
+
+双向散射率分布函数 (BSDF, Bidirectional Scattering Distribution Function) ，包含反射散射部分 (BRDF) 和透射散射部分 (BTDF) ，可以将两个函数结合到一起。
+
+```python
+@ti.func
+def light_and_surface_interaction(ray, record) -> Ray:
+    albedo          = record.object.material.albedo
+    roughness       = record.object.material.roughness
+    metallic        = record.object.material.metallic
+    transmission    = record.object.material.transmission
+    ior             = record.object.material.ior
+    
+    normal  = calc_normal(record.object, record.position)
+    outer   = dot(ray.direction, normal) < 0
+    normal *= 1 if outer else -1
+    
+    hemispheric_sample  = hemispheric_sampling(normal)
+    roughness_sample = 
+        roughness_sampling(hemispheric_sample, normal, roughness)
+    
+    N   = roughness_sample
+    I   = ray.direction
+    NoI = dot(N, I)
+
+    eta = ENV_IOR / ior if outer else ior / ENV_IOR
+    k   = 1.0 - eta * eta * (1.0 - NoI * NoI)
+    F0  = (eta - 1.0) / (eta + 1.0); F0 *= 2.0*F0
+    F   = fresnel_schlick(NoI, F0, roughness)
+
+    if ti.random() < F + metallic or k < 0.0:
+        ray.direction = I - 2.0 * NoI * N
+        ray.color *= float(dot(ray.direction, normal) > 0.0)
+    elif ti.random() < transmission:
+        ray.direction = eta * I - (sqrt(k) + eta * NoI) * N
+    else:
+        ray.direction = hemispheric_sample
+
+    ray.color *= albedo
+    ray.origin = record.position
+    
+    return ray
+```
+
 ### 自发光
 
 我们将自发光物体视为一个光源，它的光照强度由自发光颜色和自发光强度决定，因此 `emission` 是一个四维向量， `rgb` 代表颜色， `a` 代表光强。当光线与自发光物体相交时，我们改变光线颜色，并结束路径追踪。
 
 
-```python{1-4}
-# 处理自发光
-emission = record.obj.mtl.emission
-if abs(record.obj.mtl.emission.a) > 0.0:
-    ray.color.rgb *= emission.rgb*emission.a
-    break
+```python{5-9}
+# 应用 PBR 材质
+ray = light_and_surface_interaction(ray, record)
 
-ray = PBR(ray, record, normal)  # 应用 PBR 材质
+# 处理自发光
+intensity = brightness(ray.color)
+ray.color  *= record.object.material.emission
+visible   = brightness(ray.color)
+
+if intensity < visible or visible < VISIBILITY: break
 ```
 
 ::: center
 ![](./images/taichi/32.png)  
 让我们看看玻璃球和自发光带来的简单焦散效果
-:::
-
-::: info
-- 到这一步的完整代码在 GitHub
-- https://github.com/HK-SHAO/RayTracingPBR/blob/taichi/taichi/RT01/12.py
 :::
 
 ## IBL 基于图像照明
@@ -1605,25 +1647,20 @@ class Image:
 接下来，我们需要将 HDRi 图片映射到单位球面上，然后就可以直接使用光线的方向作为 uv 坐标来采样天空贴图。
 
 ```python
-inv_atan = vec2(0.5 / pi, 1 / pi)
-
 @ti.func
-def sample_spherical_map(v: vec3) -> vec2:  # 球面坐标到笛卡尔坐标
+def sample_spherical_map(v: vec3) -> vec2:
     uv = vec2(atan2(v.z, v.x), asin(v.y))
-    uv *= inv_atan
+    uv *= vec2(0.5 / pi, 1 / pi)
     uv += 0.5
     return uv
 
 @ti.func
-def IBL(ray, img) -> vec3:    # 采样球面光照
+def sky_color(ray) -> vec3:
     uv = sample_spherical_map(ray.direction)
-    return img.texture(uv)
+    color = sky_image.texture(uv) * 1.8
+    color = pow(color, vec3(camera_gamma))
+    return color
 ```
-
-::: info
-- 到这一步的完整代码在 GitHub
-- https://github.com/HK-SHAO/RayTracingPBR/blob/taichi/taichi/RT01/13.py
-:::
 
 ## 色调映射
 
@@ -1641,16 +1678,15 @@ Matt Taylor 的这篇文章[^tomp]很好的总结了各种色调映射算法，�
 
 ```python
 ACESInputMat = mat3(
-    vec3(0.59719, 0.35458, 0.04823),
-    vec3(0.07600, 0.90834, 0.01566),
-    vec3(0.02840, 0.13383, 0.83777)
+    0.59719, 0.35458, 0.04823,
+    0.07600, 0.90834, 0.01566,
+    0.02840, 0.13383, 0.83777
 )
 
-# ODT_SAT => XYZ => D60_2_D65 => sRGB
 ACESOutputMat = mat3(
-    vec3( 1.60475, -0.53108, -0.07367),
-    vec3(-0.10208,  1.10813, -0.00605),
-    vec3(-0.00327, -0.07276,  1.07602)
+     1.60475, -0.53108, -0.07367,
+    -0.10208,  1.10813, -0.00605,
+    -0.00327, -0.07276,  1.07602
 )
 
 @ti.func
@@ -1660,9 +1696,9 @@ def RRTAndODTFit(v: vec3) -> vec3:
     return a / b
 
 @ti.func
-def ACESFitted(color: vec3) -> vec3:    # ACES 色调映射
+def ACESFitted(color: vec3) -> vec3:
     color = ACESInputMat @ color
-    color = RRTAndODTFit(color) # Apply RRT and ODT
+    color = RRTAndODTFit(color)
     color = ACESOutputMat @ color
     return color
 ```
@@ -1672,17 +1708,18 @@ def ACESFitted(color: vec3) -> vec3:    # ACES 色调映射
 人眼感受到的光强并不是与物理世界的光强成线性增长，因此色调映射通常与 gamma 矫正一起使用。下面我们应用 gamma 矫正和色调映射，之所以先进行 gamma 矫正，是因为我希望让暗部更亮一些
 
 ```python
-color = pow(color, vec3(gamma)) # 伽马矫正
-color *= exposure               # 更改曝光值
-color = ACESFitted(color)       # ACES 色调映射
+color *= camera_exposure # 调整曝光
+color  = ACESFitted(color) # ACES 色调映射
+color  = pow(color, vec3(1.0 / camera_gamma)) # gamma 矫正
 ```
 
-::: info
-- 到这一步的完整代码在 GitHub
-- https://github.com/HK-SHAO/RayTracingPBR/blob/taichi/taichi/RT01/14.py
-:::
-
 ## AI 降噪
+
+针对路径追踪的 AI 降噪是一项很重要的研究，这项研究 Nvidia, Intel, AMD 等企业都在研究并在 SIGGRAPH 发了数篇论文，其中目前最新的一篇 (2023年1月11日) 是 AMD 的。
+
+Intel 的论文 [Temporally Stable Real-Time Joint Neural Denoising and Supersampling](https://www.intel.com/content/www/us/en/developer/articles/technical/temporally-stable-denoising-and-supersampling.html) 提出了一种效果不错的光追降噪方法，这是一种混合了传统和 AI 的降噪方案 。
+
+AMD 的论文 [Weighted À-Trous Linear Regression (WALR) for Real-Time Diffuse Indirect Lighting Denoising](https://gpuopen.com/download/publications/GPUOpen2022_WALR.pdf) 提出了一种基于回归的新方法，用于对具有少量光线或像素的路径追踪全局光照的图像进行降噪。
 
 ::: info
 Intel 的这篇论文提出了一种效果极佳的光追降噪，[Temporally Stable Real-Time Joint Neural Denoising and Supersampling](https://www.intel.com/content/www/us/en/developer/articles/technical/temporally-stable-denoising-and-supersampling.html)
