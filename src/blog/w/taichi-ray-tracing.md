@@ -1589,12 +1589,12 @@ ray = PBR(ray, record, normal)  # 应用 PBR 材质
 @ti.data_oriented
 class Image:
     def __init__(self, path: str):
-        img = ti.tools.imread(path).astype('float32') / 255
-        self.img = vec3.field(shape=img.shape)
-        self.img.from_numpy(img.to_numpy())
+        img = ti.tools.imread(path) / 255
+        self.img = vec3.field(shape=img.shape[:2])
+        self.img.from_numpy(img)
 
     @ti.func
-    def texture(self, uv: vec2):
+    def texture(self, uv: vec2) -> vec3:
         x = int(uv.x * self.img.shape[0])
         y = int(uv.y * self.img.shape[1])
         return self.img[x, y]
