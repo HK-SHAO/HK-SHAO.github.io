@@ -6,13 +6,18 @@ comment: false
 # 一些博文
 
 :::: tip 技术教程
+### [180 行代码的康奈尔盒子](w/180-cornell-box.md)
+
+康奈尔盒子是图形学中常用来观察和测试全局光照的场景
+
+::::
+
+:::: tip 技术教程
 ### [路径追踪PBR渲染原理概述](https://zhuanlan.zhihu.com/p/595867546)
 
 一个基于物理渲染的符号距离场路径追踪渲染程序的总结
 
 ::::
-
-
 
 :::: tip 技术教程
 ### [Taichi: 从零开始的光线追踪渲染](w/taichi-ray-tracing.md)
