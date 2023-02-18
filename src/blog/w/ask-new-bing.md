@@ -116,3 +116,74 @@ Source: Conversation with Bing, 15/2/2023
 </div>
 
 :::
+
+---
+
+::: info Q
+- 半球采样时，`normalize(normal + vector)`和`normalize(vector * dot(vector, normal))`有什么区别？
+
+:::
+
+::: note A
+
+半球采样是一种在计算机图形学中用于模拟光照效果的技术，它可以根据不同的分布函数生成随机的方向向量⁵⁷。`normalize(normal + vector)`和`normalize(vector * dot(vector, normal))`是两种不同的半球采样方法，它们都可以得到单位长度的向量，但是它们的方向和密度分布有所不同。
+
+`normalize(normal + vector)`是一种均匀分布的半球采样方法，它可以得到任意方向上相同概率的向量⁵。这种方法适合用于模拟漫反射或者均匀散射的效果。
+
+`normalize(vector * dot(vector, normal))`是一种余弦加权分布的半球采样方法，它可以得到与法线方向更接近的向量，而远离法线方向的向量概率较低⁵⁷。这种方法适合用于模拟镜面反射或者高光效果。
+
+Source: Conversation with Bing, 18/2/2023
+
+<div style="overflow-x: auto; font-size: 0.9rem">
+
+<div style="white-space: nowrap">
+
+(1) Uniform Sampling on unit Hemisphere – Thomas' blog. https://blog.thomaspoulet.fr/uniform-sampling-on-unit-hemisphere/#:~:text=Hemisphere%3A%20Cosine%20Weighted%20Sampling%20The%20goal%20of%20this,power%20is%20perfectly%20suited%20for%20this%20spiky%20effect. Accessed 18/2/2023.  
+(2) Importance Sampling of a Hemisphere. https://www.mathematik.uni-marburg.de/~thormae/lectures/graphics1/code/ImportanceSampling/index.html Accessed 18/2/2023.  
+(3) Eigen中norm、normalize、normalized的区别_dzxia920的博客-CSDN博客_eigen normalize. https://blog.csdn.net/m0_56348460/article/details/117386857 Accessed 18/2/2023.  
+(4) 【Unity】如何理解Vector3.normalized 归一化向量 以及 向量方向计算. https://blog.csdn.net/xyl192960/article/details/120774285 Accessed 18/2/2023.  
+(5) Vector magnitude & normalization (article) | Khan Academy. https://www.khanacademy.org/computing/computer-programming/programming-natural-simulations/programming-vectors/a/vector-magnitude-normalization Accessed 18/2/2023.  
+(6) How to Normalize a Vector: 9 Steps (with Pictures) - wikiHow. https://www.wikihow.com/Normalize-a-Vector Accessed 18/2/2023.  
+(7) Uniform Sampling on unit Hemisphere – Thomas' blog. https://blog.thomaspoulet.fr/uniform-sampling-on-unit-hemisphere/ Accessed 18/2/2023.  
+(8) 13.6 2D Sampling with Multidimensional Transformations. https://www.pbr-book.org/3ed-2018/Monte_Carlo_Integration/2D_Sampling_with_Multidimensional_Transformations Accessed 18/2/2023.  
+(9) EY Helix – Audit technology | EY - Global. https://www.ey.com/en_gl/audit/technology/helix Accessed 18/2/2023.  
+
+</div>
+
+</div>
+
+:::
+
+---
+
+::: info Q
+- 蒙特卡洛采样时，这两种方法的 PDF 分别是什么，用公式表示
+
+:::
+
+::: note A
+
+蒙特卡洛采样是一种通过随机数来近似求解期望、均值、面积、积分等问题的方法¹²³。在计算机图形学中，蒙特卡洛采样可以用于模拟光线追踪、全局光照等效果⁴。
+
+在蒙特卡洛采样中，PDF（概率密度函数）是一个描述随机变量取不同值的概率的函数²。不同的半球采样方法有不同的PDF，用公式表示如下：
+
+`normalize(normal + vector)`的PDF是`p(x) = 1 / (2π)`，这是一个均匀分布的函数。
+
+`normalize(vector * dot(vector, normal))`的PDF是`p(x) = cos(θ) / π`，这是一个余弦加权分布的函数 。其中，θ是向量与法线之间的夹角。
+
+Source: Conversation with Bing, 18/2/2023
+
+<div style="overflow-x: auto; font-size: 0.9rem">
+
+<div style="white-space: nowrap">
+
+(1) 初探强化学习（1）蒙特卡洛采样_难受啊！马飞...的博客-CSDN博客. https://blog.csdn.net/qq_33328642/article/details/123118339 Accessed 18/2/2023.  
+(2) 采样之蒙特卡罗方法 - 小糊涂也学要编程 - 博客园. https://www.cnblogs.com/171207xiaohutu/p/9480119.html Accessed 18/2/2023.  
+(3) 一文看懂蒙特卡洛采样方法 - 知乎. https://zhuanlan.zhihu.com/p/338103692 Accessed 18/2/2023.  
+(4) MCMC（蒙特卡洛采样）_整得咔咔响的博客-CSDN博客_蒙特卡罗采样. https://blog.csdn.net/qq_27388259/article/details/112001362 Accessed 18/2/2023.  
+
+</div>
+
+</div>
+
+:::
