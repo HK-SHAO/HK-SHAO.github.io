@@ -16,7 +16,7 @@ description: 烧风的友链
 [![Cigar666](https://cigar666.github.io/media/cigar.png =50x)](https://cigar666.github.io/)
 [![widcardw](https://widcard.win/avatar/avatar-round.png =50x)](https://widcard.win/)
 [![范滇东](https://flwfdd.xyz/favicon.ico =50x)](https://flwfdd.xyz/)
-[![梦未](https://www.dreature.xyz/wp-content/uploads/2023/01/logo-mengwei.png =50x)](https://www.dreature.xyz/)
+[![梦未](https://www.dreature.xyz/wp-content/uploads/logo-mengwei.png =50x)](https://www.dreature.xyz/)
 :::
 
 ## 链接
@@ -28,7 +28,7 @@ description: 烧风的友链
 [![SoCoding](https://socoding.cn/assets/favicon.fd06711d.svg =50x)](https://socoding.cn/)
 [![Manim Kindergarten](https://cdn.tonycrane.cc/mkhome/favicon.svg =50x)](https://manim.org.cn/)
 [![0xFFFF](https://cdn-0x4f.do3ob.cn/assets/favicon-gggj2dbz.png =50x)](https://0xffff.one/)
-[![TOHUNET](https://peering.tohunet.com/wp-content/uploads/2021/04/cropped-TOHUNET-ICO-1-192x192.png =50x)](https://tohunet.com/)
+<!-- [![TOHUNET](https://peering.tohunet.com/wp-content/uploads/2021/04/cropped-TOHUNET-ICO-1-192x192.png =50x)](https://tohunet.com/) -->
 :::
 
 ## 加入
