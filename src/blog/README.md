@@ -8,7 +8,7 @@ comment: false
 :::: tip 技术教程
 ### [向 New Bing 提问](w/ask-new-bing.md)
 
-微软推出了 ChatGPT 的新版本，问它问题确实很方便获取信息。
+微软推出了 ChatGPT 的新版本，问它问题确实很方便获取信息
 
 ::::
 
