@@ -8,7 +8,7 @@ next: ray-tracing-denoise.md
 ::: info
 - 本文是追光小队为 Taichi Hackathon 2022 所写
 - GitHub 仓库在 https://github.com/HK-SHAO/RayTracingPBR
-- 在线效果演示 [raytracing.shao.fun](https://raytracing.shao.fun)
+- 在线效果演示 [raytracing.shao.fun](https://raytracing.shao.fun), [shadertoy.com/view/Dtj3DG](https://www.shadertoy.com/view/Dtj3DG)
 :::
 
 ::: warning
@@ -1546,45 +1546,57 @@ else:
 
 ### BSDF
 
-双向散射率分布函数 (BSDF, Bidirectional Scattering Distribution Function) ，包含反射散射部分 (BRDF) 和透射散射部分 (BTDF) ，可以将两个函数结合到一起。
+双向散射率分布函数 (BSDF, Bidirectional Scattering Distribution Function) ，包含反射散射部分 (BRDF) 和透射散射部分 (BTDF) ，可以将两个函数结合到一起。最后经过一些优化，得到一个完整的 `ray_surface_interaction` 函数。
 
 ```python
 @ti.func
-def light_and_surface_interaction(ray, record) -> Ray:
-    albedo          = record.object.material.albedo
-    roughness       = record.object.material.roughness
-    metallic        = record.object.material.metallic
-    transmission    = record.object.material.transmission
-    ior             = record.object.material.ior
-    
-    normal  = calc_normal(record.object, record.position)
-    outer   = dot(ray.direction, normal) < 0
-    normal *= 1 if outer else -1
-    
-    hemispheric_sample  = hemispheric_sampling(normal)
-    roughness_sample = 
-        roughness_sampling(hemispheric_sample, normal, roughness)
-    
-    N   = roughness_sample
-    I   = ray.direction
+def ray_surface_interaction(ray: Ray, object: SDFObject) -> Ray:
+    # 表面材质信息
+    albedo       = object.material.albedo
+    roughness    = object.material.roughness
+    metallic     = object.material.metallic
+    transmission = object.material.transmission
+    ior          = object.material.ior
+
+    # 计算法线
+    normal  = calc_normal(object, ray.origin)
+    outer   = dot(ray.direction, normal) < 0.0
+    normal *= 1.0 if outer else -1.0
+
+    # 计算下个采样方向，包括半球采样和根据粗糙度的重要性采样
+    alpha = roughness * roughness
+    hemispheric_sample = hemispheric_sampling(normal)
+    roughness_sample = normalize(mix(normal, hemispheric_sample, alpha))
+
+    N = roughness_sample
+    I = ray.direction
     NoI = dot(N, I)
 
+    # 计算折射比、菲涅尔近似值
     eta = ENV_IOR / ior if outer else ior / ENV_IOR
-    k   = 1.0 - eta * eta * (1.0 - NoI * NoI)
-    F0  = (eta - 1.0) / (eta + 1.0); F0 *= 2.0*F0
-    F   = fresnel_schlick(NoI, F0, roughness)
+    k = 1.0 - eta * eta * (1.0 - NoI * NoI)
+    F0 = 2.0 * (eta - 1.0) / (eta + 1.0)
+    F = fresnel_schlick(NoI, F0*F0)
 
-    if ti.random() < F + metallic or k < 0.0:
+    if sample_float() < F + metallic or k < 0.0:
+        # 反射部分：菲尼尔反射、金属反射、全反射
         ray.direction = I - 2.0 * NoI * N
-        ray.color *= float(dot(ray.direction, normal) > 0.0)
-    elif ti.random() < transmission:
+        outer = dot(ray.direction, normal) < 0.0
+        ray.direction *= (-1.0 if outer else 1.0)
+    elif sample_float() < transmission:
+        # 折射部分：斯涅尔折射
         ray.direction = eta * I - (sqrt(k) + eta * NoI) * N
     else:
+        # 漫反射部分：直接使用半球采样方向
         ray.direction = hemispheric_sample
 
+    # 混合光照
     ray.color *= albedo
-    ray.origin = record.position
-    
+
+    # 偏移光的原点，防止光线穿过物体
+    outer = dot(ray.direction, normal) < 0.0
+    ray.origin += normal * MIN_DIS * (-1.0 if outer else 1.0)
+
     return ray
 ```
 
@@ -1700,7 +1712,7 @@ def ACESFitted(color: vec3) -> vec3:
     color = ACESInputMat @ color
     color = RRTAndODTFit(color)
     color = ACESOutputMat @ color
-    return color
+    return clamp(color, 0.0, 1.0)
 ```
 
 ### 曝光与 gamma 矫正
@@ -1709,20 +1721,20 @@ def ACESFitted(color: vec3) -> vec3:
 
 ```python
 color *= camera_exposure # 调整曝光
-color  = ACESFitted(color) # ACES 色调映射
 color  = pow(color, vec3(1.0 / camera_gamma)) # gamma 矫正
+color  = ACESFitted(color) # ACES 色调映射
 ```
 
 ## AI 降噪
 
-针对路径追踪的 AI 降噪是一项很重要的研究，这项研究 Nvidia, Intel, AMD 等企业都在研究并在 SIGGRAPH 发了数篇论文，其中目前最新的一篇 (2023年1月11日) 是 AMD 的。
-
-Intel 的论文 [Temporally Stable Real-Time Joint Neural Denoising and Supersampling](https://www.intel.com/content/www/us/en/developer/articles/technical/temporally-stable-denoising-and-supersampling.html) 提出了一种效果不错的光追降噪方法，这是一种混合了传统和 AI 的降噪方案 。
-
-AMD 的论文 [Weighted À-Trous Linear Regression (WALR) for Real-Time Diffuse Indirect Lighting Denoising](https://gpuopen.com/download/publications/GPUOpen2022_WALR.pdf) 提出了一种基于回归的新方法，用于对具有少量光线或像素的路径追踪全局光照的图像进行降噪。
+针对路径追踪的 AI 降噪是一项很重要的研究，这项研究 Nvidia, Intel, AMD 等企业都在研究，其中目前最新的一篇 (2023 年 1 月 11 日) 是 AMD 的。
 
 ::: info
-Intel 的这篇论文提出了一种效果极佳的光追降噪，[Temporally Stable Real-Time Joint Neural Denoising and Supersampling](https://www.intel.com/content/www/us/en/developer/articles/technical/temporally-stable-denoising-and-supersampling.html)
+Nvidia 的论文 [Neural Denoising with Layer Embeddings](https://research.nvidia.com/publication/2020-06_neural-denoising-layer-embeddings) 提出了一种基于神经网络的蒙特卡罗路径追踪图像进行去噪的新方法。
+
+Intel 的论文 [Temporally Stable Real-Time Joint Neural Denoising and Supersampling](https://www.intel.com/content/www/us/en/developer/articles/technical/temporally-stable-denoising-and-supersampling.html) 提出了一种效果不错的光追降噪方法，这是一种混合了传统和 AI 的降噪方案。
+
+AMD 的论文 [Weighted À-Trous Linear Regression (WALR) for Real-Time Diffuse Indirect Lighting Denoising](https://gpuopen.com/download/publications/GPUOpen2022_WALR.pdf) 提出了一种基于回归的新方法，对具有少量光线或像素的路径追踪全局光照的图像降噪。
 :::
 
 - 请前往：[光线追踪实时渲染降噪 (WIP)](ray-tracing-denoise.md)
