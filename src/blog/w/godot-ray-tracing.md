@@ -17,15 +17,14 @@ A shader-based PBR ray tracing demo. Real-time denoise and you can freely adjust
 
 :::: normal-demo 演示
 ```html
-<iframe src="https://www.shadertoy.com/embed/ddSSWy?gui=true&paused=true"
+<iframe src="https://www.shadertoy.com/embed/Dtj3DG?gui=true&paused=true"
 width="100%"
 height="300px"
 frameborder="0"
 scrolling="No"
 leftmargin="0"
 topmargin="0"
-allow="autoplay; fullscreen *; geolocation; microphone; camera; midi; monetization; xr-spatial-tracking; gamepad; gyroscope; accelerometer; xr; cross-origin-isolated"
-/>
+allow="autoplay; fullscreen *; geolocation; microphone; camera; midi; monetization; xr-spatial-tracking; gamepad; gyroscope; accelerometer; xr; cross-origin-isolated"></iframe>
 ```
 ::::
 
