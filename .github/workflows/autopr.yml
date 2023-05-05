@@ -35,3 +35,5 @@ jobs:
         OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
+        model: 'gpt-3.5-turbo'
+        context_limit: 4096
