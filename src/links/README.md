@@ -18,6 +18,7 @@ description: 烧风的友链
 [![范滇东](https://flwfdd.xyz/favicon.ico =50x)](https://flwfdd.xyz/)
 [![梦未](https://www.dreature.xyz/wp-content/uploads/logo-mengwei.png =50x)](https://www.dreature.xyz/)
 [![梦未](./images/chi.png =50x)](https://patricia-chi.github.io/)
+[![W1ndys](https://blog.w1ndys.top/img/about/avatar.png)](https://blog.w1ndys.top/)
 :::
 
 ## 链接
