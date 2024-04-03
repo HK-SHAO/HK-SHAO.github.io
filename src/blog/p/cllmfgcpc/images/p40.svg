@@ -4,7 +4,7 @@
             <g class="typst-group">
                 <g>
                     <g transform="translate(-0 -12)">
-                        <path class="typst-shape" fill="none" stroke="#000000" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" d="M 0 0 L 0 688.8973 L 425.1975 688.8973 L 425.1975 0 Z "/>
+                        <path class="typst-shape" fill="none" stroke="#000000" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="4" d="M 5.5 0 L 419.6975 0 C 422.73508 0 425.1975 2.4624338 425.1975 5.5 L 425.1975 683.3973 C 425.1975 686.4348 422.73508 688.8973 419.6975 688.8973 L 5.5 688.8973 C 2.4624338 688.8973 0 686.4348 0 683.3973 L 0 5.5 C 0 2.4624338 2.4624338 0 5.5 0 "/>
                     </g>
                     <g transform="translate(0 -12)">
                         <g class="typst-group">
