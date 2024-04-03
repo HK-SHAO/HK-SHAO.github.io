@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="generator" content="VuePress 2.0.0-beta.53">
+    <style>
+      :root {
+        --c-bg: #fff;
+      }
+      html.dark {
+        --c-bg: #22272e;
+      }
+      html, body {
+        background-color: var(--c-bg);
+      }
+    </style>
+    <script>
+      const userMode = localStorage.getItem('vuepress-color-scheme');
+			const systemDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+			if (userMode === 'dark' || (userMode !== 'light' && systemDarkMode)) {
+				document.documentElement.classList.toggle('dark', true);
+			}
+    </script>
+    <meta property="og:url" content="https://shao.fun/blog/p/use-echarts-in-markdown.html"><meta property="og:site_name" content="HK-SHAO"><meta property="og:title" content="使用 Echarts 图表"><meta property="og:description" content="在 Markdown 中使用 ECharts"><meta property="og:type" content="article"><meta property="og:updated_time" content="2022-12-11T22:52:42.000Z"><meta property="og:locale" content="zh-CN"><meta name="twitter:creator" content="HKSHAO"><meta property="article:author" content="HK-SHAO"><meta property="article:modified_time" content="2022-12-11T22:52:42.000Z"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="manifest" href="/manifest.webmanifest"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#ffffff"><meta name="msapplication-TileColor" content="#ffffff"><meta name="theme-color" content="#ffffff"><meta name="keywords" content="烧风, shaofun, hk-shao, hk_shao, HK-SHAO"><meta name="description" content="烧风(HK-SHAO, shaofun)的个人网站/主页，分享一些技术文档/文章和我的作品"><meta name="baidu-site-verification" content="code-9JVoVoLVMg"><title>使用 Echarts 图表 | HK-SHAO</title>
+    <link rel="preload" href="/assets/style.64f441e1.css" as="style" /><link rel="stylesheet" href="/assets/style.64f441e1.css" />
+    <link rel="modulepreload" href="/assets/app.d9ef6744.js"><link rel="modulepreload" href="/assets/use-echarts-in-markdown.html.b806fb60.js"><link rel="modulepreload" href="/assets/use-echarts-in-markdown.html.dc1e82e3.js"><link rel="prefetch" href="/assets/LICENSE.html.82b0492a.js" as="script" /><link rel="prefetch" href="/assets/index.html.fa1df886.js" as="script" /><link rel="prefetch" href="/assets/index.html.eb6fb661.js" as="script" /><link rel="prefetch" href="/assets/index.html.33f0646a.js" as="script" /><link rel="prefetch" href="/assets/index.html.c810655d.js" as="script" /><link rel="prefetch" href="/assets/index.html.86588f8b.js" as="script" /><link rel="prefetch" href="/assets/index.html.43963326.js" as="script" /><link rel="prefetch" href="/assets/index.html.08b72ec9.js" as="script" /><link rel="prefetch" href="/assets/license.html.481c976a.js" as="script" /><link rel="prefetch" href="/assets/my-sandbox-game.html.bdc9bc28.js" as="script" /><link rel="prefetch" href="/assets/resume-mind.html.a5d30c4f.js" as="script" /><link rel="prefetch" href="/assets/advanced-use-of-markdown.html.f7675639.js" as="script" /><link rel="prefetch" href="/assets/basic-tutorial-for-markdown.html.6c1cd403.js" as="script" /><link rel="prefetch" href="/assets/how-to-use-markdown.html.884a1e1d.js" as="script" /><link rel="prefetch" href="/assets/labor-demand-based-distribution.html.29d37474.js" as="script" /><link rel="prefetch" href="/assets/taichi-lang-cheatsheet-svg.html.6fbc349b.js" as="script" /><link rel="prefetch" href="/assets/use-mermaid-in-markdwon.html.eaa3a36a.js" as="script" /><link rel="prefetch" href="/assets/20221231DIP.html.34852c83.js" as="script" /><link rel="prefetch" href="/assets/149-cornell-box.html.14462cf3.js" as="script" /><link rel="prefetch" href="/assets/ask-new-bing.html.441cba43.js" as="script" /><link rel="prefetch" href="/assets/english-grammar-summary.html.9de75c63.js" as="script" /><link rel="prefetch" href="/assets/glsl-canvas-and-editor.html.3d3abeb9.js" as="script" /><link rel="prefetch" href="/assets/godot-cube-4d.html.35c06455.js" as="script" /><link rel="prefetch" href="/assets/godot-ray-tracing.html.d58c9aaa.js" as="script" /><link rel="prefetch" href="/assets/godot-smooth-brush.html.ee1c00ea.js" as="script" /><link rel="prefetch" href="/assets/how-diffusion-models-work.html.7e26a92a.js" as="script" /><link rel="prefetch" href="/assets/ray-tracing-denoise.html.698a2220.js" as="script" /><link rel="prefetch" href="/assets/some-godot-tips.html.c532aa44.js" as="script" /><link rel="prefetch" href="/assets/some-math-examples.html.d086b0bf.js" as="script" /><link rel="prefetch" href="/assets/taichi-ray-tracing.html.0f230221.js" as="script" /><link rel="prefetch" href="/assets/index.html.fcec69cc.js" as="script" /><link rel="prefetch" href="/assets/index.html.d389a2de.js" as="script" /><link rel="prefetch" href="/assets/index.html.18082d6b.js" as="script" /><link rel="prefetch" href="/assets/404.html.4272d91a.js" as="script" /><link rel="prefetch" href="/assets/LICENSE.html.100b10f1.js" as="script" /><link rel="prefetch" href="/assets/index.html.920c7810.js" as="script" /><link rel="prefetch" href="/assets/index.html.0fe94629.js" as="script" /><link rel="prefetch" href="/assets/index.html.3051f797.js" as="script" /><link rel="prefetch" href="/assets/index.html.511c0314.js" as="script" /><link rel="prefetch" href="/assets/index.html.8facf8be.js" as="script" /><link rel="prefetch" href="/assets/index.html.e78a5959.js" as="script" /><link rel="prefetch" href="/assets/index.html.351a0b04.js" as="script" /><link rel="prefetch" href="/assets/license.html.e3140cb1.js" as="script" /><link rel="prefetch" href="/assets/my-sandbox-game.html.3a9a6204.js" as="script" /><link rel="prefetch" href="/assets/resume-mind.html.1407f816.js" as="script" /><link rel="prefetch" href="/assets/advanced-use-of-markdown.html.9a2d6427.js" as="script" /><link rel="prefetch" href="/assets/basic-tutorial-for-markdown.html.eb468564.js" as="script" /><link rel="prefetch" href="/assets/how-to-use-markdown.html.fae92592.js" as="script" /><link rel="prefetch" href="/assets/labor-demand-based-distribution.html.7811d1f9.js" as="script" /><link rel="prefetch" href="/assets/taichi-lang-cheatsheet-svg.html.7860c6d6.js" as="script" /><link rel="prefetch" href="/assets/use-mermaid-in-markdwon.html.e81295a7.js" as="script" /><link rel="prefetch" href="/assets/20221231DIP.html.ed76f6af.js" as="script" /><link rel="prefetch" href="/assets/149-cornell-box.html.5e9acb97.js" as="script" /><link rel="prefetch" href="/assets/ask-new-bing.html.1c4bede7.js" as="script" /><link rel="prefetch" href="/assets/english-grammar-summary.html.502f8281.js" as="script" /><link rel="prefetch" href="/assets/glsl-canvas-and-editor.html.ef8f25b8.js" as="script" /><link rel="prefetch" href="/assets/godot-cube-4d.html.d1c58c1f.js" as="script" /><link rel="prefetch" href="/assets/godot-ray-tracing.html.89eaed44.js" as="script" /><link rel="prefetch" href="/assets/godot-smooth-brush.html.86d21e36.js" as="script" /><link rel="prefetch" href="/assets/how-diffusion-models-work.html.20bc7992.js" as="script" /><link rel="prefetch" href="/assets/ray-tracing-denoise.html.6c73261c.js" as="script" /><link rel="prefetch" href="/assets/some-godot-tips.html.d9a1a434.js" as="script" /><link rel="prefetch" href="/assets/some-math-examples.html.8ae0d933.js" as="script" /><link rel="prefetch" href="/assets/taichi-ray-tracing.html.61887167.js" as="script" /><link rel="prefetch" href="/assets/index.html.04f84d58.js" as="script" /><link rel="prefetch" href="/assets/index.html.f386496e.js" as="script" /><link rel="prefetch" href="/assets/index.html.cbfa52ce.js" as="script" /><link rel="prefetch" href="/assets/404.html.dd063ed5.js" as="script" /><link rel="prefetch" href="/assets/index.0e8935cb.js" as="script" /><link rel="prefetch" href="/assets/index.cac02f97.js" as="script" /><link rel="prefetch" href="/assets/flowchart.parse.ee90d7e0.js" as="script" /><link rel="prefetch" href="/assets/mermaid.esm.min.6ea8f3e9.js" as="script" /><link rel="prefetch" href="/assets/mermaid-mindmap.esm.min.401ec564.js" as="script" /><link rel="prefetch" href="/assets/highlight.esm.bbe50b4b.js" as="script" /><link rel="prefetch" href="/assets/markdown.esm.28286a51.js" as="script" /><link rel="prefetch" href="/assets/math.esm.137065e8.js" as="script" /><link rel="prefetch" href="/assets/notes.esm.70909847.js" as="script" /><link rel="prefetch" href="/assets/reveal.esm.dd8bfc4c.js" as="script" /><link rel="prefetch" href="/assets/search.esm.9d0cc719.js" as="script" /><link rel="prefetch" href="/assets/zoom.esm.e108c3af.js" as="script" /><link rel="prefetch" href="/assets/giscus.468808e8.js" as="script" />
+  </head>
+  <body>
+    <div id="app"><!--[--><div class="theme-container"><!--[--><header class="navbar"><div class="toggle-sidebar-button" title="切换侧边栏" aria-expanded="false" role="button" tabindex="0"><div class="icon" aria-hidden="true"><span></span><span></span><span></span></div></div><span><a href="/" class=""><img class="logo" src="/images/logo.png" alt="HK-SHAO"><span class="site-name can-hide">HK-SHAO</span></a></span><div class="navbar-items-wrapper" style=""><!--[--><!--]--><nav class="navbar-items can-hide"><!--[--><div class="navbar-item"><a href="/" class="" aria-label="主页"><!--[--><!--]--> 主页 <!--[--><!--]--></a></div><div class="navbar-item"><a href="/blog/" class="router-link-active" aria-label="博文"><!--[--><!--]--> 博文 <!--[--><!--]--></a></div><div class="navbar-item"><a href="/links/" class="" aria-label="链接"><!--[--><!--]--> 链接 <!--[--><!--]--></a></div><div class="navbar-item"><a href="/about/" class="" aria-label="关于"><!--[--><!--]--> 关于 <!--[--><!--]--></a></div><div class="navbar-item"><a class="external-link" href="https://github.com/HK-SHAO" rel="noopener noreferrer" target="_blank" aria-label="GitHub"><!--[--><!--]--> GitHub <span><svg class="external-link-icon" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg><span class="external-link-icon-sr-only">在新窗口打开</span></span><!--[--><!--]--></a></div><!--]--></nav><!--[--><!--]--><button class="toggle-color-mode-button" title="切换颜色模式"><svg style="" class="icon" focusable="false" viewBox="0 0 32 32"><path d="M16 12.005a4 4 0 1 1-4 4a4.005 4.005 0 0 1 4-4m0-2a6 6 0 1 0 6 6a6 6 0 0 0-6-6z" fill="currentColor"></path><path d="M5.394 6.813l1.414-1.415l3.506 3.506L8.9 10.318z" fill="currentColor"></path><path d="M2 15.005h5v2H2z" fill="currentColor"></path><path d="M5.394 25.197L8.9 21.691l1.414 1.415l-3.506 3.505z" fill="currentColor"></path><path d="M15 25.005h2v5h-2z" fill="currentColor"></path><path d="M21.687 23.106l1.414-1.415l3.506 3.506l-1.414 1.414z" fill="currentColor"></path><path d="M25 15.005h5v2h-5z" fill="currentColor"></path><path d="M21.687 8.904l3.506-3.506l1.414 1.415l-3.506 3.505z" fill="currentColor"></path><path d="M15 2.005h2v5h-2z" fill="currentColor"></path></svg><svg style="display:none;" class="icon" focusable="false" viewBox="0 0 32 32"><path d="M13.502 5.414a15.075 15.075 0 0 0 11.594 18.194a11.113 11.113 0 0 1-7.975 3.39c-.138 0-.278.005-.418 0a11.094 11.094 0 0 1-3.2-21.584M14.98 3a1.002 1.002 0 0 0-.175.016a13.096 13.096 0 0 0 1.825 25.981c.164.006.328 0 .49 0a13.072 13.072 0 0 0 10.703-5.555a1.01 1.01 0 0 0-.783-1.565A13.08 13.08 0 0 1 15.89 4.38A1.015 1.015 0 0 0 14.98 3z" fill="currentColor"></path></svg></button><form class="search-box" role="search"><input type="search" placeholder="搜索" autocomplete="off" spellcheck="false" value><!----></form></div></header><!--]--><div class="sidebar-mask"></div><!--[--><aside class="sidebar"><nav class="navbar-items"><!--[--><div class="navbar-item"><a href="/" class="" aria-label="主页"><!--[--><!--]--> 主页 <!--[--><!--]--></a></div><div class="navbar-item"><a href="/blog/" class="router-link-active" aria-label="博文"><!--[--><!--]--> 博文 <!--[--><!--]--></a></div><div class="navbar-item"><a href="/links/" class="" aria-label="链接"><!--[--><!--]--> 链接 <!--[--><!--]--></a></div><div class="navbar-item"><a href="/about/" class="" aria-label="关于"><!--[--><!--]--> 关于 <!--[--><!--]--></a></div><div class="navbar-item"><a class="external-link" href="https://github.com/HK-SHAO" rel="noopener noreferrer" target="_blank" aria-label="GitHub"><!--[--><!--]--> GitHub <span><svg class="external-link-icon" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg><span class="external-link-icon-sr-only">在新窗口打开</span></span><!--[--><!--]--></a></div><!--]--></nav><!--[--><!--]--><ul class="sidebar-items"><!--[--><li><p tabindex="0" class="sidebar-item sidebar-heading">使用 Echarts 图表 <!----></p><ul style="" class="sidebar-item-children"><!--[--><li><a aria-current="page" href="/blog/p/use-echarts-in-markdown.html#折线图" class="router-link-active router-link-exact-active sidebar-item" aria-label="折线图"><!--[--><!--]--> 折线图 <!--[--><!--]--></a><!----></li><li><a aria-current="page" href="/blog/p/use-echarts-in-markdown.html#柱状图" class="router-link-active router-link-exact-active sidebar-item" aria-label="柱状图"><!--[--><!--]--> 柱状图 <!--[--><!--]--></a><!----></li><li><a aria-current="page" href="/blog/p/use-echarts-in-markdown.html#饼图" class="router-link-active router-link-exact-active sidebar-item" aria-label="饼图"><!--[--><!--]--> 饼图 <!--[--><!--]--></a><!----></li><li><a aria-current="page" href="/blog/p/use-echarts-in-markdown.html#散点图" class="router-link-active router-link-exact-active sidebar-item" aria-label="散点图"><!--[--><!--]--> 散点图 <!--[--><!--]--></a><!----></li><li><a aria-current="page" href="/blog/p/use-echarts-in-markdown.html#许可协议" class="router-link-active router-link-exact-active sidebar-item" aria-label="许可协议"><!--[--><!--]--> 许可协议 <!--[--><!--]--></a><!----></li><!--]--></ul></li><!--]--></ul><!--[--><!--]--></aside><!--]--><!--[--><main class="page"><!--[--><!--]--><div class="theme-default-content"><!--[--><!--]--><div><h1 id="使用-echarts-图表" tabindex="-1"><a class="header-anchor" href="#使用-echarts-图表" aria-hidden="true">#</a> 使用 Echarts 图表</h1><div class="custom-container tip"><p class="custom-container-title">提示</p><p>本文是 <a href="/blog/p/advanced-use-of-markdown.html" class="">进阶使用 Markdown 排版</a> 的子内容</p></div><div class="custom-container info"><p class="custom-container-title">相关信息</p><p>Echats 是一个开源的的 Web 可视化框架，借助它你可以可视化流程、关系和数据</p><ul><li>更多使用方法，请参考 <a href="https://echarts.apache.org/zh/index.html" target="_blank" rel="noopener noreferrer">Echarts 官网<span><svg class="external-link-icon" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg><span class="external-link-icon-sr-only">在新窗口打开</span></span></a> ，下面仅举出部分例子</li></ul></div><h2 id="折线图" tabindex="-1"><a class="header-anchor" href="#折线图" aria-hidden="true">#</a> 折线图</h2><!--[--><div class="echarts-title">一个折线图案例</div><div class="echarts-loading-wrapper"><svg xmlns="http://www.w3.org/2000/svg" class="icon loading-icon" viewBox="0 0 1024 1024" fill="currentColor" aria-label="loading icon"><circle cx="512" cy="512" r="0" fill="none" stroke="currentColor" stroke-width="20"><animate attributeName="r" repeatCount="indefinite" dur="1s" values="0;400" keyTimes="0;1" keySplines="0 0.2 0.8 1" calcMode="spline" begin="0s"></animate><animate attributeName="opacity" repeatCount="indefinite" dur="1s" values="1;0" keyTimes="0;1" keySplines="0.2 0 0.8 1" calcMode="spline" begin="0s"></animate></circle><circle cx="512" cy="512" r="0" fill="none" stroke="currentColor" stroke-width="20"><animate attributeName="r" repeatCount="indefinite" dur="1s" values="0;400" keyTimes="0;1" keySplines="0 0.2 0.8 1" calcMode="spline" begin="-0.333s"></animate><animate attributeName="opacity" repeatCount="indefinite" dur="1s" values="1;0" keyTimes="0;1" keySplines="0.2 0 0.8 1" calcMode="spline" begin="-0.333s"></animate></circle><circle cx="512" cy="512" r="0" fill="none" stroke="currentColor" stroke-width="20"><animate attributeName="r" repeatCount="indefinite" dur="1s" values="0;400" keyTimes="0;1" keySplines="0 0.2 0.8 1" calcMode="spline" begin="-0.667s"></animate><animate attributeName="opacity" repeatCount="indefinite" dur="1s" values="1;0" keyTimes="0;1" keySplines="0.2 0 0.8 1" calcMode="spline" begin="-0.667s"></animate></circle></svg></div><div class="echarts-wrapper" id="echarts-23"></div><!--]--><details class="custom-container details"><summary>查看 Markdown 代码</summary><div class="language-markdown line-numbers-mode" data-ext="md"><pre class="language-markdown"><code>::: echarts 一个折线图案例
+
+<span class="token code"><span class="token punctuation">```</span><span class="token code-language">json</span>
+<span class="token code-block language-json">{
+  &quot;xAxis&quot;: {
+    &quot;type&quot;: &quot;category&quot;,
+    &quot;data&quot;: [&quot;Mon&quot;, &quot;Tue&quot;, &quot;Wed&quot;, &quot;Thu&quot;, &quot;Fri&quot;, &quot;Sat&quot;, &quot;Sun&quot;]
+  },
+  &quot;yAxis&quot;: {
+    &quot;type&quot;: &quot;value&quot;
+  },
+  &quot;series&quot;: [
+    {
+      &quot;data&quot;: [150, 230, 224, 218, 135, 147, 260],
+      &quot;type&quot;: &quot;line&quot;
+    }
+  ]
+}</span>
+<span class="token punctuation">```</span></span>
+
+:::
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div></details><h2 id="柱状图" tabindex="-1"><a class="header-anchor" href="#柱状图" aria-hidden="true">#</a> 柱状图</h2><!--[--><div class="echarts-title">一个柱状图案例</div><div class="echarts-loading-wrapper"><svg xmlns="http://www.w3.org/2000/svg" class="icon loading-icon" viewBox="0 0 1024 1024" fill="currentColor" aria-label="loading icon"><circle cx="512" cy="512" r="0" fill="none" stroke="currentColor" stroke-width="20"><animate attributeName="r" repeatCount="indefinite" dur="1s" values="0;400" keyTimes="0;1" keySplines="0 0.2 0.8 1" calcMode="spline" begin="0s"></animate><animate attributeName="opacity" repeatCount="indefinite" dur="1s" values="1;0" keyTimes="0;1" keySplines="0.2 0 0.8 1" calcMode="spline" begin="0s"></animate></circle><circle cx="512" cy="512" r="0" fill="none" stroke="currentColor" stroke-width="20"><animate attributeName="r" repeatCount="indefinite" dur="1s" values="0;400" keyTimes="0;1" keySplines="0 0.2 0.8 1" calcMode="spline" begin="-0.333s"></animate><animate attributeName="opacity" repeatCount="indefinite" dur="1s" values="1;0" keyTimes="0;1" keySplines="0.2 0 0.8 1" calcMode="spline" begin="-0.333s"></animate></circle><circle cx="512" cy="512" r="0" fill="none" stroke="currentColor" stroke-width="20"><animate attributeName="r" repeatCount="indefinite" dur="1s" values="0;400" keyTimes="0;1" keySplines="0 0.2 0.8 1" calcMode="spline" begin="-0.667s"></animate><animate attributeName="opacity" repeatCount="indefinite" dur="1s" values="1;0" keyTimes="0;1" keySplines="0.2 0 0.8 1" calcMode="spline" begin="-0.667s"></animate></circle></svg></div><div class="echarts-wrapper" id="echarts-32"></div><!--]--><details class="custom-container details"><summary>查看 Markdown 代码</summary><div class="language-markdown line-numbers-mode" data-ext="md"><pre class="language-markdown"><code>::: echarts 一个柱状图案例
+
+<span class="token code"><span class="token punctuation">```</span><span class="token code-language">json</span>
+<span class="token code-block language-json">{
+  &quot;xAxis&quot;: {
+    &quot;type&quot;: &quot;category&quot;,
+    &quot;data&quot;: [&quot;Mon&quot;, &quot;Tue&quot;, &quot;Wed&quot;, &quot;Thu&quot;, &quot;Fri&quot;, &quot;Sat&quot;, &quot;Sun&quot;]
+  },
+  &quot;yAxis&quot;: {
+    &quot;type&quot;: &quot;value&quot;
+  },
+  &quot;series&quot;: [
+    {
+      &quot;data&quot;: [120, 200, 150, 80, 70, 110, 130],
+      &quot;type&quot;: &quot;bar&quot;,
+      &quot;showBackground&quot;: true,
+      &quot;backgroundStyle&quot;: {
+        &quot;color&quot;: &quot;rgba(180, 180, 180, 0.2)&quot;
+      }
+    }
+  ]
+}</span>
+<span class="token punctuation">```</span></span>
+
+:::
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div></details><h2 id="饼图" tabindex="-1"><a class="header-anchor" href="#饼图" aria-hidden="true">#</a> 饼图</h2><!--[--><div class="echarts-title">一个基础南丁格尔玫瑰图案例</div><div class="echarts-loading-wrapper"><svg xmlns="http://www.w3.org/2000/svg" class="icon loading-icon" viewBox="0 0 1024 1024" fill="currentColor" aria-label="loading icon"><circle cx="512" cy="512" r="0" fill="none" stroke="currentColor" stroke-width="20"><animate attributeName="r" repeatCount="indefinite" dur="1s" values="0;400" keyTimes="0;1" keySplines="0 0.2 0.8 1" calcMode="spline" begin="0s"></animate><animate attributeName="opacity" repeatCount="indefinite" dur="1s" values="1;0" keyTimes="0;1" keySplines="0.2 0 0.8 1" calcMode="spline" begin="0s"></animate></circle><circle cx="512" cy="512" r="0" fill="none" stroke="currentColor" stroke-width="20"><animate attributeName="r" repeatCount="indefinite" dur="1s" values="0;400" keyTimes="0;1" keySplines="0 0.2 0.8 1" calcMode="spline" begin="-0.333s"></animate><animate attributeName="opacity" repeatCount="indefinite" dur="1s" values="1;0" keyTimes="0;1" keySplines="0.2 0 0.8 1" calcMode="spline" begin="-0.333s"></animate></circle><circle cx="512" cy="512" r="0" fill="none" stroke="currentColor" stroke-width="20"><animate attributeName="r" repeatCount="indefinite" dur="1s" values="0;400" keyTimes="0;1" keySplines="0 0.2 0.8 1" calcMode="spline" begin="-0.667s"></animate><animate attributeName="opacity" repeatCount="indefinite" dur="1s" values="1;0" keyTimes="0;1" keySplines="0.2 0 0.8 1" calcMode="spline" begin="-0.667s"></animate></circle></svg></div><div class="echarts-wrapper" id="echarts-41"></div><!--]--><details class="custom-container details"><summary>查看 Markdown 代码</summary><div class="language-markdown line-numbers-mode" data-ext="md"><pre class="language-markdown"><code>::: echarts 一个基础南丁格尔玫瑰图案例
+
+<span class="token code"><span class="token punctuation">```</span><span class="token code-language">json</span>
+<span class="token code-block language-json">{
+  &quot;legend&quot;: {
+    &quot;top&quot;: &quot;bottom&quot;
+  },
+  &quot;toolbox&quot;: {
+    &quot;show&quot;: true,
+    &quot;feature&quot;: {
+      &quot;mark&quot;: {
+        &quot;show&quot;: true
+      },
+      &quot;dataView&quot;: {
+        &quot;show&quot;: true,
+        &quot;readOnly&quot;: false
+      },
+      &quot;restore&quot;: {
+        &quot;show&quot;: true
+      },
+      &quot;saveAsImage&quot;: {
+        &quot;show&quot;: true
+      }
+    }
+  },
+  &quot;series&quot;: [
+    {
+      &quot;name&quot;: &quot;Nightingale Chart&quot;,
+      &quot;type&quot;: &quot;pie&quot;,
+      &quot;radius&quot;: [20, 100],
+      &quot;center&quot;: [&quot;50%&quot;, &quot;50%&quot;],
+      &quot;roseType&quot;: &quot;area&quot;,
+      &quot;itemStyle&quot;: {
+        &quot;borderRadius&quot;: 8
+      },
+      &quot;data&quot;: [
+        {
+          &quot;value&quot;: 40,
+          &quot;name&quot;: &quot;rose 1&quot;
+        },
+        {
+          &quot;value&quot;: 38,
+          &quot;name&quot;: &quot;rose 2&quot;
+        },
+        {
+          &quot;value&quot;: 32,
+          &quot;name&quot;: &quot;rose 3&quot;
+        },
+        {
+          &quot;value&quot;: 30,
+          &quot;name&quot;: &quot;rose 4&quot;
+        },
+        {
+          &quot;value&quot;: 28,
+          &quot;name&quot;: &quot;rose 5&quot;
+        },
+        {
+          &quot;value&quot;: 26,
+          &quot;name&quot;: &quot;rose 6&quot;
+        },
+        {
+          &quot;value&quot;: 22,
+          &quot;name&quot;: &quot;rose 7&quot;
+        },
+        {
+          &quot;value&quot;: 18,
+          &quot;name&quot;: &quot;rose 8&quot;
+        }
+      ]
+    }
+  ]
+}</span>
+<span class="token punctuation">```</span></span>
+
+:::
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div></details><h2 id="散点图" tabindex="-1"><a class="header-anchor" href="#散点图" aria-hidden="true">#</a> 散点图</h2><!--[--><div class="echarts-title">一个散点图案例</div><div class="echarts-loading-wrapper"><svg xmlns="http://www.w3.org/2000/svg" class="icon loading-icon" viewBox="0 0 1024 1024" fill="currentColor" aria-label="loading icon"><circle cx="512" cy="512" r="0" fill="none" stroke="currentColor" stroke-width="20"><animate attributeName="r" repeatCount="indefinite" dur="1s" values="0;400" keyTimes="0;1" keySplines="0 0.2 0.8 1" calcMode="spline" begin="0s"></animate><animate attributeName="opacity" repeatCount="indefinite" dur="1s" values="1;0" keyTimes="0;1" keySplines="0.2 0 0.8 1" calcMode="spline" begin="0s"></animate></circle><circle cx="512" cy="512" r="0" fill="none" stroke="currentColor" stroke-width="20"><animate attributeName="r" repeatCount="indefinite" dur="1s" values="0;400" keyTimes="0;1" keySplines="0 0.2 0.8 1" calcMode="spline" begin="-0.333s"></animate><animate attributeName="opacity" repeatCount="indefinite" dur="1s" values="1;0" keyTimes="0;1" keySplines="0.2 0 0.8 1" calcMode="spline" begin="-0.333s"></animate></circle><circle cx="512" cy="512" r="0" fill="none" stroke="currentColor" stroke-width="20"><animate attributeName="r" repeatCount="indefinite" dur="1s" values="0;400" keyTimes="0;1" keySplines="0 0.2 0.8 1" calcMode="spline" begin="-0.667s"></animate><animate attributeName="opacity" repeatCount="indefinite" dur="1s" values="1;0" keyTimes="0;1" keySplines="0.2 0 0.8 1" calcMode="spline" begin="-0.667s"></animate></circle></svg></div><div class="echarts-wrapper" id="echarts-50"></div><!--]--><details class="custom-container details"><summary>查看 Markdown 代码</summary><div class="language-markdown line-numbers-mode" data-ext="md"><pre class="language-markdown"><code>::: echarts 一个散点图案例
+
+<span class="token code"><span class="token punctuation">```</span><span class="token code-language">json</span>
+<span class="token code-block language-json">{
+  &quot;xAxis&quot;: {},
+  &quot;yAxis&quot;: {},
+  &quot;series&quot;: [
+    {
+      &quot;symbolSize&quot;: 20,
+      &quot;data&quot;: [
+        [10.0, 8.04],
+        [8.07, 6.95],
+        [13.0, 7.58],
+        [9.05, 8.81],
+        [11.0, 8.33],
+        [14.0, 7.66],
+        [13.4, 6.81],
+        [10.0, 6.33],
+        [14.0, 8.96],
+        [12.5, 6.82],
+        [9.15, 7.2],
+        [11.5, 7.2],
+        [3.03, 4.23],
+        [12.2, 7.83],
+        [2.02, 4.47],
+        [1.05, 3.33],
+        [4.05, 4.96],
+        [6.03, 7.24],
+        [12.0, 6.26],
+        [12.0, 8.84],
+        [7.08, 5.82],
+        [5.02, 5.68]
+      ],
+      &quot;type&quot;: &quot;scatter&quot;
+    }
+  ]
+}</span>
+<span class="token punctuation">```</span></span>
+
+:::
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div></details><h2 id="许可协议" tabindex="-1"><a class="header-anchor" href="#许可协议" aria-hidden="true">#</a> 许可协议</h2><div class="custom-container warning"><p class="custom-container-title">注意</p><p>本站所有内容均使用 MIT 协议，请遵守 <a href="/LICENSE.html" class="">此协议</a> 。转载请标明出处：<a href="//shao.fun" target="_blank" rel="noopener noreferrer"><code>shao.fun</code><span><svg class="external-link-icon" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg><span class="external-link-icon-sr-only">在新窗口打开</span></span></a></p></div><div class="custom-container info"><p class="custom-container-title">Copyright © 2019-2024 </p></div></div><!--[--><!--]--></div><footer class="page-meta"><div class="meta-item edit-link"><a class="external-link meta-item-label" href="https://github.com/HK-SHAO/HK-SHAO.github.io/edit/main/src/blog/p/use-echarts-in-markdown.md" rel="noopener noreferrer" target="_blank" aria-label="在 GitHub 上编辑此页"><!--[--><!--]--> 在 GitHub 上编辑此页 <span><svg class="external-link-icon" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg><span class="external-link-icon-sr-only">在新窗口打开</span></span><!--[--><!--]--></a></div><div class="meta-item last-updated"><span class="meta-item-label">上次更新: </span><!----></div><div class="meta-item contributors"><span class="meta-item-label">贡献者: </span><span class="meta-item-info"><!--[--><!--[--><span class="contributor" title="email: hk-shao@foxmail.com">HK-SHAO</span><!----><!--]--><!--]--></span></div></footer><nav class="page-nav"><p class="inner"><span class="prev"><a href="/blog/p/advanced-use-of-markdown.html" class="" aria-label="烧风的 Markdown 进阶教程"><!--[--><!--]--> 烧风的 Markdown 进阶教程 <!--[--><!--]--></a></span><!----></p></nav><!--[--><!--[--><div class="giscus-wrapper input-top" style="display:block;"><div style="text-align:center">Loading...</div></div><!--]--><!--]--></main><!--]--></div><!----><!----><!--]--></div>
+    <script type="module" src="/assets/app.d9ef6744.js" defer></script>
+  </body>
+</html>
