@@ -1,14 +1,19 @@
-@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro&family=Source+Sans+Pro&family=Source+Serif+Pro&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Source+Code+Pro&family=Source+Sans+Pro&family=Source+Serif+Pro&display=swap");
 
 :root {
-    --font-family: '思源黑体', 'Source Sans Pro', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
-    --font-family-code: 'Source Code Pro', Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace;
-    --font-family-serif: '思源宋体', 'Source Serif Pro', serif;
+    --font-family:
+        "思源黑体", "Source Sans Pro", -apple-system, BlinkMacSystemFont,
+        "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans",
+        "Droid Sans", "Helvetica Neue", sans-serif;
+    --font-family-code:
+        "Source Code Pro", Consolas, Monaco, "Andale Mono", "Ubuntu Mono",
+        monospace;
+    --font-family-serif: "思源宋体", "Source Serif Pro", serif;
 }
 
 .MathJax {
     width: 100%;
-    overflow-x: auto
+    overflow-x: auto;
 }
 
 html.dark {
@@ -40,6 +45,7 @@ a {
 
 .navbar .site-name {
     font-weight: 800 !important;
+    display: inline !important;
 }
 
 .custom-container {
@@ -113,7 +119,8 @@ a {
     display: none !important;
 }
 
-.theme-default-content img, .medium-zoom-overlay ~ img {
+.theme-default-content img,
+.medium-zoom-overlay ~ img {
     border-radius: 6px !important;
 }
 

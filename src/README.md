@@ -14,11 +14,12 @@ actions:
 
 <style>
 .hero {
-  padding-top: 3.5rem;
+  /*padding-top: 2.5rem;*/
 }
 
-.hero img {
+.home .hero img {
   transition: all 0.3s ease;
+  max-height: 14rem;
 }
 
 .hero img:hover {
