@@ -1,0 +1,30 @@
+---
+title: 留声 · 频谱
+description: 在浏览器中让音频与图像双向转换。
+publishedAt: 2026-09-08
+updatedAt: 2026-09-14
+tags: [Work, MoonBit, WASM, Web Audio, DSP]
+website: https://atools.shao.fun
+source: https://github.com/HK-SHAO/atools
+---
+
+import Demo from "../../components/mdx/Demo.astro";
+import LinkRow from "../../components/mdx/LinkRow.astro";
+
+拖入一段音频（mp3、wav、flac、m4a、ogg、amr）得到一张频谱图；把图拖回去就能出声。频谱图本身就是进度条，点、拖、方向键，落到哪听到哪。文件不上传，全部在本地处理。
+
+<Demo src="https://atools.shao.fun" title="留声 · 频谱" label="就地试用" />
+
+## 两种模式
+
+紧凑模式只存 2、4 或 8 位的幅度，不含相位，还原时靠相位重建近似出原来的声音。转发、压缩、缩放之后通常仍可读取，编辑越重，损失越大。
+
+可逆模式存 8 位幅度加相位，从原始 PNG 逆变换回来接近无损。相位一旦受损，解码自动降级到重建路径。
+
+陌生图片也能出声：解码按图里保留的信息选路径，相位完好就直接逆变换，相位受损就重建，认不出来的图则整张当作幅度谱尝试合成。
+
+## 内核
+
+DSP 内核是独立的 MoonBit 包（[HK-SHAO/dsp](https://mooncakes.io/docs/HK-SHAO/dsp)），FFT 支持 256 到 4096 的窗口，另有 STFT 编解码、量化、PGHI 相位初始化与 RTISI-LA 相位重建。内核编译成 WASM 供浏览器直接调用，不依赖 JS 运行时，也不需要服务器。宿主 ABI、内存布局与设计取舍见 [moon/README.md](https://github.com/HK-SHAO/atools/blob/main/moon/README.md)。
+
+<LinkRow items={[{ label: "打开作品", href: "https://atools.shao.fun" }, { label: "查看源码", href: "https://github.com/HK-SHAO/atools" }]} />

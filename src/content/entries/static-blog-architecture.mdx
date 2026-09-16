@@ -1,0 +1,55 @@
+---
+title: 这个站点的构建
+description: 静态生成的个人站：内容一套 MDX，主题与构建脚本分开。
+publishedAt: 2026-09-15
+tags: [Astro, Bun, Static Site]
+visibility: unlisted
+---
+
+页面在构建时生成 HTML。没有服务端接口，没有数据库。运行时只有主题切换、Service Worker，以及按需加载的评论与统计。
+
+## 为什么是静态
+
+构建产物交给 CDN，目前发布在 Cloudflare Pages。构建用 Astro，依赖与脚本用 Bun。没有要维护的服务端状态。
+
+## 内容怎么组织
+
+文章、作品与独立页面共用一套 MDX 内容模型，定义在 `src/content.config.ts`。写新内容只要在 `src/content/entries/` 放一个文件：
+
+```yaml
+---
+title: 标题
+description: 摘要
+publishedAt: 2026-09-15
+tags: [DSP, FFT]
+visibility: public
+---
+```
+
+`visibility`：`public` 出现在列表、RSS 与 sitemap；`unlisted` 可直链、不列出；`excluded` 不编译。日期手写，不从 git 推断。
+
+标签只有两个保留键：`Work` 归作品页，`Page` 归独立页面，其余都是纯展示标签。保留键在加载期归一化，trim、忽略大小写去重、折叠成规范写法。语义只在 `tags.ts` 一处定义。
+
+带 `Work` 的进 `/works/`，普通条目进 `/blog/`，带 `Page` 的没有自己的内容路由，由独立页面加载，比如 `/about/` 与 `/resume/`。
+
+## 排版与公式
+
+设计令牌在 `src/styles/tokens.css`，组件样式在 `global.css` 与 `prose.css`，组件内不写 `<style>`。字体一套非衬线栈；代码用等宽栈。纸色是暖的，不是衬线白皮书。
+
+公式在构建时用 KaTeX 编成 HTML，文章布局带上 KaTeX CSS，页面不跑 KaTeX 的 JavaScript。代码高亮在构建时走 Shiki。
+
+## 图片与文章同目录
+
+带图的文章是一个目录：`index.mdx` 加上它自己的 `media/`。引用写相对路径。删除一篇就是删除一个目录。
+
+## 运行时第三方
+
+评论用 Giscus，进了视口再加载脚本。生产环境有 Google Analytics。B 站视频用官方 iframe，不另包播放器。
+
+## PWA
+
+最小化的 Service Worker：预缓存 HTML、CSS 与脚本，版本号取构建哈希。新版本激活后自动刷新。图片不进预缓存，第一次访问后再写入运行时缓存。离线页是独立路由，不进站点地图。
+
+## 取舍
+
+主题与内容分开：改令牌不动 MDX，写文章不碰构建脚本。经历、奖项写在 `src/data/profile.ts`，关于与简历引用同一份。

@@ -1,0 +1,16 @@
+---
+interface LinkItem {
+  label: string;
+  href: string;
+}
+
+interface Props {
+  items: LinkItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<nav class="mdx-link-row" aria-label="相关链接">
+  {items.map(({ label, href }) => <a href={href} target="_blank" rel="noreferrer">{label}<span aria-hidden="true">↗</span></a>)}
+</nav>

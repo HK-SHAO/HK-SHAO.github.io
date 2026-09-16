@@ -1,0 +1,30 @@
+---
+import FriendList from "../components/FriendList.astro";
+import Giscus from "../components/Giscus.astro";
+import { friends, rings } from "../data/friends";
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const me = {
+  name: "烧风",
+  link: "https://shao.fun/",
+  avatar: "https://github.com/HK-SHAO.png",
+};
+---
+
+<BaseLayout title="友链" description="烧风的友链">
+  <article class="page-shell links-page">
+    <header class="page-intro"><p class="eyebrow">Links</p><h1>友链</h1></header>
+    <FriendList items={friends} />
+    <section class="links-group" aria-labelledby="rings-title">
+      <h2 id="rings-title">链接</h2>
+      <FriendList items={rings} />
+    </section>
+    <section class="links-exchange" aria-labelledby="exchange-title">
+      <h2 id="exchange-title">交换</h2>
+      <pre><code>{`- name: ${me.name}
+  link: ${me.link}
+  avatar: ${me.avatar}`}</code></pre>
+    </section>
+    <Giscus />
+  </article>
+</BaseLayout>

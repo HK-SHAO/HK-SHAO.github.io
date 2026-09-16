@@ -1,0 +1,45 @@
+---
+import Icon from "../components/Icon.astro";
+import ProjectList from "../components/ProjectList.astro";
+import avatar from "../assets/avatar.svg";
+import { profile } from "../data/profile";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { site } from "../site.config";
+import { getWorks } from "../utils/content";
+
+const recentProjects = (await getWorks()).slice(0, 4);
+const personSchema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: site.name,
+  alternateName: site.alias,
+  url: site.url,
+  image: `${site.url}/icon-512.png`,
+  sameAs: [site.profiles.github, site.profiles.bilibili],
+};
+---
+
+<BaseLayout>
+  <Fragment slot="head">
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(personSchema)} />
+  </Fragment>
+  <section class="hero page-shell">
+    <div class="hero-copy">
+      <p class="eyebrow">{profile.alias}</p>
+      <h1>{profile.name}</h1>
+      <p class="hero-summary">{profile.summary}</p>
+      <div class="hero-links">
+        <a class="button button-primary" href="/works/">作品</a>
+        <a class="icon-link" href={site.profiles.github} target="_blank" rel="noreferrer"><Icon name="github" />GitHub</a>
+      </div>
+    </div>
+    <img class="hero-avatar" src={avatar.src} width={avatar.width} height={avatar.height} alt="烧风的头像" loading="eager" fetchpriority="high" decoding="async" />
+  </section>
+  <section class="section page-shell" aria-labelledby="recent-title">
+    <div class="section-heading">
+      <h2 id="recent-title">最近更新</h2>
+      <a href="/works/">全部作品</a>
+    </div>
+    <ProjectList items={recentProjects} />
+  </section>
+</BaseLayout>

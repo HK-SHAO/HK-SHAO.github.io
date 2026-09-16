@@ -1,0 +1,22 @@
+---
+import { Image } from "astro:assets";
+import { navigation } from "../site.config";
+import avatar from "../assets/avatar.png";
+import ThemeToggle from "./ThemeToggle.astro";
+
+const pathname = Astro.url.pathname;
+const isCurrent = (href: string) => href === "/" ? pathname === href : pathname.startsWith(href);
+---
+
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="/" aria-label="烧风，返回首页">
+      <Image src={avatar} width={36} height={36} densities={[1, 2, 3]} loading="eager" alt="" />
+      <span>烧风</span>
+    </a>
+    <nav aria-label="主导航">
+      {navigation.map((item) => <a href={item.href} aria-current={isCurrent(item.href) ? "page" : undefined}>{item.label}</a>)}
+    </nav>
+    <ThemeToggle />
+  </div>
+</header>

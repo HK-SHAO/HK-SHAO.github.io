@@ -1,0 +1,16 @@
+---
+title: 乌萨奇敲敲
+description: 敲击、滑动与现场合成的声音构成的互动玩具。
+publishedAt: 2026-02-18
+updatedAt: 2026-08-26
+tags: [Work, Canvas, Web Audio, Toy]
+website: https://www.bilibili.com/toy/usagi/index.html
+---
+
+import LinkRow from "../../components/mdx/LinkRow.astro";
+
+画面用 Canvas 2D 与 Spine 现画，声音由 Web Audio 现场合成，没有音频素材。点一下或拖一拖，画面切成 12 个分区（3 行 × 4 档音高），横向纵向滑过去会连奏；键盘 `QWER` `ASDF` `ZXCV` 是本音，`TYUI` `GHJK` `BNM,` 高一个八度。12 个音是 C 大调音阶（C4 到 G5），与背景的《睡衣派对》同调，怎么敲都在调上。
+
+按住蓄满 0.65 秒会演一段进化，一下拖过整排分区会挑逗，晾着不动它就自己按阶梯加密地独奏，冷落久了会叹气。设置里可以关掉节奏吸附、闲置演奏与多余动效。
+
+<LinkRow items={[{ label: "打开作品", href: "https://www.bilibili.com/toy/usagi/index.html" }]} />

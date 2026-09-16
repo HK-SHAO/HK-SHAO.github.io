@@ -1,0 +1,20 @@
+---
+import type { Friend } from "../data/friends";
+
+interface Props {
+  items: Friend[];
+}
+
+const { items } = Astro.props;
+---
+
+<ul class="friend-list">
+  {items.map(({ name, href, avatar }) => (
+    <li>
+      <a href={href} target="_blank" rel="noreferrer">
+        <img src={avatar} alt="" width="40" height="40" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
+        {name}
+      </a>
+    </li>
+  ))}
+</ul>

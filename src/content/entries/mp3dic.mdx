@@ -1,0 +1,16 @@
+---
+title: MP3 词典
+description: 把词典拆成文件夹放进 MP3，让没有词典功能的播放器也能查词。
+publishedAt: 2019-11-01
+updatedAt: 2019-11-01
+tags: [Work, Python, Tool]
+source: https://github.com/HK-SHAO/MP3DIC
+---
+
+import LinkRow from "../../components/mdx/LinkRow.astro";
+
+学校里的 MP3 都只能听歌看小说，带词典的播放器又厚又贵。基于炬力芯片给 MP3 开发软件太麻烦，于是换了个思路：把单词按字母顺序做成文件夹，每个词在对应位置放一个 txt 释义文件，在文件视图里逐层点开就完成了查词。
+
+第一版做了近四万个单词（含文件夹十几万项），后来补到 40 万词版本。
+
+<LinkRow items={[{ label: "查看源码", href: "https://github.com/HK-SHAO/MP3DIC" }]} />

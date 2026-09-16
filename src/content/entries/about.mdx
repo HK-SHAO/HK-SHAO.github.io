@@ -1,0 +1,41 @@
+---
+title: 关于
+description: 烧风的自我介绍、经历、关注方向与本站说明。
+updatedAt: 2026-09-15
+tags: [Page, About]
+---
+
+import LinkRow from "../../components/mdx/LinkRow.astro";
+import Timeline from "../../components/mdx/Timeline.astro";
+import { roles } from "../../data/profile";
+
+我是烧风，产品人，做平台，也做工具。
+
+## 现在
+
+AI Agent RD & 业余时间写图形、声音与游戏相关的工具，代码开源，多数能直接在浏览器里打开。
+
+## 关注
+
+- Deeplearning、AI Agent & Harness
+- HPC、Compiler、PL Theory
+- Gaming、Graphics、HCI
+
+## 经历
+
+<Timeline items={roles} />
+
+## 过去
+
+小学从游戏逆向开始自学 Windows 编程，做过套壳浏览器和桌面 Dock。初中写 Windows 与 Android 程序，把 AI 对话虚拟人「蓝狐」等应用公开出去，在酷安上架了几款 Android 应用。高中自学 Arduino、STM32 与树莓派，做过便携音乐播放器、多功能闹钟和声纹锁；为高考做数据分析与词典，用 TensorFlow 和 Matplotlib 分析成绩，CSDN 上的记录累计访问超过 16 万。
+
+高三加入国内 Manim 社区做数学科普视频，单条最高超过 35 万播放。大一进香农先修班学算法竞赛，同年拿到腾讯的实习 offer。大二做国家级大创《基于 CNN 和 CapsNet 的多级多模态图像分类系统》并结题，参加华为 ICT 大赛做 AIoT 智慧病房系统，负责 HarmonyOS 家属端。大三任软件协会会长，创建椰风游戏开发社；暑假去 Cocos 实习，同年与队友用 Taichi 和 Godot 写 PBR 光线追踪渲染器，在 Taichi Hackathon 上拿了第一名。
+
+毕业入职腾讯，2025 年转到字节。
+
+<LinkRow items={[
+  { label: "GitHub", href: "https://github.com/HK-SHAO" },
+  { label: "Google Scholar", href: "https://scholar.google.com/citations?user=h5y9AhQAAAAJ" },
+  { label: "哔哩哔哩", href: "https://space.bilibili.com/24046148" },
+  { label: "Shadertoy", href: "https://www.shadertoy.com/user/shaofun" },
+]} />

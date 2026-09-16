@@ -1,0 +1,14 @@
+---
+interface Props {
+  title?: string;
+  tone?: "note" | "warm";
+  compact?: boolean;
+}
+
+const { title, tone = "note", compact = false } = Astro.props;
+---
+
+<aside class:list={["mdx-callout", `mdx-callout-${tone}`, compact && "mdx-callout-compact"]}>
+  {title && <strong>{title}</strong>}
+  <div><slot /></div>
+</aside>

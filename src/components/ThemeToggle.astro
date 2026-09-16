@@ -1,0 +1,36 @@
+---
+import Icon from "./Icon.astro";
+---
+
+<button class="theme-toggle" type="button" aria-label="跟随系统外观，切换至浅色" data-theme-toggle>
+  <span class="theme-icon theme-icon-system"><Icon name="system" /></span>
+  <span class="theme-icon theme-icon-light"><Icon name="sun" /></span>
+  <span class="theme-icon theme-icon-dark"><Icon name="moon" /></span>
+</button>
+
+<script>
+  const root = document.documentElement;
+  const button = document.querySelector("[data-theme-toggle]");
+  const next = { system: "light", light: "dark", dark: "system" } as const;
+  const labels = {
+    system: "跟随系统外观，切换至浅色",
+    light: "浅色外观，切换至深色",
+    dark: "深色外观，切换至跟随系统",
+  } as const;
+
+  const pref = () => (root.dataset.theme === "light" || root.dataset.theme === "dark" ? root.dataset.theme : "system");
+
+  const updateLabel = () => {
+    if (button instanceof HTMLButtonElement) button.setAttribute("aria-label", labels[pref()]);
+  };
+
+  button?.addEventListener("click", () => {
+    const following = next[pref()];
+    if (following === "system") localStorage.removeItem("theme");
+    else localStorage.setItem("theme", following);
+    dispatchEvent(new Event("themechange"));
+  });
+
+  new MutationObserver(updateLabel).observe(root, { attributes: true, attributeFilter: ["data-theme"] });
+  updateLabel();
+</script>

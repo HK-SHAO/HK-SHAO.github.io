@@ -1,0 +1,90 @@
+---
+import { Image } from "astro:assets";
+import type { CollectionEntry } from "astro:content";
+import LicenseNotice from "../components/LicenseNotice.astro";
+import Giscus from "../components/Giscus.astro";
+import { PAGE_TAG, RESERVED_TAGS, WORK_TAG } from "../utils/tags";
+import { site } from "../site.config";
+import BaseLayout from "./BaseLayout.astro";
+import "katex/dist/katex.min.css";
+
+interface Props {
+  entry: CollectionEntry<"entries">;
+  headings?: { depth: number; slug: string; text: string }[];
+}
+
+const { entry, headings = [] } = Astro.props;
+const { title, description, publishedAt, updatedAt, tags, cover, license, comment, commentTerm, visibility } = entry.data;
+const date = new Intl.DateTimeFormat("zh-CN", { dateStyle: "long" });
+const isWork = tags.includes(WORK_TAG);
+const isPage = tags.includes(PAGE_TAG);
+const back = isWork ? { href: "/works/", label: "作品" } : isPage ? { href: "/about/", label: "关于" } : { href: "/blog/", label: "文章" };
+const visibleTags = tags.filter((tag) => !RESERVED_TAGS.has(tag));
+const toc = headings.filter((heading) => heading.depth === 2 || heading.depth === 3);
+const canonical = new URL(Astro.url.pathname, site.url).toString();
+const socialImage = cover ? { src: cover.src, width: cover.width, height: cover.height } : undefined;
+const schema = isPage
+  ? {
+      "@context": "https://schema.org",
+      "@type": "ProfilePage",
+      name: title,
+      description,
+      url: canonical,
+      dateModified: updatedAt?.toISOString(),
+      mainEntity: {
+        "@type": "Person",
+        name: site.name,
+        alternateName: site.alias,
+        url: site.url,
+        sameAs: [site.profiles.github, site.profiles.bilibili],
+      },
+    }
+  : {
+      "@context": "https://schema.org",
+      "@type": isWork ? "CreativeWork" : "BlogPosting",
+      name: title,
+      headline: title,
+      description,
+      url: canonical,
+      mainEntityOfPage: canonical,
+      datePublished: publishedAt?.toISOString(),
+      dateModified: (updatedAt ?? publishedAt)?.toISOString(),
+      keywords: visibleTags,
+      author: { "@type": "Person", name: site.name, alternateName: site.alias, url: site.url },
+      image: new URL(socialImage?.src ?? "/icon-512.png", site.url).toString(),
+    };
+---
+
+<BaseLayout title={title} description={description} image={socialImage} type={isPage ? "website" : "article"} publishedAt={publishedAt} updatedAt={updatedAt} tags={visibleTags} noindex={visibility !== "public"}>
+  <Fragment slot="head">
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(schema)} />
+  </Fragment>
+  <article class="article-shell">
+    <header class="article-header">
+      <a class="back-link" href={back.href}>{back.label}</a>
+      <h1>{title}</h1>
+      <p>{description}</p>
+      <div class="article-meta">
+        {publishedAt && <time datetime={publishedAt.toISOString()}>发布于 {date.format(publishedAt)}</time>}
+        {updatedAt && <span>更新于 {date.format(updatedAt)}</span>}
+        {visibleTags.length > 0 && <span>{visibleTags.join(" · ")}</span>}
+      </div>
+    </header>
+    {cover && <Image class="article-cover" src={cover} alt="" widths={[720, 1200]} sizes="(max-width: 800px) 100vw, 720px" />}
+    {toc.length >= 3 && (
+      <nav class="toc" aria-label="目录">
+        <details>
+          <summary>目录 · {toc.length}</summary>
+          <ul>
+            {toc.map((heading) => (
+              <li data-depth={heading.depth}><a href={`#${heading.slug}`}>{heading.text}</a></li>
+            ))}
+          </ul>
+        </details>
+      </nav>
+    )}
+    <div class="prose"><slot /></div>
+    <LicenseNotice content={license.content} code={license.code} />
+    {comment !== false && <Giscus term={commentTerm} />}
+  </article>
+</BaseLayout>

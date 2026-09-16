@@ -1,0 +1,11 @@
+---
+interface Props {
+  width?: number;
+}
+
+const { width } = Astro.props;
+---
+
+<figure class="prose-center" style={width ? `--figure-w:${width}px` : undefined}>
+  <slot />
+</figure>

@@ -1,0 +1,17 @@
+---
+interface Props {
+  content: string;
+  code: string;
+}
+
+const { content, code } = Astro.props;
+---
+
+<aside class="license-notice" aria-label="版权说明">
+  <strong>版权说明</strong>
+  <p>
+    除非另有说明，正文采用
+    <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh-hans" target="_blank" rel="license noreferrer">{content}</a>，
+    代码采用 <a href="https://opensource.org/license/mit" target="_blank" rel="license noreferrer">{code}</a>。
+  </p>
+</aside>

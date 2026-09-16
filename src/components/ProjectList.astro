@@ -1,0 +1,12 @@
+---
+import type { CollectionEntry } from "astro:content";
+import ProjectCard from "./ProjectCard.astro";
+
+interface Props {
+  items: CollectionEntry<"entries">[];
+}
+
+const { items } = Astro.props;
+---
+
+<div class="project-list">{items.map((project) => <ProjectCard project={project} />)}</div>

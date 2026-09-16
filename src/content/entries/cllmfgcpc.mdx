@@ -1,0 +1,37 @@
+---
+title: 引导大语言模型生成计算机可解析内容
+description: CFG 约束解码和采样，让模型每次都能输出程序可解析的内容。
+publishedAt: 2024-04-02
+tags: [LLM, Paper, Grammar]
+commentTerm: blog/p/cllmfgcpc/
+---
+
+import Callout from "../../components/mdx/Callout.astro";
+import LinkRow from "../../components/mdx/LinkRow.astro";
+
+大语言模型能从大量语料里学到词语之间的关系、句子结构，以及更复杂的语义和语用信息。让它生成结构化、严格遵循约定的内容仍然困难。程序拿到一段自由文本，往往还得靠一层脆弱的容错解析才能用。
+
+<LinkRow items={[
+  { label: "论文预印本", href: "https://chinaxiv.org/abs/202403.00340" },
+  { label: "Google Scholar", href: "https://scholar.google.com/citations?user=h5y9AhQAAAAJ" },
+]} />
+
+## 方法
+
+本文不改模型权重，也不增加额外的神经网络推理。做法是提前约定一份上下文无关文法（CFG, Context-Free Grammar），用它构建一个基于协程的约束装置，在 Transformer 自回归解码阶段引导模型采样正确的词元。输出因此构成符合程序约定的形式语言，程序每次都能把它解析成期望的数据结构、类型或指令。
+
+把大语言模型接进具体应用，这一步省掉的正是容错解析。
+
+## 实验
+
+作者在 JSON、Mermaid 框图和函数调用表达式生成等任务上做了实验，方法提高了生成内容对程序的可用性。
+
+<Callout title="原文">
+
+完整论文包含文法构造、协程实现与全部实验，见[中科院科技论文预发布平台](https://chinaxiv.org/abs/202403.00340)。
+
+</Callout>
+
+## 关键词
+
+大语言模型，结构化内容生成，上下文无关文法，协程

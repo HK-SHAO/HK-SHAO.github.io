@@ -1,0 +1,93 @@
+---
+import Analytics from "../components/Analytics.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import ThemeHead from "../components/ThemeHead.astro";
+import { site } from "../site.config";
+import "../styles/global.css";
+
+interface SocialImage {
+  src: string;
+  width: number;
+  height: number;
+}
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: SocialImage | undefined;
+  type?: "website" | "article";
+  publishedAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  tags?: string[];
+  noindex?: boolean;
+}
+
+const AVATAR: SocialImage = { src: "/icon-512.png", width: 512, height: 512 };
+const { title = site.title, description = site.description, image, type = "website", publishedAt, updatedAt, tags = [], noindex = false } = Astro.props;
+const pageTitle = title === site.title ? title : `${title} · ${site.name}`;
+const canonical = new URL(Astro.url.pathname, site.url);
+const socialImage = image ?? AVATAR;
+---
+
+<!doctype html>
+<html lang={site.language} data-theme="system">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <ThemeHead />
+    <Analytics />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="author" content={site.author} />
+    <meta name="description" content={description} />
+    <meta name="robots" content={noindex ? "noindex, nofollow" : "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"} />
+    {tags.length > 0 && <meta name="keywords" content={tags.join(", ")} />}
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang={site.language} href={canonical} />
+    <link rel="alternate" hreflang="x-default" href={canonical} />
+    <link rel="me" href={site.profiles.github} />
+    <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="alternate" href="/rss.xml" type="application/rss+xml" title={site.title} />
+    <meta property="og:type" content={type} />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content="zh_CN" />
+    <meta property="og:image" content={new URL(socialImage.src, site.url)} />
+    <meta property="og:image:width" content={String(socialImage.width)} />
+    <meta property="og:image:height" content={String(socialImage.height)} />
+    <meta property="og:image:alt" content={image ? `${title}封面` : "烧风（HK-SHAO）"} />
+    {type === "article" && publishedAt && <meta property="article:published_time" content={publishedAt.toISOString()} />}
+    {type === "article" && updatedAt && <meta property="article:modified_time" content={updatedAt.toISOString()} />}
+    {type === "article" && <meta property="article:author" content={site.author} />}
+    {type === "article" && tags.map((tag) => <meta property="article:tag" content={tag} />)}
+    <meta name="twitter:card" content={image ? "summary_large_image" : "summary"} />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={new URL(socialImage.src, site.url)} />
+    <meta name="twitter:image:alt" content={image ? `${title}封面` : "烧风（HK-SHAO）"} />
+    <title>{pageTitle}</title>
+    {
+      import.meta.env.PROD && (
+        <script is:inline>
+          addEventListener("load", () => {
+            if (!navigator.serviceWorker) return;
+            const controlled = Boolean(navigator.serviceWorker.controller);
+            navigator.serviceWorker.addEventListener("controllerchange", () => controlled && location.reload());
+            navigator.serviceWorker.register("/sw.js");
+          });
+        </script>
+      )
+    }
+    <slot name="head" />
+  </head>
+  <body>
+    <a class="skip-link" href="#content">跳至正文</a>
+    <SiteHeader />
+    <main id="content"><slot /></main>
+    <SiteFooter />
+  </body>
+</html>

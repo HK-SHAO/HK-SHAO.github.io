@@ -1,0 +1,67 @@
+---
+import { comments, site } from "../site.config";
+
+interface Props {
+  term?: string | undefined;
+}
+
+const { term } = Astro.props;
+---
+
+<section
+  class="comments"
+  aria-labelledby="comments-title"
+  data-giscus
+  data-repo={comments.repo}
+  data-repo-id={comments.repoId}
+  data-category={comments.category}
+  data-category-id={comments.categoryId}
+  data-mapping={term ? "specific" : "pathname"}
+  data-term={term}
+  data-strict={term ? "1" : "0"}
+  data-lang={site.language}
+>
+  <h2 class="comments-title" id="comments-title">评论</h2>
+  <div class="giscus" data-giscus-mount></div>
+  <noscript><p class="comments-fallback">评论需要启用 JavaScript。</p></noscript>
+</section>
+
+<script>
+  const host = document.querySelector<HTMLElement>("[data-giscus]");
+  const mount = host?.querySelector<HTMLElement>("[data-giscus-mount]");
+
+  if (host && mount) {
+    const root = document.documentElement;
+    const theme = () => (root.dataset.themeResolved === "dark" ? "dark" : "light");
+
+    const attrs: Record<string, string> = {
+      src: "https://giscus.app/client.js",
+      "data-repo": host.dataset.repo ?? "",
+      "data-repo-id": host.dataset.repoId ?? "",
+      "data-category": host.dataset.category ?? "",
+      "data-category-id": host.dataset.categoryId ?? "",
+      "data-mapping": host.dataset.mapping ?? "pathname",
+      "data-strict": host.dataset.strict ?? "0",
+      "data-reactions-enabled": "1",
+      "data-emit-metadata": "0",
+      "data-input-position": "top",
+      "data-theme": theme(),
+      "data-lang": host.dataset.lang ?? "zh-CN",
+      "data-loading": "lazy",
+    };
+    if (host.dataset.term) attrs["data-term"] = host.dataset.term;
+
+    const script = document.createElement("script");
+    for (const [key, value] of Object.entries(attrs)) script.setAttribute(key, value);
+    script.crossOrigin = "anonymous";
+    script.async = true;
+    mount.append(script);
+
+    const sync = () =>
+      mount
+        .querySelector<HTMLIFrameElement>("iframe.giscus-frame")
+        ?.contentWindow?.postMessage({ giscus: { setConfig: { theme: theme() } } }, "https://giscus.app");
+
+    new MutationObserver(sync).observe(root, { attributes: true, attributeFilter: ["data-theme-resolved"] });
+  }
+</script>

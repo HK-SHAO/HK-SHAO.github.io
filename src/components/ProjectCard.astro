@@ -1,0 +1,35 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { RESERVED_TAGS } from "../utils/tags";
+import Icon from "./Icon.astro";
+
+interface Props {
+  project: CollectionEntry<"entries">;
+}
+
+const { project } = Astro.props;
+const { title, description, website, source, tags, publishedAt, updatedAt } = project.data;
+const visibleTags = tags.filter((tag) => !RESERVED_TAGS.has(tag));
+const displayDate = updatedAt ?? publishedAt;
+const date = new Intl.DateTimeFormat("zh-CN", { year: "numeric", month: "2-digit" });
+---
+
+<article class="project-card">
+  <a class="project-main" href={`/works/${project.id}/`}>
+    <span>
+      <h3>{title}</h3>
+      <p>{description}</p>
+    </span>
+    <Icon name="arrow" />
+  </a>
+  <div class="project-meta">
+    <span class="project-detail">
+      {displayDate && <time datetime={displayDate.toISOString()}>{date.format(displayDate)} 更新</time>}
+      <ul aria-label="技术标签">{visibleTags.map((tag) => <li>{tag}</li>)}</ul>
+    </span>
+    <span class="project-actions">
+      {website && <a href={website} target="_blank" rel="noreferrer">访问</a>}
+      {source && <a href={source} target="_blank" rel="noreferrer">源码</a>}
+    </span>
+  </div>
+</article>

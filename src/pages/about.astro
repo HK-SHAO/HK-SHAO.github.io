@@ -1,0 +1,32 @@
+---
+import { getEntry, render } from "astro:content";
+import avatar from "../assets/avatar.svg";
+import Giscus from "../components/Giscus.astro";
+import { profile } from "../data/profile";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { site } from "../site.config";
+
+const entry = await getEntry("entries", "about");
+const { Content } = entry ? await render(entry) : { Content: null };
+---
+
+<BaseLayout title="关于" description="关于烧风（HK-SHAO）">
+  <article class="page-shell about-page">
+    <header class="page-intro"><p class="eyebrow">About</p><h1>关于</h1></header>
+    <div class="about-profile">
+      <img src={avatar.src} width={avatar.width} height={avatar.height} alt="烧风的头像" loading="eager" decoding="async" />
+      <div>
+        <h2>{profile.name} <span>{profile.alias}</span></h2>
+        <p>{profile.introduction}</p>
+        <ul class="interest-list" aria-label="关注领域">{profile.interests.map((interest) => <li>{interest}</li>)}</ul>
+        <div class="text-links">
+          <a href="/resume/">Resume</a>
+          <a href={site.profiles.github} target="_blank" rel="noreferrer">GitHub</a>
+          <a href={site.profiles.bilibili} target="_blank" rel="noreferrer">Bilibili</a>
+        </div>
+      </div>
+    </div>
+    {Content && <div class="prose about-body"><Content /></div>}
+    <Giscus />
+  </article>
+</BaseLayout>

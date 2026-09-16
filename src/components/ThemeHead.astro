@@ -1,0 +1,27 @@
+---
+import { site } from "../site.config";
+
+const { light, dark } = site.themeColor;
+---
+
+<meta name="theme-color" content={light} data-light={light} data-dark={dark} />
+
+<script is:inline>
+  {
+    const root = document.documentElement;
+    const media = matchMedia("(prefers-color-scheme: dark)");
+    const color = document.querySelector("meta[name='theme-color']");
+    const apply = () => {
+      const pref = localStorage.getItem("theme") ?? "system";
+      const resolved = pref === "system" ? (media.matches ? "dark" : "light") : pref;
+      root.dataset.theme = pref;
+      root.dataset.themeResolved = resolved;
+      if (color instanceof HTMLMetaElement) {
+        color.content = (resolved === "dark" ? color.dataset.dark : color.dataset.light) ?? color.content;
+      }
+    };
+    addEventListener("themechange", apply);
+    media.addEventListener("change", apply);
+    apply();
+  }
+</script>

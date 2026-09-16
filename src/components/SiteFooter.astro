@@ -1,0 +1,15 @@
+---
+import { site } from "../site.config";
+---
+
+<footer class="site-footer">
+  <div>
+    <span>© {new Date().getFullYear()} {site.alias}</span>
+    <a href={`https://icp.gov.moe/?keyword=${site.icp}`} target="_blank" rel="noreferrer">萌ICP备{site.icp}号</a>
+    <span class="footer-links">
+      <a href="/license/">License</a>
+      <a href={site.profiles.github} target="_blank" rel="noreferrer">GitHub</a>
+      <a href="/rss.xml">RSS</a>
+    </span>
+  </div>
+</footer>

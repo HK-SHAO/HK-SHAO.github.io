@@ -1,0 +1,14 @@
+---
+interface Props {
+  src: string;
+  title: string;
+  label: string;
+}
+
+const { src, title, label } = Astro.props;
+---
+
+<details class="mdx-demo">
+  <summary>{label}</summary>
+  <iframe src={src} title={title} loading="lazy" allowfullscreen referrerpolicy="no-referrer"></iframe>
+</details>

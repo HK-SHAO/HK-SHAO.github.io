@@ -1,0 +1,16 @@
+---
+title: 高考英语词典
+description: 从 130 多份考卷里统计词频，排成一本按频数排序的英语词典。
+publishedAt: 2019-07-21
+updatedAt: 2019-07-21
+tags: [Work, Python, NLP]
+source: https://github.com/HK-SHAO/English-Dictionary
+---
+
+import LinkRow from "../../components/mdx/LinkRow.astro";
+
+搜集历年高考全国卷与各省模拟卷共 130 多份电子文档，统计其中约 50 万个单词的频数，再抓取谷歌翻译的中英文释义、有道的音标与短语。
+
+词条按频数排序，左上角标出它在全部考卷里出现了多少次。重点部分的词性都配英英释义与例句，给读者留出脱离中文翻译去理解语境的空间。排版后用 Word 导出 PDF 付印成书。
+
+<LinkRow items={[{ label: "查看源码", href: "https://github.com/HK-SHAO/English-Dictionary" }]} />

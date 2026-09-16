@@ -1,0 +1,60 @@
+@property --u {
+  syntax: "<length>";
+  inherits: true;
+  initial-value: 16px;
+}
+
+:root {
+  color-scheme: light dark;
+  --c-eff: 100vw;
+  --u: min(calc(var(--c-eff) * 14 / 340), calc(14px + (var(--c-eff) - 340px) / 280), 16.5px);
+  --paper: light-dark(#fff8ea, #171512);
+  --paper-deep: light-dark(#f8e6c4, #211d18);
+  --glow: light-dark(rgba(255, 196, 83, 0.3), rgba(227, 185, 133, 0.08));
+  --surface: light-dark(rgba(255, 252, 245, 0.66), rgba(38, 33, 27, 0.72));
+  --surface-solid: light-dark(#fffaf0, #221e19);
+  --ink: light-dark(#3d3427, #f5ead7);
+  --muted: light-dark(#8a7d68, #b4a690);
+  --line: light-dark(rgba(61, 52, 39, 0.13), rgba(245, 234, 215, 0.13));
+  --line-strong: light-dark(rgba(61, 52, 39, 0.3), rgba(245, 234, 215, 0.3));
+  --accent: light-dark(#76543a, #e3b985);
+  --focus: #93c8ea;
+  --filter-avatar: drop-shadow(0 0 1px var(--line-strong)) drop-shadow(0 0 1px var(--line-strong));
+  --filter-media: none;
+  --font: ui-rounded, -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", system-ui, sans-serif;
+  --font-mono: "SFMono-Regular", Consolas, "Noto Sans Mono CJK SC", monospace;
+  --text-xs: 0.75rem;
+  --text-sm: 0.8125rem;
+  --text-ui: 0.9375rem;
+  --text-body: 1.0625rem;
+  --text-heading: 1.1875rem;
+  --radius: calc(0.75 * var(--u));
+  --radius-large: calc(1 * var(--u));
+  --radius-pill: 999px;
+  --page: 70rem;
+  --reading: 44rem;
+  --gutter: clamp(1rem, 4vw, 4rem);
+  --header-h: calc(4.25rem + env(safe-area-inset-top, 0));
+  --space-tight: calc(0.75 * var(--u));
+  --space-inset: calc(1 * var(--u));
+  --space-row: calc(1.5 * var(--u));
+  --space-panel: calc(2.5 * var(--u));
+  --space-section: calc(3.5 * var(--u));
+  --blur: blur(calc(0.75 * var(--u))) saturate(1.2);
+  font-size: var(--u);
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --filter-media: invert(1) hue-rotate(180deg);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root[data-theme="system"] {
+    --filter-media: invert(1) hue-rotate(180deg);
+  }
+}

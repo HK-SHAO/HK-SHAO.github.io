@@ -1,0 +1,19 @@
+---
+interface Props {
+  bvid: string;
+  page?: number;
+}
+
+const { bvid, page = 1 } = Astro.props;
+const src = `https://player.bilibili.com/player.html?bvid=${bvid}&page=${page}&high_quality=1&danmaku=0&autoplay=0`;
+---
+
+<div class="bilibili-embed">
+  <iframe
+    src={src}
+    title={`Bilibili 视频 ${bvid}`}
+    allowfullscreen
+    loading="lazy"
+    referrerpolicy="no-referrer"
+  ></iframe>
+</div>

@@ -1,0 +1,68 @@
+---
+title: 简历
+description: 烧风（HK-SHAO）的经历、能力与代表成果。
+updatedAt: 2026-09-15
+tags: [Page, Resume]
+commentTerm: resume/
+---
+
+import Callout from "../../components/mdx/Callout.astro";
+import LinkRow from "../../components/mdx/LinkRow.astro";
+import MetricGrid from "../../components/mdx/MetricGrid.astro";
+import Timeline from "../../components/mdx/Timeline.astro";
+import { awards, jobs, skills } from "../../data/profile";
+
+软件开发者。工作集中在智能体平台、多智能体工作流与内容生产系统，长期实践图形、声音与游戏，也持续参与开源和技术写作。
+
+<LinkRow items={[
+  { label: "GitHub", href: "https://github.com/HK-SHAO" },
+  { label: "Google Scholar", href: "https://scholar.google.com/citations?user=h5y9AhQAAAAJ" },
+  { label: "哔哩哔哩", href: "https://space.bilibili.com/24046148" },
+  { label: "Shadertoy", href: "https://www.shadertoy.com/user/shaofun" },
+]} />
+
+## 经历
+
+<Timeline items={jobs} />
+
+## 教育
+
+华南师范大学 · 人工智能学院 · 软件工程，2020.09 到 2024.06。在校期间获优秀学生奖学金与学院「科技之星」，任软件协会会长与椰风游戏开发社社长。
+
+## 能力
+
+<Timeline items={skills} />
+
+## 代表成果
+
+<MetricGrid items={awards} />
+
+另有蓝桥杯程序设计竞赛广东省一等奖、中青杯全国大学生数学建模大赛全国二等奖，以及国家级大学生创新创业训练项目结题。
+
+## 做过的事
+
+**字节跳动 · AI 生视频工作流平台（Owner）。** 从水平扩容与生产集群建设做起，打通 Go 服务端链路，把玩法搭建与运营从手工流程做成规模化落地的系统，并配上持续观测。这套基础设施直接支撑 400 多个创意特效玩法上线，每月生产 30 万条以上视频。
+
+**腾讯 · 智能体系统与平台（Owner）。** 从 0 到 1 自研的多用户多会话 Agentic AI 产品，兼容 MCP 等工具调用，覆盖前后端与 API 服务。相比固定的流程编排，它用更自由的方式完成复杂任务。我搭建整体架构与前后端基建，负责 Agent 核心的上下文、规划、ReAct 与工具调用兼容，以及仓库规范、构建机与自动化发版流水线。10 位以上贡献者，1000 次以上提交。落地场景包括 AI 数据科学与旅行助手，我也以讲师身份分享过平台架构与落地实践。
+
+**腾讯 · 多智能体工作流平台（Owner）。** 从 0 到 1 自研的流式多 Agent 编排 PaaS，对外提供兼容 OpenAI 的接口，节点涵盖智能对话、消息链表、远程调用、数据库与 CodeBox。前端以 Node 与 Edge 为交互理念做节点编排，核心是前向执行的节点引擎与执行流转换器。落地 100 多个流水线。
+
+**腾讯 · 大模型评测平台（Owner）。** 从 0 到 1 自研的 LLM 评测与观测平台，用 SvelteKit 与 ECharts 做表单与可视化，后端是 MongoDB 加 Redis 的评测机与触发器服务。用它观察模型在特定任务上的性能随微调与超参变化，给算法侧提供可视化对比。
+
+<Callout title="公开边界">
+
+上述项目的内部代号、系统名、专利标题与同事姓名不在此列出，完整细节留到面谈时说明。
+
+</Callout>
+
+## 开源
+
+个人仓库在 GitHub 上累计获得 1.1k 以上星标，常被用到的是 DarkCalculator（591 星）、RayTracingPBR（133 星）与 Plotter（69 星）。
+
+向上游提交的修复已合入主分支的项目包括 Godot（修复 Windows 平台构建系统）、Bun（修复 HTTP 安全相关的 JS API）、Taichi（重构示例代码，减少数倍代码量并提升性能）与 math.js。
+
+完整项目见[作品页](/works/)，其余整理见[关于](/about/)。
+
+## 发表
+
+2024 年发表论文 **Guiding Large Language Models to Generate Computer-Parsable Content**，研究如何引导大语言模型稳定生成可由程序解析的内容。另有发明专利 5 项，其中 1 项获公司好专利奖。
