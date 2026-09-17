@@ -34,7 +34,7 @@ visibility: public
 
 ## 排版与公式
 
-设计令牌在 `src/styles/tokens.css`，组件样式在 `global.css` 与 `prose.css`，组件内不写 `<style>`。字体一套非衬线栈；代码用等宽栈。纸色是暖的，不是衬线白皮书。
+设计令牌在 `src/styles/tokens.css`。`global.css` 只放重置、页面壳与交互原子。组件、页面、文章排版各自带着样式。字体一套非衬线栈；代码用等宽栈。纸色是暖的，不是衬线白皮书。
 
 公式在构建时用 KaTeX 编成 HTML，文章布局带上 KaTeX CSS，页面不跑 KaTeX 的 JavaScript。代码高亮在构建时走 Shiki。
 

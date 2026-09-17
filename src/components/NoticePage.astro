@@ -1,0 +1,19 @@
+---
+interface Props {
+  eyebrow: string;
+  title: string;
+}
+
+const { eyebrow, title } = Astro.props;
+---
+
+<div class="notice page-shell">
+  <p class="eyebrow">{eyebrow}</p>
+  <h1>{title}</h1>
+  <slot />
+</div>
+
+<style>
+  .notice { display: flex; flex-direction: column; align-items: flex-start; justify-content: center; flex: 1; }
+  h1 { margin-bottom: 1rem; font-size: var(--text-page); font-weight: 600; letter-spacing: -0.04em; line-height: 1.05; }
+</style>

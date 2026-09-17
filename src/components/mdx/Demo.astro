@@ -1,14 +1,54 @@
 ---
+import Caret from "../Caret.astro";
+import Icon from "../Icon.astro";
+
 interface Props {
   src: string;
   title: string;
   label: string;
+  open?: boolean;
+  ratio?: string;
+  scale?: number;
 }
 
-const { src, title, label } = Astro.props;
+const { src, title, label, open = false, ratio = "16 / 9", scale = 1 } = Astro.props;
 ---
 
-<details class="mdx-demo">
-  <summary>{label}</summary>
-  <iframe src={src} title={title} loading="lazy" allowfullscreen referrerpolicy="no-referrer"></iframe>
+<details class="mdx-demo" {...(open ? { open: true } : {})} style={`--ratio: ${ratio}; --scale: ${scale}`}>
+  <summary>
+    <Caret />
+    <span>{label}</span>
+    <a class="open pressable" href={src} target="_blank" rel="noreferrer" title="新窗口打开" aria-label={`${title}，新窗口打开`} data-demo-open>
+      <Icon name="arrow" />
+    </a>
+  </summary>
+  <div class="stage shape-squircle">
+    <iframe src={src} title={title} loading="lazy" allowfullscreen referrerpolicy="no-referrer"></iframe>
+  </div>
 </details>
+
+<script>
+  for (const link of document.querySelectorAll("a[data-demo-open]")) {
+    const stop = (event: Event) => event.stopPropagation();
+    link.addEventListener("pointerdown", stop);
+    link.addEventListener("click", stop);
+  }
+</script>
+
+<style>
+  .mdx-demo { margin-block: 2rem; padding: 0.35rem; border-radius: var(--radius); background: var(--surface); }
+  summary { display: flex; align-items: center; gap: 0.4em; min-height: var(--tap); list-style: none; }
+  summary::-webkit-details-marker, summary::marker { display: none; content: none; }
+  summary > span { flex: 1; }
+  .open { display: grid; place-items: center; flex: none; width: var(--tap); height: var(--tap); margin-inline-start: auto; color: var(--muted); }
+  .stage { aspect-ratio: var(--ratio, 16 / 9); overflow: hidden; border-radius: var(--radius); background: var(--paper-deep); }
+  iframe { display: block; width: calc(100% * var(--scale, 1)); height: calc(100% * var(--scale, 1)); border: 0; transform: scale(calc(1 / var(--scale, 1))); transform-origin: 0 0; }
+  @media (hover: hover) and (pointer: fine) {
+    .open:hover, .open:hover :global(svg) { color: var(--ink); }
+    .open:hover :global(svg) { transform: translate(0.15rem, -0.15rem); }
+    .open :global(svg) { transition: transform var(--duration-ui) var(--ease-out), color var(--duration-ui) var(--ease-out); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .open:hover :global(svg) { transform: none; }
+  }
+</style>

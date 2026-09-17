@@ -1,23 +1,15 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageIntro from "../../components/PageIntro.astro";
+import PostList from "../../components/PostList.astro";
 import { getPosts } from "../../utils/content";
 
 const posts = await getPosts();
-const date = new Intl.DateTimeFormat("zh-CN", { dateStyle: "medium" });
 ---
 
 <BaseLayout title="文章" description="烧风的文章">
-  <div class="page-shell page-intro"><p class="eyebrow">Writing</p><h1>文章</h1></div>
+  <div class="page-shell"><PageIntro eyebrow="Writing" title="文章" /></div>
   <section class="section page-shell" aria-label="文章列表">
-    {posts.length > 0 ? (
-      <ol class="post-list">
-        {posts.map((post) => (
-          <li><a href={`/blog/${post.id}/`}>
-            <span><h2>{post.data.title}</h2><p>{post.data.description}</p></span>
-            {post.data.publishedAt && <time datetime={post.data.publishedAt.toISOString()}>{date.format(post.data.publishedAt)}</time>}
-          </a></li>
-        ))}
-      </ol>
-    ) : <p class="empty-state">尚无文章。</p>}
+    <PostList items={posts} />
   </section>
 </BaseLayout>

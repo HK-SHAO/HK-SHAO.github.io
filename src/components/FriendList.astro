@@ -11,10 +11,19 @@ const { items } = Astro.props;
 <ul class="friend-list">
   {items.map(({ name, href, avatar }) => (
     <li>
-      <a href={href} target="_blank" rel="noreferrer">
-        <img src={avatar} alt="" width="40" height="40" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
+      <a class="pressable" href={href} target="_blank" rel="noreferrer">
+        <img class="shape-round" src={avatar} alt="" width="40" height="40" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
         {name}
       </a>
     </li>
   ))}
 </ul>
+
+<style>
+  .friend-list { display: grid; grid-template-columns: 1fr; gap: 0.35rem; padding: 0; margin: 0; list-style: none; }
+  a { display: flex; align-items: center; gap: 0.85rem; min-height: var(--tap); padding-inline: 0.15rem; color: var(--ink); font-size: var(--text-ui); font-weight: 560; }
+  img { width: 2.5rem; height: 2.5rem; flex: none; border-radius: 50%; object-fit: cover; background: var(--surface); box-shadow: 0 0 0 1px var(--line); }
+  @media (min-width: 40.0625rem) {
+    .friend-list { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.5rem 1.5rem; }
+  }
+</style>

@@ -12,5 +12,10 @@ const { items } = Astro.props;
 ---
 
 <nav class="mdx-link-row" aria-label="相关链接">
-  {items.map(({ label, href }) => <a href={href} target="_blank" rel="noreferrer">{label}<span aria-hidden="true">↗</span></a>)}
+  {items.map(({ label, href }) => <a class="pressable shape-round" href={href} target="_blank" rel="noreferrer">{label}<span aria-hidden="true">↗</span></a>)}
 </nav>
+
+<style>
+  .mdx-link-row { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-block: 2rem; }
+  a { display: inline-flex; align-items: center; gap: 0.5rem; min-height: var(--tap); padding-inline: 1rem; border: 1px solid var(--line); border-radius: var(--radius-pill); text-decoration: none; }
+</style>

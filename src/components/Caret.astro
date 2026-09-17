@@ -1,0 +1,17 @@
+<span class="caret" aria-hidden="true"></span>
+
+<style>
+  .caret {
+    width: 0.7em;
+    height: 0.7em;
+    flex: none;
+    background: currentColor;
+    clip-path: polygon(15% 20%, 85% 50%, 15% 80%);
+    transform-origin: 50% 55%;
+    transition: transform var(--duration-ui) var(--ease-out);
+  }
+  :global(details[open]) .caret { transform: rotate(90deg); }
+  @media (prefers-reduced-motion: reduce) {
+    .caret { transition: none; }
+  }
+</style>

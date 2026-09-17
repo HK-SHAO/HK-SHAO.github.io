@@ -12,5 +12,15 @@ const { items } = Astro.props;
 ---
 
 <dl class="metric-grid">
-  {items.map(({ value, label }) => <div><dt>{value}</dt><dd>{label}</dd></div>)}
+  {items.map(({ value, label }) => <div class="shape-squircle"><dt>{value}</dt><dd>{label}</dd></div>)}
 </dl>
+
+<style>
+  .metric-grid { display: grid; grid-template-columns: 1fr; gap: 0.75rem; margin-block: 2rem; }
+  .metric-grid > div { padding: var(--space-inset); border-radius: var(--radius); background: var(--surface); }
+  dt { margin-bottom: 0.25rem; color: var(--accent); font-size: var(--text-heading); font-weight: 600; letter-spacing: -0.02em; }
+  dd { margin: 0; color: var(--muted); font-size: var(--text-sm); }
+  @media (min-width: 40.0625rem) {
+    .metric-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+</style>

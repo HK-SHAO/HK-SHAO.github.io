@@ -1,0 +1,23 @@
+---
+interface Props {
+  href: string;
+  variant?: "primary" | "quiet";
+  external?: boolean;
+}
+
+const { href, variant = "primary", external = false } = Astro.props;
+---
+
+<a class:list={["button", variant, "pressable", "shape-round"]} href={href} target={external ? "_blank" : undefined} rel={external ? "noreferrer" : undefined}>
+  <slot />
+</a>
+
+<style>
+  .button { display: inline-flex; align-items: center; justify-content: center; min-height: var(--tap); border-radius: var(--radius-pill); font-size: var(--text-ui); font-weight: 600; }
+  .primary { padding-inline: 1.4rem; background: var(--ink); color: var(--paper); }
+  .quiet { gap: 0.5rem; padding-inline: 0.75rem; }
+  .quiet :global(svg) { fill: currentColor; stroke: none; }
+  @media (hover: hover) and (pointer: fine) {
+    .primary:hover { color: var(--paper); }
+  }
+</style>

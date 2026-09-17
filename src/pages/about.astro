@@ -1,7 +1,10 @@
 ---
 import { getEntry, render } from "astro:content";
 import avatar from "../assets/avatar.svg";
+import ChipList from "../components/ChipList.astro";
 import Giscus from "../components/Giscus.astro";
+import PageIntro from "../components/PageIntro.astro";
+import Prose from "../components/Prose.astro";
 import { profile } from "../data/profile";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { site } from "../site.config";
@@ -12,13 +15,13 @@ const { Content } = entry ? await render(entry) : { Content: null };
 
 <BaseLayout title="关于" description="关于烧风（HK-SHAO）">
   <article class="page-shell about-page">
-    <header class="page-intro"><p class="eyebrow">About</p><h1>关于</h1></header>
+    <PageIntro eyebrow="About" title="关于" />
     <div class="about-profile">
       <img src={avatar.src} width={avatar.width} height={avatar.height} alt="烧风的头像" loading="eager" decoding="async" />
       <div>
         <h2>{profile.name} <span>{profile.alias}</span></h2>
         <p>{profile.introduction}</p>
-        <ul class="interest-list" aria-label="关注领域">{profile.interests.map((interest) => <li>{interest}</li>)}</ul>
+        <ChipList items={profile.interests} label="关注领域" />
         <div class="text-links">
           <a href="/resume/">Resume</a>
           <a href={site.profiles.github} target="_blank" rel="noreferrer">GitHub</a>
@@ -26,7 +29,27 @@ const { Content } = entry ? await render(entry) : { Content: null };
         </div>
       </div>
     </div>
-    {Content && <div class="prose about-body"><Content /></div>}
+    {Content && <div class="about-copy"><Prose><Content /></Prose></div>}
     <Giscus />
   </article>
 </BaseLayout>
+
+<style>
+  .about-page { padding-bottom: 4rem; }
+  .about-page :global(.page-intro) { text-align: center; }
+  .about-profile { display: grid; grid-template-columns: 1fr; align-items: center; gap: 2rem; max-width: 48rem; margin-top: 3rem; margin-bottom: 4rem; text-align: center; }
+  .about-profile > img { width: 7rem; justify-self: center; filter: var(--filter-avatar); }
+  h2 { margin-bottom: 0.75rem; font-size: clamp(1.4rem, 6vw, 2rem); font-weight: 600; line-height: 1.2; }
+  h2 span { color: var(--muted); font-size: 0.5em; font-weight: 520; letter-spacing: 0.08em; }
+  .about-profile p { margin-bottom: 1.5rem; color: var(--muted); font-size: var(--text-body); }
+  .about-profile :global(.chips) { margin-bottom: 1.5rem; justify-content: center; }
+  .text-links { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 1rem; font-size: var(--text-sm); }
+  .about-copy { max-width: 48rem; }
+  @media (min-width: 40.0625rem) {
+    .about-page { padding-bottom: var(--space-section); }
+    .about-page :global(.page-intro) { text-align: start; }
+    .about-profile { grid-template-columns: 10rem minmax(0, 1fr); gap: clamp(2rem, 7vw, 5rem); margin-top: 4rem; text-align: start; }
+    .about-profile > img { width: 10rem; justify-self: stretch; }
+    .about-profile :global(.chips), .text-links { justify-content: flex-start; }
+  }
+</style>

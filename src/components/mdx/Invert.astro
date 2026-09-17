@@ -1,1 +1,5 @@
-<div class="prose-invert"><slot /></div>
+<div class="invert"><slot /></div>
+
+<style>
+  .invert :global(img) { filter: var(--filter-media); }
+</style>

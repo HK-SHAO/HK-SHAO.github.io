@@ -28,6 +28,13 @@
   --text-ui: 0.9375rem;
   --text-body: 1.0625rem;
   --text-heading: 1.1875rem;
+  --text-page: clamp(2.4rem, 11vw, 3.75rem);
+  --text-display: clamp(2.8rem, 14vw, 4.75rem);
+  --text-article: clamp(2.25rem, 10vw, 3.5rem);
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --duration-ui: 160ms;
+  --tap: 2.75rem;
+  --press: 0.97;
   --radius: calc(0.75 * var(--u));
   --radius-large: calc(1 * var(--u));
   --radius-pill: 999px;
@@ -56,5 +63,20 @@
 @media (prefers-color-scheme: dark) {
   :root[data-theme="system"] {
     --filter-media: invert(1) hue-rotate(180deg);
+  }
+}
+
+@media (min-width: 40.0625rem) {
+  :root {
+    --header-h: calc(4.75rem + env(safe-area-inset-top, 0));
+    --text-page: clamp(2.8rem, 5vw, 4rem);
+    --text-display: clamp(3.2rem, 6vw, 4.25rem);
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  :root {
+    --surface: var(--surface-solid);
+    --blur: none;
   }
 }

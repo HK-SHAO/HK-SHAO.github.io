@@ -1,6 +1,8 @@
 ---
 import Icon from "../components/Icon.astro";
+import Button from "../components/Button.astro";
 import ProjectList from "../components/ProjectList.astro";
+import SectionHeading from "../components/SectionHeading.astro";
 import avatar from "../assets/avatar.svg";
 import { profile } from "../data/profile";
 import BaseLayout from "../layouts/BaseLayout.astro";
@@ -29,17 +31,33 @@ const personSchema = {
       <h1>{profile.name}</h1>
       <p class="hero-summary">{profile.summary}</p>
       <div class="hero-links">
-        <a class="button button-primary" href="/works/">作品</a>
-        <a class="icon-link" href={site.profiles.github} target="_blank" rel="noreferrer"><Icon name="github" />GitHub</a>
+        <Button href="/works/">作品</Button>
+        <Button href={site.profiles.github} variant="quiet" external><Icon name="github" />GitHub</Button>
       </div>
     </div>
     <img class="hero-avatar" src={avatar.src} width={avatar.width} height={avatar.height} alt="烧风的头像" loading="eager" fetchpriority="high" decoding="async" />
   </section>
   <section class="section page-shell" aria-labelledby="recent-title">
-    <div class="section-heading">
-      <h2 id="recent-title">最近更新</h2>
-      <a href="/works/">全部作品</a>
-    </div>
+    <SectionHeading id="recent-title">最近更新<a slot="aside" href="/works/">全部作品</a></SectionHeading>
     <ProjectList items={recentProjects} />
   </section>
 </BaseLayout>
+
+<style>
+  .hero { display: grid; grid-template-columns: 1fr; gap: 0; text-align: center; align-content: center; min-height: calc(100svh - var(--header-h)); }
+  .hero-copy { order: 2; }
+  .hero-avatar { order: 1; justify-self: center; width: 9rem; filter: var(--filter-avatar); }
+  h1 { margin-bottom: 1rem; font-size: var(--text-display); font-weight: 600; letter-spacing: -0.045em; line-height: 1; }
+  .hero-summary { max-width: 28rem; margin-inline: auto; margin-bottom: 2rem; color: var(--muted); font-size: clamp(1.0625rem, 4.5vw, 1.25rem); letter-spacing: 0.04em; }
+  .hero-links { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 0.75rem; }
+  @media (min-width: 40.0625rem) {
+    .hero { grid-template-columns: minmax(0, 1fr) minmax(10rem, 15rem); align-items: center; gap: clamp(2rem, 7vw, 6rem); text-align: start; }
+    .hero-copy, .hero-avatar { order: initial; }
+    .hero-avatar { width: min(100%, 16rem); }
+    .hero-summary { margin-inline: 0; }
+    .hero-links { justify-content: flex-start; }
+  }
+  @media (min-width: 55.0625rem) {
+    .hero { grid-template-columns: minmax(0, 1fr) minmax(14rem, 25rem); }
+  }
+</style>

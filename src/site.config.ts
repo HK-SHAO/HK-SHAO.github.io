@@ -2,7 +2,7 @@ export const site = {
   name: "烧风",
   alias: "HK-SHAO",
   title: "烧风 · HK-SHAO",
-  description: "烧风的个人网站：软件、游戏与图形实验",
+  description: "烧风的个人网站：AI Agent、软件、游戏与图形实验",
   url: "https://shao.fun",
   author: "HK-SHAO",
   language: "zh-CN",

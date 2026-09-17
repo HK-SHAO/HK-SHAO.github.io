@@ -1,5 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import Prose from "../components/Prose.astro";
+import "../layouts/article.css";
 ---
 
 <BaseLayout title="版权" description="本站内容与代码的默认授权方式">
@@ -9,13 +11,13 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       <h1>版权</h1>
       <p>清楚说明如何转载内容、使用图片与复用代码。</p>
     </header>
-    <div class="prose">
+    <Prose>
       <h2>内容与图片</h2>
       <p>除非页面、文章或素材旁另有说明，本站原创文字与图片采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh-hans" target="_blank" rel="license noreferrer">CC BY-SA 4.0</a>。转载时请署名“烧风（HK-SHAO）”、附上原文链接，并以相同许可分享演绎作品。</p>
       <h2>代码</h2>
       <p>除非源码文件或仓库另有说明，本站示例代码与网站源代码采用 <a href="https://opensource.org/license/mit" target="_blank" rel="license noreferrer">MIT License</a>。</p>
       <h2>例外</h2>
       <p>第三方商标、引用内容与外部素材仍归各自权利人所有。</p>
-    </div>
+    </Prose>
   </article>
 </BaseLayout>

@@ -8,7 +8,17 @@ interface Props {
 const { title, tone = "note", compact = false } = Astro.props;
 ---
 
-<aside class:list={["mdx-callout", `mdx-callout-${tone}`, compact && "mdx-callout-compact"]}>
+<aside class:list={["mdx-callout", `mdx-callout-${tone}`, compact && "mdx-callout-compact", "shape-squircle"]}>
   {title && <strong>{title}</strong>}
   <div><slot /></div>
 </aside>
+
+<style>
+  .mdx-callout { margin-block: 2rem; padding: var(--space-inset); border-radius: var(--radius); background: var(--surface); }
+  .mdx-callout-warm { background: color-mix(in srgb, var(--paper-deep) 56%, transparent); }
+  .mdx-callout-compact { font-size: var(--text-sm); color: var(--muted); }
+  strong { display: block; margin-bottom: 0.35rem; }
+  .mdx-callout :global(> div > :last-child),
+  .mdx-callout :global(p:last-child) { margin-bottom: 0; }
+  .mdx-callout-compact :global(p) { margin-block: 0.15rem; }
+</style>

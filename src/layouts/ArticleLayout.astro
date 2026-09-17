@@ -3,9 +3,12 @@ import { Image } from "astro:assets";
 import type { CollectionEntry } from "astro:content";
 import LicenseNotice from "../components/LicenseNotice.astro";
 import Giscus from "../components/Giscus.astro";
+import Caret from "../components/Caret.astro";
+import Prose from "../components/Prose.astro";
 import { PAGE_TAG, RESERVED_TAGS, WORK_TAG } from "../utils/tags";
 import { site } from "../site.config";
 import BaseLayout from "./BaseLayout.astro";
+import "./article.css";
 import "katex/dist/katex.min.css";
 
 interface Props {
@@ -70,11 +73,11 @@ const schema = isPage
         {visibleTags.length > 0 && <span>{visibleTags.join(" · ")}</span>}
       </div>
     </header>
-    {cover && <Image class="article-cover" src={cover} alt="" widths={[720, 1200]} sizes="(max-width: 800px) 100vw, 720px" />}
+    {cover && <Image class="article-cover shape-squircle" src={cover} alt="" widths={[720, 1200]} sizes="(max-width: 800px) 100vw, 720px" />}
     {toc.length >= 3 && (
       <nav class="toc" aria-label="目录">
         <details>
-          <summary>目录 · {toc.length}</summary>
+          <summary><Caret />目录 · {toc.length}</summary>
           <ul>
             {toc.map((heading) => (
               <li data-depth={heading.depth}><a href={`#${heading.slug}`}>{heading.text}</a></li>
@@ -83,8 +86,24 @@ const schema = isPage
         </details>
       </nav>
     )}
-    <div class="prose"><slot /></div>
+    <Prose><slot /></Prose>
     <LicenseNotice content={license.content} code={license.code} />
     {comment !== false && <Giscus term={commentTerm} />}
   </article>
 </BaseLayout>
+
+<style>
+  .toc { --toc-indent: 1.1em; margin-block: 0 2.5rem; font-size: var(--text-sm); line-height: 1.5; }
+  summary { display: flex; width: fit-content; align-items: center; gap: 0.4em; cursor: pointer; color: var(--muted); font-weight: 600; list-style: none; }
+  summary::-webkit-details-marker, summary::marker { display: none; content: none; }
+  @media (hover: hover) and (pointer: fine) {
+    summary:hover { color: var(--ink); }
+  }
+  ul { padding: 0; margin: 0.4rem 0 0; padding-inline-start: var(--toc-indent); list-style: none; }
+  li { margin-block: 0.08rem; }
+  li[data-depth="3"] { padding-inline-start: var(--toc-indent); }
+  .toc a { color: var(--muted); }
+  @media (hover: hover) and (pointer: fine) {
+    .toc a:hover { color: var(--ink); text-decoration: underline; text-underline-offset: 0.18em; }
+  }
+</style>

@@ -2,7 +2,7 @@
 import Icon from "./Icon.astro";
 ---
 
-<button class="theme-toggle" type="button" aria-label="跟随系统外观，切换至浅色" data-theme-toggle>
+<button class="theme-toggle pressable shape-round" type="button" aria-label="跟随系统外观，切换至浅色" data-theme-toggle>
   <span class="theme-icon theme-icon-system"><Icon name="system" /></span>
   <span class="theme-icon theme-icon-light"><Icon name="sun" /></span>
   <span class="theme-icon theme-icon-dark"><Icon name="moon" /></span>
@@ -34,3 +34,17 @@ import Icon from "./Icon.astro";
   new MutationObserver(updateLabel).observe(root, { attributes: true, attributeFilter: ["data-theme"] });
   updateLabel();
 </script>
+
+<style>
+  .theme-toggle { display: grid; width: 2.5rem; min-height: var(--tap); padding: 0; border: 0; border-radius: var(--radius-pill); background: transparent; color: var(--muted); cursor: pointer; place-items: center; justify-self: end; }
+  .theme-icon { display: grid; grid-area: 1 / 1; place-items: center; opacity: 0; transform: scale(0.95); transition: opacity var(--duration-ui) var(--ease-out), transform var(--duration-ui) var(--ease-out); }
+  :global(:root[data-theme="system"]) .theme-icon-system,
+  :global(:root[data-theme="light"]) .theme-icon-light,
+  :global(:root[data-theme="dark"]) .theme-icon-dark { opacity: 1; transform: scale(1); }
+  @media (hover: hover) and (pointer: fine) {
+    .theme-toggle:hover { background: var(--surface); color: var(--ink); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .theme-icon { transform: none; transition: opacity var(--duration-ui) var(--ease-out); }
+  }
+</style>

@@ -20,3 +20,14 @@ const { items } = Astro.props;
     </li>
   ))}
 </ol>
+
+<style>
+  .timeline { padding: 0; margin-block: 2rem; list-style: none; }
+  li { display: grid; grid-template-columns: 1fr; gap: 0.25rem; padding-block: var(--space-row); border-bottom: 1px solid var(--line); }
+  time { color: var(--muted); font-size: var(--text-sm); font-variant-numeric: lining-nums tabular-nums; }
+  strong { display: block; font-weight: 600; }
+  p { margin: 0.25rem 0 0; color: var(--muted); font-size: var(--text-ui); }
+  @media (min-width: 40.0625rem) {
+    li { grid-template-columns: 9rem 1fr; gap: 1.5rem; }
+  }
+</style>

@@ -1,5 +1,7 @@
 ---
 import ProjectList from "../components/ProjectList.astro";
+import PageIntro from "../components/PageIntro.astro";
+import SectionHeading from "../components/SectionHeading.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { getWorks } from "../utils/content";
 
@@ -7,9 +9,9 @@ const works = await getWorks();
 ---
 
 <BaseLayout title="作品" description="烧风的软件、游戏与图形项目">
-  <div class="page-shell page-intro"><p class="eyebrow">Works</p><h1>作品</h1></div>
+  <div class="page-shell"><PageIntro eyebrow="Works" title="作品" /></div>
   <section class="section page-shell" aria-labelledby="works-title">
-    <div class="section-heading"><h2 id="works-title">全部</h2><span>按更新时间排序</span></div>
+    <SectionHeading id="works-title">全部<span slot="aside">按更新时间排序</span></SectionHeading>
     <ProjectList items={works} />
   </section>
 </BaseLayout>

@@ -1,6 +1,7 @@
 ---
 import FriendList from "../components/FriendList.astro";
 import Giscus from "../components/Giscus.astro";
+import PageIntro from "../components/PageIntro.astro";
 import { friends, rings } from "../data/friends";
 import BaseLayout from "../layouts/BaseLayout.astro";
 
@@ -13,7 +14,7 @@ const me = {
 
 <BaseLayout title="友链" description="烧风的友链">
   <article class="page-shell links-page">
-    <header class="page-intro"><p class="eyebrow">Links</p><h1>友链</h1></header>
+    <PageIntro eyebrow="Links" title="友链" />
     <FriendList items={friends} />
     <section class="links-group" aria-labelledby="rings-title">
       <h2 id="rings-title">链接</h2>
@@ -21,10 +22,21 @@ const me = {
     </section>
     <section class="links-exchange" aria-labelledby="exchange-title">
       <h2 id="exchange-title">交换</h2>
-      <pre><code>{`- name: ${me.name}
+      <pre class="shape-round"><code>{`- name: ${me.name}
   link: ${me.link}
   avatar: ${me.avatar}`}</code></pre>
     </section>
     <Giscus />
   </article>
 </BaseLayout>
+
+<style>
+  .links-page { padding-bottom: 4rem; }
+  .links-page :global(.page-intro) { margin-bottom: 2rem; }
+  .links-group, .links-exchange { margin-top: 3rem; }
+  h2 { margin-bottom: 1rem; font-size: var(--text-heading); font-weight: 600; letter-spacing: -0.02em; }
+  pre { overflow-x: auto; padding: var(--space-inset); border-radius: var(--radius); background: var(--surface); color: var(--ink); font-family: var(--font-mono); font-size: var(--text-sm); line-height: 1.6; }
+  @media (min-width: 40.0625rem) {
+    .links-page { padding-bottom: var(--space-section); }
+  }
+</style>

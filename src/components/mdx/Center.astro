@@ -6,6 +6,13 @@ interface Props {
 const { width } = Astro.props;
 ---
 
-<figure class="prose-center" style={width ? `--figure-w:${width}px` : undefined}>
+<figure class="center" style={width ? `--figure-w:${width}px` : undefined}>
   <slot />
 </figure>
+
+<style>
+  .center { margin-block: 0 1.5rem; text-align: center; }
+  .center :global(img) { margin-inline: auto; margin-block: 0 0.4rem; width: var(--figure-w, auto); height: auto; }
+  .center :global(p) { margin-block: 0.35rem; }
+  .center > :global(:last-child) { margin-bottom: 0; }
+</style>

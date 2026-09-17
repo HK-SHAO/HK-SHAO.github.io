@@ -85,9 +85,14 @@ const socialImage = image ?? AVATAR;
     <slot name="head" />
   </head>
   <body>
-    <a class="skip-link" href="#content">跳至正文</a>
+    <a class="skip-link shape-round" href="#content">跳至正文</a>
     <SiteHeader />
     <main id="content"><slot /></main>
     <SiteFooter />
   </body>
 </html>
+
+<style>
+  .skip-link { position: fixed; top: max(0.75rem, env(safe-area-inset-top, 0)); left: max(0.75rem, env(safe-area-inset-left, 0)); z-index: 20; padding: 0.6rem 0.9rem; border-radius: var(--radius-pill); background: var(--ink); color: var(--paper); transform: translateY(-180%); }
+  .skip-link:focus { transform: translateY(0); }
+</style>

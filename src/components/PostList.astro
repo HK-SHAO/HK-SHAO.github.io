@@ -1,0 +1,44 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  items: CollectionEntry<"entries">[];
+}
+
+const { items } = Astro.props;
+const date = new Intl.DateTimeFormat("zh-CN", { dateStyle: "medium" });
+---
+
+{
+  items.length > 0 ? (
+    <ol class="post-list">
+      {items.map((post) => (
+        <li>
+          <a href={`/blog/${post.id}/`}>
+            <span>
+              <h2>{post.data.title}</h2>
+              <p>{post.data.description}</p>
+            </span>
+            {post.data.publishedAt && <time datetime={post.data.publishedAt.toISOString()}>{date.format(post.data.publishedAt)}</time>}
+          </a>
+        </li>
+      ))}
+    </ol>
+  ) : (
+    <p class="empty">尚无文章。</p>
+  )
+}
+
+<style>
+  .post-list { padding: 0; margin: 0; border-top: 1px solid var(--line); list-style: none; }
+  li { border-bottom: 1px solid var(--line); }
+  a { display: grid; grid-template-columns: 1fr; gap: 1rem; padding-block: var(--space-row); color: var(--ink); }
+  h2 { margin-bottom: 0.4rem; font-size: var(--text-heading); font-weight: 600; }
+  p, time, .empty { color: var(--muted); }
+  p { display: -webkit-box; max-width: 42rem; margin-bottom: 0; overflow: hidden; -webkit-box-orient: vertical; -webkit-line-clamp: 4; }
+  time { font-size: var(--text-sm); font-variant-numeric: lining-nums tabular-nums; white-space: nowrap; }
+  .empty { margin: 0; padding-block: var(--space-row); border-block: 1px solid var(--line); }
+  @media (min-width: 40.0625rem) {
+    a { grid-template-columns: 1fr auto; gap: 2rem; }
+  }
+</style>

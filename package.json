@@ -9,13 +9,13 @@
     "build": "astro build",
     "preview": "astro preview",
     "check": "astro check",
-    "release": "git switch github && git reset --hard github/main && git merge --squash main && git commit -m \"发布站点当前内容\" && git switch main && git push github github:main"
+    "release": "sh scripts/release.sh"
   },
   "dependencies": {
     "@astrojs/mdx": "^8.0.1",
     "@astrojs/rss": "^4.0.19",
     "@astrojs/sitemap": "^3.7.4",
-    "astro": "^7.3.2",
+    "astro": "^7.3.3",
     "katex": "^0.18.7",
     "rehype-katex": "^7.0.1",
     "remark-math": "^6.0.0"

@@ -1,0 +1,17 @@
+---
+interface Props {
+  items: readonly string[];
+  label?: string;
+}
+
+const { items, label } = Astro.props;
+---
+
+<ul class="chips" aria-label={label}>
+  {items.map((item) => <li class="shape-round">{item}</li>)}
+</ul>
+
+<style>
+  .chips { display: flex; flex-wrap: wrap; gap: 0.4rem; padding: 0; margin: 0; list-style: none; }
+  li { padding: 0.25em 0.65em; border-radius: var(--radius-pill); background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); color: var(--muted); font-size: var(--text-xs); line-height: 1.5; }
+</style>

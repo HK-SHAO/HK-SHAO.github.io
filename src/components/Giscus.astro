@@ -26,6 +26,13 @@ const { term } = Astro.props;
   <noscript><p class="comments-fallback">评论需要启用 JavaScript。</p></noscript>
 </section>
 
+<style>
+  .comments { margin-top: 4rem; padding-top: 1.5rem; border-top: 1px solid var(--line); }
+  .comments-title { margin-bottom: 1.5rem; font-size: var(--text-heading); font-weight: 600; letter-spacing: -0.02em; }
+  .giscus { min-height: 10rem; }
+  .comments-fallback { color: var(--muted); font-size: var(--text-sm); }
+</style>
+
 <script>
   const host = document.querySelector<HTMLElement>("[data-giscus]");
   const mount = host?.querySelector<HTMLElement>("[data-giscus-mount]");
