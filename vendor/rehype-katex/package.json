@@ -1,0 +1,16 @@
+{
+  "name": "rehype-katex",
+  "version": "7.0.1",
+  "description": "rehype-katex, wired to the site KaTeX instead of ^0.16",
+  "license": "MIT",
+  "type": "module",
+  "exports": "./index.js",
+  "dependencies": {
+    "@types/hast": "^3.0.0",
+    "hast-util-from-html-isomorphic": "^2.0.0",
+    "hast-util-to-text": "^4.0.0",
+    "katex": "^0.18.7",
+    "unist-util-visit-parents": "^6.0.0",
+    "vfile": "^6.0.0"
+  }
+}

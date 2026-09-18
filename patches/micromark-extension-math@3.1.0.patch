@@ -1,0 +1,13 @@
+diff --git a/package.json b/package.json
+index 1f7c882e2eda4d151a90ea591e1b3b39c7a4c53b..4167a433bee2abe2791cc99c33480296f7962ccf 100644
+--- a/package.json
++++ b/package.json
+@@ -38,7 +38,7 @@
+   "dependencies": {
+     "@types/katex": "^0.16.0",
+     "devlop": "^1.0.0",
+-    "katex": "^0.16.0",
++    "katex": "^0.18.7",
+     "micromark-factory-space": "^2.0.0",
+     "micromark-util-character": "^2.0.0",
+     "micromark-util-symbol": "^2.0.0",

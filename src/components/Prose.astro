@@ -14,10 +14,10 @@
   .prose :where(a, code) { overflow-wrap: anywhere; }
   .prose blockquote { margin-inline: 1.25rem; padding-block: 0.25rem; color: var(--muted); }
   .prose code { padding: 0.12em 0.3em; border-radius: 0.25rem; background: var(--surface); font-family: var(--font-mono); font-size: 0.88em; }
-  .prose pre { overflow-x: auto; padding: var(--space-inset); border-radius: var(--radius); background: #1d1710; color: #fff8ea; font-family: var(--font-mono); font-size: 0.875rem; line-height: 1.6; }
-  .prose pre code { padding: 0; background: transparent; color: inherit; }
-  .prose pre .line { display: inline-block; width: max-content; min-width: 100%; }
-  .prose pre .line.highlighted { background: color-mix(in srgb, #f6c667 14%, transparent); box-shadow: inset 2px 0 0 color-mix(in srgb, #f6c667 60%, transparent); }
+  .prose pre { overflow-x: auto; padding-block: var(--space-inset); border-radius: var(--radius); background: #1d1710; color: #fff8ea; font-family: var(--font-mono); font-size: 0.875rem; line-height: 1.7; }
+  .prose pre code { display: grid; min-width: 100%; width: max-content; padding: 0; background: transparent; color: inherit; }
+  .prose pre .line { padding-inline: var(--space-inset); }
+  .prose pre .line.highlighted { background: color-mix(in srgb, #f6c667 14%, transparent); }
   .prose img { height: auto; margin-block: 2rem; border-radius: var(--radius); }
   .prose hr { margin-block: 3rem; border: 0; border-top: 1px solid var(--line); }
   .prose table { display: block; width: 100%; margin-block: 2rem; overflow-x: auto; border-collapse: collapse; font-variant-numeric: lining-nums tabular-nums; }
@@ -28,7 +28,8 @@
   .prose details:not(.mdx-demo) > :last-child { margin-bottom: 0; }
   .prose kbd { padding: 0.1em 0.35em; border: 1px solid var(--line-strong); border-radius: 0.25rem; font-family: var(--font-mono); font-size: 0.82em; }
   .prose .katex-display { margin-block: 1rem; padding: 0.5rem; overflow-x: auto; overflow-y: hidden; }
-  .prose .katex { font-size: 1.08em; letter-spacing: 0; }
+  .prose .katex { font-size: 1.08em; letter-spacing: 0; text-autospace: no-autospace; }
+  .prose .katex svg { max-width: none; }
   .prose .footnotes { margin-block: 2rem 0; font-size: var(--text-sm); color: var(--muted); }
   .prose .footnotes li { margin-block: 0.15rem; }
   .prose .footnotes :is(h2, h3, hr) { display: none; }

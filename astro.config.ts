@@ -28,6 +28,7 @@ export default defineConfig({
     }),
   ],
   markdown: {
+    syntaxHighlight: { type: "shiki", excludeLangs: ["math"] },
     processor: unified({
       remarkPlugins: [remarkMath],
       rehypePlugins: [rehypeKatex],
