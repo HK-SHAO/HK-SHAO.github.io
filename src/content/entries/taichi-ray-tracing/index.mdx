@@ -16,7 +16,7 @@ import Invert from "../../../components/mdx/Invert.astro";
 
 - 本文是追光小队为 Taichi Hackathon 2022 所写
 - GitHub 仓库在 https://github.com/HK-SHAO/RayTracingPBR
-- 在线效果演示 [shao.fun/RayTracingPBR/](https://shao.fun/RayTracingPBR/), [shadertoy.com/view/Dtj3DG](https://www.shadertoy.com/view/Dtj3DG)
+- 在线效果演示 [bilibili.com/toy/rt](https://www.bilibili.com/toy/rt/index.html), [shadertoy.com/view/Dtj3DG](https://www.shadertoy.com/view/Dtj3DG)
 
 </Callout>
 
@@ -62,7 +62,7 @@ GPU 拥有大量处理单元，可以同时处理大量任务[^tbos]
 |:-:|:-:|
 |高中和大学的时候做的一些数学绘图小玩具|用我自己写的小工具画的 Julia 集|
 
-但是它的问题是效率非常低下。后来我接触了游戏开发，并入门了着色器，然后震惊于并行计算带来的极高计算效率，但是使用着色器任然存在许多桎梏，它的兼容性和灵活度并不是很好。
+但是它的问题是效率非常低下。后来我接触了游戏开发，并入门了着色器，然后震惊于并行计算带来的极高计算效率，但是使用着色器仍然存在许多桎梏，它的兼容性和灵活度并不是很好。
 
 再后来我了解了 Taichi ，作为领域特定语言，能够让你以更好的灵活度和简便的语法轻松玩转并行编程，无需配置复杂的 C++/CUDA 环境、使用冗长的语法并处理各种编译和运行时问题。
 
@@ -85,7 +85,7 @@ GPU 拥有大量处理单元，可以同时处理大量任务[^tbos]
 |:-:|:-:|
 |你能一眼分辨出这是 AI 画的吗？|你能一眼分辨出这是游戏渲染的吗？[^pbrbook]|
 
-[^pbrbook]: Physically Based Rendering:From Theory To Implementation. https://www.pbr-book.org/
+[^pbrbook]: Physically Based Rendering: From Theory To Implementation. https://www.pbr-book.org/
 
 ## 如何使用 Taichi
 
@@ -189,7 +189,7 @@ while window.running:
 
 先建立坐标系并把坐标值归一化，这是自由控制画面中物体位置的基础。
 
-什么是归一化？通常是指将数值压缩到 0 到 1 之间，或者 -1 到 1 之间。在这里，我们的图像分辨率是 `image_resolution = (1920, 1080)` ，但这个数值是可以被我们自由变更的，因此我们将第 i 行、第 j 列的像素的坐标值归一化为 `u = i / image_resolution[0]` 和 `v = j / image_resolution[1]` ，这样我们就可以使用归一化的 uv 坐标来描述像素位置了。
+什么是归一化？通常是指将数值压缩到 0 到 1 之间，或者 -1 到 1 之间。在这里，我们的图像分辨率是 `image_resolution = (1920, 1080)` ，但这个数值是可以被我们自由变更的，因此我们将像素 `(i, j)` 的坐标值归一化为 `u = i / image_resolution[0]` 和 `v = j / image_resolution[1]`（`i` 沿宽度、`j` 沿高度），这样我们就可以使用归一化的 uv 坐标来描述像素位置了。
 
 之后，我们将红色强度设置为 u ，绿色强度设置为 v ，蓝色强度设置为 0 ，这样我们就可以看到一个渐变的彩色图像，并且沿着 u 轴从左到右红色强度上升，沿着 v 轴从下到上绿色强度上升。
 
@@ -281,7 +281,7 @@ while window.running:
 <Center>
 ![](./media/05.webp)
 
-这副画面的色调会随着时间周期性变化
+这幅画面的色调会随着时间周期性变化
 </Center>
 
 <Callout>
@@ -295,7 +295,7 @@ while window.running:
 
 光线追踪渲染利用了光路可逆的原理，我们将光的传播逆向表达，从每个像素发出光线，光击中材质表面后改变了自身的强度、颜色和方向，然后继续传播，直到光线被完全吸收或者到达了光源。最后我们将累积的颜色显示在这个像素上，便渲染出了场景。
 
-接下来，我们来到了光线追踪最基础的一步——定义光线。光线是光子沿射线传播的路径，在基于光线追踪的渲染器中，我们假定光线仅沿着一条直线传播，因此光线可以用一个起点 $\vec{\mathbf{ro}}$ 和一个方向 $\vec{\mathbf{rd}}$ 来表示，其中 $\vec{\mathbf{rd}}$ 应是一个单位向量。这样，光子在三维空间中所在的位置可以用 $\vec{\mathbf{p}}(t)=\vec{\mathbf{ro}} + t \cdot \vec{\mathbf{rd}}$ 表示，其中 $t$ 是光从起点开始传播的距离。
+接下来，我们来到了光线追踪最基础的一步——定义光线。光线是光子沿射线传播的路径，在基于光线追踪的渲染器中，我们假定光线仅沿着一条直线传播，因此光线可以用一个起点 $\vec{\mathbf{ro}}$ 和一个方向 $\vec{\mathbf{rd}}$ 来表示，其中 $\vec{\mathbf{rd}}$ 应是一个单位向量。这样，光子在三维空间中所在的位置可以用 $\vec{\mathbf{p}}(t)=\vec{\mathbf{ro}} + t \cdot \vec{\mathbf{rd}}$ 表示，其中 $t$ 是光从起点开始传播的距离（因为 $\vec{\mathbf{rd}}$ 已单位化）。
 
 <Center width={400}>
 <Invert>
@@ -323,14 +323,14 @@ class Ray:  # 光线类
 
 ## 建立坐标系
 
-在虚拟的三维空间里定义摄像机位置之前，还差一个 z 轴正方向：uv 坐标已经建立了二维坐标系。用过三维软件或游戏引擎的话会知道，图形学常用左手系。
+在虚拟的三维空间里定义摄像机位置之前，还差一个 z 轴正方向：uv 坐标已经建立了二维坐标系。这里采用图形学里常见的右手系：摄像机在原点看向 $-z$（OpenGL 那一套）。
 
-因此，从屏幕向你眼睛的方向，z 轴分量是负的。我们将视点（好比眼睛的位置）放在原点 $(0,0,0)$ ，画布（相当于你的屏幕）的中心位置设置为 $(0,0,-1)$，然后从视点向画布中每个像素发射一条光线。
+因此，画布落在 $z$ 的负半轴上。我们将视点（好比眼睛的位置）放在原点 $(0,0,0)$ ，画布（相当于你的屏幕）的中心位置设置为 $(0,0,-1)$，然后从视点向画布中每个像素发射一条光线。
 
 <Center>
 ![](./media/06.webp)
 
-建立左手系坐标系，将画布放到 z 负半轴方向
+建立右手系，将画布放到 z 负半轴方向
 </Center>
 
 在 `render` 函数中，初始化视点和画布的位置，然后创建一条光线。在这里，我们使用了 `normalize` 函数将向量化为仅表示方向的单位向量。
@@ -398,7 +398,7 @@ $$
 \left\|\vec{\mathbf{p}}\right\|=\sqrt{\vec{\mathbf{p}}\cdot\vec{\mathbf{p}}}
 $$
 
-球的 SDF 函数是到球心的距离减去球半径，即
+球的 SDF 函数是相对球心的距离减去半径（$\vec{\mathbf{p}}$ 已平移到球心为原点），即
 
 $$
 {\rm sphere}(\vec{\mathbf{p}}, r) = \left\|\vec{\mathbf{p}}\right\| - r
@@ -410,7 +410,7 @@ def sd_sphere(p: vec3, r: float) -> float:  # SDF 球体
     return length(p) - r
 ```
 
-使用 SDF 表示物体的好处是，我们可以很方便地计算出物体的表面法线，这在后面的光照计算中会用到。此外， SDF 函数不仅能够表达简单的集合物体，也可以表达复杂的物体，还可以使用简单的运算对多个物体进行变换、组合和重复等操作[^boxsdf]，这使得我们可以很方便地创建出复杂的场景，如下图所示
+使用 SDF 表示物体的好处是，我们可以很方便地计算出物体的表面法线，这在后面的光照计算中会用到。此外，SDF 函数不仅能够表达简单的几何物体，也可以表达复杂的物体，还可以使用简单的运算对多个物体进行变换、组合和重复等操作[^boxsdf]，这使得我们可以很方便地创建出复杂的场景，如下图所示
 
 <Center>
 |![](./media/gfx16.webp)|![](./media/gfx18.webp)|![](./media/gfx45.webp)|
@@ -544,7 +544,7 @@ origin = vec3(0, 0, 0)      # 视点
 
 ### 光圈与焦平面
 
-为简化模型，我们将画布平面视为焦平面，因此摄像机到画布中心的距离为合焦距离 `focus` ，然后以 `lookat` 为原点，`normalize(lookfrom - lookat)` 为 z 轴正方向，建立左手系。
+为简化模型，我们将画布平面视为焦平面，因此摄像机到画布中心的距离为合焦距离 `focus` 。摄像机坐标系的原点在 `lookfrom`，以 `normalize(lookfrom - lookat)` 为 z 轴正方向（从目标指向相机），再与 `vup` 叉乘得到 x、y，构成右手系。
 
 对光圈的表示简化为光线从光圈内任意一点 `ro` 出发，向焦平面上某一点前进，因此我们只需要利用已有的量，建立从 uv 坐标系到世界空间坐标系下焦平面上的点 `rp` 的映射，就可以表示出光线的方向 `normalize(rp - ro)` 。
 
@@ -560,13 +560,13 @@ origin = vec3(0, 0, 0)      # 视点
 在一个单位圆内随机撒豆子，豆子有一定概率落在扇形内
 </Center>
 
-如何在在单位圆内均匀的随机采样一个点呢？想象我们往单位圆内随机撒豆子，一个豆子落到半径为 $r$ ，角度为 $\theta$ 的扇形的概率是扇形的面积 $\theta r^2/2$ 比上单位圆面积 $\pi$ ，这就是它的概率分布函数 $F_1(r,\theta)$
+如何在单位圆内均匀的随机采样一个点呢？想象我们往单位圆内随机撒豆子，一个豆子落到半径为 $r$ 、角度不超过 $\theta$ 的扇形的概率是扇形的面积 $\theta r^2/2$ 比上单位圆面积 $\pi$ ，这就是联合分布函数 $F_1(r,\theta)$
 
 $$
 F_1(r,\theta) = \frac{\theta r^2}{2\pi}
 $$
 
-我们希望分布是均匀的，也就是概率分布函数的导数——概率密度函数 $f_1(r,\theta)$ 是常数，但是
+我们希望用来采样的随机变量本身是均匀的。把分布函数对 $r$、$\theta$ 求偏导，得到概率密度函数 $f_1(r,\theta)$ ，但是
 
 $$
 f_1(r,\theta) = \frac{\partial^2 F_1(r,\theta)}{\partial r\partial\theta} = \frac{r}{\pi}
@@ -584,7 +584,7 @@ $$
 在单位圆的撒下的豆子并不是均匀分布的
 </Center>
 
-如果令 $X=r^2$ ，那么概率密度函数 $f_2(r,\theta)$ 就是一个常数了
+如果令 $X=r^2$ ，那么关于 $(X,\theta)$ 的概率密度函数 $f_2(X,\theta)$ 就是一个常数了
 
 $$
 F_2(X,\theta) = \frac{\theta X}{2\pi}
@@ -726,7 +726,7 @@ ray = camera.get_ray(uv, vec4(1.0)) # 生成光线
 
 ### 梯度与法线
 
-我们知道 SDF 函数在某点的值表示的是该点到物体表面的距离，而函数某点的梯度表示的是函数增长最快的方向。对于 SDF 函数来说，梯度方向就是远离物体表面的方向。如果某点在物体表面上，那么这一点的梯度方向刚好是物体表面法线 $\vec{\mathbf n}$ 的方向，也就是
+我们知道 SDF 函数在某点的值表示的是该点到物体表面的有向距离，而函数某点的梯度表示的是函数增长最快的方向。对真 SDF 来说，梯度指向外侧、远离表面；在表面上，这个方向就是外法线 $\vec{\mathbf n}$，也就是
 
 $$
 \vec{\mathbf n}=\mathrm{normalize}\left(\nabla f\left(\vec{\mathbf{p}}\right)\right)
@@ -750,10 +750,12 @@ $$
 \nabla f\left(\vec{\mathbf{p}}\right)=\left(\frac{f\left(\vec{\mathbf{p}}+\vec{\mathbf{e}}_{x}\right)-f\left(\vec{\mathbf{p}}\right)}{\epsilon},\frac{f\left(\vec{\mathbf{p}}+\vec{\mathbf{e}}_{y}\right)-f\left(\vec{\mathbf{p}}\right)}{\epsilon},\frac{f\left(\vec{\mathbf{p}}+\vec{\mathbf{e}}_{z}\right)-f\left(\vec{\mathbf{p}}\right)}{\epsilon}\right)
 $$
 
-因为计算法线只需要知道梯度方向，并不需要知道大小，所以求法线可以进一步化简为
+因为计算法线只需要知道梯度方向，并不需要知道大小，中心差分里的 $2\epsilon$ 也可以省掉。代码里用的就是中心差分：
 
 $$
-\vec{\mathbf n}=\mathrm{normalize}\left(f\left(\vec{\mathbf{p}}+\vec{\mathbf{e}}_{x}\right)-f\left(\vec{\mathbf{p}}\right),f\left(\vec{\mathbf{p}}+\vec{\mathbf{e}}_{y}\right)-f\left(\vec{\mathbf{p}}\right),f\left(\vec{\mathbf{p}}+\vec{\mathbf{e}}_{z}\right)-f\left(\vec{\mathbf{p}}\right)\right)
+\vec{\mathbf n}=\mathrm{normalize}\bigl(f(\vec{\mathbf{p}}+\vec{\mathbf{e}}_{x})-f(\vec{\mathbf{p}}-\vec{\mathbf{e}}_{x}),\;
+f(\vec{\mathbf{p}}+\vec{\mathbf{e}}_{y})-f(\vec{\mathbf{p}}-\vec{\mathbf{e}}_{y}),\;
+f(\vec{\mathbf{p}}+\vec{\mathbf{e}}_{z})-f(\vec{\mathbf{p}}-\vec{\mathbf{e}}_{z})\bigr)
 $$
 
 它的 Taichi 代码看起来很简洁
@@ -830,7 +832,7 @@ class Object:
 
 ### 基础反照率
 
-反照率可以粗略表示为光线入射物体表面后，物体出射光的颜色与物体入射光之比。因此在光线追踪时，出射光的颜色就是
+反照率可以粗略看成表面反射出去的能量与入射能量之比，漫反射里常常直接拿它当表面颜色。因此在光线追踪时，出射光的颜色就是
 
 ```python
 ray.color.rgb *= record.obj.mtl.albedo
@@ -921,7 +923,7 @@ while window.running:
 这一章，我们为 `Object` 类加入物体的形状属性，以支持物体拥有不同的形状（在本章，我们先添加一个简单的 Box 形状）。在 `Transform` 类加入物体的缩放，以改变物体在各个轴上的大小。然后创建一个 `Object.field(shape=objects_num)` 场，在里面添加不同的物体。最后写一个 `nearest_object` 函数，为计算光线与场景中所有物体最近的一个交点，利用 SDF 函数的特性，寻找距离点 $\vec{\mathbf{p}}$ 最近的物体。
 
 ```python
-# 举形状类型
+# 定义形状类型
 SHAPE_NONE      = 0 # 无形状
 SHAPE_SPHERE    = 1 # 球体
 SHAPE_BOX       = 2 # 箱体
@@ -976,7 +978,7 @@ def sd_box(p: vec3, b: vec3) -> float:  # SDF 盒子
 
 ### 欧几里得空间
 
-为什么应用物体的变换，不使用一个包含缩放、旋转和剪切的 $3\times3$ 变换矩阵呢？iq 大佬在它的文章中指出，不同轴向非均匀的缩放会扭曲欧几里得空间[^boxsdf]，这使得 SDF 函数在求交阶段可能变得不可靠。
+为什么应用物体的变换，不使用一个包含缩放、旋转和剪切的 $3\times3$ 变换矩阵呢？iq 大佬在他的文章中指出，不同轴向非均匀的缩放会扭曲欧几里得度量[^boxsdf]，这使得 SDF 函数在求交阶段可能变得不可靠。
 
 > While rotations, uniform scaling and translations are exact operations, non-uniform scaling distorts the euclidean spaces and can only be bound.
 
@@ -992,7 +994,7 @@ def sd_box(p: vec3, b: vec3) -> float:  # SDF 盒子
 
 <Callout title="思考">
 
-是否有完备的解决方案，使得能够可靠的在非欧几里得空间中与 SDF 物体求交？笔者认为是有的，但是这里写不下（其实我也还没找到解决方案哭了）
+是否有完备的解决方案，使得能够可靠地在非均匀缩放后的空间中与 SDF 物体求交？笔者认为是有的，但是这里写不下（其实我也还没找到解决方案哭了）
 
 </Callout>
 
@@ -1107,7 +1109,7 @@ def nearest_object(p: vec3) -> Object:  # 求最近的物体
 光线穿入物体和穿出物体
 </Center>
 
-还记得向量的点乘吗？由于无论内表面还是外表面，法线方向永远都是朝物体外面，这带来的好处是当光线方向与法线方向点乘大于零时，光线正在从内表面穿出物体，当光线方向与法线方向点乘小于零时，光线正在从外表面穿入物体。
+还记得向量的点乘吗？无论内表面还是外表面，几何法线都朝物体外面。因此当入射方向 $\overrightarrow{\mathbf{ray}}$ 与法线点乘小于零时，光线正在从外表面穿入；大于零时，正在从内表面穿出。
 
 $$
 \overrightarrow{\mathbf{ray}}\cdot \vec{\mathbf{n}}_1 < 0
@@ -1173,7 +1175,7 @@ def raytrace(ray, time: float) -> Ray:
 
 ### 漫反射与切线空间
 
-实现最基本的材质：漫反射。表面粗糙的石头就是漫反射，光线在物体表面随机反射，没有明显的反射方向。思路是半球采样：在物体表面某点，以法线为 z 轴，在表面外的单位半球上随机取一点作为出射光方向。
+实现最基本的材质：漫反射。表面粗糙的石头就是漫反射，光线在物体表面随机反射，没有明显的镜面方向。思路是半球采样：在物体表面某点，以法线为 z 轴，在表面外的单位半球上随机取一点作为出射光方向。
 
 <Center>
 ![](./media/23.webp)
@@ -1218,7 +1220,7 @@ def TBN(N: vec3) -> mat3:   # 用世界坐标下的法线计算 TBN 矩阵
 在上半球内的点
 </Center>
 
-在上半球采样时我们只需要让 Z 轴坐标在 $[0,1]$ 之间取值。与前面的在单位圆内采样相似，为保证采样均匀，Z 轴坐标应为随机变量 $X \in [0,1]$ 取其平方根，而 $\theta \in [0,2\pi]$
+把单位圆盘上的均匀采样抬到半球上（Malley 方法），得到的是余弦加权半球采样，不是球面面积均匀采样。这正是朗伯漫反射想要的：法线方向附近更密。Z 轴取 $X \in [0,1]$ 的平方根，$\theta \in [0,2\pi]$
 
 $$
 \begin{aligned}
@@ -1245,7 +1247,7 @@ def hemispheric_sampling(n: vec3) -> vec3:  # 以 n 为法线进行半球采样
 
 <Callout tone="warm">
 
-在这篇文章，我们并不采取直接将半球采样的方向作为出射光方向的办法，而是用半球采样随机决定法线方向，然后再反射光线。这可以很好的模拟凹凸不平的表面，并且有益于后面的余弦重要性采样 (Cosine-Weighted Hemisphere Sampling)
+在这篇文章，我们并不采取直接将半球采样的方向作为出射光方向的办法，而是用半球采样随机扰动法线，然后再反射光线。这可以很好的模拟凹凸不平的微表面，后面的余弦重要性采样也建立在同一套半球采样上
 - 如果光线反射到了物体内部怎么办？我们暂时处理方案是直接结束掉这条光线
 
 </Callout>
@@ -1360,7 +1362,7 @@ uv += vec2(ti.random(), ti.random()) * SCREEN_PIXEL_SIZE    # 超采样
 
 ### 旋转矩阵
 
-三维空间下的旋转矩阵是一个 $3\times3$ 的矩阵，它的每一行都是一个单位向量，这三个单位向量构成了一个正交基。我们可以通过将三维向量左乘旋转矩阵将它从一个坐标系旋转到另一个坐标系。
+三维空间下的旋转矩阵是一个 $3\times3$ 的矩阵，按列向量约定，它的每一列都是一个单位向量，这三列构成正交基。用旋转矩阵左乘列向量，就能把向量旋到另一个方向。
 
 $$
 \begin{bmatrix}
@@ -1381,39 +1383,39 @@ $$
 
 ### 欧拉角
 
-由于人们操控旋转矩阵或者四元数中的数值来表示旋转并不直观，因此我们使用欧拉角来表示旋转。欧拉角是一个三维向量，它的每个分量分别表示绕 XYZ 轴的旋转角度。左手系下，绕三个轴的旋转矩阵分别为
+由于人们操控旋转矩阵或者四元数中的数值来表示旋转并不直观，因此我们使用欧拉角来表示旋转。欧拉角是一个三维向量，它的每个分量分别表示绕 X、Y、Z 轴的旋转角度。右手系、列向量约定下，绕三个轴的旋转矩阵分别为
 
 $$
 \mathcal{R}_{x}\left(\theta_{x}\right)=\left[\begin{array}{ccc}
 1 & 0 & 0 \\
-0 & \cos \theta_{x} & \sin \theta_{x} \\
-0 & -\sin \theta_{x} & \cos \theta_{x}
+0 & \cos \theta_{x} & -\sin \theta_{x} \\
+0 & \sin \theta_{x} & \cos \theta_{x}
 \end{array}\right]
 $$
 
 $$
 \mathcal{R}_{y}\left(\theta_{y}\right)=\left[\begin{array}{ccc}
-\cos \theta_{y} & 0 & -\sin \theta_{y} \\
+\cos \theta_{y} & 0 & \sin \theta_{y} \\
 0 & 1 & 0 \\
-\sin \theta_{y} & 0 & \cos \theta_{y}
+-\sin \theta_{y} & 0 & \cos \theta_{y}
 \end{array}\right]
 $$
 
 $$
 \mathcal{R}_{z}\left(\theta_{z}\right)=\left[\begin{array}{ccc}
-\cos \theta_{z} & \sin \theta_{z} & 0 \\
--\sin \theta_{z} & \cos \theta_{z} & 0 \\
+\cos \theta_{z} & -\sin \theta_{z} & 0 \\
+\sin \theta_{z} & \cos \theta_{z} & 0 \\
 0 & 0 & 1
 \end{array}\right]
 $$
 
-我们可以通过将三个旋转矩阵相乘来依次旋转得到一个总的旋转矩阵，矩阵乘法有先后区别，通常我们以 XYZ 的顺序依次左乘来表示欧拉角的旋转矩阵
+矩阵乘法有先后区别。列向量按 XYZ 外旋（先 $R_x$ 再 $R_y$ 再 $R_z$）合起来是
 
 $$
-\mathcal{M}(\alpha, \beta, \gamma)=\mathcal{R}_{z}(\alpha) \mathcal{R}_{y}(\beta) \mathcal{R}_{x}(\gamma)
+\mathcal{M}(\theta_x, \theta_y, \theta_z)=\mathcal{R}_{z}(\theta_z)\, \mathcal{R}_{y}(\theta_y)\, \mathcal{R}_{x}(\theta_x)
 $$
 
-用 taichi 代码实现如下
+Taichi 里 `mat3(vec3, vec3, vec3)` 按列填入，与上面的矩阵一致：
 
 ```python
 @ti.func
@@ -1507,10 +1509,10 @@ def PBR(ray, record, normal: vec3) -> Ray:
     transmission = record.obj.mtl.transmission  # 获取透明度
     ior = record.obj.mtl.ior                    # 获取折射率
 
-    I = ray.direction   # 入射方向
+    I = ray.direction   # 入射方向（指向表面）
     V = -ray.direction  # 观察方向
-    # 将材质的切线空间法线转换到世界空间
-    N = TBN(record.obj.mtl.normal) @ normal   # 法线方向
+    # 将材质的切线空间法线转换到世界空间：TBN 以几何法线为 z 轴
+    N = TBN(normal) @ record.obj.mtl.normal
 
     NoV = dot(N, V)
     ...
@@ -1524,7 +1526,7 @@ def PBR(ray, record, normal: vec3) -> Ray:
 
 ### 余弦重要性采样
 
-在这里，我们的余弦重要性采样 (Cosine weighted sampling) 结合了微表面模型的法线分布函数，使用归一化的粗糙度值 $\alpha$ 作为参数采样法线分布。
+在这里，我们的余弦重要性采样 (Cosine weighted sampling) 结合了微表面模型的法线分布函数，用一个随粗糙度变大的参数去拉宽法线分布。代码里这个参数写成了 `pow5(roughness)`，是为了好调，并不是教科书上的 $\alpha=\mathrm{roughness}^2$。
 
 与半球采样类似，只需要改变法线 Z 轴分布即可重要性采样，其中的 TBN 矩阵仍然是将切线空间法线旋转到世界坐标，代码如下
 
@@ -1535,7 +1537,7 @@ def hemispheric_sampling_roughness(n: vec3, roughness: float) -> vec3:
     ra = ti.random() * 2 * pi
     rb = ti.random()
 
-    shiny = pow5(roughness) # 光感越大高光越锐利
+    shiny = pow5(roughness) # 这里用 roughness^5 近似 α²，越大高光越散
 
     rz = sqrt((1.0 - rb) / (1.0 + (shiny - 1.0)*rb))    # 用粗糙度改变 Z 轴分布
     v = vec2(cos(ra), sin(ra))
@@ -1567,7 +1569,13 @@ def pow5(x: float): # 快速计算 x 的 5 次方
 图片来自 https://zhuanlan.zhihu.com/p/357190332
 </Center>
 
-菲涅尔方程是一个复杂的方程式，但是我们可以用 Fresnel-Schlick 近似法快速求得近似解，其中 $\cos\theta$ 是法线与视线（也就是光线的反方向）方向夹角的余弦值。$F_0$ 是基础反射率，它可以由材质的折射指数 (IOR) 计算得出
+菲涅尔方程是一个复杂的方程式，但是我们可以用 Fresnel-Schlick 近似法快速求得近似解，其中 $\cos\theta$ 取法线与视线夹角余弦的绝对值（落在 $[0,1]$ 里）。$F_0$ 是正入射时的基础反射率，介质相对折射率 $\eta=n_1/n_2$ 时
+
+$$
+F_0=\left(\frac{\eta-1}{\eta+1}\right)^2
+$$
+
+Schlick 近似是
 
 $$
 F_{Schlick}(\cos\theta, F_0) =
@@ -1624,7 +1632,7 @@ if ti.random() < transmission:  # 折射部分
 
     F0 = (eta - 1) / (eta + 1)  # 基础反射率
     F0 *= F0
-    F = fresnel_schlick(NoV, F0)
+    F = fresnel_schlick(abs(NoV), F0)
     N = hemispheric_sampling_roughness(N, roughness)    # 根据粗糙度抖动法线方向
 
     # k < 0 为全反射
@@ -1639,7 +1647,7 @@ else:
 
 ### BSDF
 
-双向散射率分布函数 (BSDF, Bidirectional Scattering Distribution Function) ，包含反射散射部分 (BRDF) 和透射散射部分 (BTDF) ，可以将两个函数结合到一起。最后经过一些优化，得到一个完整的 `ray_surface_interaction` 函数。
+双向散射分布函数 (BSDF, Bidirectional Scattering Distribution Function) ，包含反射部分 (BRDF) 和透射部分 (BTDF) ，可以将两个函数结合到一起。最后经过一些优化，得到一个完整的 `ray_surface_interaction` 函数。
 
 ```python
 @ti.func
@@ -1668,11 +1676,11 @@ def ray_surface_interaction(ray: Ray, object: SDFObject) -> Ray:
     # 计算折射比、菲涅尔近似值
     eta = ENV_IOR / ior if outer else ior / ENV_IOR
     k = 1.0 - eta * eta * (1.0 - NoI * NoI)
-    F0 = 2.0 * (eta - 1.0) / (eta + 1.0)
-    F = fresnel_schlick(NoI, F0*F0)
+    F0 = (eta - 1.0) / (eta + 1.0)
+    F = fresnel_schlick(abs(NoI), F0*F0)
 
     if sample_float() < F + metallic or k < 0.0:
-        # 反射部分：菲尼尔反射、金属反射、全反射
+        # 反射部分：菲涅尔反射、金属反射、全反射
         ray.direction = I - 2.0 * NoI * N
         outer = dot(ray.direction, normal) < 0.0
         ray.direction *= (-1.0 if outer else 1.0)
@@ -1729,7 +1737,7 @@ if intensity < visible or visible < VISIBILITY: break
 
 ### 读取图片
 
-第一步当然是读取图片啦。使用 taichi 的 `ti.tools.imread` 函数读取图片[^tiimr]为 numpy 数组，然后将其转换为 `vec3.field` 。下面的 `texture` 函数可以用归一化的 uv 坐标访问像素值。
+第一步当然是读取图片啦。使用 taichi 的 `ti.tools.imread` 函数读取图片[^tiimr]为 numpy 数组，然后将其转换为 `vec3.field` 。下面按 8bit 图 `/255` 归一化；如果读的是线性 HDR，就不要再除 255。`texture` 用归一化 uv 取像素。
 
 [^tiimr]: taichi.tools.image. https://docs.taichi-lang.org/api/taichi/tools/image/
 
@@ -1750,7 +1758,7 @@ class Image:
 
 ### 采样球面贴图
 
-接下来，我们需要将 HDRi 图片映射到单位球面上，然后就可以直接使用光线的方向作为 uv 坐标来采样天空贴图。
+接下来，我们需要将 HDRi 图片映射到单位球面上，然后就可以直接使用光线的方向作为方向向量来采样天空贴图。`pow(..., camera_gamma)` 是把 8bit 贴图近似变回线性亮度，后面色调映射才有意义。
 
 ```python
 @ti.func
@@ -1772,7 +1780,7 @@ def sky_color(ray) -> vec3:
 
 为什么要色调映射？
 
-大多数显示器能够显示的色彩范围是 $[0,1]$ ，当 RGB 的某个分量大于 1 时，会被直接截断为 1 ，这带来的后果是大量高光信息丢失。自然世界中的光强取值是 $[0,+\infty]$ ，为了能够让更广的动态范围被显示设备显示，需要一条曲线映射原本的光强，在保证阴影和高光细节的同时，呈现更真实的色彩。
+大多数显示器能够显示的色彩范围是 $[0,1]$ ，当 RGB 的某个分量大于 1 时，会被直接截断为 1 ，这带来的后果是大量高光信息丢失。自然世界中的光强取值是 $[0,+\infty)$ ，为了能够让更广的动态范围被显示设备显示，需要一条曲线映射原本的光强，在保证阴影和高光细节的同时，呈现更真实的色彩。
 
 |![](./media/clamp.webp)|![](./media/aces.webp)|
 |:-:|:-:|
@@ -1811,7 +1819,7 @@ def ACESFitted(color: vec3) -> vec3:
 
 ### 曝光与 gamma 矫正
 
-人眼感受到的光强并不是与物理世界的光强成线性增长，因此色调映射通常与 gamma 矫正一起使用。下面我们应用 gamma 矫正和色调映射，之所以先进行 gamma 矫正，是因为我希望让暗部更亮一些
+显示器输出和人眼对亮度的响应都不是线性的，因此色调映射通常还要配上 gamma 编码。ACES 拟合曲线一般在线性空间里做；下面先做一次 gamma 再送进 ACES，是为了把暗部抬亮一些，属于观感上的选择。
 
 ```python
 color *= camera_exposure # 调整曝光
