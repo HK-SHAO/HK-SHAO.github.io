@@ -1,0 +1,62 @@
+---
+import { getImage } from "astro:assets";
+import cover from "../assets/voxpool/dreamscape.webp";
+import { site } from "../site.config";
+import { voxpoolLinks as links } from "../utils/voxpool-links";
+import "../styles/voxpool.css";
+
+interface Props {
+  title: string;
+  description: string;
+  paper?: boolean;
+}
+
+const { title, description, paper = false } = Astro.props;
+const canonical = new URL(Astro.url.pathname, site.url);
+const social = await getImage({ src: cover, width: 1200, height: 630, fit: "cover", format: "webp" });
+const socialUrl = new URL(social.src, site.url);
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="author" content={site.author} />
+    <meta name="theme-color" content="#f3f2eb" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/voxpool/mark.svg" type="image/svg+xml" />
+    <meta property="og:type" content={paper ? "article" : "website"} />
+    <meta property="og:site_name" content="VOXPOOL" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content="zh_CN" />
+    <meta property="og:image" content={socialUrl} />
+    <meta property="og:image:width" content={social.attributes.width} />
+    <meta property="og:image:height" content={social.attributes.height} />
+    <meta property="og:image:alt" content="VOXPOOL 的蓝色浅池分列走道两侧，成排顶灯倒映在水面" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <a class="vp-skip" href="#content">跳至正文</a>
+    <header class="vp-header vp-shell">
+      <a class="vp-brand" href={links.home} aria-label="VOXPOOL 体素池核首页">
+        <img src="/voxpool/mark.svg" width="24" height="24" alt="" />
+        <span>VOXPOOL</span>
+      </a>
+      <nav aria-label="VOXPOOL">
+        <a href={links.paper} aria-current={paper ? "page" : undefined}>技术白皮书</a>
+        <a class="vp-header-play" href={links.play}>去体验 <span aria-hidden="true">↗</span></a>
+      </nav>
+    </header>
+    <main id="content"><slot /></main>
+    <footer class="vp-footer vp-shell">
+      <a href="/">烧风的个人网站</a>
+      <span>VOXPOOL · HK-SHAO</span>
+    </footer>
+  </body>
+</html>

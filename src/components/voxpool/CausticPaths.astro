@@ -1,0 +1,58 @@
+<figure>
+  <svg viewBox="0 0 480 264" role="img" aria-labelledby="caustics-title caustics-description">
+    <title id="caustics-title">水面反射和折射的剖面</title>
+    <desc id="caustics-description">直射光在一个水面采样点分成两路。反射光落到天花板，折射光到达池底，两路都在接收面展开为有面积的光斑。</desc>
+
+    <defs>
+      <pattern id="caustics-tile" width="30" height="26" patternUnits="userSpaceOnUse">
+        <path d="M0 26V0H30" fill="none" stroke="#aabeb2" stroke-width="1" />
+      </pattern>
+      <marker id="caustics-ray-tip" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+        <path d="m0 0 7 3-7 3Z" fill="#a1442c" />
+      </marker>
+    </defs>
+
+    <path d="M0 127h480v103H0Z" fill="#d1e7e1" />
+    <path d="M0 127h480" stroke="#006a5b" stroke-width="2" />
+    <path d="M273 16h207v22H273ZM0 231h480v33H0Z" fill="#d9e3d7" />
+    <path d="M273 16h207v22H273ZM0 231h480v33H0Z" fill="url(#caustics-tile)" />
+
+    <path d="M220 127 280 38m-60 89 106-89M220 127l28 104m-28-104 73 104" fill="none" stroke="#a1442c" stroke-opacity=".65" stroke-dasharray="4 5" />
+    <g fill="none" stroke="#a1442c" stroke-width="2.6" marker-end="url(#caustics-ray-tip)">
+      <path d="m140 38 75 83" />
+      <path d="m224 122 76-84" />
+      <path d="m222 132 49 99" />
+    </g>
+    <path d="M280 38h46m-78 193h45" fill="none" stroke="#a1442c" stroke-width="3" />
+    <circle cx="220" cy="127" r="5" fill="#f3f2eb" stroke="#a1442c" stroke-width="2" />
+
+    <text x="58" y="39">直射光</text>
+    <text x="321" y="83">反射</text>
+    <text x="306" y="187">折射</text>
+    <text x="27" y="116">水面</text>
+    <text x="27" y="254">池底</text>
+  </svg>
+
+  <figcaption>图 3　焦散光路示意。两支光到达各自的首个接收面，虚线标出光斑的范围。</figcaption>
+</figure>
+
+<style>
+  figure { margin: 1.7rem 0; }
+
+  svg {
+    display: block;
+    inline-size: 100%;
+    max-inline-size: 37rem;
+    block-size: auto;
+    background: #e9eee5;
+  }
+
+  text { fill: var(--vp-ink); font-size: 22px; font-weight: 650; }
+
+  figcaption {
+    margin-block-start: 0.6rem;
+    color: var(--vp-muted);
+    font-size: 0.875rem;
+    line-height: 1.65;
+  }
+</style>

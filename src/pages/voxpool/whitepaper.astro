@@ -1,0 +1,468 @@
+---
+import { Image } from "astro:assets";
+import VoxpoolLayout from "../../layouts/VoxpoolLayout.astro";
+import LightTransport from "../../components/voxpool/LightTransport.astro";
+import CausticPaths from "../../components/voxpool/CausticPaths.astro";
+import FrameBudget from "../../components/voxpool/FrameBudget.astro";
+import skylight from "../../assets/voxpool/skylight.webp";
+import { voxpoolLinks as links } from "../../utils/voxpool-links";
+
+const sections = [
+  { id: "world", title: "地图与编辑" },
+  { id: "lighting", title: "光怎样传到墙上" },
+  { id: "water", title: "水面、玻璃与天空" },
+  { id: "frame", title: "从一帧到屏幕" },
+  { id: "measurements", title: "测量与边界" },
+  { id: "experiment", title: "在浏览器里试一次" },
+  { id: "references", title: "参考资料" },
+];
+
+const editSteps = [
+  { title: "改动方块", detail: "合并同一格的写入" },
+  { title: "更新几何", detail: "刷新占用与空区边界" },
+  { title: "重算光照", detail: "追踪失效路径并求解" },
+  { title: "合成画面", detail: "使用已发布的光照" },
+];
+
+const experiment = `const engine = window.voxpool;
+const config = await engine.execute("configuration.read");
+const key = "quality.causticGrid";
+const setCaustics = (value) =>
+  engine.execute("configuration.patch", { [key]: value });
+await setCaustics(32);`;
+
+const title = "VOXPOOL 技术白皮书";
+const description = "以一块发光砖和一池水为例，解释 VOXPOOL 的可编辑体素、WebGPU 光传输、实时焦散、显示管线与测量方法。";
+---
+
+<VoxpoolLayout {title} {description} paper>
+  <div class="vp-shell">
+    <header class="paper-heading">
+      <p class="paper-kicker">技术白皮书 <span lang="en">/ VOXPOOL</span></p>
+      <h1>一块砖怎样改变一间房的光</h1>
+      <p class="paper-intro">在池边放一块发光砖，光会先落到附近的瓷砖上，再从瓷砖弹到墙角。把砖拆掉，房间又暗下来。VOXPOOL 把地图、编辑和光照放到Web，玩家可以亲手编辑地图。</p>
+      <p class="paper-edition"><time datetime="2026-11-04">2026 年 11 月 4 日</time><span>实现版本 0.12.7</span></p>
+    </header>
+
+    <div class="paper-grid">
+      <nav class="paper-toc" aria-label="白皮书目录">
+        <p>目录</p>
+        <ol>
+          {sections.map(({ id, title }, index) => (
+            <li><a href={`#${id}`}><span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>{title}</a></li>
+          ))}
+        </ol>
+      </nav>
+
+      <article class="paper-body" aria-label="VOXPOOL 技术白皮书正文">
+        <section id="world">
+          <p class="section-index" aria-hidden="true">01</p>
+          <h2>地图与编辑</h2>
+          <p>VOXPOOL 的地图是一个固定的 16 × 16 × 128 网格，三轴依次是宽、高、深。每格只存一个字节的方块编号，整张地图的体素数据是 32 KiB。灯、玻璃、水和墙都来自这张表。预置地图包括池核、后室与康奈尔盒。</p>
+          <p>在自由模式里敲掉一块砖，几何可以在下一帧更新。光照另有自己的工作队列。连续编辑时，引擎把写入合并到格子，更新受影响的占用块，重算失效的光路。复杂编辑中，新几何可以先出现，稍后才看到照明完成更新。整图替换则先准备光照，再发布地图与出生点。</p>
+
+          <figure class="pipeline">
+            <ol role="list" aria-label="一次局部编辑的处理顺序">
+              {editSteps.map(({ title, detail }, index) => (
+                <li>
+                  <span class="step-number" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+                  <b>{title}</b>
+                  <span class="step-detail">{detail}</span>
+                </li>
+              ))}
+            </ol>
+            <figcaption>图 1　局部编辑从体素写入走到画面。几何更新与光照完成可以相隔数帧。</figcaption>
+          </figure>
+
+          <p><code>.vpool</code> 保存地图与作者设定的出生点。游戏界面的导出还能带上当前游玩进度，脚本接口则可以只编码地图。当前存档格式为第 4 版，旧版本存档会被拒绝。</p>
+        </section>
+
+        <section id="lighting">
+          <p class="section-index" aria-hidden="true">02</p>
+          <h2>光怎样传到墙上</h2>
+          <p>把砖面当作光的接收面。每个接收面用 1,024 个四维 Halton 样本选取面上的起点和出射方向，并追踪可见路径。落到目标面的路径会合并，保留累加后的 RGB 透射权重，形成稀疏的表面传输图。样本固定在世界坐标里，所以转动视角时，墙面不会跟着重新抽样。</p>
+          <p class="transport-equation"><span role="math" aria-label="下一轮的表面光等于该面的光源项，加上所有相连表面上一轮传来的光。"><span aria-hidden="true"><i>L</i><sub>k+1</sub> = <i>E</i> + <i>TL</i><sub>k</sub></span></span></p>
+          <p>这条式子概括漫反射的迭代。<var>L</var> 是各表面朝外的光，<var>E</var> 是光源项，<var>T</var> 把可见性、透射和表面反照率折进传输权重。每轮沿图传一次，墙角可以收到经其他表面反弹的光。</p>
+          <LightTransport />
+          <p>求解时，天空和自发光分别累积。太阳或月亮的方向光在首尾用密集采样，中间几次传播可以用由前 64 个样本形成的较稀算子。换灯的亮度可以复用可见关系，拆墙或加窗则可能使原先的路径失效。这个分工让固定场景里的光路计算可以跨帧复用。</p>
+          <p>模块 Worker 持有地图、光路依赖和求解状态，向渲染器的同一台 WebGPU 设备请求有上限的工作。主线程接收渲染所需的表面数据和辐射值。Worker 不可用时，引擎在主线程分段执行同一套流程。</p>
+        </section>
+
+        <section id="water">
+          <p class="section-index" aria-hidden="true">03</p>
+          <h2>水面、玻璃与天空</h2>
+          <p>水面上的光有一条独立路径。以默认设置为例，每个暴露的水体素有 32 × 32 个固定采样点。引擎从水面把光向前追踪，分出反射和折射，到达各自的首个接收面，再根据波面曲率和光源角直径摊成有面积的光斑。许多光斑叠起来，才出现池底游动的亮纹。</p>
+
+          <CausticPaths />
+
+          <figure class="water-figure">
+            <Image src={skylight} width={1056} alt="水下仰望天窗，蓝色瓷砖上有细密的亮纹" />
+            <figcaption>图 4　VOXPOOL 实机画面。水下的亮纹随波形变化，可以用<a href="#experiment">文末的对照实验</a>单独查看。</figcaption>
+          </figure>
+
+          <p>焦散只处理太阳或月亮的直射光与水面的一次相互作用，反射和折射的增益经过美术调节。玻璃使用菲涅耳透射和有色吸收。光通过有色玻璃后，各通道以不同幅度衰减，传到墙上的光会带颜色。</p>
+          <p>场景时钟和经纬度决定太阳、月亮与星空的位置。显式改变时间或地点后，反射环境要等六个面一起更新才发布，避免上一刻的天空混进新一帧的倒影。</p>
+        </section>
+
+        <section id="frame">
+          <p class="section-index" aria-hidden="true">04</p>
+          <h2>从一帧到屏幕</h2>
+          <p>引擎按估算成本选择光栅化或主光线追踪来确定每个像素先看到什么。两条路径写入同一种 32 位命中记录，合成时可以直接拿到方块、朝向和材质。这样，遇到玻璃或镜面时，光学阶段可以从第一次命中接着往下追。</p>
+          <p>材质、光源和天空共用场景线性的 Rec.709。透明与反射带来的辐射值先走独立的时间重建，再与漫反射合并。时间抗锯齿会把上一帧的样本重新投影到当前视角。最后，曝光和白平衡根据画面逐步调整，再进行色调映射、色域转换与输出编码。</p>
+          <p>HDR 与 Display P3 分别探测。画布拒绝 P3 时尝试 sRGB，拒绝 HDR 时尝试 SDR。屏幕实际能给多少高光余量，需要在设备上测量。引擎里的 HDR 标定值使用相对白色单位。</p>
+          <p>运行需要 HTTPS 或 localhost，以及能提供核心能力的 WebGPU 适配器。引擎使用默认资源上限和核心格式。设备丢失后，恢复流程用保留的地图、机位与设置重建 GPU 资源。</p>
+        </section>
+
+        <section id="measurements">
+          <p class="section-index" aria-hidden="true">05</p>
+          <h2>测量与边界</h2>
+          <p>水、玻璃或启用反射的材质决定场景是否需要额外的光学纹理。有光学效果时，图中的帧目标请求量为每渲染像素 82 字节。无光学效果时为每像素 50 字节加 8 字节固定开销。两者都用实际渲染尺寸计算。</p>
+          <FrameBudget />
+          <p>空区跳跃提供了一个取舍案例。Apple M4 的本地对照在 2560 × 1440 下加入 128 KiB 的细粒度空区表，出生点视角帧时缩短 3.3%，水下视角却增加 4.7%，后室变化很小。细表没有进入当前实现，现有加速结构以 4³ 体素块为单位跳过空区。</p>
+          <p>画质还有一个已知难点。直接光按体素面求平均，地下室门口的插值可能把一小片光抹过真实的阴影边界。近距离观察或边走边看，比一张静帧更容易发现问题。</p>
+          <p>比较性能时，固定地图、机位、分辨率、画质与采样预算，再分别记录 GPU 耗时和浏览器帧间隔。GPU 时间戳覆盖提交后的工作，浏览器帧间隔还受调度和帧率上限影响。长时间的手机热降频、不同驱动和实际 HDR 输出需要分别验证。</p>
+        </section>
+
+        <section id="experiment">
+          <p class="section-index" aria-hidden="true">06</p>
+          <h2>在浏览器里试一次</h2>
+          <p>进入<a href={links.play}>网页版 VOXPOOL</a>，在池核地图找一处日光能照到的浅水。站定，盯着水下的瓷砖。在设置面板的「渲染」里，把「焦散」从 32 改成 0，等几帧再切回来。看瓷砖上消失和重新出现的亮纹，水面和普通照明仍在。</p>
+          <details>
+            <summary>用浏览器控制台做同一个实验</summary>
+            <p>进入游戏后在控制台执行这段代码。若在嵌入页里运行，先把控制台切到游戏所在的页面上下文。</p>
+            <pre><code>{experiment}</code></pre>
+            <p>看一会儿瓷砖，再执行 <code>await setCaustics(0)</code>。比较完后用 <code>await setCaustics(config[key])</code> 恢复原设置。</p>
+            <p><code>voxpool.skills</code> 提供当前运行版本的命令及参数。想做固定帧对照，可先用 <code>scene.wait</code> 等当前几何和静态光照完成，再通过 <code>frames.begin</code>、<code>frames.render</code>、<code>frames.read</code> 获取同机位的像素。两组用相同的时钟、动画相位、采样种子和样本顺序，结束时调用 <code>frames.end</code>。</p>
+          </details>
+        </section>
+
+        <section id="references">
+          <p class="section-index" aria-hidden="true">07</p>
+          <h2>参考资料</h2>
+          <ul class="references">
+            <li>运行接口与项目记录。<a href={new URL("AGENTS.md", links.play).href}>VOXPOOL 引擎入口</a> · <a href="/blog/voxpool/">烧风的早期开发记录</a></li>
+            <li>设备、资源同步和着色语言。<a href="https://www.w3.org/TR/webgpu/" lang="en">W3C WebGPU</a> · <a href="https://www.w3.org/TR/WGSL/" lang="en">W3C WGSL</a></li>
+            <li>漫反射传输的早期工作。<a href="https://courses.washington.edu/arch481/00HomePage/4.Miscellaneous/0.Handouts/1984.radiosity.siggraph.pdf" lang="en">Goral et al., Modeling the Interaction of Light Between Diffuse Surfaces</a>（1984，PDF）</li>
+            <li>离散采样与光传输。<a href="https://pbr-book.org/4ed/Sampling_and_Reconstruction/Halton_Sampler" lang="en">Physically Based Rendering, Halton Sampler</a></li>
+            <li>历史重投影与时间抗锯齿。<a href="https://onlinelibrary.wiley.com/doi/full/10.1111/cgf.14018" lang="en">Yang, Liu &amp; Salvi, A Survey of Temporal Antialiasing Techniques</a>（2020）</li>
+          </ul>
+          <p class="paper-note">引擎数据与本地测量来自 VOXPOOL 0.12.7 对应源码和项目技术记录。</p>
+        </section>
+      </article>
+    </div>
+  </div>
+</VoxpoolLayout>
+
+<style>
+  .paper-heading {
+    max-inline-size: 60rem;
+    padding-block: clamp(3.25rem, 8vw, 7.5rem) clamp(2.5rem, 5vw, 4.5rem);
+  }
+
+  .paper-kicker,
+  .paper-edition,
+  .section-index,
+  .paper-toc span,
+  .step-number {
+    font-family: var(--vp-mono, monospace);
+    font-size: 0.8125rem;
+  }
+
+  .paper-kicker {
+    margin: 0 0 1.25rem;
+    color: var(--vp-accent);
+  }
+
+  .paper-kicker span {
+    letter-spacing: 0.1em;
+  }
+
+  .paper-heading h1 {
+    max-inline-size: 14em;
+    margin: 0;
+    font-family: var(--vp-serif);
+    font-size: clamp(2.25rem, 6.2vw, 5.5rem);
+    font-weight: 700;
+    line-height: 1.16;
+    text-wrap: balance;
+  }
+
+  .paper-intro {
+    max-inline-size: 42rem;
+    margin-block: 1.5rem 1.75rem;
+    color: var(--vp-muted);
+    font-size: clamp(1.05rem, 1.8vw, 1.28rem);
+    line-height: 1.85;
+  }
+
+  .paper-edition {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem 1rem;
+    margin: 0;
+    color: var(--vp-muted);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .paper-edition span {
+    padding-inline-start: 1rem;
+    border-inline-start: 1px solid var(--vp-line);
+  }
+
+  .paper-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    border-block-start: 1px solid var(--vp-line);
+  }
+
+  .paper-toc {
+    align-self: start;
+    padding-block: 1.2rem 1.5rem;
+    border-block-end: 1px solid var(--vp-line);
+  }
+
+  .paper-toc p {
+    margin: 0 0 0.6rem;
+    font-size: 0.875rem;
+    font-weight: 650;
+  }
+
+  .paper-toc ol {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(9rem, 100%), 1fr));
+    gap: 0.1rem 0.9rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .paper-toc a {
+    display: flex;
+    align-items: baseline;
+    gap: 0.65rem;
+    padding-block: 0.48rem;
+    color: var(--vp-ink);
+    font-size: 0.9rem;
+    text-decoration: none;
+  }
+
+  .paper-toc a:hover {
+    color: var(--vp-accent);
+    text-decoration: underline;
+    text-underline-offset: 0.23em;
+  }
+
+  .paper-toc span,
+  .section-index {
+    color: var(--vp-accent);
+  }
+
+  .paper-body {
+    min-inline-size: 0;
+    max-inline-size: 48rem;
+    padding-block: 2.25rem 5rem;
+    font-size: clamp(0.98rem, 1.5vw, 1.08rem);
+    line-height: 1.88;
+    overflow-wrap: break-word;
+  }
+
+  .paper-body section {
+    scroll-margin-block-start: 6rem;
+  }
+
+  .paper-body section + section {
+    margin-block-start: clamp(2.6rem, 5vw, 4.1rem);
+    padding-block-start: 1.5rem;
+    border-block-start: 1px solid var(--vp-line);
+  }
+
+  .paper-body .section-index {
+    margin: 0 0 0.35rem;
+  }
+
+  .paper-body h2 {
+    margin: 0 0 1.15rem;
+    font-size: clamp(1.55rem, 3.3vw, 2.4rem);
+    line-height: 1.25;
+  }
+
+  .paper-body p {
+    margin: 0 0 1em;
+  }
+
+  .paper-body a {
+    color: var(--vp-accent);
+    text-underline-offset: 0.22em;
+  }
+
+  .paper-body code {
+    font-family: var(--vp-mono, monospace);
+    font-size: 0.89em;
+  }
+
+  .paper-body figure {
+    margin: 1.7rem 0;
+  }
+
+  figcaption,
+  .paper-note {
+    color: var(--vp-muted);
+    font-size: 0.875rem;
+    line-height: 1.65;
+  }
+
+  figcaption {
+    margin-block-start: 0.6rem;
+  }
+
+  .pipeline ol {
+    display: grid;
+    margin: 0;
+    padding: 0 0 0 0.8rem;
+    border-inline-start: 1px solid var(--vp-accent);
+    list-style: none;
+  }
+
+  .pipeline li {
+    display: grid;
+    grid-template-columns: 1.5rem max-content minmax(0, 1fr);
+    align-items: baseline;
+    gap: 0.55rem;
+    padding: 0.55rem 0;
+    font-size: 0.875rem;
+    line-height: 1.55;
+  }
+
+  .pipeline li + li {
+    border-block-start: 1px solid var(--vp-line);
+  }
+
+  .step-number {
+    color: var(--vp-accent);
+  }
+
+  .step-detail {
+    color: var(--vp-muted);
+    font-size: 0.79rem;
+  }
+
+  .transport-equation {
+    padding: 0.5rem 0.85rem;
+    border-inline-start: 1px solid var(--vp-accent);
+    font-family: Georgia, serif;
+    font-size: 1.35rem;
+  }
+
+  .water-figure img {
+    display: block;
+    inline-size: 100%;
+    block-size: auto;
+  }
+
+  details {
+    padding-block: 0.5rem 0.25rem;
+    border-block: 1px solid var(--vp-line);
+  }
+
+  summary {
+    padding-block: 0.4rem;
+    color: var(--vp-accent);
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  details[open] > p:first-of-type {
+    margin-block-start: 0.65rem;
+  }
+
+  pre {
+    margin-block: 0 1rem;
+    padding: 1rem;
+    border-inline-start: 0.2rem solid var(--vp-accent);
+    background: #e6ede5;
+    color: #172d29;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    tab-size: 2;
+  }
+
+  pre code {
+    font-size: 0.83rem;
+  }
+
+  .references {
+    margin-block: 0 1.2rem;
+    padding-inline-start: 1.25rem;
+  }
+
+  .references li + li {
+    margin-block-start: 0.55rem;
+  }
+
+  @media (min-width: 43rem) {
+    .pipeline ol {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      padding: 0;
+      border-inline-start: 0;
+      border-block-start: 1px solid var(--vp-accent);
+    }
+
+    .pipeline li {
+      grid-template-columns: 1fr;
+      gap: 0.25rem;
+      padding: 0.65rem 0.85rem;
+    }
+
+    .pipeline li + li {
+      border-inline-start: 1px solid var(--vp-line);
+      border-block-start: 0;
+    }
+  }
+
+  @media (min-width: 58rem) {
+    .paper-grid {
+      grid-template-columns: 11.5rem minmax(0, 1fr);
+      gap: clamp(2rem, 6vw, 6rem);
+    }
+
+    .paper-toc {
+      position: sticky;
+      inset-block-start: 5.75rem;
+      padding-block: 2.25rem;
+      border: 0;
+    }
+
+    .paper-toc ol {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media print {
+    .paper-grid {
+      display: block;
+    }
+
+    .paper-heading,
+    .paper-body {
+      max-inline-size: none;
+      padding-block: 1rem;
+    }
+
+    .paper-toc {
+      display: none;
+    }
+
+    .paper-heading h1 {
+      font-size: 32pt;
+    }
+
+    .paper-body :global(figure) {
+      break-inside: avoid;
+    }
+
+    .paper-body h2 {
+      break-after: avoid;
+    }
+  }
+</style>

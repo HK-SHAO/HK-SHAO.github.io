@@ -8,18 +8,23 @@ import { pwa } from "./src/utils/pwa";
 import { theme } from "./src/utils/theme";
 import { metaLineHighlight } from "./src/utils/meta-line-highlight";
 import { lastmodFor, unlistedPaths } from "./src/utils/entries-meta";
+import { workRedirects } from "./src/utils/work-routes";
 
-const unlisted = unlistedPaths();
+const unlisted = new Set(unlistedPaths());
 
 export default defineConfig({
   site: "https://shao.fun",
   output: "static",
+  redirects: workRedirects,
   integrations: [
     mdx(),
     pwa(),
     theme(),
     sitemap({
-      filter: (page) => !page.endsWith("/offline/") && !unlisted.includes(new URL(page).pathname),
+      filter: (page) => {
+        const path = new URL(page).pathname;
+        return path !== "/offline/" && !unlisted.has(path) && !Object.hasOwn(workRedirects, path);
+      },
       namespaces: { news: false, xhtml: false, image: false, video: false },
       serialize: (item) => {
         const lastmod = lastmodFor(item.url);

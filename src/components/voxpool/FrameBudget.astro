@@ -1,0 +1,103 @@
+---
+const axisMax = 180;
+const bytesPerMiB = 1024 ** 2;
+const sizes = [
+  { width: 640, height: 480 },
+  { width: 1440, height: 810 },
+  { width: 1920, height: 1080 },
+];
+
+const budgets = sizes.map(({ width, height }) => ({
+  label: `${width} × ${height}`,
+  series: [
+    { label: "含光学纹理", bytes: width * height * 82, optics: true },
+    { label: "无光学纹理", bytes: width * height * 50 + 8, optics: false },
+  ],
+}));
+---
+
+<figure class="budget" aria-labelledby="budget-title">
+  <p class="budget-title" id="budget-title">不同渲染尺寸的帧目标预算</p>
+
+  <div class="axis budget-row" aria-hidden="true">
+    <span>MiB</span>
+    <span class="ticks"><span>0</span><span>60</span><span>120</span><span>{axisMax}</span></span>
+  </div>
+
+  <dl>
+    {budgets.map(({ label, series }) => (
+      <div class="budget-group">
+        <dt>{label}</dt>
+        {series.map(({ label, bytes, optics }) => {
+          const mib = bytes / bytesPerMiB;
+
+          return (
+            <dd class="budget-row">
+              <span class="series-label">{label}</span>
+              <span class="track" aria-hidden="true">
+                <span class:list={["bar", { optics }]} style={`--fill: ${(mib / axisMax) * 100}%`}></span>
+              </span>
+              <span class="value">{mib.toFixed(2)} <span class="sr-unit">MiB</span></span>
+            </dd>
+          );
+        })}
+      </div>
+    ))}
+  </dl>
+
+  <figcaption>图 5　按偶数宽高计算的纹理有效载荷。未计入场景数据、曝光、呈现、缩放期间保留的历史纹理和驱动开销。</figcaption>
+</figure>
+
+<style>
+  .budget { margin: 1.7rem 0; }
+
+  .budget-title { margin: 0 0 0.65rem; font-size: 1rem; font-weight: 700; }
+
+  dl { margin: 0; border-block-end: 1px solid var(--vp-line); }
+
+  .budget-group { padding-block: 0.6rem 0.75rem; border-block-start: 1px solid var(--vp-line); }
+
+  dt, .value, .ticks { font-variant-numeric: tabular-nums; }
+
+  dt { margin-block-end: 0.28rem; font-weight: 650; }
+
+  .budget-row {
+    display: grid;
+    grid-template-columns: 4.45rem minmax(0, 1fr) 3rem;
+    align-items: center;
+    gap: 0.55rem;
+    margin: 0;
+    font-size: 0.8125rem;
+    line-height: 1.5;
+  }
+
+  .axis { color: var(--vp-muted); padding-block-end: 0.25rem; }
+
+  .ticks { display: flex; justify-content: space-between; }
+
+  .track {
+    display: block;
+    block-size: 0.68rem;
+    background: repeating-linear-gradient(to right, var(--vp-line) 0 1px, transparent 1px calc(100% / 3));
+    border-inline-end: 1px solid var(--vp-line);
+  }
+
+  .bar { display: block; inline-size: var(--fill); block-size: 100%; background: #6b8377; }
+  .bar.optics { background: #006a5b; }
+  .value { justify-self: end; }
+
+  .sr-unit {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+
+  figcaption {
+    margin-block-start: 0.6rem;
+    color: var(--vp-muted);
+    font-size: 0.875rem;
+    line-height: 1.65;
+  }
+</style>

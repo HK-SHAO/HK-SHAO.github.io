@@ -1,9 +1,9 @@
 ---
-title: 体素池核光感引擎
+title: VOXPOOL 体素池核光感引擎
 description: Web 全局光照、自发光、玻璃、焦散、真实天体与 HDR 手机流畅 60 帧。
 publishedAt: 2026-10-22
 tags: [Game, Graphics, WebGPU]
-cover: ./media/doorway.webp
+cover: ../../../assets/voxpool/doorway.webp
 ---
 
 import Bilibili from "../../../components/mdx/Bilibili.astro";
@@ -11,6 +11,8 @@ import LinkRow from "../../../components/mdx/LinkRow.astro";
 import MetricGrid from "../../../components/mdx/MetricGrid.astro";
 
 体素池核是一套浏览器里的实时光感引擎。纯 Web，基于 WebGPU，打开即用。桌面和手机都能跑，手机可以满 60 帧。
+
+想进池核走一圈，可以从 [VOXPOOL 项目页](/voxpool/)打开体验。
 
 <MetricGrid items={[
   { value: "60 帧", label: "手机可满帧运行" },
@@ -43,9 +45,9 @@ import MetricGrid from "../../../components/mdx/MetricGrid.astro";
 
 焦散。反射和折射把光打到墙面、地面和天花板，并跟着波纹动。
 
-![水下仰望天窗，焦散落在蓝瓷砖上](./media/skylight.webp)
+![水下仰望天窗，焦散落在蓝瓷砖上](../../../assets/voxpool/skylight.webp)
 
-![水下通道，波纹光打在顶部瓷砖上](./media/tunnel.webp)
+![水下通道，波纹光打在顶部瓷砖上](../../../assets/voxpool/tunnel.webp)
 
 ## 天空
 
@@ -53,7 +55,7 @@ import MetricGrid from "../../../components/mdx/MetricGrid.astro";
 
 HDR。高光保留，明暗随场景适应。桌面和支持 HDR 的手机走同一套画面。
 
-![柱廊开口外的日照、云和浅水](./media/colonnade.webp)
+![柱廊开口外的日照、云和浅水](../../../assets/voxpool/colonnade.webp)
 
 地图可以改：瓷砖、水、灯、玻璃。步行、游泳、飞行都能进。仍在研发，需要支持 WebGPU 的浏览器。项目不开源。
 

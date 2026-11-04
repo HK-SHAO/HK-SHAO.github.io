@@ -1,0 +1,79 @@
+:root {
+  color-scheme: light;
+  --vp-paper: #f3f2eb;
+  --vp-ink: #172d29;
+  --vp-muted: #465e57;
+  --vp-accent: #006a5b;
+  --vp-line: #b9c6ba;
+  --vp-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --vp-serif: "Songti SC", "Noto Serif CJK SC", "Noto Serif SC", "SimSun", serif;
+  --vp-gutter: clamp(1rem, 4.5vw, 4rem);
+  --vp-space: clamp(4rem, 9vw, 8rem);
+  background: var(--vp-paper);
+  color: var(--vp-ink);
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+  font-size: 100%;
+  line-height: 1.65;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+body { margin: 0; }
+h1, h2, h3, p, figure { margin: 0; }
+a { color: inherit; text-underline-offset: 0.25em; }
+a:hover { color: var(--vp-accent); }
+img, video { display: block; max-inline-size: 100%; }
+button, input { font: inherit; }
+:focus-visible { outline: 2px solid var(--vp-accent); outline-offset: 4px; }
+::selection { background: #c1e4d1; color: #172d29; }
+
+.vp-shell {
+  inline-size: min(100% - 2 * var(--vp-gutter), 78rem);
+  margin-inline: auto;
+}
+
+.vp-header, .vp-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.15rem 0.8rem;
+  min-block-size: 4.25rem;
+  font-size: 0.875rem;
+}
+
+.vp-header { border-block-end: 1px solid var(--vp-line); }
+.vp-footer { border-block-start: 1px solid var(--vp-line); color: var(--vp-muted); padding-block: 0.65rem; }
+
+.vp-brand, .vp-header nav, .vp-header nav a {
+  display: flex;
+  align-items: center;
+}
+
+.vp-brand {
+  gap: 0.65rem;
+  font-size: 1.125rem;
+  font-weight: 820;
+  letter-spacing: 0.1em;
+  line-height: 1;
+}
+
+.vp-header nav { gap: clamp(0.7rem, 3vw, 1.65rem); }
+.vp-header a { min-block-size: 2.75rem; text-decoration: none; }
+.vp-header nav a { gap: 0.3em; }
+.vp-header nav a[aria-current], .vp-header nav a:hover { text-decoration: underline; }
+.vp-header-play { color: var(--vp-accent); font-weight: 700; }
+
+.vp-skip {
+  position: fixed;
+  z-index: 10;
+  inset: 1rem auto auto 1rem;
+  padding: 0.65rem 0.85rem;
+  background: var(--vp-paper);
+  transform: translateY(calc(-100% - 2rem));
+}
+.vp-skip:focus { transform: none; }
+
+@media (max-width: 24rem) {
+  .vp-brand { font-size: 0.95rem; gap: 0.45rem; }
+  .vp-brand img { width: 1.125rem; height: 1.125rem; }
+}

@@ -1,0 +1,79 @@
+<figure class="transport">
+  <label class="bounce-control">
+    <input type="checkbox" checked aria-describedby="transport-caption" />
+    显示反弹光
+  </label>
+
+  <svg viewBox="0 0 480 232" role="img" aria-labelledby="transport-title transport-description">
+    <title id="transport-title">发光砖到墙角的光路</title>
+    <desc id="transport-description">实线从左侧的发光砖通往地砖。勾选显示反弹光后，虚线从地砖延伸到右墙。</desc>
+
+    <defs>
+      <pattern id="transport-tile" width="30" height="30" patternUnits="userSpaceOnUse">
+        <path d="M0 30V0H30" fill="none" stroke="#aabeb2" stroke-width="1" />
+      </pattern>
+      <marker id="transport-direct-tip" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+        <path d="m0 0 7 3-7 3Z" fill="#a1442c" />
+      </marker>
+      <marker id="transport-bounce-tip" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+        <path d="m0 0 7 3-7 3Z" fill="#006a5b" />
+      </marker>
+    </defs>
+
+    <path d="M424 35h32v176H25v-32h399Z" fill="#d9e3d7" />
+    <path d="M424 35h32v176H25v-32h399Z" fill="url(#transport-tile)" stroke="#849f90" />
+    <path d="M88 64h42v42H88Z" fill="#e9ad81" stroke="#a1442c" />
+    <path d="M97 73h24v24H97Z" fill="#f8d1ac" />
+    <path d="M130 92 250 179" fill="none" stroke="#a1442c" stroke-width="2.6" marker-end="url(#transport-direct-tip)" />
+    <path d="M219 181h63" fill="none" stroke="#a1442c" stroke-width="3" />
+    <text x="109" y="49" text-anchor="middle">发光砖</text>
+    <text x="247" y="216" text-anchor="middle">地砖</text>
+
+    <g class="bounce-layer">
+      <path d="m250 179 174-76" fill="none" stroke="#006a5b" stroke-width="2.6" stroke-dasharray="7 5" marker-end="url(#transport-bounce-tip)" />
+      <path d="M425 86v35" fill="none" stroke="#006a5b" stroke-width="3" />
+      <text x="413" y="78" text-anchor="end">墙面</text>
+    </g>
+  </svg>
+
+  <figcaption id="transport-caption">图 2　漫反射路径示意。实线是发光砖照到地砖的光，虚线是地砖再传到墙上的光。</figcaption>
+</figure>
+
+<style>
+  .transport { margin: 1.7rem 0; }
+
+  .bounce-control {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    min-block-size: 2.75rem;
+    font-size: 0.9rem;
+    font-weight: 650;
+    cursor: pointer;
+  }
+
+  input { inline-size: 1rem; block-size: 1rem; margin: 0; accent-color: var(--vp-accent); }
+
+  svg {
+    display: block;
+    inline-size: 100%;
+    max-inline-size: 37rem;
+    block-size: auto;
+    background: #e9eee5;
+  }
+
+  text { fill: var(--vp-ink); font-size: 22px; font-weight: 650; }
+
+  .transport:has(input:not(:checked)) .bounce-layer { visibility: hidden; }
+
+  figcaption {
+    margin-block-start: 0.6rem;
+    color: var(--vp-muted);
+    font-size: 0.875rem;
+    line-height: 1.65;
+  }
+
+  @supports not selector(:has(*)) {
+    .bounce-control { display: none; }
+  }
+</style>

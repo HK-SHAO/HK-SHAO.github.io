@@ -1,5 +1,6 @@
 import { getCollection, type CollectionEntry } from "astro:content";
 import { PAGE_TAG, WORK_TAG } from "./tags";
+import { workPath, workRedirects } from "./work-routes";
 
 type Entry = CollectionEntry<"entries">;
 
@@ -26,7 +27,7 @@ export async function getPostRoutes() {
 }
 
 export async function getWorkRoutes() {
-  return (await getEntries()).filter(isWork);
+  return (await getEntries()).filter((entry) => isWork(entry) && !Object.hasOwn(workRedirects, workPath(entry.id)));
 }
 
 export async function getPosts() {
