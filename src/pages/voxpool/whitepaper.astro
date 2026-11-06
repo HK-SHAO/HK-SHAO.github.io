@@ -5,6 +5,8 @@ import LightTransport from "../../components/voxpool/LightTransport.astro";
 import CausticPaths from "../../components/voxpool/CausticPaths.astro";
 import FrameBudget from "../../components/voxpool/FrameBudget.astro";
 import skylight from "../../assets/voxpool/skylight.webp";
+import tide from "../../assets/voxpool/maps/tide.webp";
+import Community from "../../components/voxpool/Community.astro";
 import { voxpoolLinks as links } from "../../utils/voxpool-links";
 
 const sections = [
@@ -40,8 +42,8 @@ const description = "以一块发光砖和一池水为例，解释 VOXPOOL 的�
     <header class="paper-heading">
       <p class="paper-kicker">技术白皮书 <span lang="en">/ VOXPOOL</span></p>
       <h1>一块砖怎样改变一间房的光</h1>
-      <p class="paper-intro">在池边放一块发光砖，光会先落到附近的瓷砖上，再从瓷砖弹到墙角。把砖拆掉，房间又暗下来。VOXPOOL 把地图、编辑和光照放到Web，玩家可以亲手编辑地图。</p>
-      <p class="paper-edition"><time datetime="2026-11-04">2026 年 11 月 4 日</time><span>实现版本 0.12.7</span></p>
+      <p class="paper-intro">在池边放一块发光砖，光会先落到附近的瓷砖上，再从瓷砖弹到墙角。把砖拆掉，房间又暗下来。VOXPOOL 把地图、编辑和光照放进浏览器，玩家可以亲手改变房间。</p>
+      <p class="paper-edition"><time datetime="2026-11-06">2026 年 11 月 6 日</time><span>实现版本 0.13.0</span></p>
     </header>
 
     <div class="paper-grid">
@@ -58,7 +60,19 @@ const description = "以一块发光砖和一池水为例，解释 VOXPOOL 的�
         <section id="world">
           <p class="section-index" aria-hidden="true">01</p>
           <h2>地图与编辑</h2>
-          <p>VOXPOOL 的地图是一个固定的 16 × 16 × 128 网格，三轴依次是宽、高、深。每格只存一个字节的方块编号，整张地图的体素数据是 32 KiB。灯、玻璃、水和墙都来自这张表。预置地图包括池核、后室与康奈尔盒。</p>
+          <p>VOXPOOL 的地图是一个固定的 16 × 16 × 128 网格，三轴依次是宽、高、深。每格只存一个字节的方块编号，整张地图的体素数据是 32 KiB。灯、玻璃、水和墙都来自这张表。0.13.0 内置九张地图。</p>
+          <p>泳池、后室和康奈尔盒之外，新增天光水院、潮汐浴殿、赤陶庭院、天空水城、梦境回廊与棱镜水庭。它们使用同一规格的网格和同一套材质，通过开口、台阶与玻璃安排光线。设置旁的地图按钮会打开图片选择器，点选封面即可加载，当前会话参数继续保留。</p>
+
+          <figure class="water-figure">
+            <Image
+              src={tide}
+              alt="潮汐浴殿的白瓷砖拱顶下，天光照进蓝色马赛克水池，两侧的青色灯映在墙面"
+              widths={[480, 800, 1056, 1536]}
+              sizes="(min-width: 58rem) 48rem, 92vw"
+              format="webp"
+            />
+            <figcaption>潮汐浴殿实机画面。天窗把光引进白瓷砖拱顶，蓝色马赛克围出水池，青色灯照亮池边。开口与材质的改变沿用同一套光照流程。</figcaption>
+          </figure>
           <p>在自由模式里敲掉一块砖，几何可以在下一帧更新。光照另有自己的工作队列。连续编辑时，引擎把写入合并到格子，更新受影响的占用块，重算失效的光路。复杂编辑中，新几何可以先出现，稍后才看到照明完成更新。整图替换则先准备光照，再发布地图与出生点。</p>
 
           <figure class="pipeline">
@@ -111,6 +125,7 @@ const description = "以一块发光砖和一池水为例，解释 VOXPOOL 的�
           <p>材质、光源和天空共用场景线性的 Rec.709。透明与反射带来的辐射值先走独立的时间重建，再与漫反射合并。时间抗锯齿会把上一帧的样本重新投影到当前视角。最后，曝光和白平衡根据画面逐步调整，再进行色调映射、色域转换与输出编码。</p>
           <p>HDR 与 Display P3 分别探测。画布拒绝 P3 时尝试 sRGB，拒绝 HDR 时尝试 SDR。屏幕实际能给多少高光余量，需要在设备上测量。引擎里的 HDR 标定值使用相对白色单位。</p>
           <p>运行需要 HTTPS 或 localhost，以及能提供核心能力的 WebGPU 适配器。引擎使用默认资源上限和核心格式。设备丢失后，恢复流程用保留的地图、机位与设置重建 GPU 资源。</p>
+          <p>编辑会复用预留的几何与光照缓冲区。整图切换时，若旧容量超过新地图预留需求的两倍，引擎回收多余容量。引擎先提交替换数据的上传，再发布新缓冲区并释放旧资源。</p>
         </section>
 
         <section id="measurements">
@@ -118,7 +133,7 @@ const description = "以一块发光砖和一池水为例，解释 VOXPOOL 的�
           <h2>测量与边界</h2>
           <p>水、玻璃或启用反射的材质决定场景是否需要额外的光学纹理。有光学效果时，图中的帧目标请求量为每渲染像素 82 字节。无光学效果时为每像素 50 字节加 8 字节固定开销。两者都用实际渲染尺寸计算。</p>
           <FrameBudget />
-          <p>空区跳跃提供了一个取舍案例。Apple M4 的本地对照在 2560 × 1440 下加入 128 KiB 的细粒度空区表，出生点视角帧时缩短 3.3%，水下视角却增加 4.7%，后室变化很小。细表没有进入当前实现，现有加速结构以 4³ 体素块为单位跳过空区。</p>
+          <p>空区跳跃提供了一个取舍案例。0.12.7 时的 Apple M4 本地对照在 2560 × 1440 下加入 128 KiB 的细粒度空区表，出生点视角帧时缩短 3.3%，水下视角却增加 4.7%，后室变化很小。细表没有进入当前实现，现有加速结构以 4³ 体素块为单位跳过空区。</p>
           <p>画质还有一个已知难点。直接光按体素面求平均，地下室门口的插值可能把一小片光抹过真实的阴影边界。近距离观察或边走边看，比一张静帧更容易发现问题。</p>
           <p>比较性能时，固定地图、机位、分辨率、画质与采样预算，再分别记录 GPU 耗时和浏览器帧间隔。GPU 时间戳覆盖提交后的工作，浏览器帧间隔还受调度和帧率上限影响。长时间的手机热降频、不同驱动和实际 HDR 输出需要分别验证。</p>
         </section>
@@ -145,8 +160,9 @@ const description = "以一块发光砖和一池水为例，解释 VOXPOOL 的�
             <li>离散采样与光传输。<a href="https://pbr-book.org/4ed/Sampling_and_Reconstruction/Halton_Sampler" lang="en">Physically Based Rendering, Halton Sampler</a></li>
             <li>历史重投影与时间抗锯齿。<a href="https://onlinelibrary.wiley.com/doi/full/10.1111/cgf.14018" lang="en">Yang, Liu &amp; Salvi, A Survey of Temporal Antialiasing Techniques</a>（2020）</li>
           </ul>
-          <p class="paper-note">引擎数据与本地测量来自 VOXPOOL 0.12.7 对应源码和项目技术记录。</p>
+          <p class="paper-note">实现说明核对至 VOXPOOL 0.13.0。空区跳跃对照来自 0.12.7 的项目记录。</p>
         </section>
+        <Community />
       </article>
     </div>
   </div>

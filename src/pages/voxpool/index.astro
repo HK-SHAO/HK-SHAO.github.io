@@ -7,6 +7,8 @@ import backrooms from "../../assets/voxpool/backrooms.webp";
 import doorway from "../../assets/voxpool/doorway.webp";
 import skylight from "../../assets/voxpool/skylight.webp";
 import tunnel from "../../assets/voxpool/tunnel.webp";
+import MapGallery from "../../components/voxpool/MapGallery.astro";
+import Community from "../../components/voxpool/Community.astro";
 import Bilibili from "../../components/mdx/Bilibili.astro";
 import { voxpoolLinks as links } from "../../utils/voxpool-links";
 
@@ -51,7 +53,7 @@ const scenes = [
           <a class="primary" href={links.play}>打开 VOXPOOL <span aria-hidden="true">↗</span></a>
           <a class="text-action" href={links.video}>看 B 站演示 <span aria-hidden="true">↗</span></a>
         </div>
-        <p class="requirements">支持键鼠、触屏和手柄 · 需要 WebGPU</p>
+        <p class="requirements">9 张地图 · 支持键鼠、触屏和手柄 · 需要 WebGPU</p>
       </div>
     </div>
     <figure class="hero-frame">
@@ -67,6 +69,8 @@ const scenes = [
       <figcaption><span>池边柱廊</span><span>VOXPOOL</span></figcaption>
     </figure>
   </section>
+
+  <MapGallery />
 
   <section class="observation vp-shell" aria-labelledby="light-title">
     <h2 id="light-title">留意墙上的光</h2>
@@ -101,6 +105,7 @@ const scenes = [
         <dl class="edit-controls">
           <div><dt>键鼠</dt><dd><kbd>F</kbd> 切换自由模式，左键拆，右键放。</dd></div>
           <div><dt>触屏</dt><dd>切到自由模式，点按放置，长按拆除。</dd></div>
+          <div><dt>跳跃</dt><dd>按住蓄力，松开起跳。水中按住同一个键上浮。</dd></div>
         </dl>
         <a class="text-action" href={links.play}>进场试试 <span aria-hidden="true">↗</span></a>
       </div>
@@ -139,7 +144,7 @@ const scenes = [
     </div>
     <div class="next-intro">
       <h2 id="next-title">池边见。</h2>
-      <p>池核之外，还有低矮的后室通道，以及一间用来观察颜色反弹的康奈尔盒。</p>
+      <p>找张喜欢的地图走一圈，再动手改几块方块。想继续搭建，可以把地图和进度保存成 <code>.vpool</code> 文件。</p>
       <div class="next-actions">
         <a class="primary" href={links.play}>打开 VOXPOOL <span aria-hidden="true">↗</span></a>
         <a class="text-action" href={links.toy}>B 站 Toy <span aria-hidden="true">↗</span></a>
@@ -159,6 +164,7 @@ const scenes = [
         <p>看开发演示，或在 <a href={links.support}>爱发电</a> 支持开发。</p>
       </div>
     </div>
+    <div class="next-community"><Community /></div>
   </section>
 </VoxpoolLayout>
 
@@ -299,6 +305,7 @@ const scenes = [
   }
 
   .map-spread img { aspect-ratio: 4 / 3; }
+  .next-community { grid-column: 1 / -1; }
   .next-intro > p { margin-block-start: 0.8rem; max-inline-size: 24rem; }
   .next-links > div { border-block-start: 1px solid var(--vp-line); padding: 0.8rem 0 1rem; }
   .next-links > div:last-child { border-block-end: 1px solid var(--vp-line); }

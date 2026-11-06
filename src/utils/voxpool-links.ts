@@ -10,4 +10,5 @@ export const voxpoolLinks = {
   creator: "https://space.bilibili.com/24046148",
   support: "https://afdian.com/a/shaofun",
   email: "mailto:m@shao.fun",
+  qqGroup: "1109927352",
 } as const;

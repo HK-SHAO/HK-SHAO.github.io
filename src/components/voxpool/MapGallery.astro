@@ -1,0 +1,117 @@
+---
+import { Image } from "astro:assets";
+import tide from "../../assets/voxpool/maps/tide.webp";
+import oculus from "../../assets/voxpool/maps/oculus.webp";
+import ember from "../../assets/voxpool/maps/ember.webp";
+import aeropolis from "../../assets/voxpool/maps/aeropolis.webp";
+import reverie from "../../assets/voxpool/maps/reverie.webp";
+import prism from "../../assets/voxpool/maps/prism.webp";
+import { voxpoolLinks } from "../../utils/voxpool-links";
+
+const maps = [
+  {
+    id: "tide",
+    name: "潮汐浴殿",
+    english: "Tidal Vault",
+    image: tide,
+    alt: "白瓷拱顶和宽天窗沿着蓝马赛克长池展开，青色灯光标出池边开口",
+    note: "沿着池边的平层步道走到后方浴池，抬头能看到宽天窗和白瓷拱顶。",
+  },
+  {
+    id: "oculus",
+    name: "天光水院",
+    english: "Oculus",
+    image: oculus,
+    alt: "浅色水院的阶梯状天窗向天空敞开，日光照在蓝色浅池与白墙上",
+    note: "屋顶留出一圈阶梯状天窗。",
+  },
+  {
+    id: "ember",
+    name: "赤陶庭院",
+    english: "Ember Court",
+    image: ember,
+    alt: "红白相间的楼梯与高处连桥围着狭长水池，池水映出红色墙面",
+    note: "沿两侧楼梯登上连桥，再向下看交叉的水池。",
+  },
+  {
+    id: "aeropolis",
+    name: "天空水城",
+    english: "Aeropolis",
+    image: aeropolis,
+    alt: "高架水渠穿过连续的白色巨大门洞，四周是蓝天与云层",
+    note: "走上抬高的水渠。门洞一层层排向远处，侧面敞向云层。",
+  },
+  {
+    id: "reverie",
+    name: "梦境回廊",
+    english: "Reverie",
+    image: reverie,
+    alt: "青色与品红玻璃围成开放回廊，水面倒映着彩色柱列与傍晚天空",
+    note: "走到青色和品红玻璃下面，看日光怎样把地面和水面分成不同颜色。",
+  },
+  {
+    id: "prism",
+    name: "棱镜水庭",
+    english: "Prism Atrium",
+    image: prism,
+    alt: "透明玻璃和镜面台座位于浅水中，绿色小岛与白色框架映着天空",
+    note: "绕着透明玻璃和镜面台座走一圈，看绿色小岛怎样出现在倒影里。",
+  },
+];
+---
+
+<section class="map-studies vp-shell" id="maps" aria-labelledby="maps-title">
+  <header>
+    <p class="map-update"><time datetime="2026-11-06">11 月 6 日更新</time> · 六张新地图</p>
+    <h2 id="maps-title">从水院走到云端</h2>
+    <p class="map-intro">走进天光水院、登上赤陶庭院的连桥，站在云边的水渠上。</p>
+  </header>
+  <div class="map-grid">
+    {maps.map((map, index) => (
+      <figure class:list={["map-study", { featured: index === 0 }]} id={"map-" + map.id}>
+        <Image
+          src={map.image}
+          alt={map.alt}
+          widths={index === 0 ? [480, 800, 1200, 1600, 1920] : [400, 640, 960, 1280]}
+          sizes={index === 0 ? "(min-width: 86rem) 78rem, 92vw" : "(min-width: 60rem) 42vw, 92vw"}
+          format="webp"
+        />
+        <figcaption>
+          <div class="map-name"><h3>{map.name}</h3><span lang="en">{map.english}</span></div>
+          <p>{map.note}</p>
+        </figcaption>
+      </figure>
+    ))}
+  </div>
+  <p class="map-instructions">在游戏里点设置旁的地图按钮，再选一张封面。</p>
+  <a class="map-play" href={voxpoolLinks.play}>打开游戏，选张地图 <span aria-hidden="true">↗</span></a>
+</section>
+
+<style>
+  .map-studies { padding-block-start: var(--vp-space); }
+  .map-update { margin: 0 0 0.7rem; color: var(--vp-muted); font-size: 0.875rem; }
+  h2 { margin: 0; font-family: var(--vp-serif); font-size: clamp(2.4rem, 5vw, 4.1rem); font-weight: 800; letter-spacing: -0.06em; line-height: 1.15; }
+  .map-intro { max-inline-size: 36rem; margin: 0.8rem 0 1.8rem; }
+  .map-grid { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 2rem 1.5rem; }
+  .map-study { grid-column: span 2; margin: 0; scroll-margin-block-start: 1.5rem; }
+  .map-study.featured { grid-column: 1 / -1; }
+  .map-study:nth-last-child(-n + 2) { grid-column: span 3; }
+  img { display: block; inline-size: 100%; block-size: auto; aspect-ratio: 16 / 9; object-fit: cover; background: #d5e7e3; }
+  figcaption { margin-block-start: 0.7rem; }
+  .map-name { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.2rem 0.75rem; }
+  h3 { margin: 0; font-size: 1.2rem; font-weight: 700; }
+  .map-name span { color: var(--vp-muted); font-size: 0.875rem; }
+  figcaption p { max-inline-size: 39rem; margin: 0.35rem 0 0; color: var(--vp-muted); font-size: 0.95rem; line-height: 1.7; }
+  .map-instructions { max-inline-size: 40rem; margin: 1.8rem 0 0.5rem; }
+  .map-play { display: inline-flex; align-items: center; gap: 0.6rem; min-block-size: 2.75rem; font-weight: 700; }
+  @media (max-width: 60rem) {
+    .map-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .map-study, .map-study:nth-last-child(-n + 2) { grid-column: auto; }
+    .map-study.featured { grid-column: 1 / -1; }
+    .map-study:last-child { grid-column: 1 / -1; }
+  }
+  @media (max-width: 40rem) {
+    .map-grid { grid-template-columns: minmax(0, 1fr); }
+    .map-grid .map-study { grid-column: 1; }
+  }
+</style>
