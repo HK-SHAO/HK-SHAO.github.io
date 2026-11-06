@@ -14,10 +14,11 @@ import Community from "../../../components/voxpool/Community.astro";
 import ember from "../../../assets/voxpool/maps/ember.webp";
 import aeropolis from "../../../assets/voxpool/maps/aeropolis.webp";
 import reverie from "../../../assets/voxpool/maps/reverie.webp";
+import { voxpoolLinks as links } from "../../../utils/voxpool-links";
 
 体素池核 VOXPOOL 是浏览器里的体素漫游与造景工具。你可以潜进泳池，穿过房间，换一块玻璃或放一块灯，看光怎样落到周围的墙面。
 
-[VOXPOOL 项目页](/voxpool/)收录了各张地图的画面、玩法和体验入口。需要支持 WebGPU 的浏览器，键鼠、触屏和手柄都能操作。
+<a href={links.play}>在 B 站 Toy 体验 VOXPOOL</a>。各张地图的画面和玩法见 [VOXPOOL 项目页](/voxpool/)，也可使用<a href={links.backup}>备用网页版</a>。需要支持 WebGPU 的浏览器，键鼠、触屏和手柄都能操作。
 
 ## 六张新地图，从水院走到云端
 
@@ -84,8 +85,9 @@ HDR 与 Display P3 会分别检测设备支持情况。实际能显示的亮度�
 <Bilibili bvid="BV1fusX6VEAi" title="烧风的 VOXPOOL 实机演示" />
 
 <LinkRow items={[
+  { label: "B 站 Toy 体验", href: links.play },
+  { label: "备用网页版", href: links.backup },
   { label: "VOXPOOL 项目页", href: "https://shao.fun/voxpool/" },
-  { label: "B 站 Toy", href: "https://www.bilibili.com/toy/voxpool/index.html" },
   { label: "爱发电", href: "https://afdian.com/a/shaofun" },
 ]} />
 
