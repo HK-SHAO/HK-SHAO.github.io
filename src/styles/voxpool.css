@@ -49,12 +49,9 @@ button, input { font: inherit; }
   align-items: center;
 }
 
-.vp-brand {
-  gap: 0.65rem;
-  font-size: 1.125rem;
-  font-weight: 820;
-  letter-spacing: 0.1em;
-  line-height: 1;
+.vp-brand img {
+  inline-size: auto;
+  block-size: 1.5rem;
 }
 
 .vp-header nav { gap: clamp(0.7rem, 3vw, 1.65rem); }
@@ -74,6 +71,5 @@ button, input { font: inherit; }
 .vp-skip:focus { transform: none; }
 
 @media (max-width: 24rem) {
-  .vp-brand { font-size: 0.95rem; gap: 0.45rem; }
-  .vp-brand img { width: 1.125rem; height: 1.125rem; }
+  .vp-brand img { block-size: 1.125rem; }
 }

@@ -28,6 +28,7 @@ const socialUrl = new URL(social.src, site.url);
     <meta name="robots" content="index, follow, max-image-preview:large" />
     <link rel="canonical" href={canonical} />
     <link rel="icon" href="/voxpool/mark.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/voxpool/apple-touch-icon.png" sizes="180x180" />
     <meta property="og:type" content={paper ? "article" : "website"} />
     <meta property="og:site_name" content="VOXPOOL" />
     <meta property="og:title" content={title} />
@@ -45,8 +46,7 @@ const socialUrl = new URL(social.src, site.url);
     <a class="vp-skip" href="#content">跳至正文</a>
     <header class="vp-header vp-shell">
       <a class="vp-brand" href={links.home} aria-label="VOXPOOL 体素池核首页">
-        <img src="/voxpool/mark.svg" width="24" height="24" alt="" />
-        <span>VOXPOOL</span>
+        <img src="/voxpool/logo.svg" width="203" height="32" alt="VOXPOOL" />
       </a>
       <nav aria-label="VOXPOOL">
         <a href={links.paper} aria-current={paper ? "page" : undefined}>技术白皮书</a>
