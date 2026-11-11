@@ -4,6 +4,7 @@ import VoxpoolLayout from "../../layouts/VoxpoolLayout.astro";
 import LightTransport from "../../components/voxpool/LightTransport.astro";
 import CausticPaths from "../../components/voxpool/CausticPaths.astro";
 import FrameBudget from "../../components/voxpool/FrameBudget.astro";
+import capybaraShore from "../../assets/voxpool/capybara/shore.webp";
 import skylight from "../../assets/voxpool/skylight.webp";
 import tide from "../../assets/voxpool/maps/tide.webp";
 import Community from "../../components/voxpool/Community.astro";
@@ -14,6 +15,7 @@ const sections = [
   { id: "lighting", title: "光怎样传到墙上" },
   { id: "water", title: "水面、玻璃与天空" },
   { id: "frame", title: "从一帧到屏幕" },
+  { id: "npcs", title: "水豚与动态角色" },
   { id: "measurements", title: "测量与边界" },
   { id: "experiment", title: "在浏览器里试一次" },
   { id: "references", title: "参考资料" },
@@ -34,7 +36,7 @@ const setCaustics = (value) =>
 await setCaustics(32);`;
 
 const title = "VOXPOOL 技术白皮书";
-const description = "以一块发光砖和一池水为例，解释 VOXPOOL 的可编辑体素、WebGPU 光传输、实时焦散、显示管线与测量方法。";
+const description = "以一块发光砖和一池水为例，解释 VOXPOOL 的可编辑体素、WebGPU 光传输、实时焦散、显示管线与测量方法，附水豚 NPC 的动画与渲染。";
 ---
 
 <VoxpoolLayout {title} {description} paper>
@@ -43,7 +45,7 @@ const description = "以一块发光砖和一池水为例，解释 VOXPOOL 的�
       <p class="paper-kicker">技术白皮书 <span lang="en">/ VOXPOOL</span></p>
       <h1>一块砖怎样改变一间房的光</h1>
       <p class="paper-intro">在池边放一块发光砖，光会先落到附近的瓷砖上，再从瓷砖弹到墙角。把砖拆掉，房间又暗下来。VOXPOOL 把地图、编辑和光照放进浏览器，玩家可以亲手改变房间。</p>
-      <p class="paper-edition"><time datetime="2026-11-06">2026 年 11 月 6 日</time><span>实现版本 0.13.0</span></p>
+      <p class="paper-edition"><time datetime="2026-11-11">2026 年 11 月 11 日更新</time><span>光照正文 0.13.0 · NPC 补记 0.14.2</span></p>
     </header>
 
     <div class="paper-grid">
@@ -128,8 +130,19 @@ const description = "以一块发光砖和一池水为例，解释 VOXPOOL 的�
           <p>编辑会复用预留的几何与光照缓冲区。整图切换时，若旧容量超过新地图预留需求的两倍，引擎回收多余容量。引擎先提交替换数据的上传，再发布新缓冲区并释放旧资源。</p>
         </section>
 
-        <section id="measurements">
+        <section id="npcs">
           <p class="section-index" aria-hidden="true">05</p>
+          <h2>水豚与动态角色</h2>
+          <p>0.14.2 的水豚会在池边游走、下水、休息，并根据玩家的距离与动作积累信任或提高警戒。群体共享栖息地索引和寻路工作区，每只分别维护需求、记忆、身体与动画状态。</p>
+          <figure class="water-figure">
+            <Image src={capybaraShore} alt="泳池边的成年水豚与趴卧幼体，另一只水豚浮在水面上" widths={[480, 800, 1056, 1600]} sizes="(min-width: 58rem) 48rem, 92vw" loading="lazy" />
+            <figcaption>VOXPOOL 0.14.2 引擎渲染。泳池地图，固定成年、幼体和游泳姿态，用于观察模型与场景光照。</figcaption>
+          </figure>
+          <p>CPU 根据实际移动生成骨骼姿态。GPU 共用一份 16 关节网格，计算变形与光照，再通过实例化绘制呈现。变形后的三角形同时参与投影和光学查询，让水豚出现在水面、玻璃与镜面的光路中。行为、寻路、脚掌 IK 和群体开销见<a href={links.capybara}>《池边的水豚》</a>。</p>
+        </section>
+
+        <section id="measurements">
+          <p class="section-index" aria-hidden="true">06</p>
           <h2>测量与边界</h2>
           <p>水、玻璃或启用反射的材质决定场景是否需要额外的光学纹理。有光学效果时，图中的帧目标请求量为每渲染像素 82 字节。无光学效果时为每像素 50 字节加 8 字节固定开销。两者都用实际渲染尺寸计算。</p>
           <FrameBudget />
@@ -139,7 +152,7 @@ const description = "以一块发光砖和一池水为例，解释 VOXPOOL 的�
         </section>
 
         <section id="experiment">
-          <p class="section-index" aria-hidden="true">06</p>
+          <p class="section-index" aria-hidden="true">07</p>
           <h2>在浏览器里试一次</h2>
           <p>在<a href={links.play}>B 站 Toy 打开 VOXPOOL</a>，在池核地图找一处日光能照到的浅水。站定，盯着水下的瓷砖。在 Toy 中长按设置按钮一秒，打开开发面板。在「渲染」里，把「焦散」从 32 改成 0，等几帧再切回来。看瓷砖上消失和重新出现的亮纹，水面和普通照明仍在。也可以使用<a href={links.backup}>备用网页版</a>。</p>
           <details>
@@ -152,7 +165,7 @@ const description = "以一块发光砖和一池水为例，解释 VOXPOOL 的�
         </section>
 
         <section id="references">
-          <p class="section-index" aria-hidden="true">07</p>
+          <p class="section-index" aria-hidden="true">08</p>
           <h2>参考资料</h2>
           <ul class="references">
             <li>设备、资源同步和着色语言。<a href="https://www.w3.org/TR/webgpu/" lang="en">W3C WebGPU</a> · <a href="https://www.w3.org/TR/WGSL/" lang="en">W3C WGSL</a></li>
@@ -160,7 +173,7 @@ const description = "以一块发光砖和一池水为例，解释 VOXPOOL 的�
             <li>离散采样与光传输。<a href="https://pbr-book.org/4ed/Sampling_and_Reconstruction/Halton_Sampler" lang="en">Physically Based Rendering, Halton Sampler</a></li>
             <li>历史重投影与时间抗锯齿。<a href="https://onlinelibrary.wiley.com/doi/full/10.1111/cgf.14018" lang="en">Yang, Liu &amp; Salvi, A Survey of Temporal Antialiasing Techniques</a>（2020）</li>
           </ul>
-          <p class="paper-note">实现说明核对至 VOXPOOL 0.13.0。空区跳跃对照来自 0.12.7 的项目记录。</p>
+          <p class="paper-note">光照正文核对至 VOXPOOL 0.13.0，水豚补记核对至 0.14.2。空区跳跃对照来自 0.12.7 的项目记录。</p>
         </section>
         <Community />
       </article>

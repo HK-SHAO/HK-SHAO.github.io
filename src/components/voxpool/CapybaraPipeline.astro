@@ -1,0 +1,45 @@
+---
+const steps = [
+  { name: "感知与选择", module: "CapybaraMind", detail: "距离、视线、信任与需求" },
+  { name: "移动与碰撞", module: "CapybaraBody", detail: "路线、转向、浮水与潜水" },
+  { name: "生成姿态", module: "CapybaraRig", detail: "落脚、屈腿、呼吸与视线" },
+  { name: "交给 GPU", module: "ActorPass", detail: "蒙皮、光照、阴影与绘制" },
+];
+---
+
+<figure class="npc-pipeline">
+  <div class="population">
+    <span>群体调度 <code>CapybaraPopulation</code></span>
+    <span>共享栖息地、寻路工作区和邻居索引</span>
+  </div>
+  <div class="individual">
+    <p>每只水豚由 <code>Capybara</code> 协调状态与各模块</p>
+    <ol role="list" aria-label="水豚从感知到渲染的处理顺序">
+      {steps.map(({ name, module, detail }) => (
+        <li><b>{name}</b><code>{module}</code><span>{detail}</span></li>
+      ))}
+    </ol>
+  </div>
+  <figcaption>CPU 更新行为、运动与骨骼姿态；GPU 接收姿态和个体状态，计算变形后的网格并绘制。</figcaption>
+</figure>
+
+<style>
+  .npc-pipeline { margin-block: 1.6rem; }
+  .population { display: grid; gap: 0.2rem; padding: 0.9rem 1rem; background: #dce8df; border-block-start: 0.125rem solid var(--vp-accent); }
+  .population span:first-child { font-weight: 650; }
+  .population span:last-child, .individual > p, li > span { color: var(--vp-muted); font-size: 0.8125rem; }
+  .population code { margin-inline-start: 0.45em; font-size: 0.8em; }
+  .individual { padding: 1rem; background: #e9eee5; }
+  .individual > p { margin: 0 0 0.85rem; }
+  ol { display: grid; gap: 0; list-style: none; margin: 0; padding: 0; }
+  li { position: relative; display: grid; gap: 0.15rem; padding: 0.85rem 0 0.85rem 1.3rem; border-inline-start: 1px solid var(--vp-line); }
+  li::before { content: ""; position: absolute; inset: 1.2rem auto auto -0.2rem; inline-size: 0.375rem; block-size: 0.375rem; border-radius: 50%; background: var(--vp-accent); }
+  li b { font-size: 0.9375rem; font-weight: 650; }
+  li code { font-family: var(--vp-mono); font-size: 0.75rem; }
+  figcaption { margin-block-start: 0.65rem; font-size: 0.8125rem; line-height: 1.7; color: var(--vp-muted); }
+  @media (min-width: 44rem) {
+    ol { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    li { padding: 0.85rem 0.55rem 0 0; border-inline-start: 0; border-block-start: 1px solid var(--vp-line); }
+    li::before { inset: -0.2rem auto auto 0; }
+  }
+</style>

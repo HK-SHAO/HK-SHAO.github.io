@@ -3,6 +3,7 @@ const videoId = "BV1fusX6VEAi";
 export const voxpoolLinks = {
   home: "/voxpool/",
   paper: "/voxpool/whitepaper/",
+  capybara: "/voxpool/capybara/",
   play: "https://www.bilibili.com/toy/voxpool/index.html",
   backup: "https://voxpool.shao.fun/",
   videoId,
