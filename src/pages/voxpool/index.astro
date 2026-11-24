@@ -1,345 +1,235 @@
 ---
 import { Image } from "astro:assets";
 import VoxpoolLayout from "../../layouts/VoxpoolLayout.astro";
-import sunlitPool from "../../assets/voxpool/sunlit-pool.jpg";
-import dreamscape from "../../assets/voxpool/dreamscape.webp";
-import backrooms from "../../assets/voxpool/backrooms.webp";
-import doorway from "../../assets/voxpool/doorway.webp";
-import skylight from "../../assets/voxpool/skylight.webp";
-import tunnel from "../../assets/voxpool/tunnel.webp";
 import MapGallery from "../../components/voxpool/MapGallery.astro";
 import Community from "../../components/voxpool/Community.astro";
 import Bilibili from "../../components/mdx/Bilibili.astro";
+import hero from "../../assets/voxpool/hero.webp";
+import light from "../../assets/voxpool/light.webp";
+import card from "../../assets/voxpool/map-card.png";
 import { voxpoolLinks as links } from "../../utils/voxpool-links";
 
-const scenes = [
-  {
-    id: "window",
-    title: "穿过玻璃",
-    image: doorway,
-    alt: "三色玻璃把日光染成青、黄、品红，色带落在白瓷砖上",
-    note: "隔着彩色玻璃，白瓷砖上多了几道色带。换一块玻璃，看看地上的颜色怎么变。",
-  },
-  {
-    id: "surface",
-    title: "从水下仰头",
-    image: skylight,
-    alt: "水下仰望十字形天窗，浅色波纹映在深蓝池壁",
-    note: "抬头看天窗。水面折弯了光，池壁上游动的亮纹叫作焦散。",
-  },
-  {
-    id: "tunnel",
-    title: "游进通道",
-    image: tunnel,
-    alt: "透过晃动的水面看见被拉弯的瓷砖缝，水下通道深处一片幽暗",
-    note: "瓷砖缝是直的。隔着水面看，缝线跟着波纹弯下去。",
-  },
-] as const;
+const modes = [
+  { name: "生存", verbs: "走 · 跳 · 游", note: "世界不变，只能捡起、放下或踢开物品。" },
+  { name: "创造", verbs: "飞 · 拆 · 盖", note: "瓷砖、水、荧光石、彩色玻璃、镜子，随手取用。" },
+];
+
+const props = [
+  { name: "黄鸭", note: "大、中、小" },
+  { name: "海洋球", note: "八色，直径 10 厘米" },
+  { name: "游泳圈", note: "四种浅色" },
+  { name: "足球", note: "可以踢" },
+];
+
+const details = [
+  { title: "键鼠", body: "WASD 移动，空格蓄力跳。创造模式按 F 飞行。" },
+  { title: "触屏", body: "左侧摇杆，轻点放置，长按拆除。" },
+  { title: "手柄", body: "标准手柄即插即用。" },
+  { title: "画面", body: "默认 VHS 滤镜，可关。支持 HDR 与 P3。" },
+  { title: "声音", body: "八音盒实时演奏 Gymnopédie No. 1，物理声学。" },
+  { title: "设备", body: "支持 WebGPU 的浏览器，免安装。" },
+];
+
+const elsewhere = [
+  { label: "B 站主页", note: "更新与录像", href: links.creator },
+  { label: "爱发电", note: "支持开发", href: links.support },
+  { label: "写信", note: "合作与展览", href: links.email },
+];
 ---
 
 <VoxpoolLayout
-  title="VOXPOOL 体素池核 · 浏览器里的泳池与光"
-  description="走进浏览器里的空泳池。潜到水下看光，换一块玻璃，搭自己的体素房间。由烧风制作。"
+  title="VOXPOOL 体素池核"
+  description="在浏览器里打开一座空泳池。九张地图，可以下水、往池里放一只黄鸭，或者一块一块改出自己的房间，再把整个世界存进一张图片。"
 >
-  <section class="hero vp-shell" aria-labelledby="hero-title">
-    <div class="hero-intro">
-      <div>
-        <p class="project-name">体素池核</p>
-        <h1 id="hero-title">下水看看。</h1>
+  <section class="hero" aria-labelledby="hero-title">
+    <Image
+      src={hero}
+      alt="潮汐浴殿：白瓷砖拱顶下的长池，天窗的光在水底铺成一块亮斑"
+      widths={[640, 960, 1440, 1920]}
+      sizes="100vw"
+      format="webp"
+      loading="eager"
+      fetchpriority="high"
+    />
+    <div class="hero-copy vp-shell">
+      <p class="kicker">体素池核 · VOXPOOL</p>
+      <h1 id="hero-title">下水看看。</h1>
+      <p class="lead">浏览器里的体素空间。下水，看光，动手改。</p>
+      <div class="actions">
+        <a class="primary" href={links.play}>在 B 站 Toy 打开 <span aria-hidden="true">↗</span></a>
+        <a href={links.web}>网页版 <span aria-hidden="true">↗</span></a>
       </div>
-      <div class="hero-lead">
-        <p>在浏览器里走进一座没人的泳池。潜下去看看瓷砖上的光，或者换一块玻璃，试试房间会变成什么颜色。</p>
-        <div class="hero-actions">
-          <a class="primary" href={links.play}>B 站 Toy 体验 <span aria-hidden="true">↗</span></a>
-          <a class="text-action" href={links.video}>看 B 站演示 <span aria-hidden="true">↗</span></a>
-        </div>
-        <p class="requirements">9 张地图 · 支持键鼠、触屏和手柄 · 需要 WebGPU<br /><a href={links.backup}>备用网页版</a></p>
-      </div>
+      <p class="fine">需要 WebGPU · 键鼠、触屏、手柄</p>
     </div>
-    <figure class="hero-frame">
-      <Image
-        src={sunlitPool}
-        alt="阳光照在白瓷砖柱上，柱廊倒映在青色水面"
-        widths={[480, 720, 1040, 1440, 1920]}
-        sizes="(min-width: 86rem) 78rem, 92vw"
-        format="webp"
-        loading="eager"
-        fetchpriority="high"
-      />
-      <figcaption><span>池边柱廊</span><span>VOXPOOL</span></figcaption>
-    </figure>
   </section>
 
   <MapGallery />
 
-  <section class="observation vp-shell" aria-labelledby="light-title">
-    <h2 id="light-title">留意墙上的光</h2>
-    <p class="section-intro">光过了玻璃和水面以后，落到了哪里？</p>
-    <fieldset class="views">
-      <legend class="sr-only">选择观察视角</legend>
-      <div class="view-options">
-        {scenes.map((scene, index) => (
-          <label class="view-option">
-            <input type="radio" name="voxpool-view" value={scene.id} checked={index === 0} />
-            <span>{scene.title}</span>
-            <span class="view-arrow" aria-hidden="true">↗</span>
-          </label>
-        ))}
-      </div>
-      <div class="view-frames">
-        {scenes.map((scene) => (
-          <figure class="view-frame" data-view={scene.id}>
-            <Image src={scene.image} alt={scene.alt} widths={[420, 720, 1040, 1440]} sizes="(min-width: 60rem) 64vw, 92vw" format="webp" />
-            <figcaption>{scene.note}</figcaption>
-          </figure>
-        ))}
-      </div>
-    </fieldset>
-  </section>
-
-  <section class="workshop" aria-labelledby="edit-title">
-    <div class="workshop-inner vp-shell">
-      <div class="edit-copy">
-        <h2 id="edit-title">动手改一块</h2>
-        <p>切到自由模式，拆一格瓷砖，放一块会发光的方块。退远一点，看它照亮了哪面墙。想接着搭，可以把房间存成 <code>.vpool</code> 地图文件。</p>
-        <dl class="edit-controls">
-          <div><dt>键鼠</dt><dd><kbd>F</kbd> 切换自由模式，左键拆，右键放。</dd></div>
-          <div><dt>触屏</dt><dd>切到自由模式，点按放置，长按拆除。</dd></div>
-          <div><dt>跳跃</dt><dd>按住蓄力，松开起跳。水中下浅或上浮。</dd></div>
-        </dl>
-        <a class="text-action" href={links.play}>去 B 站 Toy 试试 <span aria-hidden="true">↗</span></a>
-      </div>
-      <figure class="film">
-        <Bilibili bvid={links.videoId} title="烧风的 VOXPOOL 实机演示" />
-        <figcaption>
-          <span>烧风的 VOXPOOL 实机演示</span>
-          <a href={links.video}>在 B 站打开 <span aria-hidden="true">↗</span></a>
-        </figcaption>
-      </figure>
+  <section class="modes vp-shell" aria-labelledby="modes-title">
+    <header class="vp-head">
+      <h2 id="modes-title">两种模式</h2>
+      <p>新建世界时选定，自动存档。</p>
+    </header>
+    <div class="mode-grid">
+      {modes.map(({ name, verbs, note }) => (
+        <article>
+          <h3>{name}</h3>
+          <p class="verbs">{verbs}</p>
+          <p>{note}</p>
+        </article>
+      ))}
     </div>
   </section>
 
-  <section class="next vp-shell" aria-labelledby="next-title">
-    <div class="map-spread">
-      <figure>
-        <Image
-          src={dreamscape}
-          alt="蓝色浅池分列走道两侧，成排顶灯倒映在水面"
-          widths={[320, 480, 720, 1040, 1280]}
-          sizes="(min-width: 86rem) 38rem, 46vw"
-          format="webp"
-        />
-        <figcaption>池核 · 灯下的长廊</figcaption>
-      </figure>
-      <figure>
-        <Image
-          src={backrooms}
-          alt="黄色走廊两侧开着门洞，成排的顶灯延伸到尽头"
-          widths={[320, 480, 720, 1040, 1280]}
-          sizes="(min-width: 86rem) 38rem, 46vw"
-          format="webp"
-        />
-        <figcaption>后室 · 黄色走廊</figcaption>
-      </figure>
+  <section class="props vp-shell" aria-labelledby="props-title">
+    <header>
+      <h2 id="props-title">水里的东西</h2>
+      <p>真实大小，会浮会撞，有影子也有倒影。</p>
+    </header>
+    <dl>
+      {props.map(({ name, note }) => (
+        <div><dt>{name}</dt><dd>{note}</dd></div>
+      ))}
+    </dl>
+  </section>
+
+  <section class="card vp-shell" aria-labelledby="card-title">
+    <figure>
+      <Image src={card} alt="一张 VOXPOOL 地图卡：左上是潮汐浴殿的预览，其余三块是白、绿、蓝三色的编码方格" widths={[480, 720, 1024]} sizes="(min-width: 60rem) 34rem, 92vw" format="png" />
+    </figure>
+    <div class="card-copy">
+      <h2 id="card-title">一张图，<br />一个世界</h2>
+      <p>导出地图卡：左上是预览，其余三块就是整个世界。发给朋友，导入即达。缺一块也能读出，请发原图。</p>
+      <p class="stat"><b>512</b><span>字节<br />整座潮汐浴殿</span></p>
     </div>
-    <div class="next-intro">
-      <h2 id="next-title">池边见。</h2>
-      <p>找张喜欢的地图走一圈，再动手改几块方块。想继续搭建，可以把地图和进度保存成 <code>.vpool</code> 文件。</p>
-      <div class="next-actions">
-        <a class="primary" href={links.play}>B 站 Toy 体验 <span aria-hidden="true">↗</span></a>
-        <a class="text-action" href={links.backup}>备用网页版 <span aria-hidden="true">↗</span></a>
+  </section>
+
+  <section class="light" aria-labelledby="light-title">
+    <Image src={light} alt="泳池一角，黄、青、品红三块玻璃把阳光染成色带，落在白瓷砖地上" widths={[640, 960, 1440, 1920]} sizes="(min-width: 60rem) 60vw, 100vw" format="webp" />
+    <div class="light-copy">
+      <h2 id="light-title">光线追踪</h2>
+      <p>拆一块砖，屋子就暗一点。水面留下亮纹，玻璃染出颜色。</p>
+      <a href={links.paper}>技术白皮书 <span aria-hidden="true">→</span></a>
+    </div>
+  </section>
+
+  <section class="details vp-shell" aria-labelledby="details-title">
+    <h2 id="details-title">上手</h2>
+    <dl>
+      {details.map(({ title, body }) => (
+        <div><dt>{title}</dt><dd>{body}</dd></div>
+      ))}
+    </dl>
+  </section>
+
+  <section class="film vp-shell" aria-labelledby="film-title">
+    <h2 id="film-title" class="sr-only">实机演示</h2>
+    <Bilibili bvid={links.videoId} title="梦核泳池，被我装进浏览器" />
+  </section>
+
+  <section class="outro vp-shell" aria-labelledby="outro-title">
+    <div class="outro-main">
+      <h2 id="outro-title">池边见。</h2>
+      <div class="actions">
+        <a class="primary" href={links.play}>在 B 站 Toy 打开 <span aria-hidden="true">↗</span></a>
+        <a href={links.web}>网页版 <span aria-hidden="true">↗</span></a>
       </div>
     </div>
-    <div class="next-links">
-      <div>
-        <a href={links.capybara}>池边的水豚 <span aria-hidden="true">↗</span></a>
-        <p>先站远一点，看它慢慢习惯你。水豚的日常、群体行为与动作实现。</p>
-      </div>
-      <div>
-        <a href={links.paper}>技术白皮书 <span aria-hidden="true">↗</span></a>
-        <p>改一块方块后，引擎重算了什么？含渲染路径、测量条件与复现实验。</p>
-      </div>
-      <div>
-        <a href={links.email}>联系烧风 <span aria-hidden="true">↗</span></a>
-        <p>想聊互动展览、场景合作，或了解项目的下一步，可以直接来信。</p>
-      </div>
-      <div>
-        <a href={links.creator}>烧风的 B 站主页 <span aria-hidden="true">↗</span></a>
-        <p>看开发演示，或在 <a href={links.support}>爱发电</a> 支持开发。</p>
-      </div>
-    </div>
-    <div class="next-community"><Community /></div>
+    <ul role="list">
+      {elsewhere.map(({ label, note, href }) => (
+        <li><a href={href}><b>{label}</b><span>{note}</span><i aria-hidden="true">↗</i></a></li>
+      ))}
+    </ul>
+    <div class="outro-community"><Community /></div>
   </section>
 </VoxpoolLayout>
 
 <style>
-  h1, h2 {
-    font-family: var(--vp-serif);
-    font-weight: 800;
-    letter-spacing: -0.075em;
-    line-height: 1.12;
-  }
+  h1, h2 { font-family: var(--vp-serif); font-weight: 800; letter-spacing: -0.06em; line-height: 1.1; text-wrap: balance; }
+  h2 { font-size: clamp(2.2rem, 5vw, 3.8rem); }
+  section { scroll-margin-block-start: 1.5rem; }
+  img { inline-size: 100%; block-size: auto; }
+  .sr-only { position: absolute; inline-size: 1px; block-size: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 
-  h1 { font-size: clamp(3.3rem, 9vw, 7.6rem); }
-  h2 { font-size: clamp(2.4rem, 5vw, 4.1rem); }
-  .project-name { font-size: 0.9rem; letter-spacing: 0.22em; font-weight: 700; color: var(--vp-accent); margin-block-end: 0.55rem; }
-
-  .hero-intro {
-    display: grid;
-    grid-template-columns: minmax(0, 1.3fr) minmax(20rem, 0.9fr);
-    align-items: end;
-    gap: 1.2rem 3rem;
-    padding-block: clamp(2.55rem, 4vw, 3.8rem) clamp(1.55rem, 2.5vw, 2.3rem);
-  }
-
-  .hero-lead { max-inline-size: 29rem; padding-block-end: 0.2rem; }
-  .hero-lead > p:first-child { font-size: clamp(1.05rem, 1.6vw, 1.23rem); line-height: 1.68; }
-  .hero-actions, .next-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 0.55rem 1.25rem; margin-block-start: 1.15rem; }
-  .primary, .text-action { display: inline-flex; align-items: center; gap: 0.6em; min-block-size: 2.75rem; font-weight: 700; }
-  .primary {
-    justify-content: space-between;
-    padding: 0.6rem 1rem;
-    min-inline-size: 9rem;
-    background: var(--vp-ink);
-    color: var(--vp-paper);
-    text-decoration: none;
-  }
-
+  .actions { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem 1.5rem; }
+  .actions a { display: inline-flex; align-items: center; gap: 0.5em; min-block-size: 3rem; font-weight: 700; }
+  .primary { padding-inline: 1.25rem; background: var(--vp-ink); color: var(--vp-paper); text-decoration: none; }
   .primary:hover { background: var(--vp-accent); color: white; }
-  .text-action { text-decoration-thickness: 1px; }
-  .requirements { margin-block-start: 0.6rem; color: var(--vp-muted); font-size: 0.82rem; }
 
-  .hero-frame img, .view-frame img, .map-spread img { inline-size: 100%; block-size: auto; object-fit: cover; background: #bad0c8; }
-  .hero-frame img { aspect-ratio: 2.55; object-position: center bottom; }
-  figcaption { color: var(--vp-muted); font-size: 0.875rem; margin-block-start: 0.55rem; }
-  .hero-frame figcaption { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.1rem 1rem; }
-  .hero-frame figcaption span:first-child { font-weight: 700; }
+  .hero { position: relative; display: grid; min-block-size: min(calc(100svh - 4.25rem), 52rem); color: #f6f5ef; }
+  .hero > img { position: absolute; inset: 0; block-size: 100%; object-fit: cover; object-position: 50% 60%; background: #9fb9b6; }
+  .hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgb(9 31 27 / 0.85), rgb(9 31 27 / 0.4) 42%, rgb(9 31 27 / 0) 72%); }
+  .hero-copy { position: relative; z-index: 1; display: grid; align-content: end; justify-items: start; gap: 1rem; padding-block: 4rem clamp(2.5rem, 6vw, 4.5rem); }
+  .kicker { color: #b9e3d2; font-size: 0.8125rem; font-weight: 700; letter-spacing: 0.24em; }
+  h1 { font-size: clamp(3.4rem, 11vw, 8.5rem); }
+  .lead { font-size: clamp(1.1rem, 1.8vw, 1.35rem); text-wrap: balance; }
+  p { text-wrap: pretty; }
+  .fine { color: #c9d8d1; font-size: 0.8125rem; }
+  .hero .primary { background: #f6f5ef; color: var(--vp-ink); }
+  .hero .primary:hover { background: #c6e6d5; color: var(--vp-ink); }
+  .hero a:hover { color: #c6e6d5; }
+  .hero :focus-visible { outline-color: #c6e6d5; }
 
-  .observation { padding-block: var(--vp-space); }
-  .section-intro { margin-block: 0.8rem 1.8rem; max-inline-size: 32rem; }
-  .views {
-    display: grid;
-    grid-template-columns: minmax(11rem, 0.7fr) minmax(0, 2.3fr);
-    gap: 0.85rem clamp(1rem, 4vw, 3.8rem);
-    min-inline-size: 0;
-    padding: 0;
-    margin: 0;
-    border: 0;
-  }
+  .modes, .props, .card, .details, .film { padding-block-start: var(--vp-space); }
 
-  .sr-only, .view-option input {
-    position: absolute;
-    inline-size: 1px;
-    block-size: 1px;
-    padding: 0;
-    margin: -1px;
-    clip-path: inset(50%);
-    overflow: hidden;
-    white-space: nowrap;
-    border: 0;
-  }
+  .mode-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; }
+  .mode-grid article { display: grid; align-content: start; gap: 0.5rem; padding: clamp(1.5rem, 3vw, 2.25rem); background: #e6ece4; border-block-start: 0.2rem solid var(--vp-accent); }
+  .mode-grid h3 { font-family: var(--vp-serif); font-size: clamp(1.8rem, 3vw, 2.4rem); font-weight: 800; letter-spacing: -0.04em; }
+  .verbs { color: var(--vp-accent); font-weight: 700; letter-spacing: 0.08em; }
+  .mode-grid p:last-child { color: var(--vp-muted); }
 
-  .view-options { border-block-start: 1px solid var(--vp-line); }
-  .view-option {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.35rem;
-    min-block-size: 3.8rem;
-    border-block-end: 1px solid var(--vp-line);
-    padding: 0.5rem 0.45rem 0.5rem 0;
-    font-weight: 640;
-    cursor: pointer;
-  }
+  dl { margin: 0; }
+  dt { font-weight: 700; }
+  dd { margin: 0; color: var(--vp-muted); }
 
-  .view-option:hover, .view-option:has(input:checked) { color: var(--vp-accent); }
-  .view-option:has(input:checked) { font-weight: 800; border-block-end-color: currentColor; }
-  .view-option:has(input:focus-visible) { outline: 2px solid var(--vp-accent); outline-offset: 3px; }
-  .view-arrow { visibility: hidden; }
-  .view-option:has(input:checked) .view-arrow { visibility: visible; }
+  .props { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 2rem clamp(2rem, 6vw, 6rem); align-items: end; }
+  .props header { display: grid; gap: 0.75rem; }
+  .props header p { color: var(--vp-muted); }
+  .props dl > div { display: flex; justify-content: space-between; gap: 1rem; padding-block: 0.9rem; border-block-start: 1px solid var(--vp-line); }
+  .props dl > div:last-child { border-block-end: 1px solid var(--vp-line); }
 
-  .view-frame { display: none; }
-  .views:has([value="window"]:checked) [data-view="window"],
-  .views:has([value="surface"]:checked) [data-view="surface"],
-  .views:has([value="tunnel"]:checked) [data-view="tunnel"] { display: block; }
+  .card { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 2rem clamp(2rem, 6vw, 6rem); align-items: center; }
+  .card figure { max-inline-size: 34rem; }
+  .card-copy { display: grid; gap: 1.25rem; justify-items: start; }
+  .card-copy > p:not(.stat) { max-inline-size: 26rem; line-height: 1.8; }
+  .stat { display: flex; align-items: center; gap: 0.9rem; padding-block-start: 1.25rem; border-block-start: 1px solid var(--vp-line); }
+  .stat b { font-family: var(--vp-serif); font-size: clamp(3rem, 6vw, 4.5rem); font-weight: 800; letter-spacing: -0.05em; line-height: 1; color: var(--vp-accent); }
+  .stat span { color: var(--vp-muted); font-size: 0.875rem; line-height: 1.5; }
 
-  .view-frame img { aspect-ratio: 1.9; }
-  .view-frame figcaption { min-block-size: 3.3em; }
+  .light { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); margin-block-start: var(--vp-space); background: #16352f; color: #f3f2eb; }
+  .light img { block-size: 100%; min-block-size: 22rem; object-fit: cover; }
+  .light-copy { display: grid; align-content: center; justify-items: start; gap: 1rem; padding: clamp(2rem, 5vw, 4.5rem); }
+  .light p { max-inline-size: 22rem; color: #d4e4da; line-height: 1.8; }
+  .light a { display: inline-flex; align-items: center; gap: 0.4em; min-block-size: 2.75rem; font-weight: 700; }
+  .light a:hover { color: #c6e6d5; }
+  .light :focus-visible { outline-color: #c6e6d5; }
 
-  .workshop {
-    background: #16352f;
-    color: #f3f2eb;
-    padding-block: clamp(3rem, 7vw, 6rem);
-  }
+  .details { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: 2rem clamp(2rem, 6vw, 6rem); }
+  .details dl { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 2rem; }
+  .details dl > div { display: grid; gap: 0.35rem; padding-block: 1.1rem; border-block-start: 1px solid var(--vp-line); }
 
-  .workshop-inner {
-    display: grid;
-    grid-template-columns: minmax(16rem, 0.9fr) minmax(0, 1.4fr);
-    gap: clamp(1.6rem, 5vw, 5rem);
-    align-items: center;
-  }
-
-  .edit-copy > p { margin-block: 0.9rem 1.4rem; max-inline-size: 27rem; }
-  .edit-copy :is(kbd, code) { font-family: var(--vp-mono); font-size: 0.9em; }
-  .edit-copy kbd { border: 1px solid #aec4b7; padding: 0.06em 0.33em; }
-  .edit-controls { margin: 0 0 0.7rem; font-size: 0.875rem; color: #cee1d7; }
-  .edit-controls div { display: grid; grid-template-columns: 2.75rem 1fr; gap: 0.35rem; border-block-start: 1px solid #57746a; padding: 0.55rem 0; }
-  .edit-controls dt { font-weight: 720; }
-  .edit-controls dd { margin: 0; }
-
-  .workshop a:hover { color: #c6e6d5; }
-  .workshop :focus-visible { outline-color: #c6e6d5; }
   .film { --bilibili-margin: 0; }
-  .film figcaption { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 0.1rem 1rem; color: #cee1d7; }
-  .film figcaption a { display: inline-flex; align-items: center; gap: 0.35em; min-block-size: 2.75rem; }
 
-  .next {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    gap: 2rem clamp(2rem, 8vw, 8rem);
-    padding-block: var(--vp-space);
-    align-items: start;
+  .outro { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 2.5rem clamp(2rem, 6vw, 6rem); align-items: end; padding-block: var(--vp-space); }
+  .outro-main { display: grid; gap: 1.5rem; }
+  .outro h2 { font-size: clamp(2.8rem, 7vw, 5.5rem); }
+  .outro ul { margin: 0; padding: 0; list-style: none; }
+  .outro li { border-block-start: 1px solid var(--vp-line); }
+  .outro li:last-child { border-block-end: 1px solid var(--vp-line); }
+  .outro li a { display: grid; grid-template-columns: 6rem minmax(0, 1fr) auto; align-items: center; gap: 1rem; min-block-size: 3.5rem; text-decoration: none; }
+  .outro li span { color: var(--vp-muted); font-size: 0.875rem; }
+  .outro li i { font-style: normal; color: var(--vp-accent); }
+  .outro li a:hover b { text-decoration: underline; }
+  .outro-community { grid-column: 1 / -1; }
+
+  @media (max-width: 60rem) {
+    .props, .card, .details, .outro { grid-template-columns: minmax(0, 1fr); }
+    .light { grid-template-columns: minmax(0, 1fr); }
+    .light img { min-block-size: 0; aspect-ratio: 16 / 10; }
   }
 
-  .map-spread {
-    grid-column: 1 / -1;
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: clamp(0.55rem, 2vw, 1.5rem);
-  }
-
-  .map-spread img { aspect-ratio: 4 / 3; }
-  .next-community { grid-column: 1 / -1; }
-  .next-intro > p { margin-block-start: 0.8rem; max-inline-size: 24rem; }
-  .next-links > div { border-block-start: 1px solid var(--vp-line); padding: 0.8rem 0 1rem; }
-  .next-links > div:last-child { border-block-end: 1px solid var(--vp-line); }
-  .next-links > div > a { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; min-block-size: 2.75rem; font-weight: 730; text-decoration: none; }
-  .next-links > div > a:hover { text-decoration: underline; }
-  .next-links p { color: var(--vp-muted); font-size: 0.9rem; }
-
-  @media (max-width: 52rem) {
-    .hero-intro { grid-template-columns: 1fr; }
-    .hero-frame img { aspect-ratio: 1.65; }
-    .workshop-inner { grid-template-columns: 1fr; }
-    .edit-copy { max-inline-size: 32rem; }
-  }
-
-  @media (max-width: 42rem) {
-    .views, .next { grid-template-columns: 1fr; }
-    .view-options { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-block-start: 0; }
-    .view-option { justify-content: center; font-size: 0.875rem; min-block-size: 2.9rem; padding-inline: 0.1rem; text-align: center; }
-    .view-arrow { display: none; }
-    .view-frame img { aspect-ratio: 1.65; }
-    .view-frame figcaption { min-block-size: 4.95em; }
-  }
-
-  @media (max-width: 25rem) {
-    .hero-frame img { aspect-ratio: 1.25; }
-  }
-
-  @supports not selector(:has(*)) {
-    .views { grid-template-columns: minmax(0, 1fr); }
-    .view-options { display: none; }
-    .view-frame { display: block; }
+  @media (max-width: 40rem) {
+    .mode-grid, .details dl { grid-template-columns: minmax(0, 1fr); }
+    .hero { min-block-size: min(calc(100svh - 4.25rem), 40rem); }
   }
 </style>

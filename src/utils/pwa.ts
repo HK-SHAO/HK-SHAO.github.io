@@ -21,11 +21,7 @@ const listFiles = async (dir: string, prefix = ""): Promise<string[]> => {
 };
 
 const toRoute = (file: string) =>
-  file === "index.html"
-    ? "/"
-    : file.endsWith("/index.html")
-      ? `/${file.slice(0, -"index.html".length)}`
-      : `/${file}`;
+  file === "index.html" ? "/" : file.endsWith("/index.html") ? `/${file.slice(0, -"index.html".length)}` : `/${file}`;
 
 const sha256 = (input: string | Uint8Array) => createHash("sha256").update(input).digest("hex");
 
@@ -43,9 +39,7 @@ export const pwa = (): AstroIntegration => ({
         (await Promise.all(files.map(async (file) => sha256(await readFile(join(root, file)))))).join("\n"),
       ).slice(0, 12);
       const template = await readFile(TEMPLATE, "utf8");
-      const worker = template
-        .replace("__VERSION__", version)
-        .replace('["__PRECACHE__"]', JSON.stringify(routes));
+      const worker = template.replace("__VERSION__", version).replace('["__PRECACHE__"]', JSON.stringify(routes));
       if (worker.includes("__VERSION__") || worker.includes("__PRECACHE__")) {
         throw new Error("service worker 模板占位符没被完整替换，拒绝产出");
       }

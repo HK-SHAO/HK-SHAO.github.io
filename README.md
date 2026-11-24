@@ -5,20 +5,20 @@
 ## 开发
 
 ```bash
-bun install
-bun dev
+vp install
+vp run dev
 ```
 
 ## 检查与构建
 
 ```bash
-bun test
-bun run check
-bun run build
-bun run preview
+vp test
+vp run check
+vp run build
+vp run preview
 ```
 
-Astro 将站点构建到 `dist/`。Cloudflare Pages 使用 `bun run build` 作为构建命令，输出目录填写 `dist`。
+Astro 将站点构建到 `dist/`。GitHub Actions 在 `main` 上检查、构建并发布到 GitHub Pages。Cloudflare Pages 的构建命令填 `pnpm run build`，输出目录填 `dist`。
 
 ## 内容
 

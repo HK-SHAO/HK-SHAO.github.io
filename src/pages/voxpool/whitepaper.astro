@@ -1,56 +1,171 @@
 ---
 import { Image } from "astro:assets";
 import VoxpoolLayout from "../../layouts/VoxpoolLayout.astro";
-import LightTransport from "../../components/voxpool/LightTransport.astro";
-import CausticPaths from "../../components/voxpool/CausticPaths.astro";
-import FrameBudget from "../../components/voxpool/FrameBudget.astro";
-import capybaraShore from "../../assets/voxpool/capybara/shore.webp";
-import skylight from "../../assets/voxpool/skylight.webp";
-import tide from "../../assets/voxpool/maps/tide.webp";
 import Community from "../../components/voxpool/Community.astro";
+import caustics from "../../assets/voxpool/caustics.webp";
+import card from "../../assets/voxpool/map-card.png";
 import { voxpoolLinks as links } from "../../utils/voxpool-links";
 
 const sections = [
-  { id: "world", title: "地图与编辑" },
-  { id: "lighting", title: "光怎样传到墙上" },
-  { id: "water", title: "水面、玻璃与天空" },
-  { id: "frame", title: "从一帧到屏幕" },
-  { id: "npcs", title: "水豚与动态角色" },
-  { id: "measurements", title: "测量与边界" },
-  { id: "experiment", title: "在浏览器里试一次" },
-  { id: "references", title: "参考资料" },
+  { id: "architecture", title: "整体架构" },
+  { id: "world", title: "一张地图有多大" },
+  { id: "card", title: "把存档画成图片" },
+  { id: "lighting", title: "光在墙之间弹" },
+  { id: "caustics", title: "池底的亮纹" },
+  { id: "optics", title: "玻璃、镜子和天空" },
+  { id: "props", title: "水里的东西" },
+  { id: "display", title: "从光到屏幕" },
+  { id: "cost", title: "一帧花在哪里" },
+  { id: "limits", title: "还没做好的地方" },
+  { id: "try", title: "自己看一眼" },
+  { id: "references", title: "参考与致谢" },
 ];
 
-const editSteps = [
-  { title: "改动方块", detail: "合并同一格的写入" },
-  { title: "更新几何", detail: "刷新占用与空区边界" },
-  { title: "重算光照", detail: "追踪失效路径并求解" },
-  { title: "合成画面", detail: "使用已发布的光照" },
+const frames = [
+  { view: "泳池", total: "14.82", note: "合成 10.60，焦散 1.94" },
+  { view: "泳池，16 只黄鸭", total: "24.11", note: "合成 19.77，含黄鸭的阴影与倒影" },
+  { view: "出生点", total: "17.55", note: "合成 12.47，焦散 1.82" },
+  { view: "水下", total: "12.38", note: "合成 7.48，焦散 1.96" },
+  { view: "厚云", total: "15.59", note: "云体积 13.23" },
+  { view: "后室", total: "3.85", note: "合成 1.62" },
 ];
 
-const experiment = `const engine = window.voxpool;
-const config = await engine.execute("configuration.read");
-const key = "quality.causticGrid";
-const setCaustics = (value) =>
-  engine.execute("configuration.patch", { [key]: value });
-await setCaustics(32);`;
+const vhs = [
+  { view: "泳池", before: "5.44", after: "3.79" },
+  { view: "出生点", before: "5.01", after: "3.71" },
+  { view: "水下", before: "4.87", after: "3.35" },
+  { view: "阴天", before: "3.33", after: "2.53" },
+];
+
+const layers = [
+  { name: "界面", parts: "React 19", role: "首页、世界列表、设置、快捷栏与素材库。键鼠、触屏、手柄共用一套焦点导航。" },
+  { name: "会话", parts: "输入 · 第一人称控制器 · 时间线", role: "把输入合成一个视角，统一管理 UTC、动画时钟、采样序号与暂停。" },
+  { name: "渲染器", parts: "PoolroomsRenderer", role: "推进模拟，发布场景，提交每一帧。换地图时几何与光照一起发布。" },
+  { name: "子系统", parts: "世界 · 光照 · 物体 · 天空 · 音频", role: "各自拥有状态与资源，通过明确的数据交给渲染器。", children: [
+    { name: "世界", role: "体素地图、内置地图生成器、.vpool 编解码、地图卡" },
+    { name: "光照", role: "SurfaceGIOwner 与模块 Worker，同一台 WebGPU 设备" },
+    { name: "物体", role: "120 Hz 刚体模拟，模型在共享 Worker 中准备" },
+    { name: "天空", role: "Astronomy Engine 星历、大气、云与星空" },
+    { name: "音频", role: "Web Audio；音乐在 AudioWorklet 中合成" },
+  ] },
+  { name: "GPU 帧图", parts: "PassGraph", role: "光照 → 物体几何 → 可见性 → 焦散 → 天空 → 物体着色 → 合成 → 光学历史 → 物体绘制与 TAA → 呈现" },
+  { name: "画布", parts: "Presentation · OutputPass", role: "协商 HDR 与 P3，色调映射，VHS 解码，输出到屏幕。" },
+];
+
+type Ref = { name: string; href?: string; use: string; note?: string };
+
+const thirdParty: Ref[] = [
+  { name: "React 与 React DOM", href: "https://react.dev/", use: "界面", note: "MIT，Meta Platforms" },
+  { name: "Astronomy Engine 2.1.19", href: "https://github.com/cosinekitty/astronomy", use: "太阳、月亮的地心视位置与 J2000 星空旋转", note: "MIT，Don Cross" },
+  { name: "GT7 tone mapping 示例", href: "https://blog.selfshadow.com/publications/s2025-shading-course/pdi/supplemental/gt7_tone_mapping.cpp", use: "SDR 与 HDR 色调映射曲线", note: "MIT，Polyphony Digital" },
+  { name: "FastAtmosphere", href: "https://www.shadertoy.com/view/lcfSRl", use: "大气散射与云噪声的着色器基础", note: "MIT，Felix Westin" },
+  { name: "Gymnopédie No. 1 乐谱", href: "https://www.mutopiaproject.org/cgibin/piece-info.cgi?id=37", use: "背景音乐", note: "公有领域，Erik Satie 作曲，Evin Robertson 排谱，Mutopia Project" },
+  { name: "造化平台 SDK", use: "造化平台版本的宿主接口", note: "随源码分发，附带其许可证" },
+  { name: "B 站 Toy SDK", use: "B 站 Toy 版本的相册、关注与跳转", note: "运行时从 B 站加载" },
+];
+
+const tooling: Ref[] = [
+  { name: "Vite+", href: "https://viteplus.dev/", use: "构建、测试、检查与格式化（Vite、Rolldown、Vitest、Oxlint、Oxfmt）" },
+  { name: "nagami-rs", use: "发布构建时优化与压缩 WGSL 着色器" },
+  { name: "marked 与 entities", use: "构建时把 README 和更新日志渲染为 HTML" },
+  { name: "webgpu（Dawn 的 Node 绑定）", use: "原生 GPU 测试与性能剖析" },
+  { name: "happy-dom", use: "界面测试的 DOM 环境" },
+  { name: "fast-check", use: "存档、地图卡数据包等编码的性质测试" },
+  { name: "@webgpu/types", use: "WebGPU 类型定义" },
+  { name: "@zaohua/game-builder", use: "打包与部署造化版本" },
+  { name: "Naga", use: "可选的独立 WGSL 校验器" },
+  { name: "FFmpeg", use: "离线渲染视频的 HDR 编码（zscale，HEVC）" },
+];
+
+const standards: Ref[] = [
+  { name: "WebGPU", href: "https://www.w3.org/TR/webgpu/", use: "GPU 设备、资源与画布配置" },
+  { name: "WGSL", href: "https://www.w3.org/TR/WGSL/", use: "全部着色器" },
+  { name: "Web Audio API", href: "https://www.w3.org/TR/webaudio/", use: "音效、混响与 AudioWorklet 音乐" },
+  { name: "Gamepad：标准布局", href: "https://www.w3.org/TR/gamepad/#remapping", use: "手柄按键映射" },
+  { name: "CSS Color 4", href: "https://www.w3.org/TR/css-color-4/#color-conversion-code", use: "OKLCH 界面配色与场景色转换" },
+  { name: "ITU-R BT.2100", href: "https://www.itu.int/rec/R-REC-BT.2100", use: "ICtCp 与 PQ，色调映射在其中进行" },
+  { name: "RFC 1951 DEFLATE", href: "https://www.rfc-editor.org/rfc/rfc1951", use: ".vpool 压缩（浏览器 CompressionStream）" },
+  { name: "FIPS 180-4", href: "https://csrc.nist.gov/pubs/fips/180-4/upd1/final", use: "SHA-256，地图卡底部的存档指纹" },
+  { name: "WAI-ARIA 编写实践", href: "https://www.w3.org/WAI/ARIA/apg/practices/keyboard-interface/", use: "键盘与网格导航" },
+];
+
+const papers: { area: string; items: Ref[] }[] = [
+  { area: "体素与光线", items: [
+    { name: "Amanatides & Woo, A Fast Voxel Traversal Algorithm for Ray Tracing, 1987", use: "逐格步进的光线遍历" },
+    { name: "轴对齐距离场（AADF）", use: "以 4³ 块为单位、分方向记录可跳过的空区" },
+    { name: "Pharr, Jakob & Humphreys, Physically Based Rendering, 4th ed.", href: "https://www.pbr-book.org/4ed/Primitives_and_Intersection_Acceleration/Bounding_Volume_Hierarchies", use: "物体网格的 BVH 与自底向上重拟合" },
+  ] },
+  { area: "漫反射光照", items: [
+    { name: "Goral et al., Modeling the Interaction of Light Between Diffuse Surfaces, 1984", use: "表面间漫反射传输（辐射度）的基本形式" },
+    { name: "Halton, On the Efficiency of Certain Quasi-Random Sequences, 1960", href: "https://pbr-book.org/4ed/Sampling_and_Reconstruction/Halton_Sampler", use: "每个面 1,024 个固定的四维样本" },
+    { name: "Baum, Rushmeier & Winget, Improving Radiosity Solutions Through the Use of Analytically Determined Form-Factors, 1989", use: "面光源的多边形解析形状因子" },
+  ] },
+  { area: "水与焦散", items: [
+    { name: "Igehy, Tracing Ray Differentials, 1999", use: "光斑足迹随水面曲率与光源角直径展开" },
+    { name: "二次 B 样条重建", use: "光斑沿采样晶格拼成单位分解，不留网格纹" },
+  ] },
+  { area: "材质与光学", items: [
+    { name: "Walter et al., Microfacet Models for Refraction through Rough Surfaces, 2007", use: "GGX 法线分布与 Smith 遮蔽" },
+    { name: "Heitz & Neyret, High-Performance By-Example Noise using a Histogram-Preserving Blending Operator, 2018", href: "https://eheitzresearch.wordpress.com/722-2/", use: "地毯与水磨石的无缝随机铺贴" },
+    { name: "Filament：镜面抗锯齿", href: "https://google.github.io/filament/main/materials.html#materialdefinitions/materialblock/anti-aliasing:specularantialiasing", use: "把法线方差折进粗糙度" },
+    { name: "斯涅尔定律、精确介电菲涅耳方程、比尔–朗伯定律", use: "玻璃与水的折射、反射和吸收" },
+  ] },
+  { area: "天空", items: [
+    { name: "JPL Horizons，DE441 星历", href: "https://ssd.jpl.nasa.gov/horizons/", use: "校验太阳与月亮位置的测试数据" },
+    { name: "瑞利散射与米氏散射", use: "大气颜色，经由 FastAtmosphere" },
+  ] },
+  { area: "画面重建与显示", items: [
+    { name: "Salvi, An Excursion in Temporal Supersampling, GDC 2016", use: "TAA 的方差裁剪" },
+    { name: "Yang, Liu & Salvi, A Survey of Temporal Antialiasing Techniques, 2020", href: "https://onlinelibrary.wiley.com/doi/full/10.1111/cgf.14018", use: "历史重投影的整体设计" },
+    { name: "Bradford 色适应变换", use: "白平衡适应" },
+    { name: "Ottosson, A Perceptual Color Space for Image Processing (Oklab), 2020", href: "https://bottosson.github.io/posts/oklab/", use: "界面与场景着色的 OKLCH 取色" },
+  ] },
+  { area: "随机数", items: [
+    { name: "Jarzynski & Olano, Hash Functions for GPU Rendering, JCGT 2020", href: "https://jcgt.org/published/0009/03/02/", use: "着色器中的 pcg3d 哈希" },
+  ] },
+  { area: "物理", items: [
+    { name: "Catto, Solver2D, 2024", href: "https://box2d.org/posts/2024/02/solver2d/", use: "累积冲量的顺序求解" },
+    { name: "Teschner et al., Optimized Spatial Hashing for Collision Detection of Deformable Objects, 2003", use: "醒着的物体用空间哈希找邻居" },
+  ] },
+  { area: "存档与地图卡", items: [
+    { name: "Reed & Solomon, Polynomial Codes over Certain Finite Fields, 1960", use: "数据包内纠错，GF(256)，多项式 0x11D" },
+    { name: "Blömer et al., An XOR-Based Erasure-Resilient Coding Scheme, 1995", use: "柯西矩阵构造的跨包校验" },
+    { name: "Castagnoli, Bräuer & Herrmann, Optimization of Cyclic Redundancy-Check Codes with 24 and 32 Parity Bits, 1993", use: "CRC-32C 数据包校验" },
+    { name: "FNV-1a、LEB128 变长整数、zigzag 编码、格雷码", use: "存档头校验、段落编码与四级亮度符号" },
+  ] },
+  { area: "声音", items: [
+    { name: "欧拉–伯努利悬臂梁的振动模态", use: "八音盒音片的泛音比 1 : 6.27 : 17.55 : 34.39" },
+  ] },
+  { area: "交互", items: [
+    { name: "Android FocusFinder", href: "https://android.googlesource.com/platform/frameworks/base/+/refs/heads/main/core/java/android/view/FocusFinder.java", use: "方向键与手柄的空间焦点搜索" },
+  ] },
+];
+
+const inspirations: Ref[] = [
+  { name: "丰岛美术馆", href: "https://benesse-artsite.jp/en/art/teshima-artmuseum.html", use: "天光水院" },
+  { name: "瓦尔斯温泉浴场", href: "https://7132.com/en/therme/7132-thermal-baths-peter-zumthor/", use: "潮汐浴殿" },
+  { name: "Walden 7", href: "https://www.bofill.com/projects/walden-7/", use: "赤陶庭院" },
+  { name: "Superstudio, Continuous Monument", href: "https://www.moma.org/collection/works/934", use: "天空水城" },
+  { name: "James Turrell, Twilight Epiphany", href: "https://moody.rice.edu/art/james-turrell", use: "梦境回廊" },
+  { name: "Frutiger Aero", href: "https://cari.institute/aesthetics/frutiger-aero", use: "棱镜水庭" },
+  { name: "Jared Pike, Dream Pools", href: "https://www.jaredpike.art/projects/dream-pools/", use: "所有无人浴场的整体气质" },
+];
 
 const title = "VOXPOOL 技术白皮书";
-const description = "以一块发光砖和一池水为例，解释 VOXPOOL 的可编辑体素、WebGPU 光传输、实时焦散、显示管线与测量方法，附水豚 NPC 的动画与渲染。";
+const description = "VOXPOOL 0.18 的整体架构、存档与地图卡、WebGPU 光照、焦散、玻璃与天空，附测量数据、已知不足和完整的参考与致谢。";
 ---
 
-<VoxpoolLayout {title} {description} paper>
+<VoxpoolLayout {title} {description} paper image={caustics} imageAlt="泳池里，水面把阳光折成细碎的亮纹落在蓝色马赛克上">
   <div class="vp-shell">
-    <header class="paper-heading">
-      <p class="paper-kicker">技术白皮书 <span lang="en">/ VOXPOOL</span></p>
-      <h1>一块砖怎样改变一间房的光</h1>
-      <p class="paper-intro">在池边放一块发光砖，光会先落到附近的瓷砖上，再从瓷砖弹到墙角。把砖拆掉，房间又暗下来。VOXPOOL 把地图、编辑和光照放进浏览器，玩家可以亲手改变房间。</p>
-      <p class="paper-edition"><time datetime="2026-11-11">2026 年 11 月 11 日更新</time><span>光照正文 0.13.0 · NPC 补记 0.14.2</span></p>
+    <header class="heading">
+      <p class="kicker">技术白皮书 · VOXPOOL 0.18.3</p>
+      <h1>一个装得进图片的世界</h1>
+      <p class="intro">VOXPOOL 的世界只有 32 KiB，小到可以编码进一张 PNG。可在这么小的世界里，光要在墙之间弹好几轮，穿过水面和彩色玻璃，再变成屏幕上的一帧。这篇讲它是怎么做的，哪些地方做得还不够。</p>
+      <p class="edition"><time datetime="2026-11-25">2026 年 11 月 25 日</time><span>对应 0.18.3</span></p>
     </header>
 
-    <div class="paper-grid">
-      <nav class="paper-toc" aria-label="白皮书目录">
-        <p>目录</p>
+    <div class="grid">
+      <nav class="toc" aria-label="目录">
         <ol>
           {sections.map(({ id, title }, index) => (
             <li><a href={`#${id}`}><span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>{title}</a></li>
@@ -58,123 +173,170 @@ const description = "以一块发光砖和一池水为例，解释 VOXPOOL 的�
         </ol>
       </nav>
 
-      <article class="paper-body" aria-label="VOXPOOL 技术白皮书正文">
-        <section id="world">
-          <p class="section-index" aria-hidden="true">01</p>
-          <h2>地图与编辑</h2>
-          <p>VOXPOOL 的地图是一个固定的 16 × 16 × 128 网格，三轴依次是宽、高、深。每格只存一个字节的方块编号，整张地图的体素数据是 32 KiB。灯、玻璃、水和墙都来自这张表。0.13.0 内置九张地图。</p>
-          <p>泳池、后室和康奈尔盒之外，新增天光水院、潮汐浴殿、赤陶庭院、天空水城、梦境回廊与棱镜水庭。它们使用同一规格的网格和同一套材质，通过开口、台阶与玻璃安排光线。设置旁的地图按钮会打开图片选择器，点选封面即可加载，当前会话参数继续保留。</p>
-
-          <figure class="water-figure">
-            <Image
-              src={tide}
-              alt="潮汐浴殿的白瓷砖拱顶下，天光照进蓝色马赛克水池，两侧的青色灯映在墙面"
-              widths={[480, 800, 1056, 1536]}
-              sizes="(min-width: 58rem) 48rem, 92vw"
-              format="webp"
-            />
-            <figcaption>潮汐浴殿实机画面。天窗把光引进白瓷砖拱顶，蓝色马赛克围出水池，青色灯照亮池边。开口与材质的改变沿用同一套光照流程。</figcaption>
-          </figure>
-          <p>在自由模式里敲掉一块砖，几何可以在下一帧更新。光照另有自己的工作队列。连续编辑时，引擎把写入合并到格子，更新受影响的占用块，重算失效的光路。复杂编辑中，新几何可以先出现，稍后才看到照明完成更新。整图替换则先准备光照，再发布地图与出生点。</p>
-
-          <figure class="pipeline">
-            <ol role="list" aria-label="一次局部编辑的处理顺序">
-              {editSteps.map(({ title, detail }, index) => (
+      <article class="body">
+        <section id="architecture">
+          <h2>整体架构</h2>
+          <p>VOXPOOL 没有服务器。页面加载后，模拟、光照和渲染都在浏览器里完成，世界存在本机。代码按职责分层，每一层只拥有自己的状态，并通过明确的数据交给下一层。</p>
+          <figure class="layers">
+            <ol role="list" aria-label="从界面到画布的分层">
+              {layers.map(({ name, parts, role, children }) => (
                 <li>
-                  <span class="step-number" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
-                  <b>{title}</b>
-                  <span class="step-detail">{detail}</span>
+                  <p class="layer-name">{name}</p>
+                  <p class="layer-parts">{parts}</p>
+                  <p class="layer-role">{role}</p>
+                  {children && (
+                    <ul role="list">
+                      {children.map((child) => <li><b>{child.name}</b><span>{child.role}</span></li>)}
+                    </ul>
+                  )}
                 </li>
               ))}
             </ol>
-            <figcaption>图 1　局部编辑从体素写入走到画面。几何更新与光照完成可以相隔数帧。</figcaption>
+            <figcaption>自上而下：输入变成视角，渲染器推进各子系统，再把一帧交给 GPU。</figcaption>
           </figure>
+          <p><b>线程。</b>主线程运行界面、控制器、物体模拟和帧提交。光照求解、材质纹理生成、物体模型准备、地图卡编解码和音色准备各在 Worker 中进行；任何一个 Worker 不可用时，主线程分段执行同一套流程，结果一致。音乐在 AudioWorklet 里逐块合成。</p>
+          <p><b>一帧。</b>CPU 只设置相机、日光与常量并编码命令，在 M4 上约 0.05 到 0.27 毫秒；其余时间都在 GPU 帧图里。帧图按场景裁掉用不到的阶段，例如没有水、玻璃和镜子时，跳过光学历史。</p>
+          <p><b>存储与恢复。</b>世界、预览和预设存在 IndexedDB；每个标签页还在会话存储里记一份最新进度，页面意外关闭后先用它恢复。GPU 设备丢失时，渲染器保留地图、机位和设置这些逻辑状态，只重建 GPU 资源。</p>
+          <p><b>构建。</b>同一份源码构建出网页版、B 站 Toy 和造化三个目标。发布时着色器经过优化压缩，每个 JavaScript 文件不超过 499,000 字节。运行时只请求 WebGPU 核心能力，不依赖可选特性、提升的上限或 SharedArrayBuffer，以便在更多设备上运行。</p>
+        </section>
 
-          <p><code>.vpool</code> 保存地图与作者设定的出生点。游戏界面的导出还能带上当前游玩进度，脚本接口则可以只编码地图。当前存档格式为第 4 版，旧版本存档会被拒绝。</p>
+        <section id="world">
+          <h2>一张地图有多大</h2>
+          <p>每张地图都是 16 × 16 × 128 的格子，宽、高、深。一格存一个字节的方块编号，整张图 32,768 字节。九张内置地图、所有编辑和存档，都基于这张表。</p>
+          <p>为了让光线快速跳过空地，格子再按 4 × 4 × 4 分成小块，记下哪些块是空的、哪些块里只有水。这两张表合起来 4 KiB，改一块方块时同步更新。</p>
+          <p>存档格式 <code>.vpool</code> 现在是第 6 版。文件头 14 字节，后面是 DEFLATE 压缩的若干段落。每段开头写明编号、长度和“是否必须读懂”。旧版本程序遇到不认识的可选段落会跳过，遇到不认识的必须段落就拒绝，不会半懂不懂地加载。地形、出生点和天空是必须段落；玩家位置、物体、物品栏、时间和音乐是可选的。</p>
+        </section>
+
+        <section id="card">
+          <h2>把存档画成图片</h2>
+          <p>地图卡是 2048 × 2152 的 PNG，四块 916 像素见方的图块。左上是预览，另外三块是数据。为了让一张被转发、缩放过的图还能读回来，编码借用了二维码和磁盘阵列的老办法。</p>
+          <figure class="card">
+            <Image src={card} alt="潮汐浴殿的地图卡：左上是预览，其余三块是白、绿、蓝三色的编码方格，每块里能看到四个十字形定位线" widths={[480, 720, 1024]} sizes="(min-width: 58rem) 30rem, 92vw" format="png" />
+            <figcaption>潮汐浴殿的地图卡。整张地图压缩后只有 512 字节，每块数据图块分成 2 × 2 个数据包，黑色十字就是定位线。底部是保存时间和存档的 SHA-256。</figcaption>
+          </figure>
+          <p>数据图块切成许多数据包。每个包中心有两条交叉的定位线，读取时靠它们找到包的位置、估计亮度、校正缩放，而不是依赖图块边缘。包里有自己的 CRC-32C 校验和 Reed–Solomon 纠错码，二值编码时每包最多能修 13 个坏字节。</p>
+          <p>包与包之间还有一层冗余：至少 40% 的包是校验包，按柯西矩阵在 GF(256) 上和数据包组合。只要每组收集到的有效包数不少于数据包数，就能复原整份存档。三块数据图块分到的包一样多，校验包又占四成以上，所以丢掉任意一整块，另两块完好时仍能读出。</p>
+          <p>不超过 6,840 字节的存档用黑白两色，每个模块更大，更耐压缩；更大的存档改用四级亮度，每个模块存两位。容量上限约 233 KB 压缩后的存档。</p>
         </section>
 
         <section id="lighting">
-          <p class="section-index" aria-hidden="true">02</p>
-          <h2>光怎样传到墙上</h2>
-          <p>把砖面当作光的接收面。每个接收面用 1,024 个四维 Halton 样本选取面上的起点和出射方向，并追踪可见路径。落到目标面的路径会合并，保留累加后的 RGB 透射权重，形成稀疏的表面传输图。样本固定在世界坐标里，所以转动视角时，墙面不会跟着重新抽样。</p>
-          <p class="transport-equation"><span role="math" aria-label="下一轮的表面光等于该面的光源项，加上所有相连表面上一轮传来的光。"><span aria-hidden="true"><i>L</i><sub>k+1</sub> = <i>E</i> + <i>TL</i><sub>k</sub></span></span></p>
-          <p>这条式子概括漫反射的迭代。<var>L</var> 是各表面朝外的光，<var>E</var> 是光源项，<var>T</var> 把可见性、透射和表面反照率折进传输权重。每轮沿图传一次，墙角可以收到经其他表面反弹的光。</p>
-          <LightTransport />
-          <p>求解时，天空和自发光分别累积。太阳或月亮的方向光在首尾用密集采样，中间几次传播可以用由前 64 个样本形成的较稀算子。换灯的亮度可以复用可见关系，拆墙或加窗则可能使原先的路径失效。这个分工让固定场景里的光路计算可以跨帧复用。</p>
-          <p>模块 Worker 持有地图、光路依赖和求解状态，向渲染器的同一台 WebGPU 设备请求有上限的工作。主线程接收渲染所需的表面数据和辐射值。Worker 不可用时，引擎在主线程分段执行同一套流程。</p>
+          <h2>光在墙之间弹</h2>
+          <p>漫反射照明按方块的面来算。每个面用 1,024 个固定在世界坐标里的 Halton 样本，找出它能看见哪些别的面，记成一张稀疏的传输图。光沿着图一轮一轮传过去，直到变化小于 10<sup>−7</sup>，最多 48 轮。转动视角不会改变样本，所以墙面的亮度不会跟着镜头闪。</p>
+          <p class="equation" role="math" aria-label="下一轮各面的光，等于自身发光，加上传输矩阵乘以上一轮的光"><i>L</i><sub>k+1</sub> = <i>E</i> + <i>T L</i><sub>k</sub></p>
+          <p>太阳和月亮这样的方向光，第一跳和最后一跳用完整的 1,024 个样本，中间几跳只用前 64 个组成的小算子，省下大半时间。荧光石是面光源，用裁剪多边形的形状因子算直接照明，没有人为的距离截断。</p>
+          <p>这些计算在一个 Worker 里进行，和画面共用同一台 WebGPU 设备；Worker 不可用时，主线程会分段跑同一套流程。改方块时，同一格的多次写入先合并：只换灯的颜色，可见关系可以全部复用；拆墙或加窗，才需要重新追踪受影响的路径。结果整份发布，画面从不读到算了一半的光。</p>
+          <p>后室的「灯光故障」也走这条路。滑块挑出一组固定的灯，让它们分成 16 组以 12 Hz 闪烁，直接光和已经算好的间接光乘同一个权重，所以灯灭的时候，墙上的反光也一起暗下去。</p>
         </section>
 
-        <section id="water">
-          <p class="section-index" aria-hidden="true">03</p>
-          <h2>水面、玻璃与天空</h2>
-          <p>水面上的光有一条独立路径。以默认设置为例，每个暴露的水体素有 32 × 32 个固定采样点。引擎从水面把光向前追踪，分出反射和折射，到达各自的首个接收面，再根据波面曲率和光源角直径摊成有面积的光斑。许多光斑叠起来，才出现池底游动的亮纹。</p>
-
-          <CausticPaths />
-
-          <figure class="water-figure">
-            <Image src={skylight} width={1056} alt="水下仰望天窗，蓝色瓷砖上有细密的亮纹" />
-            <figcaption>图 4　VOXPOOL 实机画面。水下的亮纹随波形变化，可以用<a href="#experiment">文末的对照实验</a>单独查看。</figcaption>
+        <section id="caustics">
+          <h2>池底的亮纹</h2>
+          <figure>
+            <Image src={caustics} alt="泳池里，水面把阳光折成细碎的亮纹落在蓝色马赛克上" widths={[640, 960, 1440]} sizes="(min-width: 58rem) 46rem, 92vw" format="webp" />
+            <figcaption>泳池，0.18.3 离线渲染，1920 × 1080，每帧 32 个样本。</figcaption>
           </figure>
-
-          <p>焦散只处理太阳或月亮的直射光与水面的一次相互作用，反射和折射的增益经过美术调节。玻璃使用菲涅耳透射和有色吸收。光通过有色玻璃后，各通道以不同幅度衰减，传到墙上的光会带颜色。</p>
-          <p>场景时钟和经纬度决定太阳、月亮与星空的位置。显式改变时间或地点后，反射环境要等六个面一起更新才发布，避免上一刻的天空混进新一帧的倒影。</p>
+          <p>焦散是单独一条光路。每个露在外面的水格子上放一组固定的光源样本，默认 32 × 32，可选 0、16、64、128。每个样本从水面出发，分成反射和折射两支，各自追到第一个落脚的面，按水面曲率和太阳的角直径摊成一块有面积的光斑。成千上万块光斑叠起来，才是池底游动的亮纹。</p>
+          <p>光斑的形状是二次 B 样条，两条轴沿着相邻样本的间距展开，所以相邻光斑恰好拼成连续的一片，看不出采样网格。墙和天花板上的反射光斑往往很宽，填满它们最费时间；宽到一定程度就改画在半分辨率的层上，两层相加时宽度和能量不变。这一步让白天的水面和瓷砖视角快了 9% 到 14%，画面差异小于 0.1%。</p>
+          <p>这不是完整的光子映射：只算太阳或月亮直射光与水面的一次作用，反射和折射的强度经过美术调整，让水看起来自然，而不是严格守恒。水面的几何本身也是平的，起伏只体现在法线里。</p>
         </section>
 
-        <section id="frame">
-          <p class="section-index" aria-hidden="true">04</p>
-          <h2>从一帧到屏幕</h2>
-          <p>引擎按估算成本选择光栅化或主光线追踪来确定每个像素先看到什么。两条路径写入同一种 32 位命中记录，合成时可以直接拿到方块、朝向和材质。这样，遇到玻璃或镜面时，光学阶段可以从第一次命中接着往下追。</p>
-          <p>材质、光源和天空共用场景线性的 Rec.709。透明与反射带来的辐射值先走独立的时间重建，再与漫反射合并。时间抗锯齿会把上一帧的样本重新投影到当前视角。最后，曝光和白平衡根据画面逐步调整，再进行色调映射、色域转换与输出编码。</p>
-          <p>HDR 与 Display P3 分别探测。画布拒绝 P3 时尝试 sRGB，拒绝 HDR 时尝试 SDR。屏幕实际能给多少高光余量，需要在设备上测量。引擎里的 HDR 标定值使用相对白色单位。</p>
-          <p>运行需要 HTTPS 或 localhost，以及能提供核心能力的 WebGPU 适配器。引擎使用默认资源上限和核心格式。设备丢失后，恢复流程用保留的地图、机位与设置重建 GPU 资源。</p>
-          <p>编辑会复用预留的几何与光照缓冲区。整图切换时，若旧容量超过新地图预留需求的两倍，引擎回收多余容量。引擎先提交替换数据的上传，再发布新缓冲区并释放旧资源。</p>
+        <section id="optics">
+          <h2>玻璃、镜子和天空</h2>
+          <p>玻璃和水用同一套光学：斯涅尔折射、菲涅耳反射、全内反射，再按比尔–朗伯定律吸收。玻璃折射率取 1.5。一条光线最多穿过 6 个界面，前两个界面会分出反射支路；能量低于 0.2% 就停下。追不完的路径记为黑色，而不是假装它看到了天空。</p>
+          <p>彩色玻璃让透过的阳光带上颜色，阴影和漫反射都会带着这份颜色传下去；但玻璃本身不聚焦光线，所以没有玻璃焦散。</p>
+          <p>太阳与月亮的位置、3,232 颗星随时间的旋转，都由 Astronomy Engine 按地图设定的日期和经纬度计算。每张地图的天空是固定的一刻，这带来一个好处：光照和六面反射环境只要算一次，之后一直复用。打开「同步」后，天空改为跟随设备的时钟和位置，缓存随之按需刷新。</p>
         </section>
 
-        <section id="npcs">
-          <p class="section-index" aria-hidden="true">05</p>
-          <h2>水豚与动态角色</h2>
-          <p>0.14.2 的水豚会在池边游走、下水、休息，并根据玩家的距离与动作积累信任或提高警戒。群体共享栖息地索引和寻路工作区，每只分别维护需求、记忆、身体与动画状态。</p>
-          <figure class="water-figure">
-            <Image src={capybaraShore} alt="泳池边的成年水豚与趴卧幼体，另一只水豚浮在水面上" widths={[480, 800, 1056, 1600]} sizes="(min-width: 58rem) 48rem, 92vw" loading="lazy" />
-            <figcaption>VOXPOOL 0.14.2 引擎渲染。泳池地图，固定成年、幼体和游泳姿态，用于观察模型与场景光照。</figcaption>
-          </figure>
-          <p>CPU 根据实际移动生成骨骼姿态。GPU 共用一份 16 关节网格，计算变形与光照，再通过实例化绘制呈现。变形后的三角形同时参与投影和光学查询，让水豚出现在水面、玻璃与镜面的光路中。行为、寻路、脚掌 IK 和群体开销见<a href={links.capybara}>《池边的水豚》</a>。</p>
+        <section id="props">
+          <h2>水里的东西</h2>
+          <p>黄鸭、海洋球、游泳圈和足球共用一个 120 Hz 的刚体模拟，步长固定，与屏幕刷新率无关，画面在最近两步之间插值。球与方块的接触直接用解析公式算，游泳圈当作沿圆环排开的 24 个球；浮力也是闭式的，球按球冠、圈按截面弓形、鸭子按切片。醒着的物体放进空间哈希里找邻居，睡着的物体不占计算。</p>
+          <p>上限是 488 个。这个数不是随手定的：时间抗锯齿用 16 位标签区分不同物体的历史，488 是它能分清的最大数量。</p>
+          <p>物体投在墙上的影子用真实网格追踪；柔和的环境遮蔽用贴合形状的胶囊体近似，和光线追踪的参考结果相差约 0.02。</p>
         </section>
 
-        <section id="measurements">
-          <p class="section-index" aria-hidden="true">06</p>
-          <h2>测量与边界</h2>
-          <p>水、玻璃或启用反射的材质决定场景是否需要额外的光学纹理。有光学效果时，图中的帧目标请求量为每渲染像素 82 字节。无光学效果时为每像素 50 字节加 8 字节固定开销。两者都用实际渲染尺寸计算。</p>
-          <FrameBudget />
-          <p>空区跳跃提供了一个取舍案例。0.12.7 时的 Apple M4 本地对照在 2560 × 1440 下加入 128 KiB 的细粒度空区表，出生点视角帧时缩短 3.3%，水下视角却增加 4.7%，后室变化很小。细表没有进入当前实现，现有加速结构以 4³ 体素块为单位跳过空区。</p>
-          <p>画质还有一个已知难点。直接光按体素面求平均，地下室门口的插值可能把一小片光抹过真实的阴影边界。近距离观察或边走边看，比一张静帧更容易发现问题。</p>
-          <p>比较性能时，固定地图、机位、分辨率、画质与采样预算，再分别记录 GPU 耗时和浏览器帧间隔。GPU 时间戳覆盖提交后的工作，浏览器帧间隔还受调度和帧率上限影响。长时间的手机热降频、不同驱动和实际 HDR 输出需要分别验证。</p>
+        <section id="display">
+          <h2>从光到屏幕</h2>
+          <p>所有光照都在线性 Rec.709 空间里算。曝光和白平衡分开慢慢适应：走进暗处，眼睛要一会儿才看清。色调映射用 GT7 的 ICtCp 曲线，SDR 和 HDR 共用中低调，中灰 0.18 映射后仍约为 0.179。</p>
+          <p>HDR 和 Display P3 分别向浏览器协商，哪一项不被接受就退回 SDR 或 sRGB。浏览器无法告诉程序屏幕实际有多亮，所以设置里有一个显示校准，按纸白、峰值、暗部的顺序手动调。</p>
+          <p>默认的 VHS 滤镜不是事后叠的特效。画面先按 640 × 480 的磁带信号录下来，场景只追踪一半的列，正好对应 VHS 亮度信号的带宽；最后一道工序再解码出桶形畸变、色度延迟、高光拖影和噪点。分辨率因此低了很多，反而成了最省的画面模式。</p>
         </section>
 
-        <section id="experiment">
-          <p class="section-index" aria-hidden="true">07</p>
-          <h2>在浏览器里试一次</h2>
-          <p>在<a href={links.play}>B 站 Toy 打开 VOXPOOL</a>，在池核地图找一处日光能照到的浅水。站定，盯着水下的瓷砖。在 Toy 中长按设置按钮一秒，打开开发面板。在「渲染」里，把「焦散」从 32 改成 0，等几帧再切回来。看瓷砖上消失和重新出现的亮纹，水面和普通照明仍在。也可以使用<a href={links.backup}>备用网页版</a>。</p>
-          <details>
-            <summary>用浏览器控制台做同一个实验</summary>
-            <p>进入游戏后在控制台执行这段代码。若在嵌入页里运行，先把控制台切到游戏所在的页面上下文。</p>
-            <pre><code>{experiment}</code></pre>
-            <p>看一会儿瓷砖，再执行 <code>await setCaustics(0)</code>。比较完后用 <code>await setCaustics(config[key])</code> 恢复原设置。</p>
-            <p><code>voxpool.skills</code> 提供当前运行版本的命令及参数。想做固定帧对照，可先用 <code>scene.wait</code> 等当前几何和静态光照完成，再通过 <code>frames.begin</code>、<code>frames.render</code>、<code>frames.read</code> 获取同机位的像素。两组用相同的时钟、动画相位、采样种子和样本顺序，结束时调用 <code>frames.end</code>。</p>
-          </details>
+        <section id="cost">
+          <h2>一帧花在哪里</h2>
+          <p>Apple M4，场景和输出都是 1920 × 1080，镜头固定，单位毫秒。</p>
+          <table>
+            <thead><tr><th scope="col">视角</th><th scope="col">整帧中位数</th><th scope="col">最大的几项</th></tr></thead>
+            <tbody>{frames.map(({ view, total, note }) => <tr><th scope="row">{view}</th><td>{total}</td><td>{note}</td></tr>)}</tbody>
+          </table>
+          <p>合成阶段占了大头，其中最贵的是反射：每块光滑瓷砖都逐像素追踪镜面反射。曾经试过降到四分之一速率，画面出现闪烁和锯齿，又改了回来。</p>
+          <p>VHS 模式下，云和焦散改为棋盘格采样，每帧只算一半，再靠信号本身的低带宽把差异抹平。同样在 M4 上、默认 VHS 分辨率：</p>
+          <table>
+            <thead><tr><th scope="col">视角</th><th scope="col">之前</th><th scope="col">之后</th></tr></thead>
+            <tbody>{vhs.map(({ view, before, after }) => <tr><th scope="row">{view}</th><td>{before}</td><td>{after}</td></tr>)}</tbody>
+          </table>
+          <p>显存方面，有水、玻璃或镜面时，每个渲染像素需要约 81 字节的帧缓冲；纯哑光场景约 49 字节。冷启动时最慢的是编译合成着色器，首帧约 2.4 秒；浏览器缓存过以后约 0.2 秒。</p>
+        </section>
+
+        <section id="limits">
+          <h2>还没做好的地方</h2>
+          <ul>
+            <li>直接光按整个面求平均。后室地下室的门口附近，插值会把一小片光抹过真实的阴影边界，走动时比截图更容易看出来。</li>
+            <li>水面几何是平的。真正起伏的水面需要碰撞、光线求交和焦散起点同时跟着变，只改网格会让岸线对不上。</li>
+            <li>以上测量只在 Apple M4 和 Metal 上做过。Windows、安卓、手机长时间发热后的表现，以及真实 HDR 屏幕上的效果，都还需要在对应设备上验证。</li>
+          </ul>
+        </section>
+
+        <section id="try">
+          <h2>自己看一眼</h2>
+          <p>打开 <a href={links.play}>B 站 Toy</a> 或<a href={links.web}>网页版</a>，进泳池，找一处阳光照得到的浅水，盯着池底。打开设置，在「渲染」里把「焦散」从 32 改成 0：亮纹消失了，水面和其余的光都还在。再改回来，或者试试 128，看亮纹的边缘变得多细。生存模式里也能改这一项。</p>
+          <p>在 Toy 里，设置需要先关注作者解锁；长按设置按钮一秒可以直接打开。</p>
         </section>
 
         <section id="references">
-          <p class="section-index" aria-hidden="true">08</p>
-          <h2>参考资料</h2>
-          <ul class="references">
-            <li>设备、资源同步和着色语言。<a href="https://www.w3.org/TR/webgpu/" lang="en">W3C WebGPU</a> · <a href="https://www.w3.org/TR/WGSL/" lang="en">W3C WGSL</a></li>
-            <li>漫反射传输的早期工作。<a href="https://courses.washington.edu/arch481/00HomePage/4.Miscellaneous/0.Handouts/1984.radiosity.siggraph.pdf" lang="en">Goral et al., Modeling the Interaction of Light Between Diffuse Surfaces</a>（1984，PDF）</li>
-            <li>离散采样与光传输。<a href="https://pbr-book.org/4ed/Sampling_and_Reconstruction/Halton_Sampler" lang="en">Physically Based Rendering, Halton Sampler</a></li>
-            <li>历史重投影与时间抗锯齿。<a href="https://onlinelibrary.wiley.com/doi/full/10.1111/cgf.14018" lang="en">Yang, Liu &amp; Salvi, A Survey of Temporal Antialiasing Techniques</a>（2020）</li>
+          <h2>参考与致谢</h2>
+          <p>下面列出 VOXPOOL 实际用到的第三方代码、工具、标准与方法。设计时评估过、最终没有采用的方案不在其列。</p>
+
+          <h3>第三方代码与素材</h3>
+          <ul class="refs">
+            {thirdParty.map(({ name, href, use, note }) => (
+              <li><span class="ref-name">{href ? <a href={href} lang="en">{name}</a> : name}</span><span class="ref-use">{use}{note && <small>{note}</small>}</span></li>
+            ))}
           </ul>
-          <p class="paper-note">光照正文核对至 VOXPOOL 0.13.0，水豚补记核对至 0.14.2。空区跳跃对照来自 0.12.7 的项目记录。</p>
+
+          <h3>构建与测试</h3>
+          <ul class="refs">
+            {tooling.map(({ name, href, use }) => (
+              <li><span class="ref-name">{href ? <a href={href}>{name}</a> : name}</span><span class="ref-use">{use}</span></li>
+            ))}
+          </ul>
+
+          <h3>标准与规范</h3>
+          <ul class="refs">
+            {standards.map(({ name, href, use }) => (
+              <li><span class="ref-name">{href ? <a href={href}>{name}</a> : name}</span><span class="ref-use">{use}</span></li>
+            ))}
+          </ul>
+
+          <h3>算法与论文</h3>
+          {papers.map(({ area, items }) => (
+            <>
+              <h4>{area}</h4>
+              <ul class="refs">
+                {items.map(({ name, href, use }) => (
+                  <li><span class="ref-name">{href ? <a href={href}>{name}</a> : name}</span><span class="ref-use">{use}</span></li>
+                ))}
+              </ul>
+            </>
+          ))}
+
+          <h3>空间参考</h3>
+          <p>六张建筑地图是对这些作品的空间习作，并非复刻。</p>
+          <ul class="refs">
+            {inspirations.map(({ name, href, use }) => (
+              <li><span class="ref-name"><a href={href}>{name}</a></span><span class="ref-use">{use}</span></li>
+            ))}
+          </ul>
         </section>
+
         <Community />
       </article>
     </div>
@@ -182,315 +344,77 @@ const description = "以一块发光砖和一池水为例，解释 VOXPOOL 的�
 </VoxpoolLayout>
 
 <style>
-  .paper-heading {
-    max-inline-size: 60rem;
-    padding-block: clamp(3.25rem, 8vw, 7.5rem) clamp(2.5rem, 5vw, 4.5rem);
+  .heading { display: grid; gap: 1.1rem; max-inline-size: 52rem; padding-block: clamp(3rem, 8vw, 6.5rem) clamp(2rem, 5vw, 3.5rem); }
+  .kicker, .edition, .toc span { font-family: var(--vp-mono); font-size: 0.8125rem; }
+  .kicker { color: var(--vp-accent); }
+  h1 { font-family: var(--vp-serif); font-size: clamp(2.6rem, 6.5vw, 5rem); font-weight: 800; letter-spacing: -0.06em; line-height: 1.15; }
+  .intro { max-inline-size: 42rem; color: var(--vp-muted); font-size: clamp(1.05rem, 1.6vw, 1.2rem); line-height: 1.85; }
+  .edition { display: flex; flex-wrap: wrap; gap: 0.4rem 1rem; color: var(--vp-muted); }
+  .edition span { padding-inline-start: 1rem; border-inline-start: 1px solid var(--vp-line); }
+
+  .grid { border-block-start: 1px solid var(--vp-line); }
+  .toc { padding-block: 1rem 1.4rem; border-block-end: 1px solid var(--vp-line); font-size: 0.875rem; }
+  .toc ol { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(11rem, 100%), 1fr)); gap: 0 1rem; margin: 0; padding: 0; list-style: none; }
+  .toc a { display: flex; align-items: center; gap: 0.7rem; min-block-size: 2.75rem; text-decoration: none; }
+  .toc a:hover { text-decoration: underline; }
+  .toc span { color: var(--vp-muted); }
+
+  .body { min-inline-size: 0; max-inline-size: 46rem; padding-block: 2rem 5rem; font-size: clamp(1rem, 1.4vw, 1.0625rem); line-height: 1.9; overflow-wrap: break-word; }
+  section { scroll-margin-block-start: 1.5rem; }
+  section + section { margin-block-start: 3rem; padding-block-start: 2rem; border-block-start: 1px solid var(--vp-line); }
+  h1, h2 { text-wrap: balance; }
+  h2 { margin-block-end: 1rem; font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 700; line-height: 1.3; }
+  .body p, .body ul { margin-block-end: 1em; }
+  .body a { color: var(--vp-accent); }
+  .body ul { padding-inline-start: 1.2em; }
+  .body li + li { margin-block-start: 0.5em; }
+  code { font-family: var(--vp-mono); font-size: 0.88em; }
+  figure { margin-block: 1.6rem; }
+  figure img { inline-size: 100%; block-size: auto; background: #cfe3e2; }
+  figcaption { margin-block-start: 0.6rem; color: var(--vp-muted); font-size: 0.8125rem; line-height: 1.7; }
+  .equation { padding-block: 0.6rem; font-family: var(--vp-serif); font-size: 1.3rem; text-align: center; }
+
+  .card img { max-inline-size: 30rem; }
+
+  table { inline-size: 100%; margin-block: 1.2rem 1.6rem; border-collapse: collapse; font-size: 0.9375rem; line-height: 1.6; }
+  th, td { padding: 0.6rem 0.75rem 0.6rem 0; border-block-end: 1px solid var(--vp-line); text-align: start; vertical-align: top; }
+  thead th { color: var(--vp-muted); font-size: 0.8125rem; font-weight: 600; }
+  tbody th { font-weight: 600; }
+  td { font-variant-numeric: tabular-nums; }
+
+  h3 { margin-block: 2.2rem 0.6rem; font-size: 1.125rem; font-weight: 700; }
+  h4 { margin-block: 1.4rem 0.3rem; color: var(--vp-accent); font-size: 0.875rem; font-weight: 700; letter-spacing: 0.08em; }
+  .body .refs { padding: 0; list-style: none; font-size: 0.9375rem; line-height: 1.65; }
+  .body .refs li { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 0.25rem 1.5rem; margin: 0; padding-block: 0.6rem; border-block-start: 1px solid var(--vp-line); }
+  .ref-name { overflow-wrap: anywhere; }
+  .ref-use { color: var(--vp-muted); }
+  .ref-use small { display: block; font-size: 0.8125rem; }
+
+  .layers ol { display: grid; gap: 0.35rem; margin: 0; padding: 0; list-style: none; }
+  .layers ol > li { display: grid; grid-template-columns: 6.5rem minmax(0, 1fr); gap: 0.15rem 1.25rem; padding: 0.9rem 1.1rem; background: #e6ece4; border-inline-start: 0.2rem solid var(--vp-accent); line-height: 1.6; }
+  .layers ol > li:nth-child(5) { background: #16352f; color: #f3f2eb; border-color: #8fd1b6; }
+  .layers ol > li:nth-child(5) .layer-parts, .layers ol > li:nth-child(5) .layer-role { color: #cfe2d8; }
+  .layer-name { grid-row: span 2; font-weight: 700; }
+  .layer-parts { font-family: var(--vp-mono); font-size: 0.8125rem; color: var(--vp-accent); }
+  .layer-role { grid-column: 2; font-size: 0.9375rem; color: var(--vp-muted); }
+  .layers ul { grid-column: 1 / -1; display: grid; grid-template-columns: minmax(0, 1fr); gap: 0.35rem; margin: 0.6rem 0 0; padding: 0; list-style: none; }
+  .layers ul li { display: grid; gap: 0.15rem; margin: 0; padding: 0.6rem 0.75rem; background: #f3f2eb; font-size: 0.8125rem; line-height: 1.5; }
+  .layers ul span { color: var(--vp-muted); }
+  .body .layers p { margin: 0; }
+
+  @media (min-width: 64rem) {
+    .layers ul { grid-template-columns: repeat(5, minmax(0, 1fr)); }
   }
 
-  .paper-kicker,
-  .paper-edition,
-  .section-index,
-  .paper-toc span,
-  .step-number {
-    font-family: var(--vp-mono, monospace);
-    font-size: 0.8125rem;
-  }
-
-  .paper-kicker {
-    margin: 0 0 1.25rem;
-    color: var(--vp-accent);
-  }
-
-  .paper-kicker span {
-    letter-spacing: 0.1em;
-  }
-
-  .paper-heading h1 {
-    max-inline-size: 14em;
-    margin: 0;
-    font-family: var(--vp-serif);
-    font-size: clamp(2.25rem, 6.2vw, 5.5rem);
-    font-weight: 700;
-    line-height: 1.16;
-    text-wrap: balance;
-  }
-
-  .paper-intro {
-    max-inline-size: 42rem;
-    margin-block: 1.5rem 1.75rem;
-    color: var(--vp-muted);
-    font-size: clamp(1.05rem, 1.8vw, 1.28rem);
-    line-height: 1.85;
-  }
-
-  .paper-edition {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.45rem 1rem;
-    margin: 0;
-    color: var(--vp-muted);
-    font-variant-numeric: tabular-nums;
-  }
-
-  .paper-edition span {
-    padding-inline-start: 1rem;
-    border-inline-start: 1px solid var(--vp-line);
-  }
-
-  .paper-grid {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    border-block-start: 1px solid var(--vp-line);
-  }
-
-  .paper-toc {
-    align-self: start;
-    padding-block: 1.2rem 1.5rem;
-    border-block-end: 1px solid var(--vp-line);
-  }
-
-  .paper-toc p {
-    margin: 0 0 0.6rem;
-    font-size: 0.875rem;
-    font-weight: 650;
-  }
-
-  .paper-toc ol {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(9rem, 100%), 1fr));
-    gap: 0.1rem 0.9rem;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-
-  .paper-toc a {
-    display: flex;
-    align-items: baseline;
-    gap: 0.65rem;
-    padding-block: 0.48rem;
-    color: var(--vp-ink);
-    font-size: 0.9rem;
-    text-decoration: none;
-  }
-
-  .paper-toc a:hover {
-    color: var(--vp-accent);
-    text-decoration: underline;
-    text-underline-offset: 0.23em;
-  }
-
-  .paper-toc span,
-  .section-index {
-    color: var(--vp-accent);
-  }
-
-  .paper-body {
-    min-inline-size: 0;
-    max-inline-size: 48rem;
-    padding-block: 2.25rem 5rem;
-    font-size: clamp(0.98rem, 1.5vw, 1.08rem);
-    line-height: 1.88;
-    overflow-wrap: break-word;
-  }
-
-  .paper-body section {
-    scroll-margin-block-start: 6rem;
-  }
-
-  .paper-body section + section {
-    margin-block-start: clamp(2.6rem, 5vw, 4.1rem);
-    padding-block-start: 1.5rem;
-    border-block-start: 1px solid var(--vp-line);
-  }
-
-  .paper-body .section-index {
-    margin: 0 0 0.35rem;
-  }
-
-  .paper-body h2 {
-    margin: 0 0 1.15rem;
-    font-size: clamp(1.55rem, 3.3vw, 2.4rem);
-    line-height: 1.25;
-  }
-
-  .paper-body p {
-    margin: 0 0 1em;
-  }
-
-  .paper-body a {
-    color: var(--vp-accent);
-    text-underline-offset: 0.22em;
-  }
-
-  .paper-body code {
-    font-family: var(--vp-mono, monospace);
-    font-size: 0.89em;
-  }
-
-  .paper-body figure {
-    margin: 1.7rem 0;
-  }
-
-  figcaption,
-  .paper-note {
-    color: var(--vp-muted);
-    font-size: 0.875rem;
-    line-height: 1.65;
-  }
-
-  figcaption {
-    margin-block-start: 0.6rem;
-  }
-
-  .pipeline ol {
-    display: grid;
-    margin: 0;
-    padding: 0 0 0 0.8rem;
-    border-inline-start: 1px solid var(--vp-accent);
-    list-style: none;
-  }
-
-  .pipeline li {
-    display: grid;
-    grid-template-columns: 1.5rem max-content minmax(0, 1fr);
-    align-items: baseline;
-    gap: 0.55rem;
-    padding: 0.55rem 0;
-    font-size: 0.875rem;
-    line-height: 1.55;
-  }
-
-  .pipeline li + li {
-    border-block-start: 1px solid var(--vp-line);
-  }
-
-  .step-number {
-    color: var(--vp-accent);
-  }
-
-  .step-detail {
-    color: var(--vp-muted);
-    font-size: 0.79rem;
-  }
-
-  .transport-equation {
-    padding: 0.5rem 0.85rem;
-    border-inline-start: 1px solid var(--vp-accent);
-    font-family: Georgia, serif;
-    font-size: 1.35rem;
-  }
-
-  .water-figure img {
-    display: block;
-    inline-size: 100%;
-    block-size: auto;
-  }
-
-  details {
-    padding-block: 0.5rem 0.25rem;
-    border-block: 1px solid var(--vp-line);
-  }
-
-  summary {
-    padding-block: 0.4rem;
-    color: var(--vp-accent);
-    font-weight: 600;
-    cursor: pointer;
-  }
-
-  details[open] > p:first-of-type {
-    margin-block-start: 0.65rem;
-  }
-
-  pre {
-    margin-block: 0 1rem;
-    padding: 1rem;
-    border-inline-start: 0.2rem solid var(--vp-accent);
-    background: #e6ede5;
-    color: #172d29;
-    line-height: 1.6;
-    white-space: pre-wrap;
-    overflow-wrap: anywhere;
-    tab-size: 2;
-  }
-
-  pre code {
-    font-size: 0.83rem;
-  }
-
-  .references {
-    margin-block: 0 1.2rem;
-    padding-inline-start: 1.25rem;
-  }
-
-  .references li + li {
-    margin-block-start: 0.55rem;
-  }
-
-  @media (min-width: 43rem) {
-    .pipeline ol {
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      padding: 0;
-      border-inline-start: 0;
-      border-block-start: 1px solid var(--vp-accent);
-    }
-
-    .pipeline li {
-      grid-template-columns: 1fr;
-      gap: 0.25rem;
-      padding: 0.65rem 0.85rem;
-    }
-
-    .pipeline li + li {
-      border-inline-start: 1px solid var(--vp-line);
-      border-block-start: 0;
-    }
+  @media (max-width: 36rem) {
+    .body .refs li, .layers ol > li { grid-template-columns: minmax(0, 1fr); }
+    .layer-name { grid-row: auto; }
+    .layer-role { grid-column: auto; }
   }
 
   @media (min-width: 58rem) {
-    .paper-grid {
-      grid-template-columns: 11.5rem minmax(0, 1fr);
-      gap: clamp(2rem, 6vw, 6rem);
-    }
-
-    .paper-toc {
-      position: sticky;
-      inset-block-start: 5.75rem;
-      padding-block: 2.25rem;
-      border: 0;
-    }
-
-    .paper-toc ol {
-      grid-template-columns: 1fr;
-    }
-  }
-
-  @media print {
-    .paper-grid {
-      display: block;
-    }
-
-    .paper-heading,
-    .paper-body {
-      max-inline-size: none;
-      padding-block: 1rem;
-    }
-
-    .paper-toc {
-      display: none;
-    }
-
-    .paper-heading h1 {
-      font-size: 32pt;
-    }
-
-    .paper-body :global(figure) {
-      break-inside: avoid;
-    }
-
-    .paper-body h2 {
-      break-after: avoid;
-    }
+    .grid { display: grid; grid-template-columns: 12rem minmax(0, 1fr); gap: clamp(2rem, 5vw, 5rem); }
+    .toc { position: sticky; inset-block-start: 1.5rem; align-self: start; border: 0; padding-block-start: 2rem; }
+    .toc ol { grid-template-columns: 1fr; }
   }
 </style>

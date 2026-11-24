@@ -3,33 +3,31 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "packageManager": "bun@1.4.2",
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "check": "astro check",
+    "check": "vp check && astro check",
     "release": "sh scripts/release.sh"
   },
   "dependencies": {
-    "@astrojs/mdx": "^8.1.2",
+    "@astrojs/mdx": "^8.1.6",
     "@astrojs/rss": "^4.0.19",
-    "@astrojs/sitemap": "^3.7.4",
-    "astro": "^7.4.5",
-    "katex": "^0.19.1",
-    "rehype-katex": "./vendor/rehype-katex",
+    "@astrojs/sitemap": "^3.7.6",
+    "astro": "^7.4.13",
+    "katex": "catalog:",
+    "rehype-katex": "file:vendor/rehype-katex",
     "remark-math": "^6.0.0"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.12",
-    "@astrojs/markdown-remark": "^7.3.5",
-    "@types/bun": "latest",
-    "typescript": "6.0.3"
+    "@astrojs/markdown-remark": "^7.3.10",
+    "shiki": "^4.6.0",
+    "typescript": "^6.0.3",
+    "vite-plus": "catalog:"
   },
-  "patchedDependencies": {
-    "micromark-extension-math@3.1.0": "patches/micromark-extension-math@3.1.0.patch"
+  "engines": {
+    "node": "^24.11.0 || >=26.0.0"
   },
-  "overrides": {
-    "katex": "$katex"
-  }
+  "packageManager": "pnpm@12.23.0"
 }

@@ -10,12 +10,11 @@ interface Props {
   title: string;
   description: string;
   paper?: boolean;
-  article?: boolean;
   image?: ImageMetadata;
   imageAlt?: string;
 }
 
-const { title, description, paper = false, article = paper, image = defaultCover, imageAlt = "VOXPOOL 潮汐浴殿的白瓷拱顶与蓝色马赛克长池" } = Astro.props;
+const { title, description, paper = false, image = defaultCover, imageAlt = "潮汐浴殿：白瓷拱顶下的蓝色马赛克长池" } = Astro.props;
 const canonical = new URL(Astro.url.pathname, site.url);
 const social = await getImage({ src: image, width: 1200, height: 630, fit: "cover", format: "webp" });
 const socialUrl = new URL(social.src, site.url);
@@ -33,7 +32,7 @@ const socialUrl = new URL(social.src, site.url);
     <link rel="canonical" href={canonical} />
     <link rel="icon" href="/voxpool/mark.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/voxpool/apple-touch-icon.png" sizes="180x180" />
-    <meta property="og:type" content={article ? "article" : "website"} />
+    <meta property="og:type" content={paper ? "article" : "website"} />
     <meta property="og:site_name" content="VOXPOOL" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
@@ -47,20 +46,20 @@ const socialUrl = new URL(social.src, site.url);
     <title>{title}</title>
   </head>
   <body>
-    <a class="vp-skip" href="#content">跳至正文</a>
+    <a class="vp-skip" href="#content">跳到正文</a>
     <header class="vp-header vp-shell">
-      <a class="vp-brand" href={links.home} aria-label="VOXPOOL 体素池核首页">
+      <a class="vp-brand" href={links.home} aria-label="VOXPOOL 首页">
         <img src="/voxpool/logo.svg" width="203" height="32" alt="VOXPOOL" />
       </a>
       <nav aria-label="VOXPOOL">
-        <a href={links.paper} aria-current={paper ? "page" : undefined}>技术白皮书</a>
-        <a class="vp-header-play" href={links.play}>B 站 Toy <span aria-hidden="true">↗</span></a>
+        <a href={links.paper} aria-current={paper ? "page" : undefined}>白皮书</a>
+        <a class="vp-header-open" href={links.play}>打开 <span aria-hidden="true">↗</span></a>
       </nav>
     </header>
     <main id="content"><slot /></main>
     <footer class="vp-footer vp-shell">
-      <a href="/">烧风的个人网站</a>
-      <span>VOXPOOL · HK-SHAO</span>
+      <a href="/">烧风</a>
+      <span>VOXPOOL © 2026 HK-SHAO</span>
     </footer>
   </body>
 </html>

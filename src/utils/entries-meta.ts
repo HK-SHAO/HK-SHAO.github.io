@@ -27,7 +27,11 @@ const parseTags = (frontmatter: string) => {
 };
 
 export const entryIdFromPath = (file: string) =>
-  relative(ROOT, file).split(sep).join("/").replace(/\.mdx?$/, "").replace(/\/index$/, "");
+  relative(ROOT, file)
+    .split(sep)
+    .join("/")
+    .replace(/\.mdx?$/, "")
+    .replace(/\/index$/, "");
 
 const walk = (dir: string): string[] =>
   readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {

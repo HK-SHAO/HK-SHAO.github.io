@@ -1,94 +1,68 @@
 ---
-title: VOXPOOL 体素池核光感引擎
-description: 六张新地图，从白瓷水院走到云边水渠。浏览器里的光照、玻璃、交互水与可编辑体素。
+title: VOXPOOL：在浏览器里留一座空泳池
+description: 九张地图，生存和创造两种模式，还有一张能装下整个世界的图片。
 publishedAt: 2026-10-22
-updatedAt: 2026-11-06
-tags: [Game, Graphics, WebGPU]
-cover: ../../../assets/voxpool/maps/tide.webp
+updatedAt: 2026-11-25
+tags: [Voxel, Graphics, WebGPU]
+cover: ../../../assets/voxpool/hero.webp
 ---
 
 import { Image } from "astro:assets";
 import Bilibili from "../../../components/mdx/Bilibili.astro";
 import LinkRow from "../../../components/mdx/LinkRow.astro";
 import Community from "../../../components/voxpool/Community.astro";
-import ember from "../../../assets/voxpool/maps/ember.webp";
-import aeropolis from "../../../assets/voxpool/maps/aeropolis.webp";
-import reverie from "../../../assets/voxpool/maps/reverie.webp";
+import card from "../../../assets/voxpool/map-card.png";
 import { voxpoolLinks as links } from "../../../utils/voxpool-links";
 
-体素池核 VOXPOOL 是浏览器里的体素漫游与造景工具。你可以潜进泳池，穿过房间，换一块玻璃或放一块灯，看光怎样落到周围的墙面。
+VOXPOOL 是我在做的一个体素空间，打开浏览器就能进去。里面大多是没有人的泳池和浴场：白瓷砖、蓝马赛克，阳光从天窗落进水里，在池底晃。你可以只是走走，也可以动手改。
 
-<a href={links.play}>在 B 站 Toy 体验 VOXPOOL</a>。各张地图的画面和玩法见 [VOXPOOL 项目页](/voxpool/)，也可使用<a href={links.backup}>备用网页版</a>。需要支持 WebGPU 的浏览器，键鼠、触屏和手柄都能操作。
+<a href={links.play}>在 B 站 Toy 打开</a>，或者用<a href={links.web}>网页版</a>。需要支持 WebGPU 的浏览器，键鼠、触屏、手柄都能用。九张地图的样子在[项目页](/voxpool/)。
 
-## 六张新地图，从水院走到云端
+## 先选一个世界
 
-11 月 6 日，VOXPOOL 更新到 0.13.0。泳池、后室与康奈尔盒之外，新增六处空间，预置地图共九张。点设置旁的地图按钮，会出现一屏封面，选中一张就能进去。
+打开 VOXPOOL，先看到的是首页。点「进入世界」，可以新建一个，也可以回到之前的。每个世界单独存档，回主页时自动保存，顺便拍一张预览，所以列表里一眼就认得出哪个是哪个。
 
-封面是这次重做的**潮汐浴殿**。白瓷拱顶罩住蓝色马赛克浴池，宽天窗把光引进水中。池边步道保持在同一层，可以从入口走到后方较安静的浴池。另一张[天光水院](/voxpool/#map-oculus)把屋顶收成阶梯状天窗，适合抬头看云，再低头找水里的光。
+新建时要选模式，选了就不再变。
 
-### 红色楼梯与云边水道
+**生存**只能走、跳、游泳。墙拆不掉，天空和时间也锁住，世界保持你进来时的样子。**创造**可以飞，可以拆，可以盖：瓷砖、水磨石、水、七色荧光石、七色玻璃、黏土和镜子都在素材库里。
 
-**赤陶庭院**有对向楼梯、高处连桥和十字形水池。可以沿楼梯爬高，再回头看红白墙面的倒影。跳跃现在是按住蓄力、松开起跳，轻点则小跳。高处的路线会用到这个动作。
+## 水里多了些东西
 
-<Image src={ember} alt="红白楼梯与连桥围着庭院，池水映出红色墙面" widths={[480, 720, 1040, 1280]} sizes="(min-width: 50rem) 45rem, 92vw" format="webp" />
+现在可以往水里放黄鸭、海洋球、游泳圈和足球。它们有真实的尺寸和重量，海洋球直径 10 厘米，放多了会在池角堆起来。走过去会把它们撞开，生存模式里还能捡起来，换个地方再放下。
 
-**天空水城**把水渠抬到露天的白色门洞之间。走到开口边缘，能看到水面、连续的门框和远处的云。这张地图也有需要蓄力跳跃的高处路线。
+## 一张图片就是一个世界
 
-<Image src={aeropolis} alt="蓝色水渠穿过巨大白色门框，四周敞向天空和云层" widths={[480, 720, 1040, 1280]} sizes="(min-width: 50rem) 45rem, 92vw" format="webp" />
+这次我最喜欢的是地图卡。在世界列表里导出，会得到这样一张 PNG：
 
-### 彩色玻璃与透明水庭
+<Image src={card} alt="潮汐浴殿的地图卡：左上是预览，其余三块是白、绿、蓝三色的编码方格" widths={[480, 720, 1024]} sizes="(min-width: 50rem) 36rem, 92vw" format="png" />
 
-**梦境回廊**用青色和品红玻璃围出开放顶棚。太阳位置改变时，地面和水里的色带也跟着移动。沿水边绕一圈，能从透过玻璃的光看到水中的倒影。
+左上角是预览，另外三块方格就是这个世界本身：每一块方块、放下的每一只鸭子、你站的位置。把图发给朋友，对方在「新建世界」里导入它，就走进了同一个地方。上面这张是潮汐浴殿，整张地图压缩后只有 512 字节。三块方格丢掉任意一块，剩下两块也能把它读回来。转发时尽量发原图。
 
-<Image src={reverie} alt="傍晚的青色与品红玻璃回廊倒映在浅池中" widths={[480, 720, 1040, 1280]} sizes="(min-width: 50rem) 45rem, 92vw" format="webp" />
+编码用了 Reed–Solomon 纠错和十字形定位线，细节写在[技术白皮书](/voxpool/whitepaper/#card)里。
 
-[棱镜水庭](/voxpool/#map-prism)把透明玻璃放在镜面台座上，周围是浅水与绿色小岛。换个角度看，玻璃的透射和台座上的反射会叠到一起。六张新地图的[完整图集在项目页](/voxpool/#maps)。
+## 每张地图都有自己的时刻
 
-## 光照
+每张地图有固定的日期、钟点和经纬度，每次进去，光都落在同一个地方。天空不动，光照和反射只需要算一次，画面也更稳。想让它跟着现实的时间走，在设置里打开「同步」。
 
-天光、日光和灯光在体素表面之间传递。拆掉一面墙，或者把灯换个位置，房间里的明暗会跟着改变。
+## 低一点的视角
 
-白、红、绿、蓝荧光石能照亮周围。青、品红和黄色玻璃让透过的光带上颜色。
+视线降到了孩子的高度：身高 1.49 米，眼睛在 1.38 米。一格高的台阶要蓄满力才跳得上去，同一个泳池，也显得大了一些。
 
-![玻璃、自发光与水面焦散落在同一间房里](../../../assets/voxpool/doorway.webp)
+## 还有
 
-## 水
+- 画面默认开着 VHS 滤镜，像一盘旧录像带。它按 640 × 480 的信号来画，所以反而是最省的模式。想看干净的画面，把滤镜改成「无」。
+- 背景音乐是萨蒂的 Gymnopédie No. 1，用八音盒音色实时合成。潜到水下，声音会变闷。
+- 触屏可以拖出摇杆、轻点放置、长按拆除、双指缩放。方向键和手柄能走遍所有界面。
 
-可以走进去，也可以潜下去。水面有反射和折射，光穿过波纹后，在墙面、池底和天花板上形成移动的焦散。
+光是怎么在墙之间弹的、池底的亮纹怎么来的、一帧的时间花在哪里，都在[技术白皮书](/voxpool/whitepaper/)里。
 
-![水下仰望天窗，焦散落在蓝瓷砖上](../../../assets/voxpool/skylight.webp)
-
-![水下通道，波纹光打在顶部瓷砖上](../../../assets/voxpool/tunnel.webp)
-
-按住跳跃控制可以向上游，靠近池岸时松开，可以跃出水面。
-
-## 天空与显示
-
-太阳、月亮和星空随时间与地点变化。可以调整场景时间，观察光从不同方向照进房间。
-
-HDR 与 Display P3 会分别检测设备支持情况。实际能显示的亮度和色域取决于浏览器与屏幕；可用时启用相应输出，其余设备使用 SDR。
-
-![柱廊开口外的日照、云和浅水](../../../assets/voxpool/colonnade.webp)
-
-## 改房间与存地图
-
-切到自由模式后，可以飞行、拆除和放置方块。键鼠用左键拆、右键放；触屏点按放置、长按拆除。瓷砖、水、灯和玻璃都能改。
-
-地图和当前进度可以存成压缩的 `.vpool` 文件，下次导入继续。在 B 站 Toy 登录后，还可以手动保存和读取云存档。
-
-渲染过程、纹理预算与可复现的焦散对照，见[技术白皮书](/voxpool/whitepaper/)。项目持续开发，源码未开放。
-
-<Community />
-
-## 看演示与继续体验
-
-<Bilibili bvid="BV1fusX6VEAi" title="烧风的 VOXPOOL 实机演示" />
+<Bilibili bvid={links.videoId} title="梦核泳池，被我装进浏览器" />
 
 <LinkRow items={[
-  { label: "B 站 Toy 体验", href: links.play },
-  { label: "备用网页版", href: links.backup },
-  { label: "VOXPOOL 项目页", href: "https://shao.fun/voxpool/" },
-  { label: "爱发电", href: "https://afdian.com/a/shaofun" },
+  { label: "在 B 站 Toy 打开", href: links.play },
+  { label: "网页版", href: links.web },
+  { label: "项目页", href: "https://shao.fun/voxpool/" },
+  { label: "爱发电", href: links.support },
 ]} />
 
-[2026 年 10 月的早期光照演示](https://www.bilibili.com/video/BV12mnw66E6T/)仍可回看。
+<Community />

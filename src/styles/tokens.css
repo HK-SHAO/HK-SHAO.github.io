@@ -21,7 +21,9 @@
   --focus: #93c8ea;
   --filter-avatar: drop-shadow(0 0 1px var(--line-strong)) drop-shadow(0 0 1px var(--line-strong));
   --filter-media: none;
-  --font: ui-rounded, -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", system-ui, sans-serif;
+  --font:
+    ui-rounded, -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", system-ui,
+    sans-serif;
   --font-mono: "SFMono-Regular", Consolas, "Noto Sans Mono CJK SC", monospace;
   --text-xs: 0.75rem;
   --text-sm: 0.8125rem;

@@ -2,34 +2,34 @@
 import { voxpoolLinks } from "../../utils/voxpool-links";
 ---
 
-<aside class="community" aria-label="体素池核 VOXPOOL QQ 群">
+<aside class="community" aria-label="VOXPOOL QQ 群">
   <div>
-    <p class="community-title">体素池核 VOXPOOL 群</p>
-    <p class="community-note">晒地图、聊玩法，或反馈遇到的问题。</p>
+    <p class="community-title">QQ 群</p>
+    <p class="community-note">晒地图卡，报问题。</p>
   </div>
   <div class="community-contact">
-    <span>QQ <code>{voxpoolLinks.qqGroup}</code></span>
-    <button type="button" data-qq-copy={voxpoolLinks.qqGroup} hidden>复制群号</button>
+    <code>{voxpoolLinks.qqGroup}</code>
+    <button type="button" data-copy={voxpoolLinks.qqGroup} hidden>复制</button>
     <span class="copy-status" role="status"></span>
   </div>
 </aside>
 
 <script>
-  document.querySelectorAll<HTMLButtonElement>("[data-qq-copy]").forEach((button) => {
-    if (!navigator.clipboard) return;
+  for (const button of document.querySelectorAll<HTMLButtonElement>("[data-copy]")) {
+    if (!navigator.clipboard) continue;
     button.hidden = false;
     button.addEventListener("click", async () => {
       const status = button.parentElement?.querySelector("[role='status']");
       try {
-        await navigator.clipboard.writeText(button.dataset.qqCopy ?? "");
+        await navigator.clipboard.writeText(button.dataset.copy ?? "");
         button.textContent = "已复制";
         if (status) status.textContent = "群号已复制";
       } catch {
-        button.textContent = "选中群号复制";
-        if (status) status.textContent = "请选中群号，手动复制。";
+        button.textContent = "请手动复制";
+        if (status) status.textContent = "复制失败，请选中群号手动复制";
       }
     });
-  });
+  }
 </script>
 
 <style>
@@ -39,21 +39,20 @@ import { voxpoolLinks } from "../../utils/voxpool-links";
     align-items: center;
     justify-content: space-between;
     gap: 1rem 1.5rem;
-    padding-block: 1.2rem;
+    padding-block: 1.25rem;
     border-block: 1px solid var(--vp-line, var(--line));
     color: var(--vp-ink, var(--ink));
   }
 
-  .community-title { margin: 0; font-size: 1rem; font-weight: 700; }
-  .community-note { margin: 0.25rem 0 0; font-size: 0.875rem; color: var(--vp-muted, var(--muted)); }
-  .community-contact { display: flex; flex-wrap: wrap; align-items: center; gap: 0.3rem 0.9rem; }
-  .community-contact > span:first-child { white-space: nowrap; }
-  code { padding: 0; background: none; font-size: 1.05rem; color: inherit; user-select: all; font-variant-numeric: tabular-nums; }
+  .community-title { margin: 0; font-weight: 700; }
+  .community-note { margin: 0.2rem 0 0; font-size: 0.875rem; color: var(--vp-muted, var(--muted)); }
+  .community-contact { display: flex; align-items: center; gap: 0.9rem; }
+  code { padding: 0; background: none; font-size: 1.125rem; color: inherit; user-select: all; font-variant-numeric: tabular-nums; }
 
   button {
     min-block-size: 2.75rem;
-    min-inline-size: 6rem;
-    padding: 0.4rem 0.8rem;
+    min-inline-size: 5rem;
+    padding: 0.4rem 0.9rem;
     border: 1px solid var(--vp-line, var(--line));
     border-radius: 0;
     background: transparent;
