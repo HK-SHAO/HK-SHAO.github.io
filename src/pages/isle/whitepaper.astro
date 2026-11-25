@@ -1,0 +1,473 @@
+---
+import IsleLayout from "../../layouts/IsleLayout.astro";
+
+const title = "美丽岛技术白皮书";
+const description = "美丽岛的浏览器端世界模拟、对话与行动边界、学习信号、存档、语音和工程验证。";
+
+const sections = [
+  { id: "architecture", title: "架构与状态" },
+  { id: "world", title: "岛上的时间与生活" },
+  { id: "dialogue", title: "对话与行动" },
+  { id: "learning", title: "学习信号" },
+  { id: "storage", title: "存档与语音" },
+  { id: "network", title: "外部服务与边界" },
+  { id: "verification", title: "验证与复核" },
+];
+
+const flow = [
+  { title: "玩家表达", detail: "选择回复、自由输入，或确认语音转写。" },
+  { title: "理解意图", detail: "脚本或模型给出回复、语言反馈与可选的结构化行动。" },
+  { title: "规则核验", detail: "检查所处场景、居民、货物或账户。涉及代价的条款等待明确确认。" },
+  { title: "结算与记录", detail: "重新核验当前条款，再更新世界。回复记录与学习快照一并存档。" },
+];
+
+const audits = [
+  { seed: 7, steps: "172,800", arrivals: "6,219", violations: "0", cash: "0" },
+  { seed: 19, steps: "172,800", arrivals: "6,210", violations: "0", cash: "0" },
+  { seed: 42, steps: "172,800", arrivals: "6,283", violations: "0", cash: "0" },
+];
+---
+
+<IsleLayout {title} {description}>
+  <main id="main" class="paper" tabindex="-1">
+    <header class="masthead">
+      <p class="edition">Meri Isle <span aria-hidden="true">/</span> 技术白皮书</p>
+      <h1>一座用英语生活的岛</h1>
+      <p class="lead">
+        美丽岛是一个在浏览器里推进的单人英语生活模拟。岛上的商店、居民、约定和账本由规则引擎管理。语言模型参与对话和反馈。一次咖啡订单能否成交，由当时的库存、价格和玩家确认共同决定。
+      </p>
+      <p class="revision"><time datetime="2026-11-26">2026 年 11 月 26 日</time><span>实现版本 0.1.1</span></p>
+    </header>
+
+    <div class="paper-grid">
+      <nav class="contents" aria-label="白皮书目录">
+        <ol>
+          {
+            sections.map(({ id, title }) => (
+              <li><a href={`#${id}`}>{title}</a></li>
+            ))
+          }
+        </ol>
+      </nav>
+
+      <article class="body" aria-label="白皮书正文">
+        <section id="architecture">
+          <h2>架构与状态</h2>
+          <p>
+            React 界面接收键盘和触屏输入，Canvas 2D 绘制地图、房间与人物。会话层协调视图、对话、时钟和保存。引擎模块掌管地图、人物、关系、经济和学习状态，独立于 DOM 与模型服务。地图生成有 Worker 路径，宿主无法使用 Worker 时在本地回退生成。
+          </p>
+          <p>
+            世界保存地图种子、岛内时钟和伪随机数状态。给定相同的初始状态、时间步与已落地行动，规则演进可以复算。交互帧间隔以及联网时取得的模型输出和新闻属于输入条件，同一种子只锁定规则生成的部分。
+          </p>
+          <figure class="flow">
+            <ol aria-label="从英语表达到账本和存档">
+              {
+                flow.map(({ title, detail }) => (
+                  <li><strong>{title}</strong><span>{detail}</span></li>
+                ))
+              }
+            </ol>
+            <figcaption>模型参与理解和表达。库存、余额与行动状态由引擎结算。</figcaption>
+          </figure>
+        </section>
+
+        <section id="world">
+          <h2>岛上的时间与生活</h2>
+          <p>
+            常速下每一秒对应岛内一分钟。交谈时世界以 0.15 倍速推进，并为对话对象保留位置。页面隐藏时停止帧循环。等待与睡眠使用同一套规则按小步快进，并分批把控制权还给界面，玩家可中止等待并保留已经过去的岛内时间。
+          </p>
+          <p>
+            班次、营业时段和约定约束居民的去向。空闲时，居民在吃饭、休息、办事、社交和消遣之间按需求和性格加权选择。天气按种子和岛内日期生成。跨日推进会补货、经营公司并结算到期事项。住房租期和选举也以岛内时钟为准。
+          </p>
+          <p>
+            每位居民的记忆最多保留 48 条。参与者和附近居民可感知局部事件，全岛事件另行广播。传闻随闲聊中的具体话语传递。商铺与个人拥有各自的账户与物品，库存影响售价，到货改变可售数量。港口、面包房与零售店之间的供货通过明确的库存及现金流转表达。
+          </p>
+        </section>
+
+        <section id="dialogue">
+          <h2>对话与行动</h2>
+          <p>
+            脚本提供预设情景和兜底话术。联网时，模型依据场景、发言居民可见的记忆和近期对话生成回复，也可以评估玩家的自由表达或提出行动。固定规则和目录放在提示前段。近期对话最多十行、3,200 个 UTF-8 字节，尽量保留成对问答。更早的关键内容以带发言人标签的短摘录补充。
+          </p>
+          <p>
+            以买面包为例，模型可以提议品项和数量，但须引用玩家实际说过的话。动作解析只接受目录内的品项、地点及合法整数。引擎结合距离、营业状态、库存与余额生成报价，同意后再核验一次。若在等待确认时价格或库存改变，柜台会重新报价或拒绝。收据来自结算结果，语言模型可转述条款，转述缺漏事实时使用引擎原文。
+          </p>
+          <p>
+            居民也能发出见面、帮忙或交易提议。导览、移动和预设练习可在缺少模型连接时继续。需要模型理解的自由请求会提示连接要求，无法评分的自由回复可保留为练习记录。
+          </p>
+        </section>
+
+        <section id="learning">
+          <h2>学习信号</h2>
+          <p>
+            练习围绕实际任务展开，例如问路、点单和约时间。记录区分看见一句话、听读、查词、请求提示、选择答案与独立表达，也区分打字和口语转写。模型提取词汇、词组、语法及习语时，标注必须能在对应话语中找到证据。
+          </p>
+          <p>
+            已评分的回答得到自然度与情境契合度的质量值 <var>q</var>，夹在 0.03 到 1 之间。系统按 <code>−ln(q)</code> 计算单次损失并平滑累计。内部难度用类似 Elo 的分数调节，其中选择题计入猜测基线，提示会降低更新权重。高质量且未求助的输出能增加词项的复习间隔，熟悉度随时间及证据变化。日志将选答、独立表达和有辅助的表达分别汇总。
+          </p>
+          <p>
+            即时反馈可给出简短纠正、沟通提示和替代表达，完成对话后可收到面向下一次练习的回顾。评分请求失败或回复被标为未评分时，练习仍可记录，能力估计保持原值。口语信号来自玩家可修改的转写文本，覆盖措辞和语境。A1–C2 标签供系统内调节练习难度。发音、长期保持及现实对话中的迁移仍有待独立评估。
+          </p>
+        </section>
+
+        <section id="storage">
+          <h2>存档与语音</h2>
+          <dl class="facts">
+            <div>
+              <dt>本机档案</dt>
+              <dd>世界、学习状态、设置和对话历史存于 IndexedDB。回复和对应快照在同一写入事务中保存，迟到的旧快照不能覆盖较新的记录。</dd>
+            </div>
+            <div>
+              <dt>多标签页</dt>
+              <dd>支持 Web Locks 时优先使用原生独占锁，持久所有者记录仍在事务内核对。不支持原生锁时，IndexedDB 租约处理互斥、续期和重新加载交接。</dd>
+            </div>
+            <div>
+              <dt>备份与恢复</dt>
+              <dd>备份为按行组织的 JSON 明文，导入先验证、迁移和暂存，完整通过后才切换档案。损坏资料可从恢复界面下载。备份可含对话和个人线索，网页端密钥只在用户明确选择时随档导出。</dd>
+            </div>
+            <div>
+              <dt>说与听</dt>
+              <dd>语音录入由用户触发，可使用联网转写或浏览器的识别能力。自动录音路径有 30 秒上限，发送前可核对并修改转写。角色语音可走联网合成或浏览器语音，文字始终可读。</dd>
+            </div>
+          </dl>
+          <p>
+            浏览器与宿主决定麦克风许可和语音能力。浏览器语音模式的数据处理取决于系统或浏览器服务。档案随当前浏览器的存储空间保留，清理站点数据、换设备和共享备份都需要用户自行管理。
+          </p>
+        </section>
+
+        <section id="network">
+          <h2>外部服务与边界</h2>
+          <p>
+            启用联网功能后，对话服务接收所需的场景、话语和经过筛选的记忆摘录，云语音按所选方式发送录音或待合成文本。文本模型请求经过统一的超时、取消、响应大小限制与 JSON 校验。网页中个人密钥可保存在本机浏览器，普通世界存档独立管理。发生超时或取消前，请求可能已到达服务端。
+          </p>
+          <p>
+            岛上的网吧可发起真实网页搜索并列出来源，新闻入口同样会访问外部搜索。应用只接收符合约束的 HTTPS 来源链接，将搜索摘录和记忆当作外部数据交给模型。来源索引能帮助读者查证，但搜索结果、摘要和对话都可能失准。
+          </p>
+          <p>
+            可改变世界的结果须通过行动目录和引擎校验。提示词还限制模型使用当前居民可见的线索，并要求谨慎引用。设置页基于服务返回记录显示请求、用量和费用估算，缺失用量会单独记录。计费以服务商账单为准。
+          </p>
+        </section>
+
+        <section id="verification">
+          <h2>验证与复核</h2>
+          <p>
+            引擎测试覆盖最后一份库存、重复还款、约定确认与随机行动。应用测试覆盖断线重试、过期回复、交易重报价、档案导入回滚和写入权移交。当前版本通过 141 项单元与集成测试，以及 11 项桌面浏览器测试。浏览器用例覆盖上岛、等待恢复和多标签页保存，模型用例使用替身服务。
+          </p>
+          <figure class="audit">
+            <figcaption>三个固定种子的 30 日模拟审计</figcaption>
+            <table>
+              <thead><tr><th scope="col">种子</th><th scope="col">步数</th><th scope="col">抵达</th><th scope="col">空间违规</th><th scope="col">现金差额</th></tr></thead>
+              <tbody>
+                {
+                  audits.map(({ seed, steps, arrivals, violations, cash }) => (
+                    <tr><th scope="row">{seed}</th><td>{steps}</td><td>{arrivals}</td><td>{violations}</td><td>{cash}</td></tr>
+                  ))
+                }
+              </tbody>
+            </table>
+            <p>每组含 30 位居民与一位玩家，按 250 毫秒的模拟输入步长推进。空间违规包括重叠及无效室内落点。现金差额已扣除脚本设定的每日资金注入。三组末尾存档均通过格式校验。</p>
+          </figure>
+          <p>
+            可运行 <code>vp test</code>、<code>vp run audit:simulation</code> 和 <code>vp run test:browser</code> 复核。
+            审阅可从 <code>packages/engine/src/sim/tick.ts</code>、<code>packages/engine/src/actions.ts</code>、
+            <code>apps/island/src/game/conversation.ts</code>、<code>packages/engine/src/learner/telemetry.ts</code>
+            与 <code>apps/island/src/data/repository.ts</code> 开始。
+          </p>
+          <p>
+            这些结果覆盖所列种子、场景和故障路径。模型表现、在线延迟、实际费用和不同设备的语音可用性会随服务及设备变化。学习成效需要用独立评测和跨情境样本另行验证。
+          </p>
+          <h3>如何评估实际体验</h3>
+          <p>
+            试玩评估可以记录从登岛到办成第一件事的时间，以及玩家主动回来继续生活的比例。独立表达另用未练过的情境测试，例如将面包店点单换成在陌生餐馆询问食材。复测时分开记录选答、提示后作答和自主表达，再由人工核对任务是否办成。游戏内分数可用于调整下一次练习，独立评测用来检验迁移。
+          </p>
+        </section>
+      </article>
+    </div>
+    <footer class="paper-footer"><a href="/isle/">返回美丽岛</a></footer>
+  </main>
+</IsleLayout>
+
+<style>
+  .paper {
+    --paper-ink: oklch(24% 0.04 227);
+    --paper-muted: oklch(42% 0.027 222);
+    --paper-accent: oklch(38% 0.07 223);
+    --paper-rule: oklch(84% 0.02 87);
+    --paper-tint: oklch(94% 0.025 86);
+    width: min(100% - 2rem, 71rem);
+    margin-inline: auto;
+    container-type: inline-size;
+    color: var(--paper-ink);
+    overflow-wrap: break-word;
+  }
+
+  .paper-footer {
+    padding-block: 1.25rem;
+    font-size: 0.95rem;
+  }
+
+  a {
+    color: var(--paper-accent);
+    text-underline-offset: 0.22em;
+    text-decoration-thickness: 0.07em;
+  }
+
+  a:focus-visible {
+    outline: 0.12rem solid var(--paper-accent);
+    outline-offset: 0.2rem;
+  }
+
+  .masthead {
+    padding-block: 2rem 1.75rem;
+    border-bottom: 1px solid var(--paper-rule);
+  }
+
+  .edition,
+  .revision {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem 0.8rem;
+    margin: 0;
+    color: var(--paper-muted);
+    font-size: 0.85rem;
+  }
+
+  h1 {
+    max-width: 18em;
+    margin: 0.45em 0 0.33em;
+    font-size: clamp(2.25rem, 7cqi, 4.5rem);
+    line-height: 1.13;
+    font-weight: 650;
+  }
+
+  .lead {
+    max-width: 43rem;
+    margin-block: 0 1.3rem;
+    font-size: clamp(1.04rem, 2cqi, 1.2rem);
+    line-height: 1.8;
+  }
+
+  .paper-grid {
+    display: grid;
+    gap: 1.8rem;
+    align-items: start;
+    margin-top: 1.4rem;
+  }
+
+  .contents ol {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
+    gap: 0.42rem 1rem;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .contents a {
+    font-size: 0.9rem;
+  }
+
+  .body {
+    min-width: 0;
+    max-width: 47rem;
+    line-height: 1.85;
+  }
+
+  section {
+    scroll-margin-top: 1.5rem;
+    margin-bottom: 2.45rem;
+  }
+
+  h2 {
+    margin: 0 0 0.75rem;
+    font-size: clamp(1.38rem, 3cqi, 1.75rem);
+    line-height: 1.32;
+  }
+
+  section > p {
+    margin: 0 0 0.8rem;
+  }
+
+  code {
+    color: var(--paper-accent);
+    font-size: 0.89em;
+    overflow-wrap: anywhere;
+  }
+
+  .flow,
+  .audit {
+    margin: 1.1rem 0 1rem;
+    font-size: 0.9em;
+  }
+
+  .flow ol {
+    display: grid;
+    gap: 0.6rem;
+    margin: 0;
+    padding-left: 1.75rem;
+  }
+
+  .flow li {
+    padding: 0.5rem 0.75rem;
+    border-left: 1px solid var(--paper-rule);
+    background: var(--paper-tint);
+  }
+
+  .flow li strong,
+  .flow li span {
+    display: block;
+  }
+
+  figcaption,
+  .audit p {
+    margin: 0.5rem 0 0;
+    color: var(--paper-muted);
+    font-size: 0.9em;
+  }
+
+  .facts {
+    display: grid;
+    gap: 0.2rem;
+    margin: 1rem 0;
+  }
+
+  .facts div {
+    padding-block: 0.7rem;
+    border-top: 1px solid var(--paper-rule);
+  }
+
+  .facts dt {
+    font-weight: 650;
+  }
+
+  .facts dd {
+    margin: 0.12rem 0 0;
+  }
+
+  .audit table {
+    width: 100%;
+    margin-top: 0.3rem;
+    border-collapse: collapse;
+    font-variant-numeric: tabular-nums;
+    text-align: start;
+  }
+
+  .audit tbody th,
+  .audit td {
+    font-weight: 400;
+  }
+
+  .audit th,
+  .audit td {
+    padding: 0.35rem 0.22rem;
+    border-bottom: 1px solid var(--paper-rule);
+  }
+
+  .paper-footer {
+    border-top: 1px solid var(--paper-rule);
+  }
+
+  @media (min-width: 52rem) {
+    .paper-grid {
+      grid-template-columns: minmax(9rem, 0.6fr) minmax(0, 2.7fr);
+      gap: 2.5rem;
+    }
+
+    .contents {
+      position: sticky;
+      top: 1.5rem;
+    }
+
+    .contents ol {
+      grid-template-columns: 1fr;
+    }
+
+    .flow ol {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: 1.75rem;
+    }
+
+    .facts div {
+      display: grid;
+      grid-template-columns: 7rem minmax(0, 1fr);
+      gap: 1rem;
+    }
+  }
+
+  @page {
+    size: A4;
+    margin: 15mm;
+  }
+
+  @media print {
+    .paper {
+      --paper-ink: black;
+      --paper-muted: oklch(32% 0 0);
+      --paper-accent: black;
+      width: 100%;
+      font-size: 10.5pt;
+    }
+
+    .paper-footer {
+      display: none;
+    }
+
+    .masthead {
+      padding-top: 0;
+    }
+
+    h1 {
+      font-size: 31pt;
+    }
+
+    .lead {
+      font-size: 12pt;
+    }
+
+    .paper-grid {
+      display: block;
+    }
+
+    .contents {
+      position: static;
+      margin-bottom: 1.1rem;
+    }
+
+    .contents ol {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .body {
+      max-width: none;
+      line-height: 1.62;
+    }
+
+    section {
+      margin-bottom: 1.45rem;
+    }
+
+    #verification {
+      break-before: page;
+    }
+
+    h2,
+    h3 {
+      break-after: avoid;
+    }
+
+    .flow,
+    .audit,
+    .facts div {
+      break-inside: avoid;
+    }
+
+    p {
+      orphans: 3;
+      widows: 3;
+    }
+
+    .flow li {
+      background: transparent;
+    }
+  }
+</style>

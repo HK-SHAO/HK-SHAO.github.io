@@ -1,0 +1,424 @@
+---
+import { Image } from "astro:assets";
+import harbor from "../../../design/meri-isle-poster/scene.png";
+import gameTown from "../../assets/isle/game-town.webp";
+import gameDialogue from "../../assets/isle/game-dialogue.webp";
+import ArrivalPreview from "../../components/isle/ArrivalPreview.astro";
+import IsleLayout from "../../layouts/IsleLayout.astro";
+
+const days = [
+  {
+    place: "码头",
+    title: "先跟岛民打个招呼",
+    text: "在渡口遇到 Mei。选一句说得出口的英语，问个路，告诉她你叫什么。",
+  },
+  {
+    place: "面包店",
+    title: "给自己买一份早餐",
+    text: "问今天烤了什么、多少钱。你确认后，钱从钱包扣掉，面包进背包。",
+  },
+  {
+    place: "街坊",
+    title: "把下次见面约下来",
+    text: "岛民有上班、吃饭和休息的时间。约好的见面会进计划本，再碰面时还可能聊起上次的话题。",
+  },
+];
+
+const contact = "mailto:m@shao.fun?subject=" + encodeURIComponent("美丽岛 · 试玩与合作");
+---
+
+<IsleLayout
+  title="美丽岛 Meri Isle · 上岛，用英语开启崭新的生活"
+  description="坐渡轮到一座用英语生活的小岛。问路、买面包、认识街坊。来试一句英语，看看岛上的一天怎么过。"
+>
+  <main id="main" tabindex="-1">
+    <section class="hero isle-shell" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="label hero-label">英语生活模拟游戏</p>
+        <h1 id="hero-title">上岛，用英语<span>开启崭新的生活</span></h1>
+        <p class="hero-summary">
+          渡轮靠岸时，你的口袋里只有一张明信片和一个苹果。去问路、买早餐、认识街坊。要把日子过下去，你就有了开口的理由。
+        </p>
+        <a class="button" href="#arrival">试一句英语</a>
+      </div>
+      <figure class="hero-art">
+        <Image
+          src={harbor}
+          alt="港口插画：初到岛上的旅客举起灯塔明信片，岛民指向码头边的街道"
+          widths={[400, 640, 900, 1199]}
+          sizes="(min-width: 56rem) 55vw, 94vw"
+          format="webp"
+          priority
+        />
+      </figure>
+    </section>
+
+    <section id="arrival" class="arrival" aria-labelledby="arrival-title">
+      <div class="isle-shell arrival-grid">
+        <div class="arrival-copy">
+          <p class="label">港口 · 早班渡轮</p>
+          <h2 id="arrival-title">先问个路。</h2>
+          <p>Mei 正在码头等船。选一句英语跟她打招呼，看看能不能找到卖早餐的面包店。</p>
+        </div>
+        <ArrivalPreview />
+      </div>
+    </section>
+
+    <section id="life" class="isle-shell life" aria-labelledby="life-title">
+      <header class="section-intro">
+        <h2 id="life-title">在岛上，英语能办成事。</h2>
+        <p>一开始只是问个路。渐渐地，你有了常去的店、认识的邻居，也有了约定。</p>
+      </header>
+      <div class="life-grid">
+        <figure class="game-shot">
+          <Image
+            src={gameTown}
+            alt="实际游戏画面，港口步道对面是移民局与咖啡馆，街道向小镇延伸"
+            widths={[440, 680, 1000]}
+            sizes="(min-width: 54rem) 54vw, 94vw"
+            format="webp"
+          />
+          <figcaption>游戏实景 · 码头、咖啡馆与移民局</figcaption>
+        </figure>
+        <ol class="itinerary">
+          {
+            days.map(({ place, title, text }) => (
+              <li>
+                <span class="label">{place}</span>
+                <h3>{title}</h3>
+                <p>{text}</p>
+              </li>
+            ))
+          }
+        </ol>
+      </div>
+    </section>
+
+    <section class="practice" aria-labelledby="practice-title">
+      <div class="isle-shell practice-grid">
+        <div>
+          <h2 id="practice-title">从选一句，到说自己的话。</h2>
+          <p>不知道怎么接话时，可以先选一个回答。遇到生词可以点开看解释，熟悉后再试着自己写。连接相应服务后，可以自由对话或语音输入。</p>
+          <p>表达卡住时，岛上的反馈会给出一种更自然的说法。学习日志把选过的句子和自己表达过的话分开记录，方便回看。</p>
+        </div>
+        <figure class="game-shot">
+          <Image
+            src={gameDialogue}
+            alt="实际游戏对话画面，码头的 Mei 与新来的旅客交流，界面给出更自然的英文表达"
+            widths={[440, 680, 900]}
+            sizes="(min-width: 54rem) 47vw, 94vw"
+            format="webp"
+          />
+          <figcaption>游戏实景 · 更自然的说法 <span lang="en">“My name is Mina.”</span></figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="isle-shell together" aria-labelledby="together-title">
+      <div class="family">
+        <h2 id="together-title">和孩子一起试一句。</h2>
+        <p>读旅客和岛民的话。把面包店换成熟悉的地方，试着问一次怎么走。</p>
+        <a class="text-link" href="#arrival">回到码头</a>
+      </div>
+      <div class="partner">
+        <h2>从第一次开口，到愿意回来。</h2>
+        <p>美丽岛面向学过英语却缺少开口机会的人。熟悉的店、记得你的街坊和未完成的约定，给了玩家回来的理由。欢迎聊试玩与合作，一起验证复访和独立表达。</p>
+        <div class="partner-actions">
+          <a class="button" href={contact}>咨询完整试玩与合作</a>
+          <a class="text-link" href="/isle/whitepaper/">读技术白皮书</a>
+        </div>
+      </div>
+    </section>
+  </main>
+</IsleLayout>
+
+<style>
+  h1,
+  h2,
+  h3,
+  p,
+  figure {
+    margin: 0;
+  }
+
+  h1,
+  h2 {
+    font-family: var(--isle-serif);
+    font-weight: 800;
+    line-height: 1.16;
+    text-wrap: balance;
+  }
+
+  h2 {
+    font-size: clamp(1.95rem, 4vw, 3.65rem);
+    letter-spacing: -0.015em;
+  }
+
+  p {
+    color: var(--isle-muted);
+  }
+
+  .label {
+    color: var(--isle-brick);
+    font-size: 0.875rem;
+    font-weight: 720;
+    letter-spacing: 0.05em;
+  }
+
+  .hero {
+    display: grid;
+    align-items: center;
+    gap: 1.55rem;
+    padding-block: 0.75rem clamp(3.3rem, 7vw, 6.4rem);
+  }
+
+  .hero-copy {
+    display: grid;
+    justify-items: start;
+    align-content: center;
+    gap: 1.15rem;
+    padding-block: 1.1rem 0.25rem;
+  }
+
+  h1 {
+    font-size: clamp(2.3rem, 8.9vw, 4rem);
+    letter-spacing: -0.03em;
+  }
+
+  h1 span {
+    display: block;
+  }
+
+  .hero-summary {
+    max-width: 23rem;
+    font-size: clamp(1rem, 1.6vw, 1.18rem);
+    line-height: 1.8;
+  }
+
+  a.button {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    min-block-size: 48px;
+    padding: 0.7rem 1.25rem;
+    background: var(--isle-brick);
+    color: var(--isle-light);
+    font-weight: 700;
+    text-decoration: none;
+    border-radius: 0.25rem;
+  }
+
+  a.button:hover {
+    background: #823025;
+  }
+
+  .hero-art {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 1.1;
+    background-color: #356777;
+  }
+
+  .hero-art img,
+  .game-shot img {
+    width: 100%;
+  }
+
+  .hero-art img {
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 38%;
+  }
+
+  .arrival {
+    padding-block: clamp(3rem, 7vw, 6.2rem);
+    background: var(--isle-teal);
+  }
+
+  .arrival-grid {
+    display: grid;
+    align-items: start;
+    gap: 1.6rem;
+  }
+
+  .arrival-copy {
+    display: grid;
+    align-content: start;
+    gap: 0.75rem;
+    max-width: 26rem;
+  }
+
+  .life {
+    padding-block: clamp(3.75rem, 8vw, 7rem);
+  }
+
+  .section-intro {
+    display: grid;
+    gap: 0.85rem;
+    margin-block-end: clamp(1.4rem, 3.7vw, 2.65rem);
+  }
+
+  .section-intro p {
+    max-width: 36rem;
+  }
+
+  .life-grid,
+  .practice-grid {
+    display: grid;
+    gap: 1.2rem;
+  }
+
+  .game-shot {
+    min-width: 0;
+    align-self: start;
+  }
+
+  .game-shot img {
+    height: auto;
+    border: 1px solid var(--isle-border);
+    border-radius: 0.35rem;
+  }
+
+  figcaption {
+    margin-block-start: 0.55rem;
+    color: var(--isle-muted);
+    font-size: 0.875rem;
+  }
+
+  .itinerary {
+    display: grid;
+    gap: 1rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .itinerary li {
+    padding-block-start: 0.9rem;
+    border-block-start: 1px solid var(--isle-border);
+  }
+
+  .itinerary h3 {
+    font-size: clamp(1.15rem, 2vw, 1.45rem);
+    line-height: 1.35;
+    margin-block: 0.2rem 0.35rem;
+  }
+
+  .practice {
+    padding-block: clamp(2.9rem, 6vw, 5.2rem);
+    background: var(--isle-sea);
+    color: var(--isle-light);
+  }
+
+  .practice p,
+  .practice figcaption {
+    color: #d6e4e3;
+  }
+
+  .practice-grid {
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .practice-grid h2 {
+    margin-block-end: 0.9rem;
+  }
+
+  .practice-grid p + p {
+    margin-block-start: 0.8rem;
+  }
+
+  .practice .game-shot img {
+    border-color: #739294;
+  }
+
+  .together {
+    display: grid;
+    gap: 1.15rem;
+    padding-block: clamp(3.4rem, 8vw, 7rem);
+  }
+
+  .together > div {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.7rem;
+    padding: clamp(1.25rem, 3.2vw, 2.4rem);
+    background: var(--isle-light);
+    border-block-start: 2px solid var(--isle-brick);
+  }
+
+  .together h2 {
+    font-size: clamp(1.65rem, 2.85vw, 2.45rem);
+  }
+
+  .together p {
+    margin-block-end: 0.35rem;
+  }
+
+  .text-link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    font-weight: 675;
+  }
+
+  .family .text-link,
+  .partner-actions {
+    margin-block-start: auto;
+  }
+
+  .partner-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.3rem 1rem;
+  }
+
+  @media (min-width: 42rem) {
+    .together {
+      grid-template-columns: 1fr 1.16fr;
+    }
+  }
+
+  @media (min-width: 54rem) {
+    .arrival-grid {
+      grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.3fr);
+      gap: clamp(2rem, 6vw, 6rem);
+    }
+
+    .life-grid {
+      grid-template-columns: minmax(0, 1.44fr) minmax(0, 1fr);
+      gap: clamp(1.5rem, 4vw, 4rem);
+    }
+
+    .practice-grid {
+      grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+      gap: clamp(2rem, 6vw, 6rem);
+    }
+  }
+
+  @media (min-width: 56rem) {
+    .hero {
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+      gap: clamp(1.5rem, 4.5vw, 5rem);
+      padding-block-start: 0.6rem;
+    }
+
+    .hero-copy {
+      gap: 1.4rem;
+    }
+
+    h1 {
+      font-size: clamp(2.8rem, 4.75vw, 4.95rem);
+    }
+
+    .hero-art {
+      aspect-ratio: 0.99;
+    }
+
+    .hero-art img {
+      object-position: 50% 51%;
+    }
+  }
+</style>

@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light" />
+    <title>Ray Wang · Business Card</title>
+    <style>
+      @font-face {
+        font-family: "Sarasa UI SC";
+        src: url("fonts/regular.woff2") format("woff2");
+        font-weight: 400;
+        font-style: normal;
+      }
+
+      @font-face {
+        font-family: "Sarasa UI SC";
+        src: url("fonts/semibold.woff2") format("woff2");
+        font-weight: 600;
+        font-style: normal;
+      }
+
+      @font-face {
+        font-family: "Sarasa UI SC";
+        src: url("fonts/bold.woff2") format("woff2");
+        font-weight: 700;
+        font-style: normal;
+      }
+
+      :root {
+        --paper: #f5efe3;
+        --ink: #182333;
+        --small-ink: #191a1d;
+        --orange: #ed673b;
+        --soft-paper: #d0d4d8;
+        --preview: #edece8;
+        --font: "Sarasa UI SC", sans-serif;
+        color-scheme: light;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: var(--preview);
+        color: var(--ink);
+        font-family: var(--font);
+      }
+
+      h1,
+      h2,
+      p,
+      ul {
+        margin: 0;
+      }
+      a {
+        color: inherit;
+        text-underline-offset: 0.2em;
+      }
+      :focus-visible {
+        outline: 2px solid currentColor;
+        outline-offset: 4px;
+      }
+
+      .preview {
+        max-width: 69rem;
+        margin-inline: auto;
+        padding: clamp(1.1rem, 5vw, 4rem);
+      }
+
+      .preview-header {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 0.25rem 1rem;
+        flex-wrap: wrap;
+        margin-bottom: 1.4rem;
+      }
+
+      .preview-header h1 {
+        font-size: clamp(1.3rem, 4vw, 1.85rem);
+      }
+      .preview-header a {
+        font-size: 0.925rem;
+      }
+
+      .sides {
+        display: grid;
+        gap: 1.6rem;
+      }
+
+      .side {
+        min-width: 0;
+      }
+
+      .side-label {
+        margin-bottom: 0.45rem;
+        font-size: 0.875rem;
+        font-weight: 500;
+      }
+
+      .face {
+        position: relative;
+        aspect-ratio: 5 / 3;
+        container-type: inline-size;
+        isolation: isolate;
+      }
+
+      .front {
+        background: var(--paper);
+        color: var(--ink);
+      }
+      .back {
+        background: var(--ink);
+        color: var(--paper);
+      }
+
+      .card {
+        --unit: calc(100cqw / 90);
+        --gutter: calc(8.5 * var(--unit));
+        position: absolute;
+        inset: 0;
+      }
+
+      .identity {
+        position: absolute;
+        top: calc(16 * var(--unit));
+        left: var(--gutter);
+      }
+
+      .name {
+        font-size: calc(12 * var(--unit));
+        font-weight: 700;
+        line-height: 1.03;
+        letter-spacing: -0.028em;
+        white-space: nowrap;
+      }
+
+      .role {
+        margin-top: calc(3.65 * var(--unit));
+        font-size: calc(3.65 * var(--unit));
+        line-height: 1.2;
+        font-weight: 600;
+        letter-spacing: 0.115em;
+        color: var(--small-ink);
+      }
+
+      .alias {
+        position: absolute;
+        inset: calc(9.25 * var(--unit)) var(--gutter) auto auto;
+        font-size: calc(3.15 * var(--unit));
+        font-weight: 600;
+        line-height: 1.2;
+        letter-spacing: 0.08em;
+        color: var(--small-ink);
+      }
+
+      .home-qr {
+        position: absolute;
+        inset: auto calc(6.5 * var(--unit)) calc(6.6 * var(--unit)) auto;
+        width: calc(16.5 * var(--unit));
+        color: var(--small-ink);
+      }
+
+      .home-qr svg {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+
+      .topics {
+        position: absolute;
+        top: calc(9.25 * var(--unit));
+        left: var(--gutter);
+        padding: 0;
+        list-style: none;
+        font-size: calc(3.95 * var(--unit));
+        font-weight: 600;
+        line-height: 1.15;
+      }
+
+      .research {
+        margin: calc(1.05 * var(--unit)) 0 calc(2.4 * var(--unit));
+        padding: 0;
+        list-style: none;
+        color: var(--soft-paper);
+        font-size: calc(3.2 * var(--unit));
+        font-weight: 400;
+        line-height: 1.32;
+      }
+
+      .signature {
+        position: absolute;
+        inset: calc(11.75 * var(--unit)) var(--gutter) auto auto;
+        width: calc(20.5 * var(--unit));
+        height: auto;
+      }
+
+      .email {
+        position: absolute;
+        inset: auto auto calc(8.6 * var(--unit)) var(--gutter);
+        font-size: calc(4.65 * var(--unit));
+        font-weight: 600;
+        line-height: 1.1;
+        text-decoration: none;
+      }
+
+      .email:hover,
+      .email:focus-visible {
+        text-decoration: underline;
+      }
+
+      @media screen and (min-width: 48rem) {
+        .sides {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+
+      @page {
+        size: 96mm 60mm;
+        margin: 0;
+      }
+
+      @media print {
+        html,
+        body {
+          print-color-adjust: exact;
+          -webkit-print-color-adjust: exact;
+        }
+        body {
+          background: none;
+        }
+        .preview {
+          max-width: none;
+          padding: 0;
+        }
+        .preview-header,
+        .side-label {
+          display: none;
+        }
+        .sides {
+          display: block;
+        }
+        .side + .side {
+          break-before: page;
+        }
+
+        .face {
+          width: 96mm;
+          height: 60mm;
+          aspect-ratio: auto;
+          break-inside: avoid;
+          overflow: clip;
+        }
+
+        .card {
+          --unit: 1mm;
+          inset: 3mm;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="preview">
+      <header class="preview-header">
+        <h1>Business Card</h1>
+        <a href="business-card.pdf">Print PDF</a>
+      </header>
+      <div class="sides">
+        <section class="side" aria-labelledby="front-label">
+          <h2 class="side-label" id="front-label">Front</h2>
+          <div class="face front">
+            <div class="card">
+              <div class="identity">
+                <p class="name">Ray Wang</p>
+                <p class="role">PRODUCER &amp; RD</p>
+              </div>
+              <p class="alias">HK-SHAO</p>
+              <a class="home-qr" href="https://shao.fun/" aria-label="Ray Wang’s homepage">
+                <svg viewBox="0 0 33 33" aria-hidden="true">
+                  <path
+                    fill="currentColor"
+                    d="
+                  M4 4h7v1h-7zM12 4h3v1h-3zM16 4h3v1h-3zM20 4h1v1h-1zM22 4h7v1h-7z
+                  M4 5h1v1h-1zM10 5h1v1h-1zM12 5h2v1h-2zM15 5h2v1h-2zM18 5h3v1h-3zM22 5h1v1h-1zM28 5h1v1h-1z
+                  M4 6h1v1h-1zM6 6h3v1h-3zM10 6h1v1h-1zM12 6h1v1h-1zM14 6h1v1h-1zM17 6h3v1h-3zM22 6h1v1h-1zM24 6h3v1h-3zM28 6h1v1h-1z
+                  M4 7h1v1h-1zM6 7h3v1h-3zM10 7h1v1h-1zM12 7h2v1h-2zM17 7h2v1h-2zM22 7h1v1h-1zM24 7h3v1h-3zM28 7h1v1h-1z
+                  M4 8h1v1h-1zM6 8h3v1h-3zM10 8h1v1h-1zM12 8h2v1h-2zM18 8h3v1h-3zM22 8h1v1h-1zM24 8h3v1h-3zM28 8h1v1h-1z
+                  M4 9h1v1h-1zM10 9h1v1h-1zM13 9h3v1h-3zM17 9h1v1h-1zM19 9h1v1h-1zM22 9h1v1h-1zM28 9h1v1h-1z
+                  M4 10h7v1h-7zM12 10h1v1h-1zM14 10h1v1h-1zM16 10h1v1h-1zM18 10h1v1h-1zM20 10h1v1h-1zM22 10h7v1h-7z
+                  M12 11h1v1h-1zM15 11h1v1h-1zM17 11h2v1h-2zM20 11h1v1h-1z
+                  M5 12h2v1h-2zM8 12h1v1h-1zM10 12h2v1h-2zM13 12h1v1h-1zM18 12h3v1h-3zM22 12h1v1h-1zM24 12h5v1h-5z
+                  M4 13h2v1h-2zM7 13h2v1h-2zM12 13h2v1h-2zM16 13h1v1h-1zM18 13h1v1h-1zM20 13h3v1h-3zM28 13h1v1h-1z
+                  M4 14h1v1h-1zM9 14h3v1h-3zM13 14h1v1h-1zM16 14h2v1h-2zM23 14h1v1h-1zM26 14h3v1h-3z
+                  M4 15h3v1h-3zM8 15h2v1h-2zM11 15h1v1h-1zM13 15h4v1h-4zM19 15h3v1h-3zM23 15h1v1h-1zM27 15h1v1h-1z
+                  M5 16h4v1h-4zM10 16h1v1h-1zM13 16h1v1h-1zM16 16h1v1h-1zM21 16h3v1h-3zM25 16h1v1h-1zM27 16h2v1h-2z
+                  M5 17h5v1h-5zM12 17h2v1h-2zM15 17h3v1h-3zM20 17h3v1h-3zM25 17h1v1h-1zM28 17h1v1h-1z
+                  M4 18h1v1h-1zM6 18h1v1h-1zM9 18h3v1h-3zM13 18h1v1h-1zM15 18h1v1h-1zM18 18h1v1h-1zM20 18h1v1h-1zM22 18h2v1h-2zM26 18h3v1h-3z
+                  M5 19h5v1h-5zM11 19h1v1h-1zM13 19h1v1h-1zM15 19h2v1h-2zM18 19h1v1h-1zM20 19h1v1h-1zM24 19h1v1h-1zM27 19h1v1h-1z
+                  M4 20h1v1h-1zM7 20h4v1h-4zM13 20h1v1h-1zM16 20h1v1h-1zM20 20h6v1h-6z
+                  M12 21h5v1h-5zM19 21h2v1h-2zM24 21h2v1h-2zM27 21h2v1h-2z
+                  M4 22h7v1h-7zM12 22h4v1h-4zM17 22h4v1h-4zM22 22h1v1h-1zM24 22h2v1h-2zM27 22h2v1h-2z
+                  M4 23h1v1h-1zM10 23h1v1h-1zM14 23h4v1h-4zM20 23h1v1h-1zM24 23h2v1h-2z
+                  M4 24h1v1h-1zM6 24h3v1h-3zM10 24h1v1h-1zM12 24h4v1h-4zM18 24h1v1h-1zM20 24h6v1h-6zM28 24h1v1h-1z
+                  M4 25h1v1h-1zM6 25h3v1h-3zM10 25h1v1h-1zM13 25h1v1h-1zM15 25h1v1h-1zM19 25h2v1h-2zM23 25h4v1h-4z
+                  M4 26h1v1h-1zM6 26h3v1h-3zM10 26h1v1h-1zM12 26h4v1h-4zM17 26h3v1h-3zM24 26h1v1h-1zM28 26h1v1h-1z
+                  M4 27h1v1h-1zM10 27h1v1h-1zM12 27h1v1h-1zM15 27h2v1h-2zM18 27h3v1h-3zM22 27h1v1h-1zM24 27h2v1h-2zM27 27h1v1h-1z
+                  M4 28h7v1h-7zM14 28h3v1h-3zM18 28h1v1h-1zM20 28h2v1h-2zM23 28h1v1h-1zM27 28h2v1h-2z"
+                  />
+                </svg>
+              </a>
+            </div>
+          </div>
+        </section>
+        <section class="side" aria-labelledby="back-label">
+          <h2 class="side-label" id="back-label">Back</h2>
+          <div class="face back">
+            <div class="card">
+              <ul class="topics">
+                <li>
+                  AI Agents
+                  <ul class="research">
+                    <li>In-Context Learning</li>
+                    <li>Meta-Learning</li>
+                    <li>Interpretability</li>
+                  </ul>
+                </li>
+                <li>Data &amp; Graphics</li>
+              </ul>
+              <svg class="signature" viewBox="-2 -2 66 72" aria-hidden="true">
+                <path fill="currentColor" d="M0 58 43 15v8L0 66ZM14 60 43 31v8L14 68Z" />
+                <circle cx="54" cy="8" r="8" fill="var(--orange)" />
+              </svg>
+              <a class="email" href="mailto:m@shao.fun">m@shao.fun</a>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </body>
+</html>

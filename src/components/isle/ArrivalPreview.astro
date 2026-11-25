@@ -1,0 +1,259 @@
+---
+const steps = [
+  {
+    line: "Hi there! Welcome to Port Meri! I'm Mei. What's your name?",
+    translation: "你好！欢迎来到汐港！我叫 Mei。怎么称呼你？",
+    choices: ["Hi Mei! I'm Alex. Nice to meet you.", "I'm Alex. It's my first time here."],
+  },
+  {
+    line: "Nice to meet you, Alex! What can I help you find?",
+    translation: "很高兴认识你，Alex！你在找什么地方？",
+    choices: ["Could you tell me where the bakery is?", "Where can I get breakfast?"],
+  },
+  {
+    line: "Head into town. Look for Morning Loaf Bakery, the one with the orange roof.",
+    translation: "往镇里走，找那家橙色屋顶的面包店。",
+    choices: [],
+  },
+] as const;
+---
+
+<div class="arrival-preview" data-arrival-preview>
+  <p class="preview-note">网页短场景 · 预设对话</p>
+  {
+    steps.map((step, index) => (
+      <div class="arrival-step" data-arrival-step hidden={index !== 0}>
+        <div class="conversation">
+          {index > 0 && (
+            <p class="last-choice">
+              <span>你</span>
+              <span data-arrival-spoken lang="en" />
+            </p>
+          )}
+          <p class="speaker">Mei · 汐港向导</p>
+          <p class="dialogue" lang="en" tabindex="-1" data-arrival-prompt>
+            {step.line}
+          </p>
+          <p class="translation">{step.translation}</p>
+        </div>
+        {step.choices.length > 0 ? (
+          <div class="choices" data-arrival-controls hidden>
+            {step.choices.map((choice) => (
+              <button class="choice" type="button" data-arrival-action="next" lang="en">
+                {choice}
+              </button>
+            ))}
+          </div>
+        ) : (
+          <div class="completion" data-arrival-controls hidden>
+            <p>
+              到面包店后试试这一句
+              <strong lang="en">A breakfast roll, please.</strong>
+            </p>
+            <div class="completion-actions">
+              <a href="#life">看看岛上接下来能做什么</a>
+              <button class="restart" type="button" data-arrival-action="restart">再体验一次</button>
+            </div>
+          </div>
+        )}
+      </div>
+    ))
+  }
+  <details class="example">
+    <summary>阅读完整示例</summary>
+    <ol>
+      <li lang="en"><b>Alex</b> {steps[0].choices[0]}</li>
+      <li lang="en"><b>Mei</b> {steps[1].line}</li>
+      <li lang="en"><b>Alex</b> {steps[1].choices[0]}</li>
+      <li lang="en"><b>Mei</b> {steps[2].line}</li>
+    </ol>
+  </details>
+</div>
+
+<script>
+  for (const preview of document.querySelectorAll<HTMLElement>("[data-arrival-preview]")) {
+    const steps = Array.from(preview.querySelectorAll<HTMLElement>("[data-arrival-step]"));
+    let index = 0;
+    for (const controls of preview.querySelectorAll<HTMLElement>("[data-arrival-controls]")) {
+      controls.hidden = false;
+    }
+
+    preview.addEventListener("click", (event) => {
+      if (!(event.target instanceof Element)) return;
+      const button = event.target.closest<HTMLButtonElement>("button[data-arrival-action]");
+      if (!button) return;
+      const nextIndex = button.dataset.arrivalAction === "restart" ? 0 : index + 1;
+      const current = steps[index];
+      const next = steps[nextIndex];
+      if (!current || !next) return;
+
+      const spoken = next.querySelector("[data-arrival-spoken]");
+      if (spoken) spoken.textContent = button.textContent?.trim() ?? "";
+      current.hidden = true;
+      next.hidden = false;
+      index = nextIndex;
+      next.querySelector<HTMLElement>("[data-arrival-prompt]")?.focus();
+    });
+  }
+</script>
+
+<style>
+  .arrival-preview {
+    --arrival-paper: #fbf4e6;
+    --arrival-sea: #163746;
+    --arrival-brick: #a63e2c;
+    --arrival-teal: #b8ddd1;
+    --arrival-border: #b8a996;
+    color: var(--arrival-sea);
+  }
+
+  .arrival-preview [hidden] {
+    display: none;
+  }
+
+  .preview-note {
+    margin: 0 0 0.6rem;
+    font-size: 0.875rem;
+    line-height: 1.45;
+  }
+
+  .conversation {
+    padding: clamp(1.2rem, 4vw, 2rem);
+    background: var(--arrival-sea);
+    color: var(--arrival-paper);
+  }
+
+  .speaker,
+  .translation,
+  .last-choice {
+    margin: 0;
+    color: var(--arrival-teal);
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+
+  .last-choice {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: 0.65rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid rgb(184 221 209 / 26%);
+  }
+
+  .dialogue {
+    max-inline-size: 32ch;
+    margin: 0.45rem 0 0.65rem;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(1.3rem, 3.5vw, 2rem);
+    line-height: 1.3;
+  }
+
+  .dialogue:focus-visible {
+    outline: 2px solid var(--arrival-teal);
+    outline-offset: 0.2rem;
+  }
+
+  .choices,
+  .completion,
+  .example {
+    border: 1px solid var(--arrival-border);
+    border-top: 0;
+    background: var(--arrival-paper);
+  }
+
+  .choices {
+    display: grid;
+    gap: 0.65rem;
+    padding: 0.8rem;
+  }
+
+  button {
+    min-block-size: 2.75rem;
+    padding: 0.65rem 0.85rem;
+    border: 1px solid var(--arrival-border);
+    border-radius: 0;
+    background: var(--arrival-paper);
+    color: var(--arrival-sea);
+    font: inherit;
+    line-height: 1.35;
+    text-align: left;
+    cursor: pointer;
+  }
+
+  button:hover {
+    border-color: var(--arrival-brick);
+    color: var(--arrival-brick);
+  }
+
+  button:focus-visible,
+  summary:focus-visible {
+    outline: 2px solid var(--arrival-brick);
+    outline-offset: 0.12rem;
+  }
+
+  .completion {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem 1.25rem;
+    padding: 0.85rem 1rem;
+  }
+
+  .completion p {
+    margin: 0;
+    font-size: 0.875rem;
+    line-height: 1.45;
+  }
+
+  .completion strong {
+    display: block;
+    margin-top: 0.18rem;
+    font-size: 1rem;
+  }
+
+  .completion-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.45rem 0.85rem;
+  }
+
+  .completion-actions a {
+    display: inline-flex;
+    align-items: center;
+    min-block-size: 2.75rem;
+    font-size: 0.875rem;
+    font-weight: 650;
+  }
+
+  .restart {
+    color: var(--arrival-brick);
+    white-space: nowrap;
+  }
+
+  .example {
+    padding: 0.8rem 1rem;
+  }
+
+  summary {
+    min-block-size: 2.75rem;
+    align-content: center;
+    color: var(--arrival-brick);
+    cursor: pointer;
+  }
+
+  .example ol {
+    display: grid;
+    gap: 0.5rem;
+    margin: 0.5rem 0;
+    padding-inline-start: 1.25rem;
+  }
+
+  @media (min-width: 37rem) {
+    .choices {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+</style>

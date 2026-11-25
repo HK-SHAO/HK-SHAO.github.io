@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>美丽岛 · Meri Isle</title>
+    <style>
+      @font-face {
+        font-family: "Sarasa UI SC";
+        src: url("fonts/regular.ttf") format("truetype");
+        font-weight: 400;
+        font-style: normal;
+      }
+
+      @font-face {
+        font-family: "Sarasa UI SC";
+        src: url("fonts/semibold.ttf") format("truetype");
+        font-weight: 600;
+        font-style: normal;
+      }
+
+      :root {
+        font-family: "Sarasa UI SC", sans-serif;
+        background: #1b2b30;
+        color: #fbf4e6;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+      }
+
+      main {
+        width: min(100%, 48rem);
+        margin-inline: auto;
+        padding: 0 clamp(0.8rem, 4vw, 2.75rem) 2rem;
+      }
+
+      nav {
+        display: flex;
+        justify-content: end;
+        align-items: center;
+        min-height: 3rem;
+      }
+
+      nav a {
+        color: inherit;
+        font-size: 0.9rem;
+        text-underline-offset: 0.22em;
+      }
+
+      .poster {
+        --paper: #fbf4e6;
+        position: relative;
+        isolation: isolate;
+        overflow: hidden;
+        aspect-ratio: 210 / 297;
+        color: #183b4b;
+        background: var(--paper);
+      }
+
+      .trim {
+        --gutter: 5.238095%;
+        position: absolute;
+        inset: 0;
+        container-type: inline-size;
+      }
+
+      .scene {
+        position: absolute;
+        inset: auto var(--gutter) 3.703704%;
+        display: block;
+        width: calc(100% - 2 * var(--gutter));
+        aspect-ratio: 1199 / 1312;
+      }
+
+      .heading {
+        position: absolute;
+        inset: 0 0 auto;
+        height: 27%;
+      }
+
+      h1 {
+        position: absolute;
+        inset: 20% auto auto var(--gutter);
+        display: grid;
+        gap: 2cqw;
+        width: 51.5%;
+        margin: 0;
+      }
+
+      h1 img,
+      .detail img {
+        display: block;
+        height: auto;
+      }
+
+      .title-zh {
+        width: 100%;
+      }
+
+      .title-en {
+        width: 56%;
+      }
+
+      .detail {
+        position: absolute;
+        inset: auto var(--gutter) 8.8% auto;
+        display: grid;
+        justify-items: end;
+        gap: 1.35cqw;
+        text-align: right;
+      }
+
+      .lighthouse {
+        width: 6.1cqw;
+      }
+
+      .copy {
+        display: grid;
+        justify-items: end;
+        gap: 1.1cqw;
+      }
+
+      .tagline {
+        margin: 0;
+        font-size: max(0.68rem, 2.15cqw);
+        line-height: 1.25;
+      }
+
+      .address {
+        color: inherit;
+        font-size: max(0.9rem, 3.15cqw);
+        font-weight: 600;
+        line-height: 1.15;
+        text-decoration: none;
+        text-underline-offset: 0.2em;
+      }
+
+      .address:hover,
+      .address:focus-visible {
+        text-decoration: underline;
+      }
+
+      @container (max-width: 25rem) {
+        h1 {
+          top: 16%;
+          width: 49.5%;
+        }
+      }
+
+      @page {
+        size: 216mm 303mm;
+        margin: 0;
+      }
+
+      @media print {
+        :root {
+          background: transparent;
+        }
+
+        body {
+          print-color-adjust: exact;
+        }
+
+        main {
+          width: auto;
+          margin: 0;
+          padding: 0;
+        }
+
+        nav {
+          display: none;
+        }
+
+        .poster {
+          width: 216mm;
+          height: 303mm;
+        }
+
+        .trim {
+          inset: 3mm;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <nav aria-label="海报文件"><a href="meri-isle-poster.pdf">印刷 PDF</a></nav>
+      <article class="poster" data-press-artboard aria-label="美丽岛海报">
+        <div class="trim">
+          <img
+            class="scene"
+            data-press-scene
+            src="scene.png"
+            alt="初到岛上的旅客站在渡轮舷梯旁，举着灯塔明信片向一位岛民问路。"
+          />
+          <header class="heading">
+            <h1>
+              <img class="title-zh" src="title-zh.svg" alt="美丽岛" />
+              <img class="title-en" src="title-en.svg" alt="Meri Isle" lang="en" />
+            </h1>
+            <div class="detail">
+              <img class="lighthouse" src="lighthouse.svg" alt="" />
+              <div class="copy">
+                <p class="tagline">上岛，用英语开启崭新的生活</p>
+                <a class="address" href="https://shao.fun/isle" lang="en">shao.fun/isle</a>
+              </div>
+            </div>
+          </header>
+        </div>
+      </article>
+    </main>
+  </body>
+</html>

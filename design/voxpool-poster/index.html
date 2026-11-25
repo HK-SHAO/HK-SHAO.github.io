@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="dark" />
+    <title>体素池核 · VOXPOOL</title>
+    <style>
+      @font-face {
+        font-family: "Sarasa UI SC";
+        src: url("fonts/regular.woff2") format("woff2");
+        font-weight: 400;
+        font-style: normal;
+      }
+
+      @font-face {
+        font-family: "Sarasa UI SC";
+        src: url("fonts/semibold.woff2") format("woff2");
+        font-weight: 600;
+        font-style: normal;
+      }
+
+      :root {
+        color-scheme: dark;
+        font-family: "Sarasa UI SC", sans-serif;
+        background: #171b1c;
+        color: #edf1f2;
+        --inset: 6.15%;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+      }
+      main {
+        width: min(100%, 44rem);
+        margin-inline: auto;
+        padding: 0 clamp(0.85rem, 4vw, 2.75rem) 2rem;
+      }
+      nav {
+        display: flex;
+        justify-content: end;
+        align-items: center;
+        min-height: 3rem;
+      }
+      nav a {
+        color: inherit;
+        font-size: 0.9rem;
+        text-underline-offset: 0.22em;
+      }
+
+      .artboard {
+        position: relative;
+        isolation: isolate;
+        overflow: hidden;
+        aspect-ratio: 2 / 3;
+        background: #182023;
+      }
+
+      .scene {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .trim {
+        position: absolute;
+        inset: 0;
+        container-type: inline-size;
+      }
+      .wordmarks {
+        position: absolute;
+        inset: 8.4% var(--inset) auto auto;
+        display: grid;
+        justify-items: end;
+        row-gap: 1.25cqw;
+        width: 43%;
+        margin: 0;
+      }
+
+      .wordmarks img {
+        display: block;
+        height: auto;
+      }
+      .title-zh {
+        width: 98%;
+      }
+      .logo {
+        width: 90%;
+      }
+
+      .details {
+        position: absolute;
+        inset: auto var(--inset) 4% auto;
+        display: grid;
+        justify-items: end;
+        row-gap: 1cqw;
+        color: #f2f7f5;
+        font-size: max(0.7rem, 2cqw);
+        font-weight: 600;
+        line-height: 1.2;
+        white-space: nowrap;
+      }
+
+      .features {
+        display: flex;
+        align-items: baseline;
+        gap: 0.75cqw;
+        margin: 0;
+      }
+
+      .address {
+        color: inherit;
+        text-decoration: none;
+        text-underline-offset: 0.2em;
+      }
+
+      .address:hover,
+      .address:focus-visible {
+        text-decoration: underline;
+      }
+
+      @page {
+        size: 306mm 456mm;
+        margin: 0;
+      }
+
+      @media print {
+        :root {
+          color-scheme: light;
+          background: transparent;
+        }
+        body {
+          print-color-adjust: exact;
+        }
+        main {
+          width: auto;
+          margin: 0;
+          padding: 0;
+        }
+        nav {
+          display: none;
+        }
+        .artboard {
+          width: 306mm;
+          height: 456mm;
+          background: transparent;
+          aspect-ratio: auto;
+        }
+        .trim {
+          inset: 3mm;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <nav aria-label="海报文件"><a href="voxpool-poster.pdf">印刷 PDF</a></nav>
+      <article class="artboard" aria-label="体素池核海报">
+        <img class="scene" src="scene.png" alt="阳光斜照进方块浴室，在池底和墙面投下水纹。" />
+        <div class="trim">
+          <h1 class="wordmarks">
+            <img class="logo" src="voxpool-logo.svg" alt="VOXPOOL" lang="en" />
+            <img class="title-zh" src="title-zh.svg" alt="体素池核" />
+          </h1>
+          <footer class="details">
+            <a class="address" href="https://shao.fun/voxpool/" lang="en">shao.fun/voxpool</a>
+            <p class="features">
+              <span>池核探索</span><span aria-hidden="true">·</span> <span>自由建造</span
+              ><span aria-hidden="true">·</span>
+              <span>实时光追</span>
+            </p>
+          </footer>
+        </div>
+      </article>
+    </main>
+  </body>
+</html>

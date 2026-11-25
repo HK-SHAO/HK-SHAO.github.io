@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 364 88" color="#edf1f2" role="img" aria-labelledby="title-zh-label">
+  <title id="title-zh-label">体素池核</title>
+  <g fill="none" stroke="currentColor" stroke-width="7.6" stroke-linecap="butt" stroke-linejoin="round">
+    <g id="ti">
+      <path d="M23 8 5 41M14 25v55"/>
+      <path d="M29 26h48M53 8v72M53 29 26 67M53 29l27 38M38 62h30"/>
+    </g>
+    <g id="su" transform="translate(92)">
+      <path d="M16 12h52M20 24h44M8 36h68M42 4v32"/>
+      <path d="M39 39 27 52h18M54 44 35 63h29M59 55l8 11"/>
+      <path d="M42 63v12c0 3-1 4-4 4h-5M24 70 13 80M60 70l11 10"/>
+    </g>
+    <g id="chi" transform="translate(184)">
+      <path d="m8 11 13 10M5 32l13 10M6 77l16-23"/>
+      <path d="m28 36 48-11v19c0 4 0 7-6 7h-4M56 9v49"/>
+      <path d="M38 16v54c0 2.6 0 5.2 1.6 6.8S43.8 78.4 46.4 78.4h22.2c2.6 0 5.2 0 6.8-1.6S77 72.6 77 70v-5"/>
+    </g>
+    <g id="he" transform="translate(276)">
+      <path d="M5 28h35M22 8v72M22 32 5 61M22 34l17 18"/>
+      <path d="m58 6 8 10M43 23h37M61 25 49 42h15M74 33 58 54 45 62M79 47 63 69 43 81M65 66l15 14"/>
+    </g>
+  </g>
+</svg>
