@@ -137,7 +137,7 @@
 }
 
 @media (max-width: 24rem) {
-  .isle-header .isle-brand span[lang] {
+  .isle-header .isle-nav-arrival {
     display: none;
   }
 }

@@ -1,43 +1,67 @@
 ---
 import { Image } from "astro:assets";
 import harbor from "../../../design/meri-isle-poster/scene.png";
+import gameMap from "../../assets/isle/game-map.webp";
 import gameTown from "../../assets/isle/game-town.webp";
 import gameDialogue from "../../assets/isle/game-dialogue.webp";
+import gameInvitation from "../../assets/isle/game-invitation.webp";
+import gameJournal from "../../assets/isle/game-journal.webp";
 import ArrivalPreview from "../../components/isle/ArrivalPreview.astro";
+import GameShot from "../../components/isle/GameShot.astro";
+import Islanders from "../../components/isle/Islanders.astro";
 import IsleLayout from "../../layouts/IsleLayout.astro";
+import { isleBrand, isleName } from "../../utils/isle-brand";
 
-const days = [
+const stories = [
   {
-    place: "码头",
-    title: "先跟岛民打个招呼",
-    text: "在渡口遇到 Mei。选一句说得出口的英语，问个路，告诉她你叫什么。",
+    place: "面包房",
+    title: "烤箱坏了，面包涨价",
+    text: "货架空了，价格就会变。",
   },
   {
-    place: "面包店",
-    title: "给自己买一份早餐",
-    text: "问今天烤了什么、多少钱。你确认后，钱从钱包扣掉，面包进背包。",
+    place: "街上",
+    title: "街坊也会来找你",
+    text: "有人来聊新消息，有人约你晚点见。",
   },
   {
-    place: "街坊",
-    title: "把下次见面约下来",
-    text: "岛民有上班、吃饭和休息的时间。约好的见面会进计划本，再碰面时还可能聊起上次的话题。",
+    place: "网吧",
+    title: "岛上的网吧连着外面的世界",
+    text: "联网后，用英语查新闻并看来源。",
   },
 ];
 
-const contact = "mailto:m@shao.fun?subject=" + encodeURIComponent("美丽岛 · 试玩与合作");
+const paths = [
+  { title: "找一份工作", text: "从分析师做起，用英语开会和写邮件。" },
+  { title: "开一家公司", text: "向投资人路演，招同事，争取店铺客户。" },
+  { title: "竞选总统", text: "赢得居民支持，从地方选举走向总统竞选。" },
+];
+
+const invitationStages = [
+  { label: "访客", capacity: 1 },
+  { label: "工作许可", capacity: 2 },
+  { label: "居民", capacity: 3 },
+];
+
+const learningSteps = [
+  { title: "观察", detail: "选答、查词、求助和独立表达" },
+  { title: "估计", detail: "用在线估计和 Loss 追踪变化" },
+  { title: "练习", detail: "调节难度，安排间隔复习" },
+];
+
+const contact = "mailto:m@shao.fun?subject=" + encodeURIComponent(isleBrand.zh + " · 试玩与合作");
 ---
 
 <IsleLayout
-  title="美丽岛 Meri Isle · 上岛，用英语开启崭新的生活"
-  description="坐渡轮到一座用英语生活的小岛。问路、买面包、认识街坊。来试一句英语，看看岛上的一天怎么过。"
+  title={isleName + " · 上岛，用英语开启崭新的生活"}
+  description={"坐渡轮登上" + isleBrand.zh + "。用英语买早餐、认识街坊、邀请好友的角色定居，还可以工作、创业，甚至竞选总统。"}
 >
   <main id="main" tabindex="-1">
     <section class="hero isle-shell" aria-labelledby="hero-title">
       <div class="hero-copy">
-        <p class="label hero-label">英语生活模拟游戏</p>
+        <p class="label">持续降低你与英语母语者的 LOSS</p>
         <h1 id="hero-title">上岛，用英语<span>开启崭新的生活</span></h1>
         <p class="hero-summary">
-          渡轮靠岸时，你的口袋里只有一张明信片和一个苹果。去问路、买早餐、认识街坊。要把日子过下去，你就有了开口的理由。
+          登陆美丽岛™，在这个鲜活运转的社会开启崭新生活，成为大总统。
         </p>
         <a class="button" href="#arrival">试一句英语</a>
       </div>
@@ -58,75 +82,140 @@ const contact = "mailto:m@shao.fun?subject=" + encodeURIComponent("美丽岛 · 
         <div class="arrival-copy">
           <p class="label">港口 · 早班渡轮</p>
           <h2 id="arrival-title">先问个路。</h2>
-          <p>Mei 正在码头等船。选一句英语跟她打招呼，看看能不能找到卖早餐的面包店。</p>
+          <p>跟码头上的 Mei 打声招呼，问问面包店怎么走。</p>
         </div>
         <ArrivalPreview />
       </div>
     </section>
 
-    <section id="life" class="isle-shell life" aria-labelledby="life-title">
-      <header class="section-intro">
-        <h2 id="life-title">在岛上，英语能办成事。</h2>
-        <p>一开始只是问个路。渐渐地，你有了常去的店、认识的邻居，也有了约定。</p>
-      </header>
-      <div class="life-grid">
-        <figure class="game-shot">
-          <Image
-            src={gameTown}
-            alt="实际游戏画面，港口步道对面是移民局与咖啡馆，街道向小镇延伸"
-            widths={[440, 680, 1000]}
-            sizes="(min-width: 54rem) 54vw, 94vw"
-            format="webp"
-          />
-          <figcaption>游戏实景 · 码头、咖啡馆与移民局</figcaption>
+    <div id="life" class="isle-shell life">
+      <section class="island-overview" aria-labelledby="map-title">
+        <header class="section-intro">
+          <h2 id="map-title">从码头看全岛</h2>
+          <p>南边是汐港，东边是旧灯塔。</p>
+        </header>
+        <figure class="island-map">
+          <a href={gameMap.src} aria-labelledby="map-open">
+            <Image
+              src={gameMap}
+              alt="美丽岛全景，市镇位于岛中央，汐港的码头向南伸入海湾"
+              widths={[460, 768, 1200, 1600].filter((width) => width < gameMap.width)}
+              sizes="(min-width: 91rem) 64rem, (min-width: 64rem) 72vw, 92vw"
+              format="webp"
+            />
+            <span class="map-caption">
+              <span>游戏实景 · 全岛俯瞰</span>
+              <span id="map-open">查看全岛大图</span>
+            </span>
+          </a>
         </figure>
-        <ol class="itinerary">
-          {
-            days.map(({ place, title, text }) => (
+      </section>
+      <Islanders />
+      <section class="daily-life" aria-labelledby="life-title">
+        <header class="section-intro">
+          <h2 id="life-title">岛上的一天</h2>
+        </header>
+        <div class="life-grid">
+          <GameShot
+            image={gameTown}
+            alt="游戏里的港口步道、移民局和咖啡馆，居民沿街活动"
+            sizes="(min-width: 54rem) 54vw, 94vw"
+          >
+            游戏实景 · 码头、咖啡馆与移民局
+          </GameShot>
+          <ol class="itinerary">
+            {
+              stories.map(({ place, title, text }) => (
+                <li>
+                  <span class="label">{place}</span>
+                  <h3>{title}</h3>
+                  <p>{text}</p>
+                </li>
+              ))
+            }
+          </ol>
+        </div>
+        <aside class="agents" aria-labelledby="agents-title">
+          <h3 id="agents-title"><span lang="en">AI Agents</span> 多智能体</h3>
+          <p>规则引擎推动日常。接入语言服务后，居民会接着聊往事。</p>
+        </aside>
+      </section>
+    </div>
+
+    <section class="futures" aria-labelledby="futures-title">
+      <div class="isle-shell">
+        <div class="invitation">
+          <div class="invitation-copy">
+            <h2 id="futures-title">邀请好友来做邻居。</h2>
+            <p>为好友创建一位岛民。爱烘焙的角色会去面包房上班，也会在午后逛市场。</p>
+            <dl class="invitation-stages" aria-label="各身份的好友角色邀请名额">
+              {invitationStages.map(({ label, capacity }) => (
+                <div>
+                  <dt>{label}</dt>
+                  <dd>{capacity} 位</dd>
+                </div>
+              ))}
+            </dl>
+            <p class="invite-limit">好友角色住在你的单人存档里。</p>
+          </div>
+          <GameShot image={gameInvitation} alt="游戏里的好友角色邀请界面，可以选择角色的外形、性格和兴趣" sizes="(min-width: 54rem) 49vw, 88vw">
+            游戏实景 · 为好友创建居民角色
+          </GameShot>
+        </div>
+        <div class="paths" aria-labelledby="paths-title">
+          <h3 id="paths-title">三种岛上人生</h3>
+          <ul>
+            {paths.map(({ title, text }) => (
               <li>
-                <span class="label">{place}</span>
-                <h3>{title}</h3>
+                <h4>{title}</h4>
                 <p>{text}</p>
               </li>
-            ))
-          }
-        </ol>
+            ))}
+          </ul>
+        </div>
       </div>
     </section>
 
     <section class="practice" aria-labelledby="practice-title">
-      <div class="isle-shell practice-grid">
-        <div>
-          <h2 id="practice-title">从选一句，到说自己的话。</h2>
-          <p>不知道怎么接话时，可以先选一个回答。遇到生词可以点开看解释，熟悉后再试着自己写。连接相应服务后，可以自由对话或语音输入。</p>
-          <p>表达卡住时，岛上的反馈会给出一种更自然的说法。学习日志把选过的句子和自己表达过的话分开记录，方便回看。</p>
+      <div class="isle-shell">
+        <header class="section-intro">
+          <h2 id="practice-title">从选一句，到自己说。</h2>
+          <p>先选一句回答，再试着用自己的话说。生词点一下就能查。</p>
+        </header>
+        <div class="practice-grid">
+          <GameShot image={gameDialogue} alt="游戏中的 Mei 给出更自然的英文自我介绍" sizes="(min-width: 54rem) 46vw, 94vw">
+            游戏实景 · 更自然的说法 <span lang="en">“My name is Mina.”</span>
+          </GameShot>
+          <GameShot image={gameJournal} alt="游戏学习日志，区分玩家看过、选过和独立表达过的英语" sizes="(min-width: 54rem) 46vw, 94vw">
+            游戏实景 · 选答和独立表达分别记录
+          </GameShot>
         </div>
-        <figure class="game-shot">
-          <Image
-            src={gameDialogue}
-            alt="实际游戏对话画面，码头的 Mei 与新来的旅客交流，界面给出更自然的英文表达"
-            widths={[440, 680, 900]}
-            sizes="(min-width: 54rem) 47vw, 94vw"
-            format="webp"
-          />
-          <figcaption>游戏实景 · 更自然的说法 <span lang="en">“My name is Mina.”</span></figcaption>
-        </figure>
+        <div class="learning-note">
+          <div class="learning-header">
+            <h3>半黑盒学习模型</h3>
+            <a class="text-link" href="/isle/whitepaper/#learning">了解学习模型</a>
+          </div>
+          <p>借鉴记忆心理学与机器学习。</p>
+          <dl class="learning-steps">
+            {learningSteps.map(({ title, detail }) => (
+              <div>
+                <dt>{title}</dt>
+                <dd>{detail}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
       </div>
     </section>
 
-    <section class="isle-shell together" aria-labelledby="together-title">
-      <div class="family">
-        <h2 id="together-title">和孩子一起试一句。</h2>
-        <p>读旅客和岛民的话。把面包店换成熟悉的地方，试着问一次怎么走。</p>
-        <a class="text-link" href="#arrival">回到码头</a>
+    <section class="isle-shell closing" aria-labelledby="closing-title">
+      <div>
+        <h2 id="closing-title">从第一次开口，到愿意回来。</h2>
+        <p>欢迎来信了解完整试玩与合作。</p>
       </div>
-      <div class="partner">
-        <h2>从第一次开口，到愿意回来。</h2>
-        <p>美丽岛面向学过英语却缺少开口机会的人。熟悉的店、记得你的街坊和未完成的约定，给了玩家回来的理由。欢迎聊试玩与合作，一起验证复访和独立表达。</p>
-        <div class="partner-actions">
-          <a class="button" href={contact}>咨询完整试玩与合作</a>
-          <a class="text-link" href="/isle/whitepaper/">读技术白皮书</a>
-        </div>
+      <div class="partner-actions">
+        <a class="button" href={contact}>咨询完整试玩与合作</a>
+        <a class="text-link" href="/isle/whitepaper/">读技术白皮书</a>
       </div>
     </section>
   </main>
@@ -136,6 +225,7 @@ const contact = "mailto:m@shao.fun?subject=" + encodeURIComponent("美丽岛 · 
   h1,
   h2,
   h3,
+  h4,
   p,
   figure {
     margin: 0;
@@ -156,6 +246,7 @@ const contact = "mailto:m@shao.fun?subject=" + encodeURIComponent("美丽岛 · 
 
   p {
     color: var(--isle-muted);
+    text-wrap: pretty;
   }
 
   .label {
@@ -193,6 +284,7 @@ const contact = "mailto:m@shao.fun?subject=" + encodeURIComponent("美丽岛 · 
     max-width: 23rem;
     font-size: clamp(1rem, 1.6vw, 1.18rem);
     line-height: 1.8;
+    text-wrap: balance;
   }
 
   a.button {
@@ -219,12 +311,8 @@ const contact = "mailto:m@shao.fun?subject=" + encodeURIComponent("美丽岛 · 
     background-color: #356777;
   }
 
-  .hero-art img,
-  .game-shot img {
-    width: 100%;
-  }
-
   .hero-art img {
+    width: 100%;
     height: 100%;
     object-fit: cover;
     object-position: 50% 38%;
@@ -249,7 +337,43 @@ const contact = "mailto:m@shao.fun?subject=" + encodeURIComponent("美丽岛 · 
   }
 
   .life {
+    display: grid;
+    gap: clamp(2.8rem, 6vw, 5.8rem);
     padding-block: clamp(3.75rem, 8vw, 7rem);
+  }
+
+  .island-map a {
+    display: block;
+    overflow: hidden;
+    border: 1px solid var(--isle-border);
+    border-radius: 0.35rem;
+    background: var(--isle-light);
+    text-decoration: none;
+  }
+
+  .island-map img {
+    width: 100%;
+    height: auto;
+  }
+
+  .map-caption {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.25rem 1rem;
+    min-block-size: 48px;
+    padding: 0.45rem clamp(0.7rem, 2.2vw, 1.3rem);
+    border-block-start: 1px solid var(--isle-border);
+    color: var(--isle-muted);
+    font-size: 0.875rem;
+  }
+
+  #map-open {
+    color: var(--isle-brick);
+    font-weight: 720;
+    text-decoration: underline;
+    text-underline-offset: 0.22em;
   }
 
   .section-intro {
@@ -262,27 +386,19 @@ const contact = "mailto:m@shao.fun?subject=" + encodeURIComponent("美丽岛 · 
     max-width: 36rem;
   }
 
+  .section-intro p,
+  .arrival-copy p,
+  .paths p,
+  .invitation-copy p,
+  .agents p,
+  .closing p {
+    text-wrap: balance;
+  }
+
   .life-grid,
   .practice-grid {
     display: grid;
     gap: 1.2rem;
-  }
-
-  .game-shot {
-    min-width: 0;
-    align-self: start;
-  }
-
-  .game-shot img {
-    height: auto;
-    border: 1px solid var(--isle-border);
-    border-radius: 0.35rem;
-  }
-
-  figcaption {
-    margin-block-start: 0.55rem;
-    color: var(--isle-muted);
-    font-size: 0.875rem;
   }
 
   .itinerary {
@@ -302,58 +418,168 @@ const contact = "mailto:m@shao.fun?subject=" + encodeURIComponent("美丽岛 · 
     font-size: clamp(1.15rem, 2vw, 1.45rem);
     line-height: 1.35;
     margin-block: 0.2rem 0.35rem;
+    text-wrap: balance;
+  }
+
+  .agents {
+    display: grid;
+    gap: 0.4rem 2rem;
+    margin-block-start: clamp(1.65rem, 4vw, 3rem);
+    padding-block: 1.15rem;
+    border-block: 1px solid var(--isle-border);
+  }
+
+  .agents h3 {
+    align-self: start;
+    font-size: 1rem;
+  }
+
+  .agents p {
+    max-width: 52rem;
+  }
+
+  .futures {
+    padding-block: clamp(3.4rem, 7vw, 6rem);
+    background: #efe6d4;
+  }
+
+  .invitation {
+    display: grid;
+    align-items: center;
+    gap: 1.3rem;
+    padding: clamp(1.05rem, 3.7vw, 2.7rem);
+    border: 1px solid var(--isle-border);
+    border-block-start: 2px solid var(--isle-brick);
+    background: var(--isle-light);
+  }
+
+  .invitation-copy {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .invite-limit {
+    font-size: 0.9rem;
+  }
+
+  .invitation-stages {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.55rem;
+    margin: 0;
+  }
+
+  .invitation-stages > div {
+    padding-block: 0.55rem;
+    border-block: 1px solid var(--isle-border);
+  }
+
+  .invitation-stages dt {
+    color: var(--isle-muted);
+    font-size: 0.875rem;
+  }
+
+  .invitation-stages dd {
+    margin: 0;
+    font-size: 1.22rem;
+    font-weight: 700;
+  }
+
+  .paths {
+    margin-block-start: clamp(2rem, 4vw, 3.2rem);
+  }
+
+  .paths h3 {
+    margin-block-end: 1rem;
+    font-size: clamp(1.25rem, 2.7vw, 1.8rem);
+  }
+
+  .paths ul {
+    display: grid;
+    gap: 1rem 2rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .paths li {
+    padding-block-start: 0.8rem;
+    border-block-start: 1px solid var(--isle-border);
+  }
+
+  .paths h4 {
+    margin-block-end: 0.35rem;
+    font-size: 1.125rem;
   }
 
   .practice {
+    --isle-shot-border: #739294;
+    --isle-shot-caption: #d6e4e3;
     padding-block: clamp(2.9rem, 6vw, 5.2rem);
     background: var(--isle-sea);
     color: var(--isle-light);
   }
 
-  .practice p,
-  .practice figcaption {
+  .practice p {
     color: #d6e4e3;
   }
 
   .practice-grid {
-    align-items: center;
+    align-items: start;
     gap: 1.5rem;
   }
 
-  .practice-grid h2 {
-    margin-block-end: 0.9rem;
+  .learning-note {
+    margin-block-start: 1.55rem;
+    padding-block-start: 0.85rem;
+    border-block-start: 1px solid #739294;
   }
 
-  .practice-grid p + p {
-    margin-block-start: 0.8rem;
-  }
-
-  .practice .game-shot img {
-    border-color: #739294;
-  }
-
-  .together {
-    display: grid;
-    gap: 1.15rem;
-    padding-block: clamp(3.4rem, 8vw, 7rem);
-  }
-
-  .together > div {
+  .learning-header {
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.7rem;
-    padding: clamp(1.25rem, 3.2vw, 2.4rem);
-    background: var(--isle-light);
-    border-block-start: 2px solid var(--isle-brick);
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0 0.8rem;
   }
 
-  .together h2 {
+  .learning-steps {
+    display: grid;
+    gap: 0.4rem 1rem;
+    margin: 0.45rem 0 0;
+  }
+
+  .learning-steps > div {
+    display: grid;
+    grid-template-columns: 3.2rem minmax(0, 1fr);
+    align-items: baseline;
+    border-block-start: 1px solid #53777d;
+    padding-block: 0.55rem;
+  }
+
+  .learning-steps dt {
+    font-weight: 700;
+  }
+
+  .learning-steps dd {
+    margin: 0;
+    color: #d6e4e3;
+    text-wrap: pretty;
+  }
+
+  .closing h2 {
+    margin-block-end: 0.4rem;
+  }
+
+  .closing {
+    display: grid;
+    align-items: end;
+    gap: 1rem 2rem;
+    padding-block: clamp(3.4rem, 8vw, 6rem);
+  }
+
+  .closing h2 {
     font-size: clamp(1.65rem, 2.85vw, 2.45rem);
-  }
-
-  .together p {
-    margin-block-end: 0.35rem;
   }
 
   .text-link {
@@ -361,11 +587,6 @@ const contact = "mailto:m@shao.fun?subject=" + encodeURIComponent("美丽岛 · 
     align-items: center;
     min-height: 44px;
     font-weight: 675;
-  }
-
-  .family .text-link,
-  .partner-actions {
-    margin-block-start: auto;
   }
 
   .partner-actions {
@@ -376,8 +597,20 @@ const contact = "mailto:m@shao.fun?subject=" + encodeURIComponent("美丽岛 · 
   }
 
   @media (min-width: 42rem) {
-    .together {
-      grid-template-columns: 1fr 1.16fr;
+    .agents {
+      grid-template-columns: max-content minmax(0, 1fr);
+    }
+
+    .paths ul {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .learning-steps {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .learning-steps > div {
+      display: block;
     }
   }
 
@@ -393,8 +626,21 @@ const contact = "mailto:m@shao.fun?subject=" + encodeURIComponent("美丽岛 · 
     }
 
     .practice-grid {
-      grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
-      gap: clamp(2rem, 6vw, 6rem);
+      grid-template-columns: minmax(0, 1.02fr) minmax(0, 0.98fr);
+      gap: clamp(1.35rem, 3vw, 3.4rem);
+    }
+
+    .closing {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    }
+
+    .invitation {
+      grid-template-columns: minmax(0, 0.83fr) minmax(0, 1.17fr);
+      gap: clamp(1.5rem, 4vw, 3rem);
+    }
+
+    .closing .partner-actions {
+      justify-content: end;
     }
   }
 
@@ -419,6 +665,27 @@ const contact = "mailto:m@shao.fun?subject=" + encodeURIComponent("美丽岛 · 
 
     .hero-art img {
       object-position: 50% 51%;
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .island-overview {
+      display: grid;
+      grid-template-columns: minmax(10.5rem, 1fr) minmax(0, 4fr);
+      align-items: start;
+      gap: clamp(1.5rem, 3vw, 3rem);
+    }
+
+    .island-overview .section-intro {
+      position: sticky;
+      inset-block-start: 2rem;
+      margin-block-end: 0;
+      padding-block: clamp(0.6rem, 3vw, 2.35rem);
+    }
+
+    .island-overview h2 {
+      max-inline-size: 4.1em;
+      text-wrap: balance;
     }
   }
 </style>

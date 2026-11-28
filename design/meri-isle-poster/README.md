@@ -1,4 +1,4 @@
-# 美丽岛海报
+# 美丽岛™ Meri Isle™ 海报
 
 [HTML 源稿](index.html) · [送印 PDF](meri-isle-poster.pdf)
 
@@ -6,7 +6,7 @@
 
 海报取的是初到小岛的第一场对话。旅客举起一张灯塔明信片，岛民朝沿港的台阶指路。暖纸、海蓝字和砖红灯塔沿用作品的港口视觉。
 
-双语字标靠左，灯塔、「上岛，用英语开启崭新的生活」和网址沿插画右缘对齐。网址用约 19 pt 的深海蓝半粗体独占一行。字标与灯塔均为可编辑 SVG，HTML 与 PDF 的链接均指向预定落地页 [shao.fun/isle](https://shao.fun/isle)。
+双语字标靠左，灯塔、「上岛，用英语开启崭新的生活」和网址沿插画右缘对齐。网址用约 19 pt 的深海蓝半粗体独占一行。字标、™ 标记与灯塔均为可编辑矢量，HTML 与 PDF 的链接均指向介绍页 [shao.fun/isle](https://shao.fun/isle)。
 
 - [中文字标](title-zh.svg)的三个字分别绘制，可逐字调整。
 - [英文字标](title-en.svg)用 Fraunces 轮廓重排，轴值为 `wght 630 / opsz 48 / SOFT 30 / WONK 0`。[字体许可](fonts/Fraunces-OFL.txt)

@@ -88,9 +88,37 @@ input {
   align-items: center;
 }
 
-.vp-brand img {
+.vp-brand {
+  gap: 0.35rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.vp-brand-symbol {
   inline-size: auto;
   block-size: 1.5rem;
+}
+
+.vp-brand-wordmark {
+  display: inline-flex;
+  align-items: start;
+  gap: 0.08em;
+}
+
+.vp-brand-wordmark img {
+  inline-size: auto;
+  block-size: 0.875rem;
+}
+
+.vp-trademark {
+  font-size: 0.7em;
+  line-height: 0;
+  vertical-align: 0.35em;
+  letter-spacing: 0;
+}
+
+.vp-brand-wordmark .vp-trademark {
+  line-height: 1;
 }
 
 .vp-header nav {
@@ -125,8 +153,21 @@ input {
 }
 
 @media (max-width: 24rem) {
-  .vp-brand img {
+  .vp-header,
+  .vp-header nav {
+    column-gap: 0.5rem;
+  }
+
+  .vp-brand {
+    gap: 0.25rem;
+  }
+
+  .vp-brand-symbol {
     block-size: 1.125rem;
+  }
+
+  .vp-brand-wordmark img {
+    block-size: 0.65rem;
   }
 }
 

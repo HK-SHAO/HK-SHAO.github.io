@@ -7,6 +7,8 @@ import Bilibili from "../../components/mdx/Bilibili.astro";
 import hero from "../../assets/voxpool/hero.webp";
 import light from "../../assets/voxpool/light.webp";
 import card from "../../assets/voxpool/map-card.png";
+import poster from "../../assets/voxpool/poster.webp";
+import { voxpoolBrand, voxpoolName } from "../../utils/voxpool-brand";
 import { voxpoolLinks as links } from "../../utils/voxpool-links";
 
 const modes = [
@@ -38,7 +40,7 @@ const elsewhere = [
 ---
 
 <VoxpoolLayout
-  title="VOXPOOL 体素池核"
+  title={voxpoolName}
   description="在浏览器里打开一座空泳池。九张地图，可以下水、往池里放一只黄鸭，或者一块一块改出自己的房间，再把整个世界存进一张图片。"
 >
   <section class="hero" aria-labelledby="hero-title">
@@ -52,7 +54,10 @@ const elsewhere = [
       fetchpriority="high"
     />
     <div class="hero-copy vp-shell">
-      <p class="kicker">体素池核 · VOXPOOL</p>
+      <p class="kicker">
+        <span>{voxpoolBrand.zh}<sup class="vp-trademark">{voxpoolBrand.trademark}</sup></span>
+        <span lang="en">{voxpoolBrand.en}<sup class="vp-trademark">{voxpoolBrand.trademark}</sup></span>
+      </p>
       <h1 id="hero-title">下水看看。</h1>
       <p class="lead">浏览器里的体素空间。下水，看光，动手改。</p>
       <div class="actions">
@@ -95,7 +100,7 @@ const elsewhere = [
 
   <section class="card vp-shell" aria-labelledby="card-title">
     <figure>
-      <Image src={card} alt="一张 VOXPOOL 地图卡：左上是潮汐浴殿的预览，其余三块是白、绿、蓝三色的编码方格" widths={[480, 720, 1024]} sizes="(min-width: 60rem) 34rem, 92vw" format="png" />
+      <Image src={card} alt={`一张 ${voxpoolBrand.en}${voxpoolBrand.trademark} 地图卡：左上是潮汐浴殿的预览，其余三块是白、绿、蓝三色的编码方格`} widths={[480, 720, 1024]} sizes="(min-width: 60rem) 34rem, 92vw" format="png" />
     </figure>
     <div class="card-copy">
       <h2 id="card-title">一张图，<br />一个世界</h2>
@@ -125,6 +130,26 @@ const elsewhere = [
   <section class="film vp-shell" aria-labelledby="film-title">
     <h2 id="film-title" class="sr-only">实机演示</h2>
     <Bilibili bvid={links.videoId} title="梦核泳池，被我装进浏览器" />
+  </section>
+
+  <section class="poster vp-shell" aria-labelledby="poster-title">
+    <div class="poster-grid">
+      <div class="poster-copy">
+        <h2 id="poster-title">作品海报</h2>
+        <p>画面由游戏原生渲染。水面将斜射日光折向池底，也把它反射到墙上。</p>
+      </div>
+      <a class="poster-link" href={poster.src}>
+        <Image
+          src={poster}
+          alt={`${voxpoolName} 海报，阳光穿过天窗，在方块泳池和墙面留下水纹。`}
+          widths={[360, 560, 840]}
+          sizes="(min-width: 60rem) 26rem, min(26rem, 92vw)"
+          format="webp"
+          loading="lazy"
+        />
+        <span>查看海报大图</span>
+      </a>
+    </div>
   </section>
 
   <section class="outro vp-shell" aria-labelledby="outro-title">
@@ -160,7 +185,8 @@ const elsewhere = [
   .hero > img { position: absolute; inset: 0; block-size: 100%; object-fit: cover; object-position: 50% 60%; background: #9fb9b6; }
   .hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgb(9 31 27 / 0.85), rgb(9 31 27 / 0.4) 42%, rgb(9 31 27 / 0) 72%); }
   .hero-copy { position: relative; z-index: 1; display: grid; align-content: end; justify-items: start; gap: 1rem; padding-block: 4rem clamp(2.5rem, 6vw, 4.5rem); }
-  .kicker { color: #b9e3d2; font-size: 0.8125rem; font-weight: 700; letter-spacing: 0.24em; }
+  .kicker { display: flex; flex-wrap: wrap; gap: 0.25rem 0.8rem; color: #b9e3d2; font-size: 0.8125rem; font-weight: 700; letter-spacing: 0.24em; }
+  .kicker > span { white-space: nowrap; }
   h1 { font-size: clamp(3.4rem, 11vw, 8.5rem); }
   .lead { font-size: clamp(1.1rem, 1.8vw, 1.35rem); text-wrap: balance; }
   p { text-wrap: pretty; }
@@ -170,7 +196,7 @@ const elsewhere = [
   .hero a:hover { color: #c6e6d5; }
   .hero :focus-visible { outline-color: #c6e6d5; }
 
-  .modes, .props, .card, .details, .film { padding-block-start: var(--vp-space); }
+  .modes, .props, .card, .details, .film, .poster { padding-block-start: var(--vp-space); }
 
   .mode-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; }
   .mode-grid article { display: grid; align-content: start; gap: 0.5rem; padding: clamp(1.5rem, 3vw, 2.25rem); background: #e6ece4; border-block-start: 0.2rem solid var(--vp-accent); }
@@ -210,6 +236,14 @@ const elsewhere = [
 
   .film { --bilibili-margin: 0; }
 
+  .poster-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 26rem); align-items: center; gap: 1.5rem clamp(2rem, 6vw, 6rem); max-inline-size: 56rem; margin-inline: auto; padding-block-start: clamp(1.5rem, 3vw, 2.25rem); border-block-start: 1px solid var(--vp-line); }
+  .poster-copy { display: grid; gap: 0.65rem; }
+  .poster-copy p { color: var(--vp-muted); text-wrap: balance; }
+  .poster-link { display: grid; inline-size: min(100%, 26rem); gap: 0.35rem; text-decoration: none; }
+  .poster-link img { display: block; }
+  .poster-link > span { display: flex; align-items: center; gap: 0.4em; min-block-size: 2.75rem; font-weight: 700; }
+  .poster-link:hover > span { text-decoration: underline; }
+
   .outro { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 2.5rem clamp(2rem, 6vw, 6rem); align-items: end; padding-block: var(--vp-space); }
   .outro-main { display: grid; gap: 1.5rem; }
   .outro h2 { font-size: clamp(2.8rem, 7vw, 5.5rem); }
@@ -223,7 +257,7 @@ const elsewhere = [
   .outro-community { grid-column: 1 / -1; }
 
   @media (max-width: 60rem) {
-    .props, .card, .details, .outro { grid-template-columns: minmax(0, 1fr); }
+    .props, .card, .details, .poster-grid, .outro { grid-template-columns: minmax(0, 1fr); }
     .light { grid-template-columns: minmax(0, 1fr); }
     .light img { min-block-size: 0; aspect-ratio: 16 / 10; }
   }

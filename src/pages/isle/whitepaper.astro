@@ -1,8 +1,9 @@
 ---
 import IsleLayout from "../../layouts/IsleLayout.astro";
+import { isleBrand, isleName } from "../../utils/isle-brand";
 
-const title = "美丽岛技术白皮书";
-const description = "美丽岛的浏览器端世界模拟、对话与行动边界、学习信号、存档、语音和工程验证。";
+const title = isleName + " · 技术白皮书";
+const description = isleBrand.zh + "的浏览器端多智能体模拟、对话与行动、学习者建模、存档、语音和工程验证。";
 
 const sections = [
   { id: "architecture", title: "架构与状态" },
@@ -31,10 +32,10 @@ const audits = [
 <IsleLayout {title} {description}>
   <main id="main" class="paper" tabindex="-1">
     <header class="masthead">
-      <p class="edition">Meri Isle <span aria-hidden="true">/</span> 技术白皮书</p>
+      <p class="edition">{isleBrand.zh} <span lang="en">{isleBrand.en}</span> <span aria-hidden="true">/</span> 技术白皮书</p>
       <h1>一座用英语生活的岛</h1>
       <p class="lead">
-        美丽岛是一个在浏览器里推进的单人英语生活模拟。岛上的商店、居民、约定和账本由规则引擎管理。语言模型参与对话和反馈。一次咖啡订单能否成交，由当时的库存、价格和玩家确认共同决定。
+        {isleBrand.zh}是一个在浏览器里推进的单人英语生活模拟。岛上的商店、居民、约定和账本由规则引擎管理。语言模型参与对话和反馈。一次咖啡订单能否成交，由当时的库存、价格和玩家确认共同决定。
       </p>
       <p class="revision"><time datetime="2026-11-26">2026 年 11 月 26 日</time><span>实现版本 0.1.1</span></p>
     </header>
@@ -82,6 +83,12 @@ const audits = [
           <p>
             每位居民的记忆最多保留 48 条。参与者和附近居民可感知局部事件，全岛事件另行广播。传闻随闲聊中的具体话语传递。商铺与个人拥有各自的账户与物品，库存影响售价，到货改变可售数量。港口、面包房与零售店之间的供货通过明确的库存及现金流转表达。
           </p>
+          <p>
+            多智能体由各居民的状态与行动规则构成。接入模型后，居民可以生成开场白、改写尚未说出的闲聊，或从已有记忆整理反思。每条反思须能引用该居民保留的记忆，规则状态继续由本地引擎驱动。
+          </p>
+          <p>
+            邀请好友角色时，玩家提交姓名、外形、性格与可选兴趣。引擎按档案选择作息，创建当地居民，将其安排到码头，并写入玩家关系和抵达事件。该居民随单人档案保存，访客、工作许可持有者与居民分别有一、二、三个名额。
+          </p>
         </section>
 
         <section id="dialogue">
@@ -101,6 +108,9 @@ const audits = [
           <h2>学习信号</h2>
           <p>
             练习围绕实际任务展开，例如问路、点单和约时间。记录区分看见一句话、听读、查词、请求提示、选择答案与独立表达，也区分打字和口语转写。模型提取词汇、词组、语法及习语时，标注必须能在对应话语中找到证据。
+          </p>
+          <p>
+            这里把学习者视为半黑盒。内部掌握程度是一种估计，系统以看得到的行为为输入，持续更新难度和熟悉度。设计借鉴记忆心理学中的间隔复习和衰减的思路，以及机器学习中的在线估计和损失度量。语言模型参与评分，可记录的估计由明确的规则更新。
           </p>
           <p>
             已评分的回答得到自然度与情境契合度的质量值 <var>q</var>，夹在 0.03 到 1 之间。系统按 <code>−ln(q)</code> 计算单次损失并平滑累计。内部难度用类似 Elo 的分数调节，其中选择题计入猜测基线，提示会降低更新权重。高质量且未求助的输出能增加词项的复习间隔，熟悉度随时间及证据变化。日志将选答、独立表达和有辅助的表达分别汇总。
@@ -183,7 +193,7 @@ const audits = [
         </section>
       </article>
     </div>
-    <footer class="paper-footer"><a href="/isle/">返回美丽岛</a></footer>
+    <footer class="paper-footer"><a href="/isle/">返回{isleBrand.zh}</a></footer>
   </main>
 </IsleLayout>
 

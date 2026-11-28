@@ -185,7 +185,7 @@ def finalize(layout, overlay, destination, profile):
         page[NameObject(key)] = RectangleObject(numbers(expected))
     embed_output_intent(writer, profile)
     writer.metadata = {
-        "/Title": "美丽岛 · Meri Isle",
+        "/Title": "美丽岛™ Meri Isle™",
         "/Subject": "210 x 297 mm trim, 3 mm bleed, PSO Coated v3 (FOGRA51)",
     }
     writer.compress_identical_objects()

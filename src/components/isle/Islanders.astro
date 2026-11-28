@@ -1,0 +1,102 @@
+---
+import IslanderGrid from "./IslanderGrid.astro";
+
+const featured = [
+  ["mei", "Mei Chen", "码头向导", "靠自己画地图认路"],
+  ["lily", "Lily Park", "咖啡师兼艺术生", "在咖啡杯上画肖像"],
+  ["daniel", "Daniel Kim", "初创公司创办人", "给渔船开发工具"],
+  ["george", "George Miller", "灯塔看守", "守了四十年灯塔"],
+] as const;
+
+const neighbors = [
+  ["lin", "Mr. Lin", "面馆老板"],
+  ["grace", "Officer Grace", "移民官"],
+  ["tom", "Tom Becker", "咖啡馆老板"],
+  ["eleanor", "Mayor Eleanor", "市长"],
+  ["sam", "Sam Rivera", "市议会书记员"],
+  ["priya", "Priya Sharma", "银行经理"],
+  ["jack", "Jack O'Brien", "渔夫"],
+  ["olivia", "Olivia Grant", "记者"],
+  ["victoria", "Victoria Hale", "天使投资人"],
+  ["ben", "Ben Walker", "酒馆老板"],
+  ["rosa", "Rosa Martinez", "水果摊主"],
+  ["hannah", "Hannah Fischer", "图书管理员"],
+  ["arthur", "Arthur Bell", "网吧管理员"],
+  ["zoe", "Zoe Turner", "学校教师"],
+  ["leo", "Leo Novak", "航运分析师"],
+  ["chloe", "Chloe Adams", "旅舍经理"],
+  ["marcus", "Marcus Johnson", "私人教练"],
+  ["nora", "Nora Quinn", "音乐人"],
+  ["ethan", "Ethan Brooks", "反对派市议员"],
+  ["amelia", "Amelia Scott", "海滩救生员"],
+  ["isla", "Isla Thompson", "花摊摊主"],
+  ["ryan", "Ryan Cooper", "自行车信使"],
+  ["sophie", "Sophie Laurent", "面包师"],
+  ["maya", "Maya Patel", "法学生"],
+  ["henry", "Henry Wright", "房产经纪人"],
+  ["lucy", "Lucy Evans", "酒店前台兼瑜伽教练"],
+] as const;
+---
+
+<section id="islanders" aria-labelledby="islanders-title">
+  <header>
+    <h2 id="islanders-title">先认识几位岛民</h2>
+    <p>每个人都有自己的作息、性格和记忆。</p>
+  </header>
+  <IslanderGrid people={featured} />
+  <details>
+    <summary>
+      <span class="expand">查看全部 {featured.length + neighbors.length} 位岛民</span>
+      <span class="collapse">收起角色库</span>
+    </summary>
+    <IslanderGrid people={neighbors} />
+  </details>
+</section>
+
+<style>
+  header {
+    display: grid;
+    gap: 0.85rem;
+    margin-block-end: clamp(1.4rem, 3.7vw, 2.65rem);
+  }
+
+  h2 {
+    margin: 0;
+    font: 800 clamp(1.95rem, 4vw, 3.65rem)/1.16 var(--isle-serif);
+    letter-spacing: -0.015em;
+    text-wrap: balance;
+  }
+
+  p {
+    margin: 0;
+    color: var(--isle-muted);
+    text-wrap: balance;
+  }
+
+  details {
+    margin-block-start: 0.85rem;
+  }
+
+  summary {
+    width: fit-content;
+    min-block-size: 48px;
+    padding-block: 0.65rem;
+    color: var(--isle-brick);
+    font-weight: 720;
+    cursor: pointer;
+  }
+
+  summary:hover span {
+    text-decoration: underline;
+    text-underline-offset: 0.22em;
+  }
+
+  details[open] summary {
+    margin-block-end: 0.65rem;
+  }
+
+  details:not([open]) .collapse,
+  details[open] .expand {
+    display: none;
+  }
+</style>

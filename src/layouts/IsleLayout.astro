@@ -3,6 +3,7 @@ import { getImage } from "astro:assets";
 import harbor from "../../design/meri-isle-poster/scene.png";
 import lighthouse from "../../design/meri-isle-poster/lighthouse.svg?url";
 import { site } from "../site.config";
+import { isleBrand, isleName } from "../utils/isle-brand";
 import "../styles/isle.css";
 
 interface Props {
@@ -28,7 +29,7 @@ const socialUrl = new URL(social.src, site.url);
     <link rel="canonical" href={canonical} />
     <link rel="icon" href={lighthouse} type="image/svg+xml" />
     <meta property="og:type" content={paper ? "article" : "website"} />
-    <meta property="og:site_name" content="Meri Isle 美丽岛" />
+    <meta property="og:site_name" content={isleName} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
@@ -44,13 +45,13 @@ const socialUrl = new URL(social.src, site.url);
     <a class="isle-skip" href="#main">跳到正文</a>
     <header class="isle-header">
       <div class="isle-shell isle-header-inner">
-        <a class="isle-brand" href="/isle/" aria-label="美丽岛首页">
+        <a class="isle-brand" href="/isle/" aria-label={isleName + " 首页"}>
           <img src={lighthouse} alt="" width="27" height="32" />
-          <span>美丽岛 <span lang="en">Meri Isle</span></span>
+          <span>{isleBrand.zh} <span lang="en">{isleBrand.en}</span></span>
         </a>
-        <nav aria-label="美丽岛">
-          <a href="/isle/#arrival">试一句英语</a>
-          <a class="isle-nav-life" href="/isle/#life">岛上生活</a>
+        <nav aria-label={isleName}>
+          <a class="isle-nav-arrival" href="/isle/#arrival">试一句英语</a>
+          <a class="isle-nav-life" href="/isle/#life">地图与岛民</a>
           <a href="/isle/whitepaper/" aria-current={paper ? "page" : undefined}>技术白皮书</a>
         </nav>
       </div>
@@ -60,7 +61,7 @@ const socialUrl = new URL(social.src, site.url);
       <div class="isle-shell isle-footer-inner">
         <a class="isle-brand" href="/isle/">
           <img src={lighthouse} alt="" width="23" height="28" />
-          <span>美丽岛 <span lang="en">Meri Isle</span></span>
+          <span>{isleBrand.zh} <span lang="en">{isleBrand.en}</span></span>
         </a>
         <a href="/">烧风的个人站</a>
       </div>

@@ -1,0 +1,40 @@
+---
+import type { ImageMetadata } from "astro";
+import { Image } from "astro:assets";
+
+interface Props {
+  image: ImageMetadata;
+  alt: string;
+  sizes: string;
+}
+
+const { image, alt, sizes } = Astro.props;
+const widths = [440, 680, 1000].filter((width) => width < image.width);
+widths.push(Math.min(image.width, 1440));
+---
+
+<figure class="game-shot">
+  <Image src={image} {alt} {widths} {sizes} format="webp" />
+  <figcaption><a href={image.src} aria-label={"查看原图，" + alt}><slot /></a></figcaption>
+</figure>
+
+<style>
+  .game-shot {
+    min-width: 0;
+    margin: 0;
+  }
+
+  img {
+    width: 100%;
+    height: auto;
+    border: 1px solid var(--isle-shot-border, var(--isle-border));
+    border-radius: 0.35rem;
+  }
+
+  figcaption {
+    margin-block-start: 0.55rem;
+    color: var(--isle-shot-caption, var(--isle-muted));
+    font-size: 0.875rem;
+    text-wrap: pretty;
+  }
+</style>

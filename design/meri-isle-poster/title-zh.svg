@@ -1,5 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title" viewBox="3 3 304 90">
-  <title id="title">美丽岛</title>
+<svg xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title" viewBox="3 3 328 90">
+  <title id="title">美丽岛™</title>
   <g id="mei" fill="#183b4b">
     <path d="M26 6c9 2 17 7 19 13l-10 5c-2-7-6-12-11-16zm35-3 13 5C69 15 62 21 55 25l-4-3C56 17 59 10 61 3z"/>
     <path d="M16 23h62l6-5 7 7-7 5H18zm7 14h50l5-4 7 6-7 4H24zM9 50h75l6-5 8 8-8 4H11z"/>
@@ -19,4 +19,5 @@
     <path d="M42 25c10 2 16 6 17 11l-8 6c-4-5-7-9-12-13z"/>
     <path d="M9 64l12 2v14h13V59l12 2v19h11V65l12 2v21H21l-12 4z"/>
   </g>
+  <path fill="none" stroke="#183b4b" stroke-width="1.35" transform="translate(312.8 4) scale(.9)" d="M0 .75h6M3 .75V8m7 0V.75l4 4.5 4-4.5V8"/>
 </svg>

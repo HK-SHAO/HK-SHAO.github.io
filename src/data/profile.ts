@@ -1,7 +1,7 @@
 export const profile = {
   name: "烧风",
   alias: "HK-SHAO",
-  summary: "AI Agent、软件、视觉交互",
+  summary: "QQ: 2063597709",
   introduction: "关注 AI Agent、图形、数学与互联网技术",
   interests: ["AI", "Graphics", "DSP", "Math", "Web"],
 } as const;

@@ -4,6 +4,7 @@ import VoxpoolLayout from "../../layouts/VoxpoolLayout.astro";
 import Community from "../../components/voxpool/Community.astro";
 import caustics from "../../assets/voxpool/caustics.webp";
 import card from "../../assets/voxpool/map-card.png";
+import { voxpoolName } from "../../utils/voxpool-brand";
 import { voxpoolLinks as links } from "../../utils/voxpool-links";
 
 const sections = [
@@ -151,16 +152,16 @@ const inspirations: Ref[] = [
   { name: "Jared Pike, Dream Pools", href: "https://www.jaredpike.art/projects/dream-pools/", use: "所有无人浴场的整体气质" },
 ];
 
-const title = "VOXPOOL 技术白皮书";
-const description = "VOXPOOL 0.18 的整体架构、存档与地图卡、WebGPU 光照、焦散、玻璃与天空，附测量数据、已知不足和完整的参考与致谢。";
+const title = `${voxpoolName} 技术白皮书`;
+const description = `${voxpoolName} 0.18 的整体架构、存档与地图卡、WebGPU 光照、焦散、玻璃与天空，附测量数据、已知不足和完整的参考与致谢。`;
 ---
 
 <VoxpoolLayout {title} {description} paper image={caustics} imageAlt="泳池里，水面把阳光折成细碎的亮纹落在蓝色马赛克上">
   <div class="vp-shell">
     <header class="heading">
-      <p class="kicker">技术白皮书 · VOXPOOL 0.18.3</p>
+      <p class="kicker">技术白皮书 · {voxpoolName} 0.18.3</p>
       <h1>一个装得进图片的世界</h1>
-      <p class="intro">VOXPOOL 的世界只有 32 KiB，小到可以编码进一张 PNG。可在这么小的世界里，光要在墙之间弹好几轮，穿过水面和彩色玻璃，再变成屏幕上的一帧。这篇讲它是怎么做的，哪些地方做得还不够。</p>
+      <p class="intro">一个世界只有 32 KiB，小到可以编码进一张 PNG。可在这么小的世界里，光要在墙之间弹好几轮，穿过水面和彩色玻璃，再变成屏幕上的一帧。这篇讲它是怎么做的，哪些地方做得还不够。</p>
       <p class="edition"><time datetime="2026-11-25">2026 年 11 月 25 日</time><span>对应 0.18.3</span></p>
     </header>
 
@@ -176,7 +177,7 @@ const description = "VOXPOOL 0.18 的整体架构、存档与地图卡、WebGPU 
       <article class="body">
         <section id="architecture">
           <h2>整体架构</h2>
-          <p>VOXPOOL 没有服务器。页面加载后，模拟、光照和渲染都在浏览器里完成，世界存在本机。代码按职责分层，每一层只拥有自己的状态，并通过明确的数据交给下一层。</p>
+          <p>{voxpoolName} 没有服务器。页面加载后，模拟、光照和渲染都在浏览器里完成，世界存在本机。代码按职责分层，每一层只拥有自己的状态，并通过明确的数据交给下一层。</p>
           <figure class="layers">
             <ol role="list" aria-label="从界面到画布的分层">
               {layers.map(({ name, parts, role, children }) => (
@@ -293,7 +294,7 @@ const description = "VOXPOOL 0.18 的整体架构、存档与地图卡、WebGPU 
 
         <section id="references">
           <h2>参考与致谢</h2>
-          <p>下面列出 VOXPOOL 实际用到的第三方代码、工具、标准与方法。设计时评估过、最终没有采用的方案不在其列。</p>
+          <p>下面列出项目实际用到的第三方代码、工具、标准与方法。设计时评估过、最终没有采用的方案不在其列。</p>
 
           <h3>第三方代码与素材</h3>
           <ul class="refs">

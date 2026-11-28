@@ -1,0 +1,122 @@
+---
+import type { ImageMetadata } from "astro";
+
+interface Props {
+  people: readonly (readonly [id: string, name: string, role: string, detail?: string])[];
+}
+
+const { people } = Astro.props;
+const portraits = import.meta.glob<ImageMetadata>("../../assets/isle/characters/*.webp", {
+  eager: true,
+  import: "default",
+});
+---
+
+<ul class="islander-grid" role="list">
+  {people.map(([id, name, role, detail]) => {
+    const portrait = portraits[`../../assets/isle/characters/${id}.webp`];
+    if (!portrait) throw new Error(`Missing portrait for ${name}`);
+    return (
+      <li class="islander">
+        <div class="portrait">
+          <img
+            src={portrait.src}
+            alt=""
+            width={portrait.width}
+            height={portrait.height}
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+        <div class="islander-info">
+          <h3 lang="en">{name}</h3>
+          <p>{role}</p>
+          {detail && <p class="detail">{detail}</p>}
+        </div>
+      </li>
+    );
+  })}
+</ul>
+
+<style>
+  .islander-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(0.65rem, 2vw, 1.35rem);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .islander {
+    --portrait-paper: #e0eae3;
+    overflow: hidden;
+    border: 1px solid var(--isle-border);
+    border-radius: 0.35rem;
+    background: var(--isle-light);
+  }
+
+  .islander:nth-child(4n + 2) {
+    --portrait-paper: #f0e2cd;
+  }
+
+  .islander:nth-child(4n + 3) {
+    --portrait-paper: #dce8ec;
+  }
+
+  .islander:nth-child(4n + 4) {
+    --portrait-paper: #eddfd8;
+  }
+
+  .portrait {
+    display: grid;
+    place-items: center;
+    aspect-ratio: 1.28;
+    border-block-end: 1px solid var(--isle-border);
+    background: var(--portrait-paper);
+  }
+
+  .portrait img {
+    width: min(74%, 6rem);
+    height: auto;
+    image-rendering: pixelated;
+  }
+
+  .islander-info {
+    display: grid;
+    gap: 0.12rem;
+    padding: clamp(0.65rem, 1.6vw, 1.1rem);
+  }
+
+  h3,
+  p {
+    margin: 0;
+  }
+
+  h3 {
+    font-size: clamp(1rem, 1.6vw, 1.4rem);
+    font-weight: 740;
+    line-height: 1.35;
+    text-wrap: balance;
+  }
+
+  p {
+    color: var(--isle-muted);
+    font-size: 0.875rem;
+    text-wrap: balance;
+  }
+
+  .detail {
+    margin-block-start: 0.25rem;
+  }
+
+  @media (min-width: 42rem) {
+    .islander-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .portrait img {
+      width: min(76%, 12rem);
+    }
+  }
+</style>

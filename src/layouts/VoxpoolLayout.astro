@@ -3,6 +3,7 @@ import { getImage } from "astro:assets";
 import type { ImageMetadata } from "astro";
 import defaultCover from "../assets/voxpool/maps/tide.webp";
 import { site } from "../site.config";
+import { voxpoolBrand, voxpoolName } from "../utils/voxpool-brand";
 import { voxpoolLinks as links } from "../utils/voxpool-links";
 import "../styles/voxpool.css";
 
@@ -33,7 +34,7 @@ const socialUrl = new URL(social.src, site.url);
     <link rel="icon" href="/voxpool/mark.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/voxpool/apple-touch-icon.png" sizes="180x180" />
     <meta property="og:type" content={paper ? "article" : "website"} />
-    <meta property="og:site_name" content="VOXPOOL" />
+    <meta property="og:site_name" content={voxpoolName} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
@@ -48,10 +49,15 @@ const socialUrl = new URL(social.src, site.url);
   <body>
     <a class="vp-skip" href="#content">跳到正文</a>
     <header class="vp-header vp-shell">
-      <a class="vp-brand" href={links.home} aria-label="VOXPOOL 首页">
-        <img src="/voxpool/logo.svg" width="203" height="32" alt="VOXPOOL" />
+      <a class="vp-brand" href={links.home} aria-label={`${voxpoolName} 首页`}>
+        <img class="vp-brand-symbol" src="/voxpool/mark.svg" width="32" height="32" alt="" />
+        <span>{voxpoolBrand.zh}<sup class="vp-trademark">{voxpoolBrand.trademark}</sup></span>
+        <span class="vp-brand-wordmark" lang="en">
+          <img src="/voxpool/wordmark.svg" width="159" height="20" alt="" />
+          <sup class="vp-trademark">{voxpoolBrand.trademark}</sup>
+        </span>
       </a>
-      <nav aria-label="VOXPOOL">
+      <nav aria-label={voxpoolName}>
         <a href={links.paper} aria-current={paper ? "page" : undefined}>白皮书</a>
         <a class="vp-header-open" href={links.play}>打开 <span aria-hidden="true">↗</span></a>
       </nav>
@@ -59,7 +65,7 @@ const socialUrl = new URL(social.src, site.url);
     <main id="content"><slot /></main>
     <footer class="vp-footer vp-shell">
       <a href="/">烧风</a>
-      <span>VOXPOOL © 2026 HK-SHAO</span>
+      <span>{voxpoolName} © 2026 HK-SHAO</span>
     </footer>
   </body>
 </html>
